@@ -11,7 +11,7 @@ body {
   font-family: @baseFontFamily;
   font-size: @baseFontSize;
   line-height: @baseLineHeight;
-  color: @gray;
+  color: @textColor;
   background-color: @white;
 }
 
@@ -22,8 +22,8 @@ body {
 a {
   color: @linkColor;
   text-decoration: none;
-  &:hover {
-    color: @linkColorHover;
-    text-decoration: underline;
-  }
+}
+a:hover {
+  color: @linkColorHover;
+  text-decoration: underline;
 }
