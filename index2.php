@@ -129,7 +129,7 @@
                     </div>
 
                     <div align="right">
-                        <div class="pagination" id="pagingHtml" name="pagingHtml"></div>
+                        <div class="pagination" id="CorePaging" name="CorePaging"></div>
                         <input type="text" class="input-small search-query">
                         <button class="btn" type="button" onclick="showMe('modal1',1)">New</button>
                         <button class="btn" type="button" onclick="showMe('modal2',1)">Search</button>
@@ -159,7 +159,7 @@
                         </tbody>
                     </table>
 
-                    <div id="formEntry">
+                    <div id="Coreform">
                         <form class="well">
                             <div class="control-group" id="titleReligionDiv">
                                 <label class="control-label">Title</label>
@@ -229,48 +229,48 @@
                                     <a href="#" class="btn btn-warning"><i class="icon-warning-sign icon-white"></i> Audit</a>
                                 </div>
                                 <div class="btn-group">
-                                    <a href="#" class="btn btn-success"><i class="icon-plus icon-white"></i>New</a>
+                                    <a id="newButton" href="#" class="btn btn-success"><i class="icon-plus icon-white"></i>New</a>
                                     <a href="#" data-toggle="dropdown" class="btn dropdown-toggle btn-success"><span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#"><i class="icon-plus"></i>New &AMP; Continue</a></li>
-                                        <li><a href="#"><i class="icon-edit"></i>New &AMP; Update </a></li>
-                                        <li><a href="#"><i class="icon-print"></i>New &AMP; Continue &AMP; Print </a></li>
-                                        <li><a  href="#"><i class="icon-print"></i>New &AMP; Update &AMP; Print </a></li>
-                                        <li><a  href="#"><i class="icon-list"></i>New &AMP; Listing </a></li>
+                                        <li><a id="newButtonContinue" href="javascript:void(0)"><i class="icon-plus"></i>New &AMP; Continue</a></li>
+                                        <li><a id="newButtonUpdate" href="javascript:void(0)"><i class="icon-edit"></i>New &AMP; Update </a></li>
+                                        <li><a id="newButtonContinuePreview" href="javascript:void(0)"><i class="icon-print"></i>New &AMP; Continue &AMP; Preview </a></li>
+                                        <li><a id="newButtonUpdatePreview" href="javascript:void(0)"><i class="icon-print"></i>New &AMP; Update &AMP; Preview </a></li>
+                                        <li><a id="newButtonListing" href="javascript:void(0)"><i class="icon-list"></i>New &AMP; Listing </a></li>
                                     </ul>
                                 </div>
                                 <div class="btn-group">
-                                    <a href="#" class="btn btn-info"><i class="icon-edit icon-white"></i>Update</a>
+                                    <a id="updateButton" href="javascript:void(0)" class="btn btn-info"><i class="icon-edit icon-white"></i>Update</a>
                                     <a href="#" data-toggle="dropdown" class="btn dropdown-toggle btn-info"><span class="caret"></span></a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="#"><i class="icon-plus"></i>Update</a></li>
-                                        <li><a href="#"><i class="icon-print"></i>Update &AMP; Print </a></li>
-                                        <li><a href="#"><i class="icon-list-alt"></i>Update &AMP; Listing </a></li>
+                                        <li><a id="updateButtonContinue" href="javascript:void(0)"><i class="icon-plus"></i>Update Continue</a></li>
+                                        <li><a id="updateButtonPreview" href="javascript:void(0)"><i class="icon-print"></i>Update &AMP; Preview </a></li>
+                                        <li><a id="updateButtonListing" href="javascript:void(0)"><i class="icon-list-alt"></i>Update &AMP; Listing </a></li>
                                     </ul>
                                 </div>
                                 <div class="btn-group">
-                                    <a href="#" class="btn btn-danger"><i class="icon-trash icon-white"></i> Delete</a>
+                                    <a  id="deleteButton" href="javascript:void(0)" class="btn btn-danger"><i class="icon-trash icon-white"></i> Delete</a>
                                 </div>
                                 <div class="btn-group">
-                                    <a href="#" class="btn btn-info"><i class="icon-refresh icon-white"></i> Reset</a>
+                                    <a id="resetButton" href="javascript:void(0)" class="btn btn-info"><i class="icon-refresh icon-white"></i> Reset</a>
                                 </div>
                                 <div class="btn-group">
-                                    <a href="#" class="btn btn-warning"><i class="icon-cog icon-white"></i> Post</a>
+                                    <a  id="postingButton" href="javascript:void(0)" class="btn btn-warning"><i class="icon-cog icon-white"></i> Post</a>
                                 </div>
                                 <div class="btn-group">
-                                    <a href="#" class="btn btn-info"><i class="icon-list icon-white"></i>Listing</a>
+                                    <a id="listingButton" href="javascript:void(0)" class="btn btn-info"><i class="icon-list icon-white"></i>Listing</a>
                                 </div>
                                 <div class="btn-group">
-                                    <a href="#" class="btn btn-info"><i class="icon-fast-backward icon-white"></i> First</a>
+                                    <a id="firstButton" href="javascript:void(0)" class="btn btn-info"><i class="icon-fast-backward icon-white"></i> First</a>
                                 </div>
                                 <div class="btn-group">
-                                    <a href="#" class="btn btn-info"><i class="icon-backward icon-white"></i> Previous</a>
+                                    <a id="previousButton" href="javascript:void(0)" class="btn btn-info"><i class="icon-backward icon-white"></i> Previous</a>
                                 </div>
                                 <div class="btn-group">
-                                    <a href="#" class="btn btn-info"><i class="icon-forward icon-white"></i> Next</a>
+                                    <a id="nextButton" href="javascript:void(0)" class="btn btn-info"><i class="icon-forward icon-white"></i> Next</a>
                                 </div>
                                 <div class="btn-group">
-                                    <a href="#" class="btn btn-info"><i class="icon-fast-forward icon-white"></i> End</a>
+                                    <a id="endButton" href="javascript:void(0)" class="btn btn-info"><i class="icon-fast-forward icon-white"></i> End</a>
                                 </div>
                             </div>
                         </form>
@@ -605,17 +605,15 @@
         } 
         
     }
+    function ajaxPreviewDelete() {
+        // open the modal box and make a peek preview what to  delete           
+    }
     function ajaxDelete() {
-        if(type==1){
-            // delete record and go first record
-        } else if(type==2){
-            // delete record and preview(open modal box)
-        }
         $.ajax({
             type: 'POST',
             url: page,
             data: {
-                religionId : $("#religionId").val()
+                religionId : $('#religionId').val()
             },
             beforeSend:function(){
                 // this is where we append a loading image
@@ -624,10 +622,28 @@
             success:function(data){
                 // successful request; do something with the data
                 if(data.success == true) {
-                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                    // reseting field value
-                    $("#religionTitle").val("");
-                    $("#religionDesc").val("");
+                    // start navigation button
+                    $('#newButton').removeClass();
+                    $('#newButton').addClass('btn btn-info  .disabled');
+        
+                    $('#saveButton').removeClass();
+                    $('#saveButton').addClass('btn btn-info .disabled');
+        
+                    $('#nextButton').removeClass();
+                    $('#nextButton').addClass('btn btn-info .disabled');
+        
+                    $('#previousButton').removeClass();
+                    $('#previousButton').addClass('btn btn-info .disabled');
+       
+                    $('#postButton').removeClass();
+                    $('#postButton').addClass('btn btn-info .disabled');
+                                       
+                    //  end navigation button
+                    // start reseting form element
+                    $("#religionId").val('');
+                    $("#religionTitle").val('');
+                    $("#religionDesc").val('');
+                    // end reseting form element
                 }
                     
             },
@@ -638,20 +654,37 @@
                 }
             }
         });
-            
     }
     function ajaxReset() {
-        $("#religionId").val();
-        $("#religionTitle").val();
-        $("#religionDesc").val();
-        
+        // start navigation button
+        $('#newButton').removeClass();
+        $('#newButton').addClass('btn btn-info .active');
+        $('#saveButton').removeClass();
+        $('#saveButton').addClass('btn btn-info .disabled');
+        $('#deleteButton').removeClass();
+        $('#deleteButton').addClass('btn btn-info .disabled');
+        $('#postButton').removeClass();
+        $('#postButton').addClass('btn btn-info .disabled');
+        // end navigation button
+        // start reseting form element
+        $('#religionId').val('');
+        $('#religionTitle').val('');
+        $('#religionDesc').val('');
+        // end reseting form element
     }
     function ajaxPost() {
-        
+        $('#newButton').removeClass();
+        $('#newButton').addClass('.disabled');
+    }
+    function listing() {
+        // hide the form 
+        $('#').hide();
+        // show the listing table
+        $('#').show();
     }
     function ajaxFirst() {
         $('#newButton').removeClass();
-        $('#newButton').addClass('.disabled');
+        $('#newButton').addClass('btn btn-info .disabled');
         if ($('#firstRecord').val() == '') {
             $.ajax({
                 type: 'POST',
@@ -692,18 +725,18 @@
                                     // start navigation button
                                     if (data.nextRecord == 0) {
                                         $('#nextButton').removeClass();
-                                        $('#nextButton').addClass(".disabled");
+                                        $('#nextButton').addClass("btn btn-info .disabled");
                                     } else {
                                         $('#nextButton').removeClass();
-                                        $('#nextButton').addClass(".active");
+                                        $('#nextButton').addClass("btn btn-info .active");
                                     }
-                                    $('#firstRecord').setValue(action.result.firstRecord);
-                                    $('#previousRecord').setValue(action.result.previousRecord);
-                                    $('#nextRecord').setValue(action.result.nextRecord);
-                                    $('#lastRecord').setValue(action.result.lastRecord);
-                                    $('#endRecord').setValue((action.result.lastRecord + 1));
+                                    $('#firstRecord').val(data.firstRecord);
+                                    $('#previousRecord').val(data.previousRecord);
+                                    $('#nextRecord').val(data.nextRecord);
+                                    $('#lastRecord').val(data.lastRecord);
+                                    $('#endRecord').val((data.lastRecord + 1));
                                     $('#previousButton').removeClass();
-                                    $('#previousButton').addClass(".disabled");
+                                    $('#previousButton').addClass("btn btn-info .disabled");
                                     // end navigation button
                                     // start load data
                                     $('#religionId').val(data.recordset.religionId);
@@ -755,18 +788,18 @@
                         // start navigation button
                         if (data.nextRecord == 0) {
                             $('#nextButton').removeClass();
-                            $('#nextButton').addClass(".disabled");
+                            $('#nextButton').addClass("btn btn-info .disabled");
                         } else {
                             $('#nextButton').removeClass();
-                            $('#nextButton').addClass(".active");
+                            $('#nextButton').addClass("btn btn-info .active");
                         }
-                        $('#firstRecord').setValue(action.result.firstRecord);
-                        $('#previousRecord').setValue(action.result.previousRecord);
-                        $('#nextRecord').setValue(action.result.nextRecord);
-                        $('#lastRecord').setValue(action.result.lastRecord);
-                        $('#endRecord').setValue((action.result.lastRecord + 1));
+                        $('#firstRecord').val(data.firstRecord);
+                        $('#previousRecord').val(data.previousRecord);
+                        $('#nextRecord').val(data.nextRecord);
+                        $('#lastRecord').val(data.lastRecord);
+                        $('#endRecord').val((data.lastRecord + 1));
                         $('#previousButton').removeClass();
-                        $('#previousButton').addClass(".disabled");
+                        $('#previousButton').addClass("btn btn-info .disabled");
                         // end navigation button
                         // start load data
                         $('#religionId').val(data.recordset.religionId);
@@ -813,15 +846,15 @@
                     // successful request; do something with the data
                     if(data.success == true) {
                         // start navigation button
-                        $('#firstRecord').val(action.result.firstRecord);
-                        $('#previousRecord').val(action.result.previousRecord);
-                        $('#nextRecord').val(action.result.nextRecord);
-                        $('#lastRecord').val(action.result.lastRecord);
-                        $('#endRecord').val((action.result.lastRecord + 1));
+                        $('#firstRecord').val(data.firstRecord);
+                        $('#previousRecord').val(data.previousRecord);
+                        $('#nextRecord').val(data.nextRecord);
+                        $('#lastRecord').val(data.lastRecord);
+                        $('#endRecord').val((data.lastRecord + 1));
                                 
                         if ($('#previousRecord').val() == 0) {
                             $('#previousButton').removeClass();
-                            $('#previousButton').addClass(".disabled");
+                            $('#previousButton').addClass("btn btn-info .disabled");
                         }
                         // start load data
                         $('#religionId').val(data.recordset.religionId);
@@ -878,10 +911,10 @@
                         if ($('#nextRecord').val() > $('#lastRecord').val() || $("#nextButton")==0) {
                                     
                             $('#nextButton').removeClass();
-                            $('#nextButton').addClass('.disable');
+                            $('#nextButton').addClass('btn btn-info .disable');
                         }
                         $('#previousButton').removeClass();
-                        $('#previousButton').addClass('.active');
+                        $('#previousButton').addClass('btn btn-info .active');
                         // end of navigation button
                         // start load data
                         $('#religionId').val(data.recordset.religionId);
@@ -924,11 +957,11 @@
                         // navigation bar
                         if (data.nextRecord == 0) {
                             $('#previousButton').removeClass();
-                            $('#previousButton').addClass(".disabled");
+                            $('#previousButton').addClass("btn btn-info .disabled");
                         } else {
                             Ext.getCmp('previousButton').enable();
                             $('#previousButton').removeClass();
-                            $('#previousButton').addClass(".active");
+                            $('#previousButton').addClass("btn btn-info .active");
                         }
                         $('#firstRecord').val(data.firstRecord);
                         $('#previousRecord').val(data.previousRecord);
@@ -936,9 +969,9 @@
                         $('#lastRecord').val(data.lastRecord);
                         $('#endRecord').val((data.lastRecord + 1));
                         $('#nextButton').removeClass();
-                        $('#nextButton').addClass(".disabled");
+                        $('#nextButton').addClass("btn btn-info .disabled");
                         $('#previousButton').removeClass();
-                        $('#previousButton').addClass(".active");
+                        $('#previousButton').addClass("btn btn-info .active");
                         // end navigation bar
                         // start load data
                         $('#religionId').val(data.recordset.religionId);
@@ -958,7 +991,7 @@
                 }
             });
         } 
-        if (Ext.getCmp('religionId').getValue() <= Ext.getCmp('lastRecord').getValue()) {
+        if ($('#religionId').val() <= $('#lastRecord').val()) {
 
             $.ajax({
                 type: 'POST',
@@ -982,14 +1015,14 @@
                         $('#lastRecord').val(data.lastRecord);
                         $('#endRecord').val((data.lastRecord + 1));
                         $('#nextButton').removeClass();
-                        $('#nextButton').addClass(".disabled");
+                        $('#nextButton').addClass("btn btn-info .disabled");
                         $('#previousButton').removeClass();
-                        $('#previousButton').addClass(".active");
+                        $('#previousButton').addClass(" btn btn-info .active");
                         // end navigation bar
                         // start load data
-                        $('#religionId').val(data.religionId);
-                        $('#religionTitle').val(data.religionTitle);
-                        $('#religionDesc').val(data.religionDesc);
+                        $('#religionId').val(data.recordset.religionId);
+                        $('#religionTitle').val(data.recordset.religionTitle);
+                        $('#religionDesc').val(data.recordset.religionDesc);
                         // end load data
                         $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
                         
