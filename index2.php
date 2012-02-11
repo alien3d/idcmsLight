@@ -650,79 +650,18 @@
         
     }
     function ajaxFirst() {
-        $.ajax({
-            type: 'POST',
-            url: page,
-            data: {
-                religionTitle: $("#religionId").val()
-            },
-            beforeSend:function(){
-                // this is where we append a loading image
-                $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-            },
-            success:function(data){
-                // successful request; do something with the data
-                if(data.success == true) {
-                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                    // reseting field value
-                    $("#religionTitle").val("");
-                    $("#religionDesc").val("");
-                }
-                    
-            },
-            error:function(data){
-                // failed request; give feedback to user
-                if(data.success==false){
-                    $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                }
-            }
-        });
-    }
-    function ajaxLast() {
-        $.ajax({
-            type: 'POST',
-            url: page,
-            data: {
-                religionId: $("#religionId").val()
-            },
-            beforeSend:function(){
-                // this is where we append a loading image
-                $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-            },
-            success:function(data){
-                // successful request; do something with the data
-                if(data.success == true) {
-                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                    // reseting field value
-                    $("#religionTitle").val("");
-                    $("#religionDesc").val("");
-                }
-                    
-            },
-            error:function(data){
-                // failed request; give feedback to user
-                if(data.success==false){
-                    $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                }
-            }
-        });
-        
-    }
-    function ajaxNext() {
         $('#newButton').removeClass();
-        if ($('#nextRecord').val() == '' || $('#nextRecord').val() == undefined) {
-            $('#infoPanel').html('<div class=\'alert alert-error\'>'+chooseRecordLabel+'</div>');
-        }
-        if ($('#nextRecord').val() <= $('#lastRecord').val()) {
+        $('#newButton').addClass('.disabled');
+        if ($('#firstRecord').val() == '') {
             $.ajax({
                 type: 'POST',
                 url: page,
                 data: {
-                   method: 'read',
-                   religionId: $("#religionId").val(),
-                   leafId: leafId,
-                   isAdmin: isAdmin,
-                   render : false
+                    method: 'dataNavigationRequest',
+                    leafId: leafId,
+                    adminId : adminId,
+                    render: false,
+                    dataNavigation: 'firstRecord'
                 },
                 beforeSend:function(){
                     // this is where we append a loading image
@@ -731,10 +670,226 @@
                 success:function(data){
                     // successful request; do something with the data
                     if(data.success == true) {
+                        $('#firstRecord').val(data.firstRecord);
+
+                        $.ajax({
+                            type: 'POST',
+                            url: page,
+                            data: {
+                                method: 'read',
+                                religionId: $('#firstRecord').val(),
+                                leafId: leafId,
+                                isAdmin: isAdmin,
+                                render : false
+                            },
+                            beforeSend:function(){
+                                // this is where we append a loading image
+                                $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
+                            },
+                            success:function(data){
+                                // successful request; do something with the data
+                                if(data.success == true) {
+                                    // start navigation button
+                                    if (data.nextRecord == 0) {
+                                        $('#nextButton').removeClass();
+                                        $('#nextButton').addClass(".disabled");
+                                    } else {
+                                        $('#nextButton').removeClass();
+                                        $('#nextButton').addClass(".active");
+                                    }
+                                    $('#firstRecord').setValue(action.result.firstRecord);
+                                    $('#previousRecord').setValue(action.result.previousRecord);
+                                    $('#nextRecord').setValue(action.result.nextRecord);
+                                    $('#lastRecord').setValue(action.result.lastRecord);
+                                    $('#endRecord').setValue((action.result.lastRecord + 1));
+                                    $('#previousButton').removeClass();
+                                    $('#previousButton').addClass(".disabled");
+                                    // end navigation button
+                                    // start load data
+                                    $('#religionId').val(data.recordset.religionId);
+                                    $('#religionTitle').val(data.recordset.religionTitle);
+                                    $('#religionDesc').val(data.recordset.religionDesc);
+                                    // end load data
+                                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                                        
+                       
+                                }
+                    
+                            },
+                            error:function(data){
+                                // failed request; give feedback to user
+                                if(data.success==false){
+                                    $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                                }
+                            }
+                        });
+                       
+                    }
+                    
+                },
+                error:function(data){
+                    // failed request; give feedback to user
+                    if(data.success==false){
+                        $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                    }
+                }
+            });
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: page,
+                data: {
+                    method: 'read',
+                    religionId: $('#firstRecord').val(),
+                    leafId: leafId,
+                    isAdmin: isAdmin,
+                    render : false
+                },
+                beforeSend:function(){
+                    // this is where we append a loading image
+                    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
+                },
+                success:function(data){
+                    // successful request; do something with the data
+                    if(data.success == true) {
+                        // start navigation button
+                        if (data.nextRecord == 0) {
+                            $('#nextButton').removeClass();
+                            $('#nextButton').addClass(".disabled");
+                        } else {
+                            $('#nextButton').removeClass();
+                            $('#nextButton').addClass(".active");
+                        }
+                        $('#firstRecord').setValue(action.result.firstRecord);
+                        $('#previousRecord').setValue(action.result.previousRecord);
+                        $('#nextRecord').setValue(action.result.nextRecord);
+                        $('#lastRecord').setValue(action.result.lastRecord);
+                        $('#endRecord').setValue((action.result.lastRecord + 1));
+                        $('#previousButton').removeClass();
+                        $('#previousButton').addClass(".disabled");
+                        // end navigation button
+                        // start load data
+                        $('#religionId').val(data.recordset.religionId);
+                        $('#religionTitle').val(data.recordset.religionTitle);
+                        $('#religionDesc').val(data.recordset.religionDesc);
+                        // end load data
                         $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                        // reseting field value
-                        $("#religionTitle").val("");
-                        $("#religionDesc").val("");
+                                        
+                       
+                    }
+                    
+                },
+                error:function(data){
+                    // failed request; give feedback to user
+                    if(data.success==false){
+                        $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                    }
+                }
+            });
+        }
+    }
+    function ajaxPrevious() {
+        $('#newButton').removeClass();
+        $('#newButton').addClass('.disabled');
+        if ($('#previousRecord').getValue() == '' || $('#previousRecord').getValue() == undefined) {
+            $('#infoPanel').html('<div class=\'alert alert-error\'>'+chooseRecordLabel+'</div>');
+        }
+        if ($('#firstRecord').getValue() >= 1) {
+            $.ajax({
+                type: 'POST',
+                url: page,
+                data: {
+                    method: 'read',
+                    religionId: $('#previousRecord').getValue(),
+                    leafId: leafId,
+                    isAdmin: isAdmin,
+                    render : false
+                },
+                beforeSend:function(){
+                    // this is where we append a loading image
+                    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
+                },
+                success:function(data){
+                    // successful request; do something with the data
+                    if(data.success == true) {
+                        // start navigation button
+                        $('#firstRecord').val(action.result.firstRecord);
+                        $('#previousRecord').val(action.result.previousRecord);
+                        $('#nextRecord').val(action.result.nextRecord);
+                        $('#lastRecord').val(action.result.lastRecord);
+                        $('#endRecord').val((action.result.lastRecord + 1));
+                                
+                        if ($('#previousRecord').val() == 0) {
+                            $('#previousButton').removeClass();
+                            $('#previousButton').addClass(".disabled");
+                        }
+                        // start load data
+                        $('#religionId').val(data.recordset.religionId);
+                        $('#religionTitle').val(data.recordset.religionTitle);
+                        $('#religionDesc').val(data.recordset.religionDesc);
+                        // end load data.
+                        // end of navigation button
+                        $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                        
+                    }
+                    
+                },
+                error:function(data){
+                    // failed request; give feedback to user
+                    if(data.success==false){
+                        $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                    }
+                }
+            });
+        }
+        
+    }
+    function ajaxNext() {
+        $('#newButton').removeClass();
+        $('#newButton').addClass('.disabled');
+        if ($('#nextRecord').val() == '' || $('#nextRecord').val() == undefined) {
+            $('#infoPanel').html('<div class=\'alert alert-error\'>'+chooseRecordLabel+'</div>');
+        }
+        if ($('#nextRecord').val() <= $('#lastRecord').val()) {
+            $.ajax({
+                type: 'POST',
+                url: page,
+                data: {
+                    method: 'read',
+                    religionId: $("#religionId").val(),
+                    leafId: leafId,
+                    isAdmin: isAdmin,
+                    render : false
+                },
+                beforeSend:function(){
+                    // this is where we append a loading image
+                    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
+                },
+                success:function(data){
+                    // successful request; do something with the data
+                    if(data.success == true) {
+                        // start navigation button
+                        $('#firstRecord').val(data.firstRecord);
+                        $('#previousRecord').val(data.previousRecord);
+                        $('#nextRecord').val(data.nextRecord);
+                        $('#lastRecord').val(data.lastRecord);
+                        $('#endRecord').val((data.lastRecord + 1));
+                                
+                        if ($('#nextRecord').val() > $('#lastRecord').val() || $("#nextButton")==0) {
+                                    
+                            $('#nextButton').removeClass();
+                            $('#nextButton').addClass('.disable');
+                        }
+                        $('#previousButton').removeClass();
+                        $('#previousButton').addClass('.active');
+                        // end of navigation button
+                        // start load data
+                        $('#religionId').val(data.recordset.religionId);
+                        $('#religionTitle').val(data.recordset.religionTitle);
+                        $('#religionDesc').val(data.recordset.religionDesc);
+                        // end load data.
+                        $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                        
                     }
                     
                 },
@@ -755,10 +910,9 @@
                 type: 'POST',
                 url: page,
                 data: {
-                    
-                     method: 'dataNavigationRequest',
-                     leafId: leafId,
-                     dataNavigation: 'lastRecord'
+                    method: 'dataNavigationRequest',
+                    leafId: leafId,
+                    dataNavigation: 'lastRecord'
                 },
                 beforeSend:function(){
                     // this is where we append a loading image
@@ -787,9 +941,9 @@
                         $('#previousButton').addClass(".active");
                         // end navigation bar
                         // start load data
-                        $('#religionId').val(data.religionId);
-                        $('#religionTitle').val(data.religionTitle);
-                        $('#religionDesc').val(data.religionDesc);
+                        $('#religionId').val(data.recordset.religionId);
+                        $('#religionTitle').val(data.recordset.religionTitle);
+                        $('#religionDesc').val(data.recordset.religionDesc);
                         // end load data.
                         $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
                        
@@ -803,12 +957,17 @@
                     }
                 }
             });
-        } else {
+        } 
+        if (Ext.getCmp('religionId').getValue() <= Ext.getCmp('lastRecord').getValue()) {
+
             $.ajax({
                 type: 'POST',
                 url: page,
                 data: {
-                    religionId: $("#religionId").val()
+                    method: 'read',
+                    religionId: $('#lastRecord').val(),
+                    leafId: leafId,
+                    isAdmin: isAdmin
                 },
                 beforeSend:function(){
                     // this is where we append a loading image
@@ -831,6 +990,7 @@
                         $('#religionId').val(data.religionId);
                         $('#religionTitle').val(data.religionTitle);
                         $('#religionDesc').val(data.religionDesc);
+                        // end load data
                         $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
                         
                     }

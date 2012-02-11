@@ -8,20 +8,53 @@
 
 class navigation {
 
-    var $sql;
-    var $limit;
-    var $countRecord;
-    var $queryRecord;
-    var $offset;
-    var $arrayVariable;
-    var $arrayText;
-    var $arrayVariableValue;
-    var $error;
-    var $page;
-    var $pages;
-    var $textOffset;
-    var $last_record;
-
+    /**
+     *  Limit Per Entry Output
+     *  @var limit int
+     */
+    public  $limit;
+    /**
+     *  Total Record  
+     *  @var totalRecord int
+     */
+    public  $countRecord;
+    /**
+     *  Total Record  
+     *  @var totalRecord int
+     */
+    public  $offset;
+    /**
+     *  Total Record  
+     *  @var arrayVariable string
+     */
+    public  $arrayVariable;
+    /**
+     *  Total Record  
+     *  @var arrayText striing
+     */
+    public  $arrayText;
+    /**
+     *  Total Record  
+     *  @var arrayVariableValue string
+     */
+    public  $arrayVariableValue;
+    /**
+     *  Total Record  
+     *  @var pages int
+     */
+    private $pages;
+    /**
+     *  Total Record  
+     *  @var lastRecord int
+     */
+    private $last_record;
+    function __construct() {
+        $this->pages=5;
+    }
+    /*
+     * Previous Record
+     * @params offset int
+     */
     function prevPage($offset) {
 
         $this->offset = NULL;
@@ -51,7 +84,10 @@ class navigation {
         }
         return $string;
     }
-
+    /*
+     * Next Record
+     * @params $offset
+     */
     function nextPage($offset) {
 
         $this->offset = NULL;
@@ -91,7 +127,9 @@ class navigation {
         }
         return $string;
     }
-
+    /*
+     * First Record
+     */
     function moveFirst() {
 
         $this->arrayText = NULL;
@@ -102,7 +140,6 @@ class navigation {
             for ($j = 0; $j < $countRecordArray; $j++) {
                 if ($this->arrayVariable[$j] == "offset") {
                     $this->arrayVariableValue[$j] = $this->offset;
-                      $ajaxOffset = $this->arrayVariableValue[$k];
                 }
                 $this->arrayText = $this->arrayVariable[$j] . "=" . $this->arrayVariableValue[$j] . "&" . $this->arrayText;
             }
@@ -113,7 +150,9 @@ class navigation {
         $string.="\"></a></li>";
         return $string;
     }
-
+    /*
+     * Last Record
+     */
     function moveLast() {
 
         $this->arrayText = NULL;
@@ -138,7 +177,10 @@ class navigation {
         $string.="></a></li>";
         return $string;
     }
-
+    /*
+     * To appear pagination as 1,2,3,4,5
+     * @params offset int
+     */
     function pagenation($offset) {
 
         $this->offset = NULL;
@@ -174,12 +216,17 @@ class navigation {
         }
         return $string;
     }
-
+    /*
+     * To appear pagination as 1,2,3,4,5
+     * @params offset int
+     * @todo appear only max 3 pages only
+     */
     function pagenationv2($offset) {
         $this->offset = NULL;
         $this->arrayText = NULL;
         $this->pages = NULL;
         $this->offset = $offset;
+        
         $temp = $offset;
         if ($this->countRecord) {
             $this->pages = intval($this->countRecord / $this->limit);
@@ -218,17 +265,31 @@ class navigation {
         return $string;
         
     }
-
+    /*
+     * To appear Number of Pages
+     * @params $translation string
+     */
+    function pages($translation=null) {
+        if(strlen($translation)==0){
+            $translation="pages";
+        }
+        return "<a href=\"javascript:void(0)\">".$this->pages." ".ucfirst($translation)."</a>";
+    }
+    /*
+     * this simple function pagenation like 1-2 page or 3 to 15 page style
+     * @params offset int
+     */
     function pagenationv3($offset) {
 
-        // this simple function pagenation like 1-2 page or 3 to 15 page style
+        
         $this->offset = NULL;
         $this->offset = $offset;
         $allrecord = $this->offset + 1;
+        $extra  = $allrecord +$this->limit-1;
         if ($allrecord > $this->countRecord) {
            $string="No Record";
         } else {
-          $string="<li><a href=\"#\" >" . $allrecord . " - " . $this->countRecord . "</a></li>";
+          $string="<li><a href=\"#\" >" . $allrecord . " to  ".$extra." from  " . $this->countRecord . "</a></li>";
         }
         return $string;
     }

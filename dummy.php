@@ -26,10 +26,14 @@ $ng->arrayVariableValue = $array2;
     $sql = "select * from religionSample ";
     $result = mysql_query($sql);
     $ng->countRecord = mysql_num_rows($result);
-    $sql = "select * from religionSample limit " . $offset . "," . $limit . " ";
+    $sql = "select * from `religionSample` ";
+    if($_POST['religionId']){
+        $sql.=" AND `religionId`='".$_POST['religionId']."' limit 1";
+    } else {
+       $sql.=" limit " . $offset . "," . $limit . " ";
+    }  
     $result = mysql_query($sql);
-
-
+     
 
     $i = $offset+1;
  
@@ -43,15 +47,15 @@ $ng->arrayVariableValue = $array2;
                             <td>" . ($i++) . "</td>
                             <td><input type=\"checkbox\" name=\"optionsCheckbox\" id=\"optionsCheckbox\" value=\"" . $row['religionId'] . "\"></td>
 
-                            <td>" . $row['religionDesc'] . "</td>
-                            <td><a class=\"btn info\" data-toggle=\"modal\" href=\"#myModal\" >Edit</a> <a class=\"btn danger\" data-toggle=\"modal\" href=\"#myModal\" >Remove</a></td>
+                            <td>" . $row['religionTitle'] . "</td>
+                            <td><a class=\"btn btn-info\" data-toggle=\"modal\" href=\"#myModal\" ><i class=\"icon-edit icon-white\"></i> Edit</a> <a class=\"btn btn-danger\" data-toggle=\"modal\" href=\"#myModal\" ><i class=\"icon-trash  icon-white\"></i> Remove</a></td>
 
                         </tr>";
     }
   
 
 $pagingString = "<ul>
-                        <li><a href=\"javascript:void(0)\" onClick=\"ajaxQuery('".basename($_SERVER['PHP_SELF'])."','not',0,'')\">0</a></li>".$ng->prevPage($offset)." " . $ng->pagenationv2($offset)." ".$ng->nextPage($offset)." ".$ng->pagenationv3($offset)."</ul>";
+                        <li><a href=\"javascript:void(0)\" onClick=\"ajaxQuery('".basename($_SERVER['PHP_SELF'])."','not',0,'')\">0</a></li>".$ng->prevPage($offset)." " . $ng->pagenationv2($offset)." ".$ng->nextPage($offset)." ".$ng->pages()." ".$ng->pagenationv3($offset)."</ul>";
  echo json_encode(
 
         array("success" => true,
