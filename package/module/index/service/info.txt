@@ -1,0 +1,1 @@
+This file contain business rule of application
