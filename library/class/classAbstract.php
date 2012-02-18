@@ -230,7 +230,9 @@ abstract class ConfigClass
 
 		if (isset($_SESSION['vendor'])) {
 			$this->setVendor($_SESSION['vendor']);
-		}
+		} else {
+                    $this->setVendor(self::MYSQL); // testing period only
+                }
 		if (isset($_SESSION['languageId'])) {
 			$this->setLanguageId($_SESSION['languageId']);
 		}
@@ -239,6 +241,7 @@ abstract class ConfigClass
 		}
 		if ($this->getVendor() == self::MYSQL) {
 			require_once ('classMysql.php');
+                       
 			$this->setConnection('localhost');
 			$this->setUsername('root');
 			$this->setPassword('123456');
