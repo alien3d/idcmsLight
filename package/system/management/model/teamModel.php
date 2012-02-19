@@ -1,4 +1,5 @@
 <?php
+namespace Core\System\Management\Team\Model;
 require_once ("../../class/classValidation.php");
 /**
  * this is team model file.

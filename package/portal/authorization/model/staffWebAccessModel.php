@@ -1,6 +1,7 @@
 <?php
-namespace Core\Portal\Model;
-require_once '/../../../../library/class/classModel.php';
+
+require_once ("../../class/classValidation.php");
+
 /**
  * this is document model file.This is to ensure strict setting enable for all variable enter to database
  *
@@ -11,7 +12,7 @@ require_once '/../../../../library/class/classModel.php';
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class StaffWebAcessModel  extends \Core\Model\coreModel {
+class StaffWebAcessModel extends ValidationClass {
 
     /**
      * @var int
@@ -48,7 +49,7 @@ class StaffWebAcessModel  extends \Core\Model\coreModel {
         $this->setTableName('staffWebAcess');
         $this->setPrimaryKeyName('staffWebAcessId');
         $this->setPhpSession(session_id());
-       
+
         if ($this->getVendor() == self::MYSQL) {
             $this->setStaffWebAccessLogIn("'" . date("Y-m-d H:i:s") . "'");
         } else if ($this->getVendor() == self::MSSQL) {

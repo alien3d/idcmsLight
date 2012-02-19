@@ -1,12 +1,8 @@
 <?php
-
-namespace Core\Portal\Service;
-
 session_start();
-require_once ("/../../../../library/class/classAbstract.php");
-require_once ("/../../../../library/class/classSystemString.php");
-require_once ("/../../../system/management/model/staffModel.php");
-require_once ("/../model/staffWebAcessModel.php");
+require_once ("../../class/classAbstract.php");
+require_once ("../../management/model/staffModel.php");
+require_once ("../model/staffWebAcessModel.php");
 
 /**
  * this is main setting files
@@ -17,17 +13,10 @@ require_once ("/../model/staffWebAcessModel.php");
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class PortalServiceClass extends \Core\ConfigClass {
+class LoginClass extends ConfigClass {
 
-    /**
-     * @var string
-     */
     public $model;
-
-    /**
-     * @var string
-     */
-    public $staffWebAccess;
+    public $staffWebAceess;
 
     /**
      * Class Loader
@@ -35,25 +24,19 @@ class PortalServiceClass extends \Core\ConfigClass {
     public function execute() {
         parent::__construct();
 
-        $this->q = new \Core\Database\Mysql\Vendor();
+        $this->q = new Vendor ();
 
         $this->q->vendor = $this->getVendor();
-        $this->q->setRequestDatabase($this->q->getCoreDatabase());
+		$this->q->setRequestDatabase($this->q->idcmsCore);
         $this->q->connect($this->getConnection(), $this->getUsername(), $this->getDatabase(), $this->getPassword());
 
-        $this->model = new \Core\System\Management\Staff\Model\StaffModel();
+        $this->model = new StaffModel ();
         $this->model->setVendor($this->getVendor());
         $this->model->execute();
 
-
-        $this->staffWebAccess = new \Core\Portal\Model\StaffWebAcessModel();
-        $this->staffWebAccess->setVendor($this->getVendor());
-        $this->staffWebAccess->execute();
-
-        $this->systemString = new \Core\SystemString\SystemString();
-        $this->systemString->setVendor($this->getVendor());
-        $this->systemString->setLeafId($this->getLeafId());
-        $this->systemString->execute();
+        $this->staffWebAceess = new StaffWebAcessModel ();
+        $this->staffWebAceess->setVendor($this->getVendor());
+        $this->staffWebAceess->execute();
     }
 
     /* (non-PHPdoc)
@@ -69,38 +52,9 @@ class PortalServiceClass extends \Core\ConfigClass {
      */
 
     public function read() {
+        header('Content-Type:application/json; charset=utf-8');
         
-    }
 
-    /* (non-PHPdoc)
-     * @see config::update()
-     */
-
-    public function update() {
-        
-    }
-
-    /* (non-PHPdoc)
-     * @see config::delete()
-     */
-
-    public function delete() {
-        
-    }
-
-    /* (non-PHPdoc)
-     * @see config::excel()
-     */
-
-    public function excel() {
-        
-    }
-
-    public function authentication($username, $password) {
-        $returnArray = array();
-        $start = microtime(true);
-        $this->model->setStaffName($username);
-        $this->model->setStaffPassword($password);
 
         if ($this->getVendor() == self::MYSQL) {
             $sql = "SET NAMES \"utf8\"";
@@ -112,24 +66,23 @@ class PortalServiceClass extends \Core\ConfigClass {
         if ($this->getVendor() == self::MYSQL) {
             $sql = "
 			SELECT	`iManagement`.`staff`.`staffId`,
-				`iManagement`.`staff`.`staffNo`,
-				`iManagement`.`staff`.`staffName`,
-				`iManagement`.`staff`.`languageId`,
-				`iManagement`.`team`.`teamId`,
-				`iManagement`.`team`.`teamDesc`,
-				`iManagement`.`team`.`isAdmin`,
-                                `iManagement`.`department`.`departmentId`,
-                                `iManagement`.`department`.`departmentDesc`					
+					`iManagement`.`staff`.`staffNo`,
+					`iManagement`.`staff`.`staffName`,
+					`iManagement`.`staff`.`languageId`,
+					`iManagement`.`team`.`teamId`,
+					`iManagement`.`team`.`teamDesc`,
+					`iManagement`.`team`.`isAdmin`,
+					`iManagement`.`department`.`departmentDesc`					
 			FROM 	`iManagement`.`staff`
 			JOIN	`iManagement`.`team`
 			USING	(`teamId`)
 			JOIN	`iManagement`.`department`
 			USING	(`departmentId`)
-			WHERE   `iManagement`.`staff`.`staffName`			=	'" . $this->model->getStaffName() . "'
-			AND     `iManagement`.`staff`.`staffPassword`		=	'" . md5($this->model->getStaffPassword()) . "'
-			AND	`iManagement`.`staff`.`isActive`			=	1
-			AND	`iManagement`.`team`.`isActive`			=	1
-			AND	`iManagement`.`department`.`isActive`		=	1";
+			WHERE 	`iManagement`.`staff`.`staffName`			=	'" . $this->model->getStaffName() . "'
+			AND		`iManagement`.`staff`.`staffPassword`		=	'" . md5($this->model->getStaffPassword()) . "'
+			AND		`iManagement`.`staff`.`isActive`			=	1
+			AND		`iManagement`.`team`.`isActive`			=	1
+			AND		`iManagement`.`department`.`isActive`		=	1";
         } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
 			SELECT	[iManagement].[staff].[staffId],
@@ -210,34 +163,33 @@ class PortalServiceClass extends \Core\ConfigClass {
 			AND		TEAM.ISACTIVE 			=  1
 			AND		DEPARTMENT.ISACTIVE	 	=  1";
         } else {
-            echo json_encode(array("success" => false, "message" => "cannot identify vendor db[" . $this->getVendor() . "]"));
+            echo json_encode(array("success" => FALSE, "message" => "cannot identify vendor db[" . $this->getVendor() . "]"));
             exit();
         }
 
         $result = $this->q->fast($sql);
         if ($this->q->execute == 'fail') {
-            echo json_encode(array("success" => false, "message" => $this->q->responce));
+            echo json_encode(array("success" => FALSE, "message" => $this->q->responce));
             exit();
         }
 
         if ($this->q->numberRows($result) > 0) {
 
             $row = $this->q->fetchAssoc($result);
-           
+
             $_SESSION ['staffId'] = $row ['staffId'];
             $_SESSION ['staffNo'] = $row ['staffNo'];
             $_SESSION ['staffName'] = $row ['staffName'];
             $_SESSION ['languageId'] = $row ['languageId'];
             $_SESSION ['teamId'] = $row ['teamId'];
-            $_SESSION ['teamDesc'] = $row ['teamDesc'];
-            $_SESSION ['isAdmin'] = $row ['isAdmin'];
-            
+			$_SESSION ['isAdmin'] = $row ['isAdmin'];
+			$_SESSION ['teamDesc'] = $row ['teamDesc'];
             $_SESSION ['departmentId'] = $row ['departmentId'];
-            $_SESSION ['departmentDesc'] = $row ['departmentDesc'];
-            //$_SESSION ['database'] = $_POST ['database'];
-           // $_SESSION ['vendor'] = $_POST ['vendor'];
+			$_SESSION ['departmentDesc'] = $row ['departmentDesc'];
+            $_SESSION ['database'] = $_POST ['database'];
+            $_SESSION ['vendor'] = $_POST ['vendor'];
 
-            $this->staffWebAccess->setStaffId($_SESSION ['staffId']);
+            $this->staffWebAceess->setStaffId($_SESSION ['staffId']);
 
             // audit Log Time In
             if ($this->getVendor() == self::MYSQL) {
@@ -248,8 +200,8 @@ class PortalServiceClass extends \Core\ConfigClass {
 							`iManagement`.`staffWebAccess`.`staffWebAccessLogIn`
 						)
 				VALUES (
-							'" . $this->staffWebAccess->getStaffId() . "',
-							'" . $this->staffWebAccess->getStaffWebAccessLogIn() . "'
+							'" . $this->staffWebAceess->getStaffId() . "',
+							'" . $this->staffWebAceess->getStaffWebAccessLogIn() . "'
 						)";
             } else if ($this->getVendor() == self::MSSQL) {
                 $sql = "
@@ -259,21 +211,10 @@ class PortalServiceClass extends \Core\ConfigClass {
 							[iCore].[staffWebAccess].[staffWebAccessLogIn]
 						)
 				VALUES (
-							'" . $this->staffWebAccess->getStaffId() . "',
-							'" . $this->staffWebAccess->getStaffWebAccessLogIn() . "'
+							'" . $this->staffWebAceess->getStaffId() . "',
+							'" . $this->staffWebAceess->getStaffWebAccessLogIn() . "'
 						)";
             } else if ($this->getVendor() == self::ORACLE) {
-                $sql = "
-				INSERT INTO ICORE.STAFFWEBACCESS
-						(
-							ICORE.STAFFWEBACCESS.STAFFID,
-							ICORE.STAFFWEBACCESS.STAFFWEBACCESSLOGIN
-						)
-				VALUES (
-							'" . $this->staffWebAccess->getStaffId() . "',
-							" . $this->staffWebAccess->getStaffWebAccessLogIn() . "
-						)";
-            } else if ($this->getVendor() == self::DB2) {
                 $sql = "
 				INSERT INTO ICORE.STAFFWEBACCESS
 						(
@@ -284,7 +225,7 @@ class PortalServiceClass extends \Core\ConfigClass {
 							'" . $this->staffWebAceess->getStaffId() . "',
 							" . $this->staffWebAceess->getStaffWebAccessLogIn() . "
 						)";
-            } else if ($this->getVendor() == self::POSTGRESS) {
+            }else if ($this->getVendor() == self::DB2) {
                 $sql = "
 				INSERT INTO ICORE.STAFFWEBACCESS
 						(
@@ -292,24 +233,66 @@ class PortalServiceClass extends \Core\ConfigClass {
 							ICORE.STAFFWEBACCESS.STAFFWEBACCESSLOGIN
 						)
 				VALUES (
-							'" . $this->staffWebAccess->getStaffId() . "',
-							" . $this->staffWebAccess->getStaffWebAccessLogIn() . "
-				d		)";
+							'" . $this->staffWebAceess->getStaffId() . "',
+							" . $this->staffWebAceess->getStaffWebAccessLogIn() . "
+						)";
+            }else if ($this->getVendor() == self::POSTGRESS) {
+                $sql = "
+				INSERT INTO ICORE.STAFFWEBACCESS
+						(
+							ICORE.STAFFWEBACCESS.STAFFID,
+							ICORE.STAFFWEBACCESS.STAFFWEBACCESSLOGIN
+						)
+				VALUES (
+							'" . $this->staffWebAceess->getStaffId() . "',
+							" . $this->staffWebAceess->getStaffWebAccessLogIn() . "
+						)";
             }
             $this->q->update($sql);
 
-            $returnArray['success'] = true;
-            $returnArray['message'] = $this->systemString->getLoginSuccess();
-            $returnArray['start'] = $start;
-            return $returnArray;
+            echo json_encode(array("success" => true, "message" => "success login"));
+            exit();
         } else {
-            $returnArray['success'] = false;
-            $returnArray['message'] = $this->systemString->getLoginError();
-            $returnArray['start'] = $start;
-            return $returnArray;
+
+            echo json_encode(array("success" => FALSE, "message" => 'The system could not login this user' . $sql));
+            exit();
         }
+    }
+
+    /* (non-PHPdoc)
+     * @see config::update()
+     */
+
+    public function update() {
+        
+    }
+
+    /* (non-PHPdoc)
+     * @see config::delete()
+     */
+
+    public function delete() {
+        
+    }
+
+    /* (non-PHPdoc)
+     * @see config::excel()
+     */
+
+    public function excel() {
+        
     }
 
 }
 
+$loginObject = new LoginClass ();
+
+if (isset($_POST ['database'])) {
+    $loginObject->setDatabase($_POST ['database']);
+}
+if (isset($_POST ['vendor'])) {
+    $loginObject->setVendor($_POST ['vendor']);
+}
+$loginObject->execute();
+$loginObject->read();
 ?>

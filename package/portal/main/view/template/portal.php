@@ -82,19 +82,16 @@
             <!-- Example row of columns -->
             <div class="row">
                 <div class="span4">
-                    <h2>Heading</h2>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                    <p><a class="btn" href="#">View details &raquo;</a></p>
+                    <h2>Php 5</h2>
+                    <p>Implementing Various Of Php 5 Object Oriented technologies like namespace ,abstract and much more</p>
                 </div>
                 <div class="span4">
-                    <h2>Heading</h2>
-                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-                    <p><a class="btn" href="#">View details &raquo;</a></p>
+                    <h2>System</h2>
+                    <p>User Interface using Twitter Bootsrap and SAS Images.Much Faster To load Page</p>
                 </div>
                 <div class="span4">
-                    <h2>Heading</h2>
-                    <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                    <p><a class="btn" href="#">View details &raquo;</a></p>
+                    <h2>Database</h2>
+                    <p>Able to cope with Other Vendor Database and Fast.Slow is not an option here.</p>
                 </div>
             </div>
 
@@ -113,7 +110,33 @@
         <script src="./library/twitter2/js/bootstrap-transition.js"></script>
         <script src="./library/twitter2/js/bootstrap-collapse.js"></script>
         <script language="javascript">
-            
+            // sent ajax request to login
+            $("#loginButton").click(function(){
+                $.ajax({
+            type: 'POST',
+            url: page,
+            data: {
+                offset: offset,
+                params : params
+            },
+            beforeSend:function(){
+                // this is where we append a loading image
+                $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
+            },
+            success:function(data){
+                // successful request; do something with the data
+                $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                
+            },
+            error:function(){
+                // failed request; give feedback to user
+                $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+            }
+        });
+                // if success.clear all code   empty menu and below
+                // ask router menu block
+                // ask router left menu block
+            })
         </script>
     </body>
 </html>

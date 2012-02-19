@@ -1,4 +1,5 @@
 <?php
+namespace Core\System\Management\Department\Model;
 require_once ("../../class/classValidation.php");
 /**
  * this is Department model file.

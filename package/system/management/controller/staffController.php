@@ -1,4 +1,5 @@
 <?php
+namespace Core\System\Management\Staff\Controller;
 session_start ();
 require_once ("../../class/classAbstract.php");
 require_once ("../../class/classRecordSet.php");
@@ -81,7 +82,8 @@ class StaffClass extends ConfigClass {
 	private $title;
 	/**
 	 * Security Object
-	 * @var stri	 g
+	 * @var stri
+	 g
 	 */
 	private $security;
 	/**

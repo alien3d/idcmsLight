@@ -1,7 +1,11 @@
 <?php
+
 namespace Core\SystemString;
+
 require_once("classAbstract.php");
+
 use Core;
+
 /**
  * Response  if any error
  * @name IDCMS
@@ -11,394 +15,425 @@ use Core;
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class SystemString  extends \Core\ConfigClass {
-	private $q;
-	/**
-	 * Create New Record
-	 * @var string
-	 */
-	private $createMessage;
-	/**
-	 * Read / Load
-	 * @var string
-	 */
-	private $readMessage;
-	/**
-	 * Update
-	 * @var string
-	 */
-	private $updateMessage;
-	/**
-	 * Delete
-	 * @var string
-	 */
-	private $deleteMessage;
-	/**
-	 * Posting
-	 * @var string
-	 */
-	private $postingMessage;
-	
-	/**
-	 * Duplicate Code Message
-	 * @var string
-	 */
-	private $duplicateMessage;
-	/**
-	 * Non Duplicate Code
-	 * @var string
-	 */
-	private $nonDuplicateMessage;
-	/**
-	 * Not Supported Database
-	 * @var string
-	 */
-	private $nonSupportedDatabaseMessage;
-	/**
-	 * File Found
-	 * @var string
-	 */
-	private $fileFoundMessage;
-	/**
-	 * File Not Found
-	 * @var string
-	 */
-	private $fileNotFoundMessage;
-	/**
-	 * Record Not Found
-	 * @var string
-	 */
-	private $recordFoundMessage;
-	/**
-	 * Record Not Found
-	 * @var string
-	 */
-	private $recordNotFoundMessage;
+class SystemString extends \Core\ConfigClass {
 
-	// end basic access database
-	public function execute() {
-		$this->q = new Vendor ();
-		$this->q->vendor = $this->getVendor ();
-		$this->q->leafId = $this->getLeafId ();
-		$this->q->staffId = $this->getStaffId ();
-		$this->q->connect ( $this->getConnection (), $this->getUsername (), $this->getDatabase (), $this->getPassword () );
-		if($this->getVendor()==self::MYSQL){
-			$sql="
+    private $q;
+
+    /**
+     * Create New Record
+     * @var string
+     */
+    private $createMessage;
+
+    /**
+     * Read / Load
+     * @var string
+     */
+    private $readMessage;
+
+    /**
+     * Update
+     * @var string
+     */
+    private $updateMessage;
+
+    /**
+     * Delete
+     * @var string
+     */
+    private $deleteMessage;
+
+    /**
+     * Posting
+     * @var string
+     */
+    private $postingMessage;
+
+    /**
+     * Duplicate Code Message
+     * @var string
+     */
+    private $duplicateMessage;
+
+    /**
+     * Non Duplicate Code
+     * @var string
+     */
+    private $nonDuplicateMessage;
+
+    /**
+     * Not Supported Database
+     * @var string
+     */
+    private $nonSupportedDatabaseMessage;
+
+    /**
+     * File Found
+     * @var string
+     */
+    private $fileFoundMessage;
+
+    /**
+     * File Not Found
+     * @var string
+     */
+    private $fileNotFoundMessage;
+
+    /**
+     * Record Not Found
+     * @var string
+     */
+    private $recordFoundMessage;
+
+    /**
+     * Record Not Found
+     * @var string
+     */
+    private $recordNotFoundMessage;
+
+    /**
+     * Login Success
+     * @var string
+     */
+    private $loginSuccess;
+
+    /**
+     * Login Error
+     * @var string
+     */
+    private $loginError;
+
+    public function execute() {
+        $this->q = new \Core\Database\Mysql\Vendor();
+        $this->q->vendor = $this->getVendor();
+        $this->q->leafId = $this->getLeafId();
+        $this->q->staffId = $this->getStaffId();
+        $this->q->connect($this->getConnection(), $this->getUsername(), $this->getDatabase(), $this->getPassword());
+        if ($this->getVendor() == self::MYSQL) {
+            $sql = "
 			SELECT  `systemStringTranslate`.`systemStringCode`,
 					`systemStringTranslate`.`systemStringNative`
 			FROM 	`systemStringTranslate`";
-		} else if ($this->getVendor()==self::MSSQL){
-			$sql="
+        } else if ($this->getVendor() == self::MSSQL) {
+            $sql = "
 			SELECT  [systemStringTranslate].[systemStringCode],
 					[systemStringTranslate].[systemStringNative]
 			FROM 	[systemStringTranslate]";
-		} else if ($this->getVendor()==self::ORACLE){
-			$sql="
+        } else if ($this->getVendor() == self::ORACLE) {
+            $sql = "
 			SELECT  SYSTEMSTRINGTRANSLATE.SYSTEMSTRINGCODE,
 					SYSTEMSTRINGTRANSLATE.SYSTEMSTRINGNATIVE
 			FROM 	SYSTEMSTRINGTRANSLATE
 			ON		SYSTEMSTRING.SYSTEMSTRINGID=SYSTEMSTRINGTRANSLATE.SYSTEMSTRINGID ";
-		} else if ($this->getVendor()==self::DB2){
-			$sql="
+        } else if ($this->getVendor() == self::DB2) {
+            $sql = "
 			SELECT  SYSTEMSTRINGTRANSLATE.SYSTEMSTRINGCODE,
 					SYSTEMSTRINGTRANSLATE.SYSTEMSTRINGNATIVE
 			FROM 	SYSTEMSTRINGTRANSLATE
 			ON		SYSTEMSTRING.SYSTEMSTRINGID=SYSTEMSTRINGTRANSLATE.SYSTEMSTRINGID ";
-		} else if ($this->getVendor()==self::POSTGRESS){
-			$sql="
+        } else if ($this->getVendor() == self::POSTGRESS) {
+            $sql = "
 			SELECT  SYSTEMSTRINGTRANSLATE.SYSTEMSTRINGCODE,
 					SYSTEMSTRINGTRANSLATE.SYSTEMSTRINGNATIVE
 			FROM 	SYSTEMSTRINGTRANSLATE
 			ON		SYSTEMSTRING.SYSTEMSTRINGID=SYSTEMSTRINGTRANSLATE.SYSTEMSTRINGID ";
-		}
-		$result = $this->q->fast($sql);
-		if ($this->q->execute == 'fail') {
-			echo json_encode(array("success" => false, "message" => $this->q->responce));
-			exit();
-		}
-		while ($row = $this->q->fetchArray($result)) {
-			switch($row['systemStringCode']){
-				case 'create':
-					$this->setCreateMessage($row['systemStringNative']);
-					break;
-				case 'read':
-					$this->setReadMessage($row['systemStringNative']);
-					break;
-				case 'update':
-					$this->setUpdateMessage($row['systemStringNative']);
-					break;
-				case 'delete':
-					$this->setDeleteMessage($row['systemStringNative']);
-					break;
-				case 'posting':
-					$this->setPostingMessage($row['systemStringNative']);
-					break;	
-				case 'duplicate':
-					$this->setDuplicateMessage($row['systemStringNative']);
-					break;
-				case 'notDuplicate':
-					$this->setNonDuplicateMessage($row['systemStringNative']);
-					break;
-				case 'fileFound':
-					$this->setFileFoundMessage($row['systemStringNative']);
-					break;
-				case 'fileNotFound':
-					$this->setFileFoundMessage($row['systemStringNative']);
-					break;
-				case 'recordFound':
-					$this->setRecordFoundMessage($row['systemStringNative']);
-					break;
-				case 'recordNotFound':
-					$this->setRecordNotFoundMessage($row['systemStringNative']);
-					break;
-				case 'nonSupportedDatabase':
-					$this->setNonSupportedDatabaseMessage($row['systemStringNative']);
-					break;
+        }
+        $result = $this->q->fast($sql);
+        if ($this->q->execute == 'fail') {
+            echo json_encode(array("success" => false, "message" => $this->q->responce));
+            exit();
+        }
+        while ($row = $this->q->fetchArray($result)) {
+            switch ($row['systemStringCode']) {
+                case 'create':
+                    $this->setCreateMessage($row['systemStringNative']);
+                    break;
+                case 'read':
+                    $this->setReadMessage($row['systemStringNative']);
+                    break;
+                case 'update':
+                    $this->setUpdateMessage($row['systemStringNative']);
+                    break;
+                case 'delete':
+                    $this->setDeleteMessage($row['systemStringNative']);
+                    break;
+                case 'posting':
+                    $this->setPostingMessage($row['systemStringNative']);
+                    break;
+                case 'duplicate':
+                    $this->setDuplicateMessage($row['systemStringNative']);
+                    break;
+                case 'notDuplicate':
+                    $this->setNonDuplicateMessage($row['systemStringNative']);
+                    break;
+                case 'fileFound':
+                    $this->setFileFoundMessage($row['systemStringNative']);
+                    break;
+                case 'fileNotFound':
+                    $this->setFileFoundMessage($row['systemStringNative']);
+                    break;
+                case 'recordFound':
+                    $this->setRecordFoundMessage($row['systemStringNative']);
+                    break;
+                case 'recordNotFound':
+                    $this->setRecordNotFoundMessage($row['systemStringNative']);
+                    break;
+                case 'nonSupportedDatabase':
+                    $this->setNonSupportedDatabaseMessage($row['systemStringNative']);
+                    break;
+                case 'loginSuccess':
+                    $this->setLoginSuccess($row['systemStringNative']);
+                    break;
+                case 'loginError':
+                    $this->setLoginError($row['systemStringNative']);
+                    break;
+            }
+        }
+    }
 
-			}
-		}
-	}
+    public function create() {
+        
+    }
 
-	public function create() {
-	}
-	/* (non-PHPdoc)
-	 * @see config::read()
-	 */
-	public function read() {
-	}
-	/* (non-PHPdoc)
-	 * @see config::update()
-	 */
-	public function update() {
-	}
-	/* (non-PHPdoc)
-	 * @see config::delete()
-	 */
-	public function delete() {
-	}
-	/* (non-PHPdoc)
-	 * @see config::excel()
-	 */
-	public function excel() {
-	}
+    /* (non-PHPdoc)
+     * @see config::read()
+     */
 
+    public function read() {
+        
+    }
 
+    /* (non-PHPdoc)
+     * @see config::update()
+     */
 
-	
+    public function update() {
+        
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public function getCreateMessage()
-	{
-	    return $this->createMessage;
-	}
+    /* (non-PHPdoc)
+     * @see config::delete()
+     */
 
-	/**
-	 * 
-	 * @param $createMessage
-	 */
-	public function setCreateMessage($createMessage)
-	{
-	    $this->createMessage = $createMessage;
-	}
+    public function delete() {
+        
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public function getReadMessage()
-	{
-	    return $this->readMessage;
-	}
+    /* (non-PHPdoc)
+     * @see config::excel()
+     */
 
-	/**
-	 * 
-	 * @param $readMessage
-	 */
-	public function setReadMessage($readMessage)
-	{
-	    $this->readMessage = $readMessage;
-	}
+    public function excel() {
+        
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public function getUpdateMessage()
-	{
-	    return $this->updateMessage;
-	}
+    /**
+     * 
+     * @return 
+     */
+    public function getCreateMessage() {
+        return $this->createMessage;
+    }
 
-	/**
-	 * 
-	 * @param $updateMessage
-	 */
-	public function setUpdateMessage($updateMessage)
-	{
-	    $this->updateMessage = $updateMessage;
-	}
+    /**
+     * 
+     * @param $createMessage
+     */
+    public function setCreateMessage($createMessage) {
+        $this->createMessage = $createMessage;
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public function getDeleteMessage()
-	{
-	    return $this->deleteMessage;
-	}
+    /**
+     * 
+     * @return 
+     */
+    public function getReadMessage() {
+        return $this->readMessage;
+    }
 
-	/**
-	 * 
-	 * @param $deleteMessage
-	 */
-	public function setDeleteMessage($deleteMessage)
-	{
-	    $this->deleteMessage = $deleteMessage;
-	}
+    /**
+     * 
+     * @param $readMessage
+     */
+    public function setReadMessage($readMessage) {
+        $this->readMessage = $readMessage;
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public function getDuplicateMessage()
-	{
-	    return $this->duplicateMessage;
-	}
+    /**
+     * 
+     * @return 
+     */
+    public function getUpdateMessage() {
+        return $this->updateMessage;
+    }
 
-	/**
-	 * 
-	 * @param $duplicateMessage
-	 */
-	public function setDuplicateMessage($duplicateMessage)
-	{
-	    $this->duplicateMessage = $duplicateMessage;
-	}
+    /**
+     * 
+     * @param $updateMessage
+     */
+    public function setUpdateMessage($updateMessage) {
+        $this->updateMessage = $updateMessage;
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public function getNonDuplicateMessage()
-	{
-	    return $this->nonDuplicateMessage;
-	}
+    /**
+     * 
+     * @return 
+     */
+    public function getDeleteMessage() {
+        return $this->deleteMessage;
+    }
 
-	/**
-	 * 
-	 * @param $nonDuplicateMessage
-	 */
-	public function setNonDuplicateMessage($nonDuplicateMessage)
-	{
-	    $this->nonDuplicateMessage = $nonDuplicateMessage;
-	}
+    /**
+     * 
+     * @param $deleteMessage
+     */
+    public function setDeleteMessage($deleteMessage) {
+        $this->deleteMessage = $deleteMessage;
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public function getNonSupportedDatabaseMessage()
-	{
-	    return $this->nonSupportedDatabaseMessage;
-	}
+    /**
+     * 
+     * @return 
+     */
+    public function getDuplicateMessage() {
+        return $this->duplicateMessage;
+    }
 
-	/**
-	 * 
-	 * @param $nonSupportedDatabaseMessage
-	 */
-	public function setNonSupportedDatabaseMessage($nonSupportedDatabaseMessage)
-	{
-	    $this->nonSupportedDatabaseMessage = $nonSupportedDatabaseMessage;
-	}
+    /**
+     * 
+     * @param $duplicateMessage
+     */
+    public function setDuplicateMessage($duplicateMessage) {
+        $this->duplicateMessage = $duplicateMessage;
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public function getFileFoundMessage()
-	{
-	    return $this->fileFoundMessage;
-	}
+    /**
+     * 
+     * @return 
+     */
+    public function getNonDuplicateMessage() {
+        return $this->nonDuplicateMessage;
+    }
 
-	/**
-	 * 
-	 * @param $fileFoundMessage
-	 */
-	public function setFileFoundMessage($fileFoundMessage)
-	{
-	    $this->fileFoundMessage = $fileFoundMessage;
-	}
+    /**
+     * 
+     * @param $nonDuplicateMessage
+     */
+    public function setNonDuplicateMessage($nonDuplicateMessage) {
+        $this->nonDuplicateMessage = $nonDuplicateMessage;
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public function getFileNotFoundMessage()
-	{
-	    return $this->fileNotFoundMessage;
-	}
+    /**
+     * 
+     * @return 
+     */
+    public function getNonSupportedDatabaseMessage() {
+        return $this->nonSupportedDatabaseMessage;
+    }
 
-	/**
-	 * 
-	 * @param $fileNotFoundMessage
-	 */
-	public function setFileNotFoundMessage($fileNotFoundMessage)
-	{
-	    $this->fileNotFoundMessage = $fileNotFoundMessage;
-	}
+    /**
+     * 
+     * @param $nonSupportedDatabaseMessage
+     */
+    public function setNonSupportedDatabaseMessage($nonSupportedDatabaseMessage) {
+        $this->nonSupportedDatabaseMessage = $nonSupportedDatabaseMessage;
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public function getRecordFoundMessage()
-	{
-	    return $this->recordFoundMessage;
-	}
+    /**
+     * 
+     * @return 
+     */
+    public function getFileFoundMessage() {
+        return $this->fileFoundMessage;
+    }
 
-	/**
-	 * 
-	 * @param $recordFoundMessage
-	 */
-	public function setRecordFoundMessage($recordFoundMessage)
-	{
-	    $this->recordFoundMessage = $recordFoundMessage;
-	}
+    /**
+     * 
+     * @param $fileFoundMessage
+     */
+    public function setFileFoundMessage($fileFoundMessage) {
+        $this->fileFoundMessage = $fileFoundMessage;
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public function getRecordNotFoundMessage()
-	{
-	    return $this->recordNotFoundMessage;
-	}
+    /**
+     * 
+     * @return 
+     */
+    public function getFileNotFoundMessage() {
+        return $this->fileNotFoundMessage;
+    }
 
-	/**
-	 * 
-	 * @param $recordNotFoundMessage
-	 */
-	public function setRecordNotFoundMessage($recordNotFoundMessage)
-	{
-	    $this->recordNotFoundMessage = $recordNotFoundMessage;
-	}
+    /**
+     * 
+     * @param $fileNotFoundMessage
+     */
+    public function setFileNotFoundMessage($fileNotFoundMessage) {
+        $this->fileNotFoundMessage = $fileNotFoundMessage;
+    }
 
-	/**
-	 * 
-	 * @return 
-	 */
-	public function getPostingMessage()
-	{
-	    return $this->postingMessage;
-	}
+    /**
+     * 
+     * @return 
+     */
+    public function getRecordFoundMessage() {
+        return $this->recordFoundMessage;
+    }
 
-	/**
-	 * 
-	 * @param $postingMessage
-	 */
-	public function setPostingMessage($postingMessage)
-	{
-	    $this->postingMessage = $postingMessage;
-	}
+    /**
+     * 
+     * @param $recordFoundMessage
+     */
+    public function setRecordFoundMessage($recordFoundMessage) {
+        $this->recordFoundMessage = $recordFoundMessage;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public function getRecordNotFoundMessage() {
+        return $this->recordNotFoundMessage;
+    }
+
+    /**
+     * 
+     * @param $recordNotFoundMessage
+     */
+    public function setRecordNotFoundMessage($recordNotFoundMessage) {
+        $this->recordNotFoundMessage = $recordNotFoundMessage;
+    }
+
+    /**
+     * 
+     * @return 
+     */
+    public function getPostingMessage() {
+        return $this->postingMessage;
+    }
+
+    /**
+     * 
+     * @param $postingMessage
+     */
+    public function setPostingMessage($postingMessage) {
+        $this->postingMessage = $postingMessage;
+    }
+
+    public function getLoginSuccess() {
+        return $this->loginSuccess;
+    }
+
+    public function setLoginSuccess($loginSuccess) {
+        $this->loginSuccess = $loginSuccess;
+    }
+
+    public function getLoginError() {
+        return $this->loginError;
+    }
+
+    public function setLoginError($loginError) {
+        $this->loginError = $loginError;
+    }
+
 }
+

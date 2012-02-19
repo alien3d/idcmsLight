@@ -5,19 +5,18 @@ namespace Core\Portal\Controller;
 require_once './library/class/classValidation.php';
 require_once './package/portal/main/view/portalView.php';
 require_once './package/portal/main/service/portalService.php';
-
-//require_once './package/system/user/model/userModel.php'; 
+require_once './package/system/management/model/staffModel.php';
 
 class PortalControllerClass extends \Core\Validation\ValidationClass {
 
     private $portalView;
     private $portalService;
-    private $userModel;
+    private $staffModel;
 
     function __construct() {
         $this->portalView = new \Core\Portal\View\PortalViewClass();
-         $this->portalService    = new \Core\Portal\Service\PortalServiceClass();
-        //     $this->userModel        = new \Core\Admin\Model\UserModelClass();
+        $this->portalService = new \Core\Portal\Service\PortalServiceClass();
+        $this->staffModel = new \Core\System\Management\Staff\Model\StaffModel();
     }
 
     function create() {
@@ -39,41 +38,34 @@ class PortalControllerClass extends \Core\Validation\ValidationClass {
     /**
      * Assign Post  / Get Variable to The Model
      */
-    function getVariable() {
-        if (isset($_POST['username'])) {
-            //      $this->userModel->setUsername($this->strict($_GET['username'],'string'));
+    private function getVariable() {
+        if (isset($_GET['username'])) {
+                  $this->staffModel->setStaffName($this->strict($_GET['username'],'string'));
         }
-        if (isset($_POST['password'])) {
-            //      $this->userModel->setPassword($this->strict($_GET['password'],'password'));
+        if (isset($_GET['password'])) {
+                  $this->staffModel->setStaffPassword($this->strict($_GET['password'],'password'));
         }
     }
 
     /**
      *  main function
      */
-    function execute() {
-        $this->getVariable();
-        /*
-          if($this->userModel->getUsername() && $this->userModel->getUsername()){
-          $id=$this->portalService->processLogin();
+    public function execute() {
+        $this->getVariable();       
+        if ($this->staffModel->getStaffName() && $this->staffModel->getStaffPassword()) {
+            // Start Initilization Portal Service Class
+            $this->portalService->execute();
+            // process the  login
+            $returnArray = $this->portalService->authentication($this->staffModel->getStaffName(),$this->staffModel->getStaffPassword());
+            $this->portalView->jsonView($returnArray['success'], $returnArray['message'], $returnArray['start']);            
+        } else {
+            // index page view.
+            $this->portalView->htmlView("portal.php", "portal");
+        }
 
-          if($id==0){
-          // cannot be found
-          $this->portalView->jsonView("access","denied");
-          }  else {
-          // authorize access
-          $this->portalView->jsonView("access","granted");
-          }
-          }  else {
-          $this->portalView->htmlView("index.php","portal");
-          }
-         * 
-         */
-        $this->portalView->htmlView("portal.php", "portal");
     }
 
 }
-
 $x = new PortalControllerClass();
 $x->execute();
 ?>

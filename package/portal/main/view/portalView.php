@@ -82,15 +82,37 @@ class PortalViewClass extends \Core\ConfigClass {
         
     }
 
-    /*
+    /**
      * Ouput Json Output
+     * @params success boolean TRUE or FALSE  
+     * @params message System Message
+     * @params total Total Record Output
+     * @params time Execute Time Per Page
+     * @params data Array Of data to send as Ajax Request Respond
+     * @params firstRecord  First Record For Paging Navigation ( Form Entry )
+     * @params previousRecord   Previous Record For Paging Navigation ( Form Entry )
+     * @params nextRecord   Next Record For Paging Navigation ( Form Entry )
+     * @params last record Last/End Record For Paging Navigation ( Form Entry )
      */
 
-    function jsonView($success, $data) {
-        echo json_encode(array("success" => $success, "data" => $data));
+    function jsonView($success, $message, $start, $total = 0,$data=null, $firstRecord = null, $previousRecord = null, $nextRecord = null, $lastRecord = null) {
+         header('Content-Type:application/json; charset=utf-8');
+         $end = microtime(true);
+         $time = $end - $start;
+         	echo json_encode(array(
+            	'success' =>$success, 
+            	'message' => $message, 
+                'total' => $total,             	
+            	'time' => $time, 
+            	'firstRecord' => $firstRecord, 
+            	'previousRecord' => $previousRecord, 
+            	'nextRecord' => $nextRecord, 
+            	'lastRecord' => $lastRecord, 
+            	'data' => $data));
+                
     }
 
-    /*
+    /*  
      * Ouput Xml Output
      */
 

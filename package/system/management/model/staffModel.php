@@ -1,5 +1,6 @@
 <?php
-require_once ("../../class/classValidation.php");
+namespace Core\System\Management\Staff\Model;
+require_once '/../../../../library/class/classModel.php';
 /**
  * this is staff model file.
  *
@@ -11,7 +12,7 @@ require_once ("../../class/classValidation.php");
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class StaffModel extends ValidationClass {
+class StaffModel extends \Core\Model\coreModel{
 	/**
 	 * Staff Identification
 	 * @var int
@@ -56,7 +57,8 @@ class StaffModel extends ValidationClass {
 	 * @see ValidationClass::execute()
 	 */
 	function execute() {
-		$primaryKeyAll = '';
+		/******
+                $primaryKeyAll = '';
 		/*
 		 *  Basic Information Table
 		 */
@@ -64,7 +66,7 @@ class StaffModel extends ValidationClass {
 		$this->setPrimaryKeyName ( 'staffId' );
 		/*
 		 *  All the $_POST enviroment.
-		 */
+		 *
 		if (isset ( $_POST ['staffId'] )) {
 			$this->setStaffId ( $this->strict ( $_POST ['staffId'], 'numeric' ), '', 'string' );
 		}
@@ -93,7 +95,7 @@ class StaffModel extends ValidationClass {
 		}
 		/**
 		 * All the $_GET enviroment.
-		 */
+		 *
 		if (isset ( $_GET ['staffId'] )) {
 			$this->setTotal ( count ( $_GET ['staffId'] ) );
 		}
@@ -213,9 +215,10 @@ class StaffModel extends ValidationClass {
 		if (isset ( $_SESSION ['staffId'] )) {
 			$this->setExecuteBy ( $_SESSION ['staffId'] );
 		}
+                
 		/**
 		 * TimeStamp Value.
-		 */
+		 *
 		if ($this->getVendor () == self::MYSQL) {
 			$this->setExecuteTime ( "'" . date ( "Y-m-d H:i:s" ) . "'" );
 		} else if ($this->getVendor () == self::MSSQL) {
@@ -223,6 +226,8 @@ class StaffModel extends ValidationClass {
 		} else if ($this->getVendor () == self::ORACLE) {
 			$this->setExecuteTime ( "to_date('" . date ( "Y-m-d H:i:s" ) . "','YYYY-MM-DD HH24:MI:SS')" );
 		}
+                 * 
+                 */
 	}
 	/* (non-PHPdoc)
 	 * @see ValidationClass::create()
