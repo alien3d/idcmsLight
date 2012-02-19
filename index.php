@@ -39,11 +39,11 @@ class PortalControllerClass extends \Core\Validation\ValidationClass {
      * Assign Post  / Get Variable to The Model
      */
     private function getVariable() {
-        if (isset($_GET['username'])) {
-                  $this->staffModel->setStaffName($this->strict($_GET['username'],'string'));
+        if (isset($_POST['username'])) {
+                  $this->staffModel->setStaffName($this->strict($_POST['username'],'string'));
         }
-        if (isset($_GET['password'])) {
-                  $this->staffModel->setStaffPassword($this->strict($_GET['password'],'password'));
+        if (isset($_POST['password'])) {
+                  $this->staffModel->setStaffPassword($this->strict($_POST['password'],'password'));
         }
     }
 

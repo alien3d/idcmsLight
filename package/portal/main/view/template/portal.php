@@ -42,13 +42,14 @@
                     <a class="brand" href="#">Core</a>
                     <div class="nav-collapse">
                         <ul class="nav">
-                            <?php // cms menu router 
+                            <?php
+                            // cms menu router 
                             // foreach ($menuRouter as menuLinks) {  
                             ?>
                             <li class="active"><a href="#">Core</a></li>
                             <li><a href="./library/twitter2/docs/">Twitter 2 Bootstrap</a></li>
                             <li><a href="./library/jquery/">Jquery Offline Api</a></li>
-<?php // }  ?>
+                            <?php // }   ?>
                         </ul>
                     </div><!--/.nav-collapse -->
                     <div class="navbar-text pull-right">
@@ -58,14 +59,14 @@
 
                         <input type="password" name="password" id="password" placeholder="Password">
 
-                        <input type="button" name="login" value="login" class="btn btn-info"x>
+                        <input type="button" name="loginButton" id="loginButton" value="login" class="btn btn-info"x>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="container">
-
+            <div id="infoPanel" class="hide"></div>
             <!-- Main hero unit for a primary marketing message or call to action -->
             <div class="hero-unit">
                 <h1>
@@ -111,32 +112,61 @@
         <script src="./library/twitter2/js/bootstrap-collapse.js"></script>
         <script language="javascript">
             // sent ajax request to login
+            
             $("#loginButton").click(function(){
-                $.ajax({
-            type: 'POST',
-            url: page,
-            data: {
-                offset: offset,
-                params : params
-            },
-            beforeSend:function(){
-                // this is where we append a loading image
-                $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-            },
-            success:function(data){
-                // successful request; do something with the data
-                $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                var message;
+                if($("#username").val().length==0 && $("#password").val().length == 0) {
+                    message="Please field the username and password field lor";
+                    $('#infoPanel').html('<div class=\'alert alert-error\'><a class="close" id="closeAlertError">×</a>'+message +'</div>');
+                    $('#infoPanel').show();
+                } else if($("#username").val().length==0 && $("#password").val().length > 0){
+                    message="Please field the username field first la";
+                    $('#infoPanel').html('<div class=\'alert alert-error\'><a class="close" id="closeAlertError">×</a>'+message +'</div>');
+                    $('#infoPanel').show();    
+                } else if ($("#password").val().length==0 && $("#username").val().length > 0){
+                    message ="Please field the password field first la";
+                    $('#infoPanel').html('<div class=\'alert alert-error\'><a class="close" id="closeAlertError">×</a>'+message +'</div>');
+                    $('#infoPanel').show();
+                } else {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'index.php',
+                        data: {
+                            username: $("#username").val(),
+                            password : $("#password").val()
+                        },
+                        beforeSend:function(){
+                            // this is where we append a loading image
+                            $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
+                            $('#infoPanel').show();
+                        },
+                        success:function(data){
+                            // successful request; do something with the data
+                            $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                            if(data.success ==true){
+                               $('#infoPanel').html('<div class=\'alert alert-info\'><a class="close" id="closeAlertError">×</a>Lai  lai.. come in Welcome</div>');
+                               $('#infoPanel').show(); 
+                            }    else {
+                                $('#infoPanel').html('<div class=\'alert alert-error\'><a class="close" id="closeAlertError">×</a>Who are you ?puchu tau</div>');
+                                $('#infoPanel').show();    
+                            } 
                 
-            },
-            error:function(){
-                // failed request; give feedback to user
-                $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-            }
-        });
+                        },
+                        error:function(){
+                            // failed request; give feedback to user
+                            $('#infoPanel').html('<div class=\'alert alert-error\'><a class="close" id="closeAlertError">×</a>Error Could Load The Request Page</div>');
+                            $('#infoPanel').show();
+                        }
+                    });
+                    }
+                    $("#closeAlertError").click(function() {
+                        $("#infoPanel").hide();
+                    });
                 // if success.clear all code   empty menu and below
                 // ask router menu block
                 // ask router left menu block
-            })
+            });
+            
         </script>
     </body>
 </html>
