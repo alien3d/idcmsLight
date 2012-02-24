@@ -7,16 +7,16 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
     <!-- Le styles -->
     <link href="assets/css/bootstrap.css" rel="stylesheet">
     <link href="assets/css/bootstrap-responsive.css" rel="stylesheet">
     <link href="assets/css/docs.css" rel="stylesheet">
     <link href="assets/js/google-code-prettify/prettify.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
 
     <!-- Le fav and touch icons -->
     <link rel="shortcut icon" href="assets/ico/favicon.ico">
@@ -93,14 +93,15 @@
   <div class="page-header">
     <a class="btn btn-small pull-right toggle-all" href="#">Toggle all</a>
     <h1>
-      1. Chose components
+      1. Choose components
       <small>Get just the CSS you need</small>
     </h1>
   </div>
   <div class="row download-builder">
     <div class="span3">
       <h3>Scaffolding</h3>
-      <label class="checkbox"><input checked="checked" type="checkbox" value="reset.less"> CSS reset</label>
+      <label class="checkbox"><input checked="checked" type="checkbox" value="reset.less"> Normalize and reset</label>
+      <label class="checkbox"><input checked="checked" type="checkbox" value="scaffolding.less"> Body type and links</label>
       <label class="checkbox"><input checked="checked" type="checkbox" value="grid.less"> Grid system</label>
       <label class="checkbox"><input checked="checked" type="checkbox" value="layouts.less"> Layouts</label>
       <h3>Base CSS</h3>
@@ -123,6 +124,7 @@
       <label class="checkbox"><input checked="checked" type="checkbox" value="thumbnails.less"> Thumbnails</label>
       <label class="checkbox"><input checked="checked" type="checkbox" value="alerts.less"> Alerts</label>
       <label class="checkbox"><input checked="checked" type="checkbox" value="progress-bars.less"> Progress bars</label>
+      <label class="checkbox"><input checked="checked" type="checkbox" value="hero-unit.less"> Hero unit</label>
     </div><!-- /span -->
     <div class="span3">
       <h3>JS Components</h3>
@@ -208,7 +210,7 @@
     </div><!-- /span -->
     <div class="span4">
       <h4 class="muted">Heads up!</h4>
-      <p class="muted">All plugins require the latest version of <a href="http://jquery.com/" target="_blank">jQuery</a> to be included.</p>
+      <p class="muted">All checked plugins will be compiled into a single file, bootstrap.js. All plugins require the latest version of <a href="http://jquery.com/" target="_blank">jQuery</a> to be included.</p>
     </div><!-- /span -->
   </div><!-- /row -->
 </section>
@@ -354,5 +356,7 @@
     <script src="assets/js/bootstrap-carousel.js"></script>
     <script src="assets/js/bootstrap-typeahead.js"></script>
     <script src="assets/js/application.js"></script>
+
+
   </body>
 </html>

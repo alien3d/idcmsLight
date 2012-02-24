@@ -18,7 +18,11 @@ require_once ("/../model/staffWebAcessModel.php");
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
 class PortalServiceClass extends \Core\ConfigClass {
-
+    /**
+     * Connection DatabaseObject
+     * @var string
+     */
+    public $q;
     /**
      * @var string
      */
