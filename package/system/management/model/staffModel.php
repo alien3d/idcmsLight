@@ -1,6 +1,6 @@
 <?php
 namespace Core\System\Management\Staff\Model;
-require_once '/../../../../library/class/classModel.php';
+require_once '/../../../../library/class/classValidation.php';
 /**
  * this is staff model file.
  *
@@ -12,7 +12,7 @@ require_once '/../../../../library/class/classModel.php';
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class StaffModel extends \Core\Model\coreModel{
+class StaffModel extends \Core\Validation\ValidationClass {
 	/**
 	 * Staff Identification
 	 * @var int
@@ -57,7 +57,7 @@ class StaffModel extends \Core\Model\coreModel{
 	 * @see ValidationClass::execute()
 	 */
 	function execute() {
-		/******
+		
                 $primaryKeyAll = '';
 		/*
 		 *  Basic Information Table
@@ -66,7 +66,7 @@ class StaffModel extends \Core\Model\coreModel{
 		$this->setPrimaryKeyName ( 'staffId' );
 		/*
 		 *  All the $_POST enviroment.
-		 *
+		 */
 		if (isset ( $_POST ['staffId'] )) {
 			$this->setStaffId ( $this->strict ( $_POST ['staffId'], 'numeric' ), '', 'string' );
 		}
@@ -81,12 +81,24 @@ class StaffModel extends \Core\Model\coreModel{
 		} else {
 			$this->setLanguageId ( 21 );
 		}
-		if (isset ( $_POST ['staffPassword'] )) {
-			$this->setStaffPassword ( $this->strict ( $_POST ['staffPassword'], 'password' ) );
-		}
-		if (isset ( $_POST ['staffName'] )) {
-			$this->setStaffName ( $this->strict ( $_POST ['staffName'], 'string' ) );
-		}
+		if (isset ( $_POST ['staffPassword'] ) || isset($_POST['password'])) {
+                        if(isset($_POST['staffPassword'])) {
+                            $this->setStaffPassword ( $this->strict ( $_POST ['staffPassword'], 'password' ) );
+                        } else if (isset($_POST['password'])) {
+                            $this->setStaffPassword ( $this->strict ( $_POST ['password'], 'password' ) );
+
+                        }
+                        
+                }
+		if (isset ( $_POST ['staffName'] ) ||  isset ($_POST['username'])) {
+                        if(isset($_POST['staffName'])) {
+                            $this->setStaffName ( $this->strict ( $_POST ['staffName'], 'string' ) );
+                        } else if (isset($_POST['username'])) {
+                            $this->setStaffName ( $this->strict ( $_POST ['username'], 'string' ) );
+
+                        }
+                        
+                }
 		if (isset ( $_POST ['staffNo'] )) {
 			$this->setStaffNo ( $this->strict ( $_POST ['staffNo'], 'numeric' ) );
 		}
@@ -95,7 +107,7 @@ class StaffModel extends \Core\Model\coreModel{
 		}
 		/**
 		 * All the $_GET enviroment.
-		 *
+		 */
 		if (isset ( $_GET ['staffId'] )) {
 			$this->setTotal ( count ( $_GET ['staffId'] ) );
 		}
@@ -218,7 +230,7 @@ class StaffModel extends \Core\Model\coreModel{
                 
 		/**
 		 * TimeStamp Value.
-		 *
+		 **/
 		if ($this->getVendor () == self::MYSQL) {
 			$this->setExecuteTime ( "'" . date ( "Y-m-d H:i:s" ) . "'" );
 		} else if ($this->getVendor () == self::MSSQL) {
@@ -226,8 +238,8 @@ class StaffModel extends \Core\Model\coreModel{
 		} else if ($this->getVendor () == self::ORACLE) {
 			$this->setExecuteTime ( "to_date('" . date ( "Y-m-d H:i:s" ) . "','YYYY-MM-DD HH24:MI:SS')" );
 		}
-                 * 
-                 */
+                  
+                 
 	}
 	/* (non-PHPdoc)
 	 * @see ValidationClass::create()

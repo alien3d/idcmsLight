@@ -22,10 +22,36 @@ class PortalViewClass extends \Core\ConfigClass {
      *  var fullPathname
      */
     public $fullPathname;
+    
+    /*
+     *  Defaulte template is bootstrap twitter or predefine in the database
+     */    
+    public $defaultCss;
+    /*
+     *  Randomize css .
+     */ 
+    public $defaultCssRandom;
+    public $cssRandom;
     public $block;
     public $q;
 
     function __construct() {
+        
+        if($this->defaultCssRandom==1) {
+           $this->cssRandom[0] ='bootstrap';
+           $this->cssRandom[1] ='cyborg';
+           $this->cssRandom[2] ='journal';
+           $this->cssRandom[3] ='simplex';
+           $this->cssRandom[4] ='slate';
+           $this->cssRandom[5] ='spacelab';
+           $this->cssRandom[6] ='spruce';
+           $this->cssRandom[7] ='superhero';
+           $this->cssRandom[7] ='ubuntu';
+           shuffle($this->cssRandom);
+           $this->defaultCss = $this->cssRandom[0];  
+        } else {
+            $this->defaultCss   = 'journal';
+        }
         $this->templatePath = $_SERVER['DOCUMENT_ROOT']."/x/package/portal/main/view/template/";
 
         //  $this->q = new \Core\Database\Mysql\Vendor();
@@ -109,6 +135,7 @@ class PortalViewClass extends \Core\ConfigClass {
             	'nextRecord' => $nextRecord, 
             	'lastRecord' => $lastRecord, 
             	'data' => $data));
+                exit();
                 
     }
 

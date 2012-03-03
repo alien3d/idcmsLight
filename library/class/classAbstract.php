@@ -227,7 +227,7 @@ abstract class ConfigClass
 	function __construct ()
 	{
 		//optional
-
+                
 		if (isset($_SESSION['vendor'])) {
 			$this->setVendor($_SESSION['vendor']);
 		} else {
@@ -239,9 +239,10 @@ abstract class ConfigClass
 		if (isset($_SESSION['staffId'])) {
 			$this->setStaffId($_SESSION['staffId']);
 		}
+                
 		if ($this->getVendor() == self::MYSQL) {
 			require_once ('classMysql.php');
-                       
+                        
 			$this->setConnection('localhost');
 			$this->setUsername('root');
 			$this->setPassword('123456');

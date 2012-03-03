@@ -305,6 +305,8 @@ class PortalServiceClass extends \Core\ConfigClass {
             $returnArray['success'] = true;
             $returnArray['message'] = $this->systemString->getLoginSuccess();
             $returnArray['start'] = $start;
+            $returnArray['staffName'] =$_SESSION ['staffName'];
+            $returnArray['staffImage']='';
             return $returnArray;
         } else {
             $returnArray['success'] = false;

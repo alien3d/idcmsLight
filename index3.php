@@ -51,33 +51,33 @@
                         <ul class="nav">
                             <li class="active"><a href="#">Home</a></li>
                             <li class="dropdown">
-                            
-                            <a href="#about" class="dropdown-toggle"  data-toggle="dropdown" href="#"><b class="caret"></b>Core</a>
-                             <ul class="dropdown-menu">
-            					<li><a href="">System</a></li>
-            					  <li><hr></li>
-                            	<li><a href="">Sample</a></li>
-          </ul>
 
-                            
+                                <a href="#about" class="dropdown-toggle"  data-toggle="dropdown" href="#"><b class="caret"></b>Core</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="">System</a></li>
+                                    <li><hr></li>
+                                    <li><a href="">Sample</a></li>
+                                </ul>
+
+
                             </li>  
-                                                         <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Financial <b class="caret"></b></a>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">Financial <b class="caret"></b></a>
 
-          <ul class="dropdown-menu">
-            	<li><a href="">General Ledger</a></li>
-                            	<li><a href="">CashBook</a></li>
-                            	<li><a href="">Account  Payable</a></li>
-                            	<li><a href="">Account Receivable</a></li>
-                            	<li><a href="">Project Accouting</a></li>
-                            	  <li><hr></li>
-                            	<li><a href="">Human Resource</a></li>
-                            	<li><a href="">Document Management</a></li>
+                                <ul class="dropdown-menu">
+                                    <li><a href="">General Ledger</a></li>
+                                    <li><a href="">CashBook</a></li>
+                                    <li><a href="">Account  Payable</a></li>
+                                    <li><a href="">Account Receivable</a></li>
+                                    <li><a href="">Project Accouting</a></li>
+                                    <li><hr></li>
+                                    <li><a href="">Human Resource</a></li>
+                                    <li><a href="">Document Management</a></li>
 
-          </ul>
+                                </ul>
 
-        </li>
-                                <li><a href="#contact">Portal</a></li>
+                            </li>
+                            <li><a href="#contact">Portal</a></li>
                         </ul>
                         <p class="navbar-text pull-right">Logged in as <a href="#">username</a></p>
                     </div><!--/.nav-collapse -->
@@ -85,95 +85,95 @@
             </div>
 
         </div>
-      
+
         <div class="container-fluid">
-         
-    <div class="row-fluid">            
+
+            <div class="row-fluid">            
                 <div class="span2" >
-                <br> 	
-                <a href="" class="thumbnail"><img src="images/Blueticons_Win/PNGs/Cool.png" alt="It's me" width="100" height="100"></a>
-                <hr>
+                    <br> 	
+                    <a href="" class="thumbnail"><img src="images/Blueticons_Win/PNGs/Cool.png" alt="It's me" width="100" height="100"></a>
+                    <hr>
                     <div class="sidebar-nav">
-                       
+
                         <ul class="nav nav-list">
-                        	<li class="nav-header" onclick="showMeSideBar(1,4)" onmouseover="showMeSideBar(1,4)"><img id="folder1" src="images/icons/folder.png" alt="application"> System</li>
-                        	<li  id="common1" class="hide"><ul class="nav nav-list">
-                            <li class="hide"> <a href="#" onclick="routing(1,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Application</a>
-                            <div id="choosenLeaf1"></div>
-                            <div id="choosenLeafWaitingIcon1"></div></li>
-                           	<li class="hide"><a href="#" onclick="routing(2,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Module</a>
-                           	<div id="choosenLeaf2"></div>
-                            <div id="choosenLeafWaitingIcon2"></div></li>
-                            <li><a href="#" onclick="routing(3,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Folder</a>
-                            <div id="choosenLeaf3"></div>
-                            <div id="choosenLeafWaitingIcon3"></div></li>
-                            <li><a href="#" onclick="routing(4,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Leaf</a>
-                            <div id="choosenLeaf4"></div>
-                            <div id="choosenLeafWaitingIcon4"></div></li>
-                            <li><a href="#" onclick="routing(5,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Language</a>
-                            <div id="choosenLeaf5"></div>
-                            <div id="choosenLeafWaitingIcon5"></div></li>
-                        	</ul>
-                        	</li>
-                        	<li class="nav-header" onclick="showMeSideBar(2,4)" onmouseover="showMeSideBar(2,4)"><img id="folder2" src="images/icons/folder.png" alt="application"> Translation
-</li>
-                        	<li id="common2" class="hide">
-                        		<ul class="nav nav-list">
-                        			<li><a  href="#" onclick="routing(6,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Default Label</a>
-                        			<div id="choosenLeaf6"></div>
-                            		<div id="choosenLeafWaitingIcon6"></div></li>
-                            		<li><a  href="#" onclick="routing(7,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Table Mapping</a>
-                            		<div id="choosenLeaf7"></div>
-                            		<div id="choosenLeafWaitingIcon7"></div></li>
-                            		<li><a  href="#" onclick="routing(8,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> System String</a>
-                            		<div id="choosenLeaf8"></div>
-                            		<div id="choosenLeafWaitingIcon8"></div></li>
-                        		
-                        		</ul>
-                        	</li>
-                        	<li class="nav-header" onclick="showMeSideBar(3,4)" onmouseover="showMeSideBar(3,4)"><img id="folder3" src="images/icons/folder.png" alt="application"> Personnel</li>
-						    	<li id="common3" class="hide">
-                        		<ul class="nav nav-list">
-
-						    <li><a href="#" onclick="routing(9,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Peference</a>
-						    <div id="choosenLeaf9"></div>
-                            <div id="choosenLeafWaitingIcon9"></div>
-						    </li>
-                            <li><a href="#" onclick="routing(10,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Change Password</a>
-                            	    <div id="choosenLeaf10"></div>
-                            <div id="choosenLeafWaitingIcon10"></div>
-
+                            <li class="nav-header" onclick="showMeSideBar(1,4)" onmouseover="showMeSideBar(1,4)"><img id="folder1" src="images/icons/folder.png" alt="application"> System</li>
+                            <li  id="common1" class="hide"><ul class="nav nav-list">
+                                    <li class="hide"> <a href="#" onclick="routing(1,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Application</a>
+                                        <div id="choosenLeaf1"></div>
+                                        <div id="choosenLeafWaitingIcon1"></div></li>
+                                    <li class="hide"><a href="#" onclick="routing(2,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Module</a>
+                                        <div id="choosenLeaf2"></div>
+                                        <div id="choosenLeafWaitingIcon2"></div></li>
+                                    <li><a href="#" onclick="routing(3,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Folder</a>
+                                        <div id="choosenLeaf3"></div>
+                                        <div id="choosenLeafWaitingIcon3"></div></li>
+                                    <li><a href="#" onclick="routing(4,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Leaf</a>
+                                        <div id="choosenLeaf4"></div>
+                                        <div id="choosenLeafWaitingIcon4"></div></li>
+                                    <li><a href="#" onclick="routing(5,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Language</a>
+                                        <div id="choosenLeaf5"></div>
+                                        <div id="choosenLeafWaitingIcon5"></div></li>
+                                </ul>
                             </li>
-                       		</ul>
-                       		</li>
-                       		<li class="nav-header" onclick="showMeSideBar(4,4)" onmouseover="showMeSideBar(4,4)"><img id="folder4" src="images/icons/folder-open.png" alt="application"> Common</li>
-								
-								
-								<li  id="common4">
-                        		<ul class="nav nav-list">
+                            <li class="nav-header" onclick="showMeSideBar(2,4)" onmouseover="showMeSideBar(2,4)"><img id="folder2" src="images/icons/folder.png" alt="application"> Translation
+                            </li>
+                            <li id="common2" class="hide">
+                                <ul class="nav nav-list">
+                                    <li><a  href="#" onclick="routing(6,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Default Label</a>
+                                        <div id="choosenLeaf6"></div>
+                                        <div id="choosenLeafWaitingIcon6"></div></li>
+                                    <li><a  href="#" onclick="routing(7,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Table Mapping</a>
+                                        <div id="choosenLeaf7"></div>
+                                        <div id="choosenLeafWaitingIcon7"></div></li>
+                                    <li><a  href="#" onclick="routing(8,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> System String</a>
+                                        <div id="choosenLeaf8"></div>
+                                        <div id="choosenLeafWaitingIcon8"></div></li>
 
-							<li><a href="#" onclick="routing(11,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> District
-							</a>
-							<div id="choosenLeaf11"></div>
-                            <div id="choosenLeafWaitingIcon11"></div>
-							</li>
-                            <li><a href="#" onclick="routing(12,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> State
-                            </a><div id="choosenLeaf12"></div><div id="choosenLeafWaitingIcon12"></div></li>
-                        </ul></li>
-                                               </ul>
+                                </ul>
+                            </li>
+                            <li class="nav-header" onclick="showMeSideBar(3,4)" onmouseover="showMeSideBar(3,4)"><img id="folder3" src="images/icons/folder.png" alt="application"> Personnel</li>
+                            <li id="common3" class="hide">
+                                <ul class="nav nav-list">
+
+                                    <li><a href="#" onclick="routing(9,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Peference</a>
+                                        <div id="choosenLeaf9"></div>
+                                        <div id="choosenLeafWaitingIcon9"></div>
+                                    </li>
+                                    <li><a href="#" onclick="routing(10,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> Change Password</a>
+                                        <div id="choosenLeaf10"></div>
+                                        <div id="choosenLeafWaitingIcon10"></div>
+
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-header" onclick="showMeSideBar(4,4)" onmouseover="showMeSideBar(4,4)"><img id="folder4" src="images/icons/folder-open.png" alt="application"> Common</li>
+
+
+                            <li  id="common4">
+                                <ul class="nav nav-list">
+
+                                    <li><a href="#" onclick="routing(11,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> District
+                                        </a>
+                                        <div id="choosenLeaf11"></div>
+                                        <div id="choosenLeafWaitingIcon11"></div>
+                                    </li>
+                                    <li><a href="#" onclick="routing(12,12,'district.php')"><img src="images/icons/application-form.png" alt="application"> State
+                                        </a><div id="choosenLeaf12"></div><div id="choosenLeafWaitingIcon12"></div></li>
+                                </ul></li>
+                        </ul>
 
                     </div><!--/.well -->
                     <hr>
                     <h5>Quick Link</h5>
                     <ul>
-                    	<li><a class="nav-item">Application 1</a></li>
-                    	<li><a class="nav-item">Application 2</a></li>
-                    	<li><a class="nav-item">Application 3</a></li>
+                        <li><a class="nav-item">Application 1</a></li>
+                        <li><a class="nav-item">Application 2</a></li>
+                        <li><a class="nav-item">Application 3</a></li>
                     </ul>
                 </div><!--/span-->
-                
+
                 <div class="span9" style="border-left: 1px solid #cccccc ; padding-left:10px;
-                                           ">
+                     ">
                     <br>                       
                     <ul class="breadcrumb">
                         <li>
@@ -244,7 +244,7 @@
 
                     <div id="formEntry">
                         <form class="well form-inline">
-                                                    <div class="control-group" id="titleReligionDiv">
+                            <div class="control-group" id="titleReligionDiv">
                                 <label class="control-label">Title</label>
                                 <div class="controls  input-prepend">
                                     <input type="text" name="religionTitle" id="religionTitle" placeholder="Title Of Religion" class="span3">
@@ -272,7 +272,7 @@
                                     <span name="currencyHelpMe" id="currencyHelpMe" class="help-inline"></span>
                                 </div>
                             </div>
-                          
+
                             <div class="control-group" id="passwordDiv">
                                 <label class="control-label">Password</label>
                                 <div class="controls input-prepend">
@@ -802,11 +802,11 @@
                 type: 'POST',
                 url: page,
                 data: {
-                   method: 'read',
-                   religionId: $("#religionId").val(),
-                   leafId: leafId,
-                   isAdmin: isAdmin,
-                   render : false
+                    method: 'read',
+                    religionId: $("#religionId").val(),
+                    leafId: leafId,
+                    isAdmin: isAdmin,
+                    render : false
                 },
                 beforeSend:function(){
                     // this is where we append a loading image
@@ -840,9 +840,9 @@
                 url: page,
                 data: {
                     
-                     method: 'dataNavigationRequest',
-                     leafId: leafId,
-                     dataNavigation: 'lastRecord'
+                    method: 'dataNavigationRequest',
+                    leafId: leafId,
+                    dataNavigation: 'lastRecord'
                 },
                 beforeSend:function(){
                     // this is where we append a loading image
@@ -952,21 +952,21 @@
         }
     }
     function showMeSideBar(counter,total) {
-    	    for(i=1;i<total+1;i++) {
-    			if("#common"+counter != "#common"+i) {
+        for(i=1;i<total+1;i++) {
+            if("#common"+counter != "#common"+i) {
     				
-        				$("#common"+i).each(function() {
-        				$("#folder"+i).attr('src','images/icons/folder.png');
-    					$(this).addClass("hide");
-    				});
-    			} else { 
+                $("#common"+i).each(function() {
+                    $("#folder"+i).attr('src','images/icons/folder.png');
+                    $(this).addClass("hide");
+                });
+            } else { 
     		
-    				$("#common"+i).each(function() {
-    					$("#folder"+i).attr('src','images/icons/folder-open.png');
-    					$(this).removeClass();
-    				});
-    			} 
-    		}
+                $("#common"+i).each(function() {
+                    $("#folder"+i).attr('src','images/icons/folder-open.png');
+                    $(this).removeClass();
+                });
+            } 
+        }
     	
     	
     }
@@ -1120,15 +1120,15 @@
          
     }
     function routing(id,total,page) {
-    	// appear a  small tick icon.Preventing the usage of breadcrumb eating space
-    	for(i=1;i<total+1;i++) {
-    		$("#choosenLeaf"+i).html("");
-    		if(id == i ) {
-    			$("#choosenLeaf"+i).html("<img src='images/icons/tick-red.png' alt='Choosen Leaf' width=16 height=16>");
-    		} 
-    	}
-    	// appear a load ajax icon like facebook style.
-    	//$("#choosenLeafWaitingIcon"+i).html("<img src='images/loading.gif' alt='loading page'"); 
+        // appear a  small tick icon.Preventing the usage of breadcrumb eating space
+        for(i=1;i<total+1;i++) {
+            $("#choosenLeaf"+i).html("");
+            if(id == i ) {
+                $("#choosenLeaf"+i).html("<img src='images/icons/tick-red.png' alt='Choosen Leaf' width=16 height=16>");
+            } 
+        }
+        // appear a load ajax icon like facebook style.
+        //$("#choosenLeafWaitingIcon"+i).html("<img src='images/loading.gif' alt='loading page'"); 
     }
 
 </script>
