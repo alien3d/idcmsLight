@@ -4,7 +4,6 @@ namespace Core\Portal\Controller;
 
 require_once './library/class/classAbstract.php';
 require_once './package/portal/main/view/portalView.php';
-require_once './package/portal/main/service/portalService.php';
 require_once './package/system/management/model/staffModel.php';
 
 class PortalControllerClass extends \Core\ConfigClass {
@@ -36,7 +35,7 @@ class PortalControllerClass extends \Core\ConfigClass {
     public function execute() {
         parent::__construct();
         $this->q = new \Core\Database\Mysql\Vendor();
-
+		
 
         $this->q->vendor = $this->getVendor();
         $this->q->setRequestDatabase($this->q->getCoreDatabase());
@@ -57,15 +56,16 @@ class PortalControllerClass extends \Core\ConfigClass {
         $this->systemString->execute();
 
         $this->portalView = new \Core\Portal\View\PortalViewClass();
-
-
-        if ($this->model->getStaffName() && $this->model->getStaffPassword()) {
-
+        //if the user refresh the page.test session 
+        // @todo generate a token md5 + date must equal token md5 + date   
+        if (isset($_SESSION['staffId'])) {
+            $this->portalView->htmlView("portal.php", "access");
+            exit();
+        } else if ($this->model->getStaffName() && $this->model->getStaffPassword()) {
             // process the  login
             $this->authentication($this->model->getStaffName(), $this->model->getStaffPassword());
             exit();
         } else {
-
             // index page view.
             $this->portalView->htmlView("portal.php", "portal");
             exit();
@@ -205,7 +205,7 @@ class PortalControllerClass extends \Core\ConfigClass {
             echo json_encode(array("success" => false, "message" => "cannot identify vendor db[" . $this->getVendor() . "]"));
             exit();
         }
-
+		
         $result = $this->q->fast($sql);
         if ($this->q->execute == 'fail') {
             echo json_encode(array("success" => false, "message" => $this->q->responce));
@@ -298,255 +298,11 @@ class PortalControllerClass extends \Core\ConfigClass {
             exit();
         }
     }
-
-    /*
-     *  Left Menu Navigation.By default only appear user avatar and the most top 5 visit. 
-     *  
-     */
-
-    function leftCell($id) {
-        $str = $this->leftCellImage();
-        if ($id) {
-            $str.=$this->leftCellMenu($id);
-        }
-        $str.=$this->leftCellTopFive();
-        return $str;
-    }
-
-    function leftCellImage() {
-        $sql = "SELECT staffAvatar FROM `staff`";
-        $sql = $this->q->fast($sql);
-        if ($this->q->execute == 'fail') {
-            echo json_encode(array("success" => false, "message" => $this->q->responce));
-            exit();
-        }
-        $row = $this->q->fetchRow($result);
-        $row['staffAvatar'] = 'Cool.png';
-        $str = "<br> 	
-                <a href=\"\" class=\"thumbnail\"><img src=\"images/Blueticons_Win/PNGs/" . $row['staffAvatar'] . "\" alt=\"It's me\" width=\"100\" height=\"100\"></a>
-                <hr>";
-        return $str;
-    }
-
-    function leftCellMenu($applicationId, $moduleId) {
-          $str.="<div class=\"sidebar-nav\">
-                        <ul class=\"nav nav-list\">";
-        if ($this->getVendor() == self::MYSQL) {
-            $sqlFolder = "
-            SELECT      `folderAccess`.`folderAccessId`,
-                        `folderAccess`.`folderAccessValue`,									
-                        `folder`.`folderId`,
-                        `folder`.`folderPath`,
-                        `folderTranslate`.`folderNative`,
-                        `team`.`teamId`,
-                        `icon`.`iconName`	
-            FROM        `".$this->q->getCoreDatabase()."`.`folderAccess`
-            JOIN        `".$this->q->getCoreDatabase()."`.`folder`
-            USING       (`folderId`)
-            JOIN        `".$this->q->getCoreDatabase()."`.`folderTranslate`
-            USING       (`folderId`)
-            JOIN        `".$this->q->getCoreDatabase()."`.`icon`
-            USING       (`iconId`)
-            JOIN        `".$this->q->getManagementDatabase()."`.`team`
-            USING       (`teamId`)
-            WHERE       `folder`.`moduleId`                 =	'" . $moduleId . "'
-            AND         `folderAccess`.`teamId`             =	'" . $_SESSION ['teamId'] . "'
-            AND         `folderAccess`.`folderAccessValue`  =   1
-            AND    	`folderTranslate`.`languageId`      =	'" . $_SESSION ['languageId'] . "'
-            AND         `folder`.`applicationId`            =	'" . $applicationId . "'					      
-            AND		`team`.`isActive`                   =	1
-            AND		`folderTranslate`.`isActive`        =   1
-            AND         `folder`.`isActive`                 =	1 		
-            ORDER BY    `folder`.`folderSequence`  ";
-        } elseif ($this->getVendor() == self::MSSQL) {
-            $sqlFolder = "
-				      SELECT    [folderAccessId],
-				      			[teamId],
-				      			[folderAccessValue],
-				      			[folderId],
-				      			[folderPath],
-				      			[folderNative],
-				      			[iconName]
-				      FROM     	[folderAccess]
-				      JOIN      [folder]
-				      ON      	[folderAccess].[folderId]=[folder].[folderId]
-				      JOIN      [folderTranslate]
-				      ON      	[folderTranslate].[folderId]=[folder].[folderId]
-				      JOIN      [icon]
-				      ON      	[icon].[iconId]=[folder].[iconId]
-				      JOIN		[team]
-				      ON		[team].[teamId] = [folderAccess].[teamId]
-				      WHERE     [moduleId]							=	'" . $moduleId . "'
-				      AND       [folderAccess].[teamId]			=	'" . $_SESSION ['teamId'] . "'
-				      AND   	[folderAccess].[folderAccessValue]	=   1
-				      AND    	[folderTranslate].[languageId]		=	'" . $_SESSION ['languageId'] . "'
-				      AND		[team].[isActive]					=	1
-				      AND		[folderTranslate].[isActive]		=   1
-					  AND		[folder].[isActive`					=	1 	
-				      ORDER BY	[folder].[folderSequence]  	";
-        } elseif ($this->getVendor() == self::ORACLE) {
-            $sqlFolder = "
-				      SELECT    FOLDERACCESS.FOLDERACCESSID 	AS	\"folderAccessId\",
-				      			FOLDERACCESS.TEAMID 			AS 	\"teamId\",
-				      			FOLDERACCESS.FOLDERACCESSVALUE 	AS 	\"folderAccessValue\",
-				      			FOLDER.FOLDERID 				AS 	\"folderId\",
-				      			FOLDER.FOLDERPATH				AS	\"folderPath\",
-				      			FOLDERTRANSLATE.FOLDERNATIVE 	AS 	\"folderNative\",
-				      			ICON.ICONNAME 					AS 	\"iconName\"
-				      FROM     	FOLDERACCESS
-				      JOIN    	FOLDER
-				      ON		FOLDERACCESS.FOLDERID			= 	FOLDER.FOLDERID
-				      JOIN    	FOLDERTRANSLATE
-				      ON		FOLDERTRANSLATE.FOLDERID		= 	FOLDER.FOLDERID
-				      LEFT JOIN	ICON
-				      ON		ICON.ICONID						= 	FOLDER.ICONID
-				      JOIN      TEAM
-				      ON		TEAM.TEAMID						= 	FOLDERACCESS.TEAMID
-				      WHERE     FOLDER.MODULEID					=	'" . $moduleId . "'
-				      AND       FOLDERACCESS.TEAMID				=	'" . $_SESSION ['teamId'] . "'
-				      AND     	FOLDERACCESS.FOLDERACCESSVALUE	=  	1
-				      AND      	FOLDERTRANSLATE.LANGUAGEID		=	'" . $_SESSION ['languageId'] . "'
-				      AND		TEAM.ISACTIVE 					=	1
-				      AND		FOLDERTRANSLATE.ISACTIVE`		=   1
-					  AND		FOLDER.ISACTIVE					=	1 	
-				      ORDER BY  FOLDER.FOLDERSEQUENCE  ";
-        }
-        $resultFolder = $this->q->fast($sqlFolder);
-        $totalFolder = $this->q->numberRows($resultFolder, $sqlFolder);
-        $counterFolder = 0;
-        if ($totalFolder > 0) {
-            while (($rowFolder = $this->q->fetchArray($resultFolder)) == TRUE) {
-                $folderNative = $rowFolder ['folderNative'];
-                $iconName = $rowFolder ['iconName'];
-                $folderId = $rowFolder ['folderId'];
-                $folderPath = $rowFolder ['folderPath'];
-                $str.="<li class=\"nav-header\" onclick=\"showMeSideBar(".$counterFolder.",".$totalFolder.")\" onmouseover=\"showMeSideBar(".$counterFolder.",".$totalFolder.")\"><img id=\"folder1\" src=\"images/icons/".$iconName.".png\" alt=\"application\">".$folderNative."</li>";
-                if ($this->getVendor() == self::MYSQL) {
-                    $sqlLeaf = "
-                    SELECT   	`leafAccess`.`leafAccessId`,
-                                `leafAccess`.`staffId`,
-                                `leafAccess`.`leafAccessReadValue`,
-                                `leaf`.`leafId`,
-                                `leaf`.`leafFilename`,
-                                `leafTranslate`.`leafNative`,
-                                `icon`.`iconName`
-                    FROM    	`".$this->q->getCoreDatabase()."`.`leafAccess`
-                    JOIN    	`".$this->q->getCoreDatabase()."`.`leaf`
-                    USING       (`leafId`)
-                    JOIN    	`".$this->q->getCoreDatabase()."`.`leafTranslate`
-                    USING       (`leafId`)
-                    JOIN    	`".$this->q->getCoreDatabase()."`.`icon`
-                    USING       (`iconId`)
-                    WHERE    	`leaf`.`folderId`					=	'" . $folderId . "'
-                    AND      	`leaf`.`moduleId`					=	'" . $moduleId . "'
-                    AND      	`leafAccess`.`staffId`		=	'" . $_SESSION ['staffId'] . "'
-                    AND      	`leafTranslate`.`languageId`	=	'" . $_SESSION ['languageId'] . "'
-                    AND		`leaf`.`applicationId`		=	'" . $_SESSION['applicationId'] . "'
-                    AND		`leaf`.`isActive`			=	1
-                    AND         `leafTranslate`.`isActive`  =   1			          
-                    ORDER BY    `leaf`.`leafSequence`  ";
-
-                    //print"<br>".$sqlLeaf."<br>";
-                } elseif ($this->getVendor() == self::MSSQL) {
-                    $sqlLeaf = "
-					          SELECT   	[leafAccessId],
-						      			[staffId],
-						      			[leafAccessReadValue],
-						      			[leafId],
-						      			[leafFilename],
-						      			[leafNative],
-						      			[iconName]
-					          FROM    	[leafAccess]
-					          JOIN      [leaf]
-					          ON      	[leafAccess].[leafId]=[leaf].[leafId]
-					          JOIN      [leafTranslate]
-					          ON      	[leafTranslate].[leafId]=[leaf].[leafId]
-					          JOIN      [icon]
-					          ON      	[icon].[iconId]=[leaf].[iconId]
-					          WHERE     [folderId]						=	'" . $folderId . "'
-					          AND      	[moduleId]						=	'" . $moduleId . "'
-					          AND      	[leafAccess].[staffId]			=	'" . $_SESSION ['staffId'] . "'
-					          AND      	[leafTranslate].[languageId]	=	'" . $_SESSION ['languageId'] . "'
-					          ORDER BY  [leaf].[leafSequence]";
-                } elseif ($this->getVendor() == self::ORACLE) {
-                    $sqlLeaf = "
-					          SELECT  	LEAFACCESS.LEAFACCESSID 		AS 	\"leafAccessId\",
-						      			LEAFACCESS.STAFFID 				AS 	\"staffId\",
-						      			LEAFACCESS.leafAccessReadValue 	AS	\"leafAccessReadValue\",
-						      			LEAF.LEAFID 					AS 	\"leafId\",
-						      			LEAF.LEAFFILENAME				AS	\"leafFilename\",
-						      			LEAFTRANSLATE.LEAFNATIVE 		AS 	\"leafNative\",
-						      			ICON.ICONNAME 					AS	\"iconName\"
-					          FROM   	LEAFACCESS
-					          JOIN    	LEAF
-					          ON		LEAF.LEAFID						= 	LEAFACCESS.LEAFID
-					          JOIN      LEAFTRANSLATE
-					          ON		LEAFTRANSLATE.LEAFID			= 	LEAF.LEAFID
-					          LEFT JOIN ICON
-					          ON		ICON.ICONID						= 	LEAF.ICONID
-					          JOIN		STAFF	
-					          ON		STAFF.STAFFID					=  	LEAFACCESS.STAFFID
-					          WHERE     LEAF.FOLDERID					=	'" . $folderId . "'
-					          AND		LEAF.MODULEID					=	'" . $moduleId . "'
-					          AND      	LEAFACCESS.STAFFID				=	'" . $_SESSION ['staffId'] . "'
-					          AND      	LEAFTRANSLATE.LANGUAGEID		=	'" . $_SESSION ['languageId'] . "'
-					          AND		LEAFACCESS.leafAccessReadValue 	=	1
-					          ORDER BY  LEAF.LEAFSEQUENCE";
-                }
-                $resultLeaf = $this->q->fast($sqlLeaf);
-                $totalLeaf = $this->q->numberRows($resultLeaf, $sqlLeaf);
-                $counterLeaf = 0;
-                if ($totalLeaf > 0) {
-                    $str.="<li  id=\"common1\" class=\"hide\"><ul class=\"nav nav-list\">";
-                    while (($rowLeaf = $this->q->fetchArray($resultLeaf)) == TRUE) {
-                        $leafNative = $rowLeaf ['leafNative'];
-                        $iconName = $rowLeaf ['iconName'];
-                        $leafFilename = $rowLeaf ['leafFilename'];
-                        $counterLeaf ++;
-                        $str.="<li class=\"hide\"> 
-                                    <a href=\"#\" onclick=\"routing(".$counterLeaf.",".$totalLeaf.",'".$leafFilename."')\">
-                                        <img src=\"images/icons/application-form.png\" alt=\"application\">".$leafNative."</a>
-                                        <div id=\"choosenLeaf1\"></div>
-                                        <div id=\"choosenLeafWaitingIcon1\"></div></li>";
-                    }
-                    $str."</li></ul></li>";
-                }
-            }
-        
-            $str."</li>";
-        }
-
-
-        
-        $str.="</ul></div>";
-
-        return $str;
-    }
-
-    function leftCellTopFive() {
-        
-    }
-
-    function leftCellBookmark() {
-        $sql = "SELECT staffAvatar FROM `leafUserBookmark` ";
-        $this->q->read($sql);
-        if ($this->q->execute == 'fail') {
-            echo json_encode(array("success" => false, "message" => $this->q->responce));
-            exit();
-        }
-        $row = $this->q->fetchRow();
-    }
-
-    /*
-     * 
-     */
-
-    function centerCell($id) {
-        
-    }
+    
 
 }
 
 $x = new PortalControllerClass();
 $x->execute();
+
 ?>
