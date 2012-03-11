@@ -184,6 +184,11 @@ abstract class ConfigClass
 	 * @var string
 	 */
 	private $requestDatabase;
+        /**
+	 * Message Error Handling
+	 * @var string
+	 */
+        public $message;
 	/**
 	 * Mysql Database (open Core)
 	 * @var const string
@@ -602,7 +607,29 @@ abstract class ConfigClass
 		$systemSettingDateFormat		=  $row['systemSettingDateFormat']; 		
 		return  $systemSettingDateFormat;
 	}
+        /**
+         * Block of html error message
+         * @param $message .Message of the error
+         */
+        function exceptionMessage($message){
+            $this->message = $message;
+            echo "<div class=\'alert alert-error\'><a class=\"close\" data-dismiss=\'alert\'>×</a>".$message."</div>";
+            
+        }
+        /**
+         * Block of html error message
+         * @param $message .Message of the error
+         */
+        function exceptionMessageArray($message){
+            $this->message = $message;
+            if(is_array($message)) {
+            echo "<pre class=\"prettyprint linenums\" style=\"margin-bottom: 9px;\">".print_r($message)."</pre>";
+            } else {
+               echo "<pre class=\"prettyprint linenums lang-sql\" id=\"sql-lang\" style=\"margin-bottom: 9px;\">".($message)."</pre>";
 
+            }
+            
+        }    
 	/**
 	 * Set Application Path
 	 * @param string $value

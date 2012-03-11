@@ -1,7 +1,4 @@
 <?php
-
-namespace Core\Portal\View;
-
 session_start();
 require_once ("/../service/portalService.php");
 $menu = new \Core\Portal\Service\MenuNavigatonClass;

@@ -327,10 +327,11 @@ class Vendor {
 	private function module($operation) {
 		// for more secure option must SET at mysql access grant level
 		// if 1 access granted which mean 1 record if null no mean no access to the db level
-
+                
 		$result_row = NULL;
 		$this->operation = NULL;
-		$sql = "
+		
+                $sql = "
 		SELECT 	*
 		FROM 	`leafAccess`
 		WHERE  	`leafAccess`.`leafId`			=	'" . $this->leafId . "'
@@ -352,7 +353,8 @@ class Vendor {
 
 		if ($result_row == 0 || $this->log == 1) {
 			$logError = $this->responce;
-			$sql_log = "
+			
+                        $sql_log = "
 			INSERT INTO `".$this->getLogDatabase()."`.`log`
 					(
 						`leafId`,		
@@ -367,7 +369,7 @@ class Vendor {
 					(
 						'" . $this->leafId . "',								'" . $operation . "',
 						'" . trim ( $this->realEscapeString ( $this->sql ) ) . "',		'" . date ( "Y-m-d H:i:s" ) . "',
-						'" . $_SESSION ['staffId'] . "',						'" . $access . "',
+						'" . $this->staffId . "',						'" . $access . "',
 						'" . $logError . "'
 					)";
 			$test1 = mysqli_query ( $this->link, $sql_log );
@@ -686,7 +688,7 @@ class Vendor {
 	 * @return number`
 	 * @version 0.1 add result for query doesn't require log future
 	 */
-	public function numberRows($result = null, $sql = null) {
+	public function numberRows($result = null) {
 		if ($result) {
 			if (mysqli_num_rows ( $result )) {
 				$this->countRecord = mysqli_num_rows ( $result );
