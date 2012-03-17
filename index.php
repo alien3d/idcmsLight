@@ -34,7 +34,7 @@ $title = "Peringkat Testing";
 
         <!-- Le styles -->
 
-        <link  id="cssTwitter1" rel="stylesheet" href="./library/twitter2/docs/assets/css/spacelab.css">
+        <link  id="cssTwitter1" rel="stylesheet" href="./library/twitter2/docs/assets/css/ubuntu.css">
         <link  id="cssTwitter2" rel="stylesheet" href="./library/twitter2/docs/assets/css/bootstrap-responsive.css">            
         <link   rel="stylesheet" href="./library/pretty/prettify.css">            
 
