@@ -745,32 +745,4 @@
      *  @param number identification of the page
      *  @param string either full  or sidebar only
      */
-    function loadBelow(pageId,pageType){
-        //empty the center viewport
-        $("#centerViewport").html('');
-        // route  the page.      
-        $.ajax({
-            type: 'POST',
-            url: './package/portal/main/controller/portalController.php',
-            data: {
-                method :'route',
-                pageId : pageId,
-                pageType:pageType
-            },
-            beforeSend:function(){
-                // this is where we append a loading image
-                $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-            },
-            success:function(data){
-                // successful request; do something with the data
-                $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                $('#infoPanel').empty();
-                  $("#centerViewport").html(data);
-            },
-            error:function(){
-                // failed request; give feedback to user
-                $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-            }
-        });
-        
-    }
+    

@@ -82,7 +82,7 @@ $title = "Peringkat Testing";
                                     }
                                     if ($totalModule == 0) {
                                         ?> 
-                                        <li class="active"><a href="#" onClick=loadBelow('<?php echo $application[$i]['applicationId']; ?>','APP')>
+                                        <li class="active"><a href="javascript:void(0)" onClick=loadBelow('<?php echo $application[$i]['applicationId']; ?>','APP')>
                                             
             <?php if (isset($application[$i]['applicationNative'])) {
                 echo $application[$i]['applicationNative'];
@@ -93,7 +93,7 @@ $title = "Peringkat Testing";
 
                                             <ul class="dropdown-menu">
             <?php // start looping  ?>
-                                                <li><a href="#" onClick="loadBelow('semi','<?php echo $application[$i]['applicationId']; ?>',<?php echo $application[$i]['module'][$j]['moduleId']; ?>)"><?php echo $application[$i]['module'][$j]['moduleNative']; ?></a></li>
+                                                <li><a href="javascript:void(0)" onClick="loadBelow('semi','<?php echo $application[$i]['applicationId']; ?>',<?php echo $application[$i]['module'][$j]['moduleId']; ?>)"><?php echo $application[$i]['module'][$j]['moduleNative']; ?></a></li>
                                         <?php // end looping ?>    
                                             </ul>
         <?php } ?>
@@ -138,7 +138,7 @@ $title = "Peringkat Testing";
         $totalLeaf = count($folder['detail']);
         for ($j = 0; $j < $totalLeaf; $j++) {
             ?>
-                                                <li class="hide"> <a href="#" onclick="routing(<?php echo $folder[$i]['leaf'][$j]['leafId']; ?>,<?php echo $totalLeaf; ?>,'<?php echo $folder[$i]['leaf'][$j]['leafId']; ?>')"><img src="images/icons/application-form.png" alt="application"><?php echo $folder[$i]['leaf'][$j]['leafNative']; ?></a>
+                                                <li class="hide"> <a href="javascript:void(0)" onclick="routing(<?php echo $folder[$i]['leaf'][$j]['leafId']; ?>,<?php echo $totalLeaf; ?>,'<?php echo $folder[$i]['leaf'][$j]['leafId']; ?>')"><img src="images/icons/application-form.png" alt="application"><?php echo $folder[$i]['leaf'][$j]['leafNative']; ?></a>
         <?php }
     }
     ?>    
@@ -186,7 +186,7 @@ $title = "Peringkat Testing";
             </div>    
             <div id="infoPanel" class="span9 hide"></div>
             <!-- Main hero unit for a primary marketing message or call to action -->
-            <div id="centerViewport" class="hero-unit">
+            <div name="centerViewport" id="centerViewport" class="hero-unit">
                 <h1>
                     <img alt="Wait Ya." height="100" width="100" src="./images/Blueticons_Win/PNGs/Devil.png" width="120">
                 <?php
@@ -321,7 +321,32 @@ $title = "Peringkat Testing";
                 // ask router menu block
                 // ask router left menu block
             });
+            function loadBelow(pageId,pageType){
+        //empty the center viewport
+        $("#centerViewport").html('');
+        
+        $("#centerViewport").hide();
+        var url = './package/portal/main/econtroller/portalController.php';
+        $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
+
+        $("#centerViewport").load(url,{ method:'route',pageId:pageId,pageType:pageType }, function(response, status, xhr) {
+          //  alert("response"+response);
+         //   alert("status"+status);
+            $("#centerViewport").html("<div id=\"infoPanel\" class=\"span9\"></div>");
             
+            if (status == "error") {
+                
+                var msg = "Sorry but there was an error: ";
+                
+                $('#infoPanel').html('<div class=\'alert alert-error\'><a class="close" data-dismiss=\'alert\'>×</a>'+msg + xhr.status + " " + xhr.statusText+'</div>');
+
+            } 
+        });
+        $("#centerViewport").show();
+         
+        
+        
+    }
         </script>
         <div id="additionJs"></div>
     </body>
