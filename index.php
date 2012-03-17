@@ -34,7 +34,7 @@ $title = "Peringkat Testing";
 
         <!-- Le styles -->
 
-        <link  id="cssTwitter1" rel="stylesheet" href="./library/twitter2/docs/assets/css/journal.css">
+        <link  id="cssTwitter1" rel="stylesheet" href="./library/twitter2/docs/assets/css/spacelab.css">
         <link  id="cssTwitter2" rel="stylesheet" href="./library/twitter2/docs/assets/css/bootstrap-responsive.css">            
         <link   rel="stylesheet" href="./library/pretty/prettify.css">            
 
@@ -65,11 +65,11 @@ $title = "Peringkat Testing";
                         for ($i = 0; $i < $totalApplication; $i++) {
                             ?>
                             <span class="i-bar"></span>
-<?php } ?>
+                        <?php } ?>
                     </a>
-                    <a class="brand" href="#">Core</a>
+                    <a class="brand" href="index.php">Core</a>
                     <div class="nav-collapse">
-                        
+
                         <ul class="nav">
                             <?php
                             // cms menu router 
@@ -83,24 +83,27 @@ $title = "Peringkat Testing";
                                     if ($totalModule == 0) {
                                         ?> 
                                         <li class="active"><a href="javascript:void(0)" onClick=loadBelow('<?php echo $application[$i]['applicationId']; ?>','APP')>
-                                            
-            <?php if (isset($application[$i]['applicationNative'])) {
-                echo $application[$i]['applicationNative'];
-            } ?></a></li>
-                                            <?php } else { ?>
+
+                                                <?php
+                                                if (isset($application[$i]['applicationNative'])) {
+                                                    echo $application[$i]['applicationNative'];
+                                                }
+                                                ?></a></li>
+        <?php } else { ?>
                                         <li class="dropdown">
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $application[$i]['applicationNative']; ?> <b class="caret"></b></a>
 
                                             <ul class="dropdown-menu">
-            <?php // start looping  ?>
+                                                <?php // start looping  ?>
                                                 <li><a href="javascript:void(0)" onClick="loadBelow('semi','<?php echo $application[$i]['applicationId']; ?>',<?php echo $application[$i]['module'][$j]['moduleId']; ?>)"><?php echo $application[$i]['module'][$j]['moduleNative']; ?></a></li>
-                                        <?php // end looping ?>    
+                                            <?php // end looping ?>    
                                             </ul>
-        <?php } ?>
+                                    <?php } ?>
 
                                     </li>
     <?php }
-} ?>
+}
+?>
                         </ul>
                     </div><!--/.nav-collapse -->
                     <div id="loginArea" class="navbar-text pull-right">
@@ -119,7 +122,7 @@ $title = "Peringkat Testing";
         <div id="centerViewport" class="container">
             <div  id="leftViewportDetail" class="row-fluid hide">
                 <div class="span2" >
-<?php if (isset($avatar)) { ?>   
+                    <?php if (isset($avatar)) { ?>   
                         <br> 	
                         <a href="" class="thumbnail"><img src="<?php echo $avatar; ?>" alt="It's me" width="100" height="100"></a>
                         <hr>
@@ -127,57 +130,58 @@ $title = "Peringkat Testing";
                     <div class="sidebar-nav">
 
                         <ul class="nav nav-list">
-                                    <?php
-                                    if (isset($folder)) {
-                                        $totalFolder = count($folder);
-                                        for ($i = 0; $i < $totalFolder; $i++) {
-                                            ?> 
+                            <?php
+                            if (isset($folder)) {
+                                $totalFolder = count($folder);
+                                for ($i = 0; $i < $totalFolder; $i++) {
+                                    ?> 
                                     <li class="nav-header" onclick="showMeSideBar(<?php echo $folder['folderId'][$i]; ?>,<?php echo $totalFolder; ?>)" onmouseover="showMeSideBar(<?php echo $folder['folderId'][$i]; ?>,<?php echo $totalFolder; ?>)"><img id="folder1" src="images/icons/<?php echo $folder[$i]['iconName']; ?>" alt="application"><?php echo $folder['folderNative'][$i]; ?></li>
                                     <li  id="common1" class="hide"><ul class="nav nav-list">
-        <?php
-        $totalLeaf = count($folder['detail']);
-        for ($j = 0; $j < $totalLeaf; $j++) {
-            ?>
+                                            <?php
+                                            $totalLeaf = count($folder['detail']);
+                                            for ($j = 0; $j < $totalLeaf; $j++) {
+                                                ?>
                                                 <li class="hide"> <a href="javascript:void(0)" onclick="routing(<?php echo $folder[$i]['leaf'][$j]['leafId']; ?>,<?php echo $totalLeaf; ?>,'<?php echo $folder[$i]['leaf'][$j]['leafId']; ?>')"><img src="images/icons/application-form.png" alt="application"><?php echo $folder[$i]['leaf'][$j]['leafNative']; ?></a>
-        <?php }
+        <?php
+        }
     }
     ?>    
 
 
                                     </ul>
                                 </li>
-                        <?php } ?>
+                    <?php } ?>
                         </ul>
 
 
                     </div><!--/.well -->
-<?php if ($setting['topFive'] == 1) { ?>    
+                        <?php if ($setting['topFive'] == 1) { ?>    
                         <hr>
                         <h5><?php echo $topFiveTitle; ?></h5>
                         <ul>
-                        <?php
-                        if (isset($topFive)) {
-                            for ($i = 0; $i < count($topFive); $i++) {
-                                ?> 
+    <?php
+    if (isset($topFive)) {
+        for ($i = 0; $i < count($topFive); $i++) {
+            ?> 
                                     <li><a class="nav-item" onClick=loadFile(<?php echo $topFive['leafId']; ?>) ><?php echo $topFive['leafNative']; ?></a></li>
 
                             <?php } ?>  </ul>
                             <?php
-                            }
                         }
-                        ?>
-                        <?php if ($setting['topFive'] == 1) { ?>    
+                    }
+                    ?>
+                    <?php if ($setting['topFive'] == 1) { ?>    
                         <hr>
                         <h5><?php echo $bookmarkTitle; ?></h5>
 
-                        <?php if (isset($bookmark)) { ?>
+                            <?php if (isset($bookmark)) { ?>
                             <ul>
-        <?php for ($i = 0; $i < count($bookmark); $i++) { ?> 
+                            <?php for ($i = 0; $i < count($bookmark); $i++) { ?> 
                                     <li><a class="nav-item" onClick=loadFile(<?php echo $bookmark['leafId']; ?>) ><?php echo $bookmark['leafNative']; ?></a></li>
 
-        <?php } ?>
+                            <?php } ?>
                             </ul>
-    <?php
+        <?php
     }
 }
 ?>
@@ -189,18 +193,18 @@ $title = "Peringkat Testing";
             <div name="centerViewport" id="centerViewport" class="hero-unit">
                 <h1>
                     <img alt="Wait Ya." height="100" width="100" src="./images/Blueticons_Win/PNGs/Devil.png" width="120">
-                <?php
-                $firstHeader = "Welcome.. Core Light";
-                echo $firstHeader;
-                ?></h1>
-                <p><?php //$firstDetail = " More elegent system and Code to Code";    ?>
+<?php
+$firstHeader = "Welcome.. Core Light";
+echo $firstHeader;
+?></h1>
+                <p><?php //$firstDetail = " More elegent system and Code to Code";     ?>
                     <br>
                 <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
             </div>
 
             <!-- Example row of columns -->
             <div id="bottomViewport" class="row">
-<?php foreach ($additionalStory as $story) { ?>
+                <?php foreach ($additionalStory as $story) { ?>
                     <div class="span3 well">
                         <h2><?php echo $story['title']; ?></h2>
                         <p><?php echo $story['description']; ?></p>
@@ -322,31 +326,30 @@ $title = "Peringkat Testing";
                 // ask router left menu block
             });
             function loadBelow(pageId,pageType){
-        //empty the center viewport
-        $("#centerViewport").html('');
+                //empty the center viewport
+                $("#centerViewport").html('');
         
-        $("#centerViewport").hide();
-        var url = './package/portal/main/econtroller/portalController.php';
-        $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
+        
+                var url = './package/portal/main/controller/portalController.php';
+                //    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
 
-        $("#centerViewport").load(url,{ method:'route',pageId:pageId,pageType:pageType }, function(response, status, xhr) {
-          //  alert("response"+response);
-         //   alert("status"+status);
-            $("#centerViewport").html("<div id=\"infoPanel\" class=\"span9\"></div>");
+                $("#centerViewport").load(url,{ method:'route',pageId:pageId,pageType:pageType }, function(response, status, xhr) {
+        
+                    
             
-            if (status == "error") {
+                    if (status == "error") {
                 
-                var msg = "Sorry but there was an error: ";
+                        var msg = "Sorry but there was an error: ";
                 
-                $('#infoPanel').html('<div class=\'alert alert-error\'><a class="close" data-dismiss=\'alert\'>×</a>'+msg + xhr.status + " " + xhr.statusText+'</div>');
+                             $('#infoPanel').html('<div class=\'alert alert-error\'><a class="close" data-dismiss=\'alert\'>×</a>aik'+msg + xhr.status + " " + xhr.statusText+'</div>');
 
-            } 
-        });
-        $("#centerViewport").show();
+                    } 
+                });
+        
          
         
         
-    }
+            }
         </script>
         <div id="additionJs"></div>
     </body>
