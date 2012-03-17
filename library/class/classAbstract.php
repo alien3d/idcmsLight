@@ -189,6 +189,16 @@ abstract class ConfigClass
 	 * @var string
 	 */
         public $message;
+        /**
+	 * Identification Of The Page
+	 * @var numeric
+	 */
+        public $PageId;
+        /**
+	 * Full Or Sidebar
+	 * @var enum
+	 */
+        public $pageType;
 	/**
 	 * Mysql Database (open Core)
 	 * @var const string
@@ -613,7 +623,7 @@ abstract class ConfigClass
          */
         function exceptionMessage($message){
             $this->message = $message;
-            echo "<div class=\'alert alert-error\'><a class=\"close\" data-dismiss=\'alert\'>×</a>".$message."</div>";
+            echo "<div class=\"alert alert-error\"><a class=\"close\" data-dismiss=\'alert\'>×</a>".$message."</div>";
             
         }
         /**
@@ -1187,6 +1197,25 @@ abstract class ConfigClass
 	public function setFilterYear($filterYear)
 	{
 	    $this->filterYear = $filterYear;
+	}
+        
+        public function getPageId()
+	{
+	    return $this->pageId;
+	}
+
+	public function setPageId($pageId)
+	{
+	    $this->pageId = $pageId;
+	}
+         public function getPageType()
+	{
+	    return $this->pageType;
+	}
+
+	public function setPageType($pageType)
+	{
+	    $this->pageType = $pageType;
 	}
 }
 ?>

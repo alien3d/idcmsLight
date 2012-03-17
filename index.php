@@ -69,7 +69,7 @@ $title = "Peringkat Testing";
                     </a>
                     <a class="brand" href="#">Core</a>
                     <div class="nav-collapse">
-
+                        
                         <ul class="nav">
                             <?php
                             // cms menu router 
@@ -82,9 +82,8 @@ $title = "Peringkat Testing";
                                     }
                                     if ($totalModule == 0) {
                                         ?> 
-                                        <li class="active"><a href="#" onClick=loadBelow('full','<?php if (isset($application[$i]['applicationId'])) {
-                                            echo $application[$i]['applicationId'];
-                                        } ?>')>
+                                        <li class="active"><a href="#" onClick=loadBelow('<?php echo $application[$i]['applicationId']; ?>','APP')>
+                                            
             <?php if (isset($application[$i]['applicationNative'])) {
                 echo $application[$i]['applicationNative'];
             } ?></a></li>

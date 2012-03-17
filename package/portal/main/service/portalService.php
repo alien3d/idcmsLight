@@ -5,6 +5,7 @@ namespace Core\Portal\Service;
 require_once ("/../../../../library/class/classAbstract.php");
 require_once ("/../../../../library/class/classSystemString.php");
 require_once ("/../../../system/management/model/staffModel.php");
+             
 require_once ("/../model/staffWebAcessModel.php");
 
 /**
@@ -393,6 +394,66 @@ class MenuNavigatonClass extends \Core\ConfigClass {
     }
 
     /*
+     *  Reroute application. 
+     *  @param int id Application Identification or Lead Identification
+     *  @param enum ('app','leaf') type Application Or Leaf
+     */
+
+    function route($pageId, $pageType) {
+        $sql        = null;
+        $appendFile = null;
+        $error      = 0;
+        if (isset($_SESSION['teamId'])) {
+            $this->teamId = $_SESSION['teamId'];
+        }
+      
+        switch ($pageType) {
+            case 'APP':
+                
+                if ($this->getVendor() == self::MYSQL) {
+                    $sql = "
+                    SELECT  `applicationFilename` as `filename`
+                    FROM    `application`
+                    JOIN    `applicationAccess`
+                    USING   (`applicationId`)
+                    WHERE   `applicationAccess`.`teamId` ='" . $this->teamId . "'
+                    AND     `applicationId` = '".$pageId."'";
+                }
+                break;
+            case 'LEF':
+                if ($this->getVendor() == self::MYSQL) {
+                    $sql = "
+                    SELECT  `leafFilename` as `filename`
+                    FROM    `leaf`
+                    JOIN    `leafAccess`
+                    USING   (`leafId`)
+                    WHERE   `leafAccess`.`staffId` ='" . $_SESSION['staffId'] . "'
+                    AND     `leafId`               ='".$pageId."'";
+                }
+                break;
+           default:
+               $error=1;
+        }
+        if($error==1) {
+            $this->exceptionMessage("Undefine Menu Type");
+            return;
+        }
+        $result = $this->q->fast($sql);
+        if ($result) {
+            $row = $this->q->fetchArray($result);
+            $appendFile = $row['filename'];
+            // check if path exist file or not.
+            if (is_file(substr($appendFile,1))) {
+                require_once($appendFile);
+            } else {
+                $this->exceptionMessage("The file " . $appendFile . " does not exist");           
+            }
+        } else {
+            $this->exceptionMessage("error :".$sql); //  debugging 
+        }
+    }
+
+    /*
      * 
      */
 
@@ -402,7 +463,7 @@ class MenuNavigatonClass extends \Core\ConfigClass {
             $this->teamId = $_SESSION['teamId'];
         }
         if ($this->getVendor() == self::MYSQL) {
-          $sql = "
+            $sql = "
             SELECT  `applicationTranslate`.`applicationNative`,
                     `application`.`applicationId`
             FROM    `" . $this->q->getCoreDatabase() . "`.`application` 
@@ -415,19 +476,18 @@ class MenuNavigatonClass extends \Core\ConfigClass {
             AND     `applicationAccess`.`teamId` =   '" . $this->teamId . "'
             AND     `application`.`isActive`=1";
         }
-        // debugging 
-        // $this->exceptionMessageArray($sql); //  debugging
+// debugging 
+// $this->exceptionMessageArray($sql); //  debugging
         $result = $this->q->fast($sql);
-        if(!$result) {
-           $this->exceptionMessageArray($sql); //  debugging 
+        if (!$result) {
+            $this->exceptionMessageArray($sql); //  debugging 
         }
         while ($row = $this->q->fetchArray($result)) {
-          //  $row['module'] = $this->applicationAndModule($row['applicationId']);
+            $row['module'] = $this->applicationAndModule($row['applicationId']);
             $data[] = $row;
         }
-       // $this->exceptionMessageArray($data);
+// $this->exceptionMessageArray($data);
         return $data;
-        
     }
 
     /**
@@ -529,7 +589,7 @@ class MenuNavigatonClass extends \Core\ConfigClass {
      * @param int $folderId  Folder Identification
      */
     public function folderAndleaf($applicationId = null, $moduleId = null, $folderId = null) {
-        // construct variable
+// construct variable
         $detail = array();
         $this->applicationId = $applicationId;
         $this->moduleId = $moduleId;
@@ -778,9 +838,9 @@ class Portlet extends \Core\ConfigClass {
         } else {
             $exception = "json";
         }
-        $row=array();
+        $row = array();
         if ($this->getStaffId()) {
-       echo     $sql = "
+            echo $sql = "
         SELECT  `staffAvatar` 
         FROM    `staff` 
         WHERE   `staffId`   =   '" . $this->getStaffId() . "'";
@@ -795,11 +855,11 @@ class Portlet extends \Core\ConfigClass {
                 }
             }
             if (($exception)) {
-                if($this->q->numberRows($result)>0) {
-                $row = $this->q->fetchArray($result);
-                $row['staffAvatar'] = 'Cool.png';
+                if ($this->q->numberRows($result) > 0) {
+                    $row = $this->q->fetchArray($result);
+                    $row['staffAvatar'] = 'Cool.png';
 
-                return $row['staffAvatar'];
+                    return $row['staffAvatar'];
                 } else {
                     return $row['emptyAvatar'];
                 }
@@ -816,9 +876,9 @@ class Portlet extends \Core\ConfigClass {
             $exception = "json";
         }
         $data = array();
-         if ($this->getStaffId()) {
-        if ($this->getVendor() == self::MYSQL) {
-            $sql = "
+        if ($this->getStaffId()) {
+            if ($this->getVendor() == self::MYSQL) {
+                $sql = "
         SELECT      COUNT(*) AS `Rows` , 
                     `log`.`leafId`,
                     `leafTranslate`.`leafNative`
@@ -833,30 +893,30 @@ class Portlet extends \Core\ConfigClass {
         GROUP BY    `leafId`
         ORDER BY    `Rows` ASC  
         LIMIT       5";
-        } else if ($this->getVendor() == self::MSSQL) {
-            
-        } else if ($this->getVendor() == self::ORACLE) {
-            
-        } else if ($this->getVendor() == self::POSTGRESS) {
-            
-        } else if ($this->getVendor() == self::DB2) {
-            
-        }
+            } else if ($this->getVendor() == self::MSSQL) {
+                
+            } else if ($this->getVendor() == self::ORACLE) {
+                
+            } else if ($this->getVendor() == self::POSTGRESS) {
+                
+            } else if ($this->getVendor() == self::DB2) {
+                
+            }
 
-        $result = $this->q->fast($sql);
-        if ($this->q->execute == 'fail') {
-            echo json_encode(array("success" => false, "message" => $this->q->responce));
-            exit();
-        }
-        if($this->q->numberRows($result)>0) {
-        while ($row = $this->q->fetchArray($result)) {
-            $data['leafId'] = $row['leafId'];
-            $data['leafNative'] = $row['leafNative'];
-        }
+            $result = $this->q->fast($sql);
+            if ($this->q->execute == 'fail') {
+                echo json_encode(array("success" => false, "message" => $this->q->responce));
+                exit();
+            }
+            if ($this->q->numberRows($result) > 0) {
+                while ($row = $this->q->fetchArray($result)) {
+                    $data['leafId'] = $row['leafId'];
+                    $data['leafNative'] = $row['leafNative'];
+                }
 
-        return $data;
+                return $data;
+            }
         }
-         }
     }
 
     function leftCellBookmark($errorType = null) {
