@@ -98,7 +98,7 @@ class FolderAccessClass extends ConfigClass {
 		$this->audit = 0;
 		$this->log = 1;
 
-		$this->model = new FolderAccessModel ();
+		$this->model = new \Core\System\Security\Folder\Access\Model\FolderAccessModel();
 		$this->model->setVendor($this->getVendor());
 		$this->model->execute();
 

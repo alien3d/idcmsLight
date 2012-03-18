@@ -106,7 +106,7 @@ class LeafClass extends ConfigClass {
 		$this->audit = 0;
 		$this->log = 0;
 
-		$this->model = new LeafModel ();
+		$this->model = new \Core\System\Security\Leaf\Model\LeafModel();
 		$this->model->setVendor($this->getVendor());
 		$this->model->execute();
 

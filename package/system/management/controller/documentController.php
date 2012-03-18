@@ -1,4 +1,5 @@
 <?php
+namespace Core\System\Management\Document\Controller;
 session_start ();
 require_once ("../../class/classAbstract.php");
 require_once("../../class/classRecordSet.php");
@@ -104,7 +105,7 @@ class DocumentClass extends ConfigClass {
 		$this->validFileType = "/^\\.(jpg|jpeg|gif|png|doc|docx|txt|rtf|pdf|xls|xlsx|ppt|pptx){1}$/i";
 		$this->path = $_SERVER ["DOCUMENT_ROOT"] . "idcmsCore/document/document/user/" . $this->getStaffId () . "/";
 
-		$this->model = new DocumentModel ();
+		$this->model = new \Core\System\Management\Document\Model\DocumentModel();
 		$this->model->setVendor ( $this->getVendor () );
 		$this->model->execute ();
 

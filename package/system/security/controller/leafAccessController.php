@@ -94,7 +94,7 @@ class LeafAccessClass extends ConfigClass {
 		$this->audit = 0;
 		$this->log = 1;
 
-		$this->model = new LeafAccessModel ();
+		$this->model = new \Core\System\Security\Leaf\Access\Model\LeafAccessModel();
 		$this->model->setVendor($this->getVendor());
 		$this->model->execute();
 

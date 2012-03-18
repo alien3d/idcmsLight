@@ -100,7 +100,7 @@ class ApplicationAccessClass extends ConfigClass {
 		$this->audit = 0;
 		$this->log = 1;
 
-		$this->model = new ApplicationAccessModel ();
+		$this->model = new \Core\System\Security\Application\Access\Model\ApplicationAccessModel();
 		$this->model->setVendor($this->getVendor());
 		$this->model->execute();
 

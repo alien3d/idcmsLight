@@ -92,7 +92,7 @@ class TableMappingTranslateClass extends ConfigClass {
 		//default translation property
 		$this->defaultLanguageId = 21;
 
-		$this->model = new TableMappingTranslateModel ();
+		$this->model = new \Core\System\Translation\TableMapping\Translate\Model\TableMappingTranslateModel();
 		$this->model->setVendor ( $this->getVendor () );
 		$this->model->execute ();
 

@@ -37,9 +37,17 @@ class DefaultClass extends \Core\ConfigClass {
      */
     public function execute() {
         parent::__construct();
-
-        $this->q = new \Core\Database\Mysql\Vendor();
-
+        if($this->getVendor()==self::MYSQL) {
+            $this->q = new \Core\Database\Mysql\Vendor();
+        } else if ($this->getVendor()==self::MSSQL) {
+            $this->q = new \Core\Database\Mssql\Vendor();
+        } else if ($this->getVendor() == self::ORACLE) {
+            $this->q = new \Core\Database\Oracle\Vendor();
+        } else if ($this->getVendor() == self::POSTGRESS){
+            $this->q = new \Core\Database\Postgress\Vendor();
+        } else if ($this->getVendor() == self ::DB2){
+            $this->q = new \Core\Database\Db2\Vendor();                    
+        }
         $this->q->vendor = $this->getVendor();
         $this->q->setRequestDatabase($this->q->getCoreDatabase());
         $this->q->connect($this->getConnection(), $this->getUsername(), $this->getDatabase(), $this->getPassword());

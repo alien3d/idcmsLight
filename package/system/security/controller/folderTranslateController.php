@@ -103,7 +103,7 @@ class folderTranslateClass extends ConfigClass {
 		//default translation property
 		$this->defaultLanguageId = 21;
 
-		$this->model = new FolderTranslateModel ();
+		$this->model = new \Core\System\Security\Folder\Translate\Model\FolderTranslateModel();
 		$this->model->setVendor($this->getVendor());
 		$this->model->execute();
 

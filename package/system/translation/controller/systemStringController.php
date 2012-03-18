@@ -93,7 +93,7 @@ class SystemStringClass extends ConfigClass {
 		//default translation property
 		$this->defaultLanguageId = 21;
 
-		$this->model = new SystemStringModel ();
+		$this->model = new \Core\System\Translation\SystemString\Model\SystemStringModel();
 		$this->model->setVendor ( $this->getVendor () );
 		$this->model->execute ();
 

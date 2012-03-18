@@ -100,7 +100,7 @@ class ApplicationClass extends ConfigClass {
 		$this->audit = 0;
 		$this->log = 0;
 
-		$this->model = new ApplicationModel ();
+		$this->model = new \Core\System\Security\Application\Model\ApplicationModel();
 		$this->model->setVendor($this->getVendor());
 		$this->model->execute();
 

@@ -100,7 +100,7 @@ class FolderClass extends ConfigClass {
 		$this->audit = 1;
 		$this->log = 1;
 
-		$this->model = new FolderModel ();
+		$this->model = new \Core\System\Security\Folder\Model\FolderModel();
 		$this->model->setVendor($this->getVendor());
 		$this->model->execute();
 

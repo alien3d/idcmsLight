@@ -93,7 +93,7 @@ class DefaultLabelClass extends ConfigClass {
 		//default translation property
 		$this->defaultLanguageId = 21;
 
-		$this->model = new DefaultLabelModel ();
+		$this->model = new \Core\System\Translation\DefaultLabel\Model\DefaultLabelModel();
 		$this->model->setVendor ( $this->getVendor () );
 		$this->model->execute ();
 

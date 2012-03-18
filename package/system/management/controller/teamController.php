@@ -7,7 +7,7 @@ require_once ("../../class/classDate.php");
 require_once ("../../document/class/classDocumentTrail.php");
 require_once ("../../document/model/documentModel.php");
 require_once ("../../class/classSystemString.php");
-require_once ("../model/teamModel.php");
+require_once ("/../model/teamModel.php");
 /**
  * this is main setting files
  * @name IDCMS
@@ -83,7 +83,7 @@ class TeamClass extends ConfigClass {
 		$this->audit = 0; // By Default 0 - Off  1 - On
 		$this->log = 1; // By Default 0 - Off  1 - On
 
-		$this->model = new TeamModel ();
+		$this->model = new \Core\System\Management\Team\Model\TeamModel();
 		$this->model->setVendor ( $this->getVendor () );
 		$this->model->execute ();
 

@@ -100,7 +100,7 @@ class ModuleClass extends ConfigClass {
 		$this->audit = 0;
 		$this->log = 0;
 
-		$this->model = new ModuleModel ();
+		$this->model = new \Core\System\Security\Module\Model\ModuleModel();
 		$this->model->setVendor($this->getVendor());
 		$this->model->execute();
 

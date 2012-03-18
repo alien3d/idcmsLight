@@ -93,7 +93,7 @@ class LogAdvanceClass extends ConfigClass {
 		$this->audit = 0;
 		$this->logAdvance = 0;
 
-		$this->model = new LogAdvanceModel ();
+		$this->model = new \Core\System\Security\Log\Advance\Model\LogAdvanceModel();
 		$this->model->setVendor($this->getVendor());
 		$this->model->execute();
 

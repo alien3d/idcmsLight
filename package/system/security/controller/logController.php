@@ -93,7 +93,7 @@ class LogClass extends ConfigClass {
 		$this->audit = 0;
 		$this->log = 0;
 
-		$this->model = new LogModel ();
+		$this->model = new \Core\System\Security\Log\Model\LogModel();
 		$this->model->setVendor($this->getVendor());
 		$this->model->execute();
 

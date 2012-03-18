@@ -1,4 +1,5 @@
 <?php
+namespace Core\System\Management\Document\Category\Model\Controller;
 require_once ("../../class/classValidation.php");
 /**
  * this is document category model file.

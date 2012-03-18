@@ -99,7 +99,7 @@ class LeafTeamAccessClass extends ConfigClass {
 		$this->audit = 0;
 		$this->log = 1;
 
-		$this->model = new LeafTeamAccessModel ();
+		$this->model = new \Core\System\Security\Leaf\Team\Access\Model\leafTeamAccessModel();
 		$this->model->setVendor($this->getVendor());
 		$this->model->execute();
 

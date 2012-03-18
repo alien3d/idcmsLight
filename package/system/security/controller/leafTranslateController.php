@@ -103,7 +103,7 @@ class leafTranslateClass extends ConfigClass {
 		//default translation property
 		$this->defaultLanguageId = 21;
 
-		$this->model = new LeafTranslateModel ();
+		$this->model = new \Core\System\Security\Leaf\Translate\Model\LeafTranslateModel();
 		$this->model->setVendor($this->getVendor());
 		$this->model->execute();
 

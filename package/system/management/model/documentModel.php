@@ -1,4 +1,5 @@
 <?php
+namespace Core\System\Management\Document\Model;
 require_once ("../../class/classValidation.php");
 /**
  * this is Document model file.

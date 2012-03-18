@@ -1,5 +1,5 @@
 <?php
-
+namespace Core\System\Management\Document\Category\Controller;
 session_start();
 require_once ("../../class/classAbstract.php");
 require_once("../../class/classRecordSet.php");
@@ -94,7 +94,7 @@ class DocumentCategoryClass extends ConfigClass {
 		$this->audit = 0;
 		$this->log = 1;
 
-		$this->model = new DocumentCategoryModel ();
+		$this->model = new \Core\System\Management\Document\Category\Model\DocumanetCategoryModel();
 		$this->model->setVendor($this->getVendor());
 		$this->model->execute();
 

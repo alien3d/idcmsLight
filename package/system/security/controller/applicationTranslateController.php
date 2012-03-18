@@ -103,7 +103,7 @@ class applicationTranslateClass extends ConfigClass {
 		//default translation property
 		$this->defaultLanguageId = 21;
 
-		$this->model = new ApplicationTranslateModel ();
+		$this->model = new \Core\System\Security\Application\Translate\Model\ApplicationTranslateModel();
 		$this->model->setVendor($this->getVendor());
 		$this->model->execute();
 
