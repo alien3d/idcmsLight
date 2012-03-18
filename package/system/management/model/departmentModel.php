@@ -1,6 +1,6 @@
 <?php
 namespace Core\System\Management\Department\Model;
-require_once ("../../class/classValidation.php");
+require_once '/../../../../library/class/classValidation.php';
 /**
  * this is Department model file.
  *
@@ -12,7 +12,7 @@ require_once ("../../class/classValidation.php");
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class DepartmentModel extends ValidationClass {
+class DepartmentModel extends \Core\Validation\ValidationClass {
 	/**
 	 * Department Identification
 	 * @var int

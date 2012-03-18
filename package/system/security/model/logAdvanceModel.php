@@ -1,6 +1,6 @@
 <?php
-
-require_once ("../../class/classValidation.php");
+namespace Core\System\Security\Log\Advance\Model;
+require_once '/../../../../library/class/classValidation.php';
 
 /**
  * this is logAdvance model file.
@@ -13,7 +13,7 @@ require_once ("../../class/classValidation.php");
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class LogAdvanceModel extends ValidationClass {
+class LogAdvanceModel extends \Core\Validation\ValidationClass {
 
     /**
      * Log Advance Identification

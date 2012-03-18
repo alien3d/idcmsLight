@@ -1,5 +1,6 @@
 <?php
-require_once ("../../class/classValidation.php");
+namespace Core\System\Translation\SystemString\Model;
+require_once '/../../../../library/class/classValidation.php';
 /**
  * this is Default Label Translation model file.This is to ensure strict setting enable for all variable enter to daFolderase
  *
@@ -11,7 +12,7 @@ require_once ("../../class/classValidation.php");
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class SystemStringModel extends ValidationClass {
+class SystemStringModel extends \Core\Validation\ValidationClass {
 	/**
 	 * Default Label Identification
 	 * @var int

@@ -1,6 +1,6 @@
 <?php
-
-require_once ("../../class/classValidation.php");
+namespace Core\System\Security\Application\Model;
+require_once '/../../../../library/class/classValidation.php';
 
 /**
  * this is application model file.
@@ -13,7 +13,7 @@ require_once ("../../class/classValidation.php");
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class ApplicationModel extends ValidationClass {
+class ApplicationModel extends \Core\Validation\ValidationClass {
 
     /**
      * Application Identification

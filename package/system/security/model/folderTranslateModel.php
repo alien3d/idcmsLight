@@ -1,6 +1,6 @@
 <?php
-
-require_once ("../../class/classValidation.php");
+namespace Core\System\Security\Folder\Translate\Model;
+require_once '/../../../../library/class/classValidation.php';
 
 /**
  * this is Table Mapping Translation model file.This is to ensure strict setting enable for all variable enter to daFolderase
@@ -13,7 +13,7 @@ require_once ("../../class/classValidation.php");
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class FolderTranslateModel extends ValidationClass {
+class FolderTranslateModel extends \Core\Validation\ValidationClass {
 
     /**
      * Folder Identification

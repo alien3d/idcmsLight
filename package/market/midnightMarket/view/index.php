@@ -1,20 +1,7 @@
 <?php
 //require_once("/../controller/midnightMarketController.php");
-//  $data = new \Core\market\controller\midnightMarketControllerClass();
-$data['counter'][] = 1;
-$data['state'][] = 'Negeri Sembilan';
-$data['location'][] = 'Taman Semarak, Nilai';
-$data['day'][] = 'Selasa';
+  $data = new \Core\market\controller\midnightMarketControllerClass();
 
-$data['counter'][] = '2';
-$data['state'][] = 'Negeri Sembilan';
-$data['location'][] = 'Flat Taman Semarak, Nilai';
-$data['day'][] = 'Sabtu';
-
-$data['counter'][] = 3;
-$data['state'][] = 'Negeri Sembilan';
-$data['location'][] = 'Flat Cempaka';
-$data['day'][] = 'Jumaat';
 ?>
 <div  class="modal hide fade" id="filterGridAdvance">
     <div class="modal-header">

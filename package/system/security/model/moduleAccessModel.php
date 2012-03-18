@@ -1,6 +1,6 @@
 <?php
-
-require_once ("../../class/classValidation.php");
+namespace Core\System\Security\Module\Access\Model;
+require_once '/../../../../library/class/classValidation.php';
 
 /**
  * this is module security model file.This is to ensure strict setting enable for all variable enter to database
@@ -13,7 +13,7 @@ require_once ("../../class/classValidation.php");
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class ModuleAccessModel extends ValidationClass {
+class ModuleAccessModel extends \Core\Validation\ValidationClass {
 
     /**
      * Module Access  Identification

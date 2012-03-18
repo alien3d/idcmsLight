@@ -1,6 +1,6 @@
 <?php
-
-require_once ("../../class/classValidation.php");
+namespace Core\System\Security\Leaf\Access\Model;
+require_once '/../../../../library/class/classValidation.php';
 
 /**
  * this is leaf Access Security model file.
@@ -13,7 +13,7 @@ require_once ("../../class/classValidation.php");
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class LeafAccessModel extends ValidationClass {
+class LeafAccessModel extends \Core\Validation\ValidationClass {
 
 	/**
 	 * Leaf Access  Identification

@@ -1,6 +1,6 @@
 <?php
-
-require_once ("../../class/classValidation.php");
+namespace Core\System\Security\Application\Translate\Model;
+require_once '/../../../../library/class/classValidation.php';
 
 /**
  * this is Application Translation model file.This is to ensure strict setting enable for all variable enter to daFolderase
@@ -13,7 +13,7 @@ require_once ("../../class/classValidation.php");
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class ApplicationTranslateModel extends ValidationClass {
+class ApplicationTranslateModel extends \Core\Validation\ValidationClass {
 
     /**
      * Application Identification

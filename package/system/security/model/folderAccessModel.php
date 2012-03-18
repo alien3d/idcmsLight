@@ -1,6 +1,6 @@
 <?php
-
-require_once ("../../class/classValidation.php");
+namespace Core\System\Security\Folder\Access\Model;
+require_once '/../../../../library/class/classValidation.php';
 
 /**
  * this is folder security model file.
@@ -13,7 +13,7 @@ require_once ("../../class/classValidation.php");
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class FolderAccessModel extends ValidationClass {
+class FolderAccessModel extends \Core\Validation\ValidationClass {
 
     /**
      * Folder Access Identification

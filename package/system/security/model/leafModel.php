@@ -1,6 +1,6 @@
 <?php
-
-require_once ("../../class/classValidation.php");
+namespace Core\System\Security\Leaf\Model;
+require_once '/../../../../library/class/classValidation.php';
 
 /**
  * this is Leaf model file.This is application  program
@@ -11,7 +11,7 @@ require_once ("../../class/classValidation.php");
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class LeafModel extends ValidationClass {
+class LeafModel extends \Core\Validation\ValidationClass {
 
 	/**
 	 * This is  real leaf Id. A bit change conflic with the leafId for application

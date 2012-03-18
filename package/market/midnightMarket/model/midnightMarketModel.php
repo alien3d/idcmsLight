@@ -1,78 +1,89 @@
 <?php
-namespace Core\System\Security\Module\Translate\Model;
-require_once '/../../../../library/class/classValidation.php';
-
+require_once ("../../class/classValidation.php");
+ 
 /**
- * this is Modle Translation model file.This is to ensure strict setting enable for all variable enter to daFolderase
+ * this is midnightMarket model file.This is to ensure strict setting enable for all variable enter to database
  *
  * @name IDCMS.
  * @version 2
  * @author hafizan
- * @package Translation
- * @subpackage Module Translation
+ * @package Account Receivable / Account Payable Invoice 
+ * @subpackage adjustment
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class ModuleTranslateModel extends \Core\Validation\ValidationClass {
-
-    /**
-     * Module Identification
-     * @var int
+class MidnightMarketModel extends \Core\Validation\ValidationClass { 
+         
+ 
+        /**
+        * @var int
+        */
+        private $midnightMarketId; 
+         
+ 
+        /**
+        * @var int
+        */
+        private $stateId; 
+         
+ 
+        /**
+        * @var int
+        */
+        private $dayId; 
+         
+ 
+        /**
+        * @var string
+        */
+        private $location; 
+         
+ 
+        /**
+        * @var string
+        */
+        private $midnightMarketGps; 
+/* (non-PHPdoc)
+     * @see ValidationClass::execute()
      */
-    private $moduleTranslateId;
-
-    /**
-     * Module Identification
-     * @var int
-     */
-    private $moduled;
-
-    /**
-     * Language Identification
-     * @var int
-     */
-    private $languageId;
-
-    /**
-     * Module Native Translation
-     * @var string
-     */
-    private $moduleNative;
-
-    /**
-     * Class Loader to load outside variable and test it suppose variable type
-     */
-    function execute() {
+ 
+    public function execute() {
         /*
          *  Basic Information Table
          */
-        $this->setTableName('module');
-        $this->setPrimaryKeyName('moduleId');
-        /*
-         *  All the $_POST enviroment.
+        $this->setTableName('midnightMarket');
+        $this->setPrimaryKeyName('midnightMarketId');
+        $this->setMasterForeignKeyName('application');
+        //$this->setFilterCharacter('midnightMarketDesc');
+        $this->setFilterDate('midnightMarketDate');
+        /**
+         * All the Array enviroment.
          */
-        if (isset($_POST ['moduleId'])) {
-            $this->setModuleId($this->strict($_POST ['moduleId'], 'numeric'), 0, 'single');
-        }
-        if (isset($_POST ['moduleSequence'])) {
-            $this->setModuleSequence($this->strict($_POST ['moduleSequence'], 'memo'));
-        }
-        if (isset($_POST ['moduleCode'])) {
-            $this->setModuleCode($this->strict($_POST ['moduleCode'], 'memo'));
-        }
-        if (isset($_POST ['moduleNote'])) {
-            $this->setModuleNote($this->strict($_POST ['moduleNote'], 'memo'));
-        }
-
-        if (isset($_GET ['moduleTranslateId'])) {
-            $this->setTotal(count($_GET ['moduleTranslateId']));
-        }
-        // auto assign as array if true
-        if (isset($_GET ['moduleTranslateId'])) {
-            if (is_array($_GET ['moduleTranslateId'])) {
-                $this->moduleTranslateId = array();
+if (isset($_POST ['midnightMarketId'])) {
+                $this->setMidnightMarketId($this->strict($_POST ['midnightMarketId'], 'numeric'), 0, 'single');
             }
+if (isset($_POST ['stateId'])) {
+                        $this->setStateId($this->strict($_POST ['stateId'], 'int'));
+                    }
+if (isset($_POST ['dayId'])) {
+                        $this->setDayId($this->strict($_POST ['dayId'], 'int'));
+                    }
+ 
+if (isset($_POST ['location'])) {
+                        $this->setLocation($this->strict($_POST ['location'], 'string'));
+                    }
+ 
+if (isset($_POST ['midnightMarketGps'])) {
+                        $this->setMidnightMarketGps($this->strict($_POST ['midnightMarketGps'], 'string'));
+                    }
+ 
+        /**
+         * All the $_GET enviroment.
+         */
+        if (isset($_GET ['midnightMarketId'])) {
+            $this->setTotal(count($_GET ['midnightMarketId']));
         }
+ 
         if (isset($_GET ['isDefault'])) {
             if (is_array($_GET ['isDefault'])) {
                 $this->isDefault = array();
@@ -120,9 +131,11 @@ class ModuleTranslateModel extends \Core\Validation\ValidationClass {
         }
         $primaryKeyAll = '';
         for ($i = 0; $i < $this->getTotal(); $i++) {
-            if (isset($_GET ['moduleTranslateId'])) {
-                $this->setModuleTranslateId($this->strict($_GET ['moduleTranslateId'] [$i], 'numeric'), $i, 'array');
+             
+            if (isset($_GET ['midnightMarketId'])) {
+                $this->setMidnightMarketId($this->strict($_GET ['midnightMarketId'] [$i], 'numeric'), $i, 'array');
             }
+             
             if (isset($_GET ['isDefault'])) {
                 if ($_GET ['isDefault'] [$i] == 'true') {
                     $this->setIsDefault(1, $i, 'array');
@@ -155,7 +168,7 @@ class ModuleTranslateModel extends \Core\Validation\ValidationClass {
                 if ($_GET ['isDelete'] [$i] == 'true') {
                     $this->setIsDelete(1, $i, 'array');
                 } else if ($_GET ['isDelete'] [$i] == 'false') {
-                    $this->setIsDelete(0, $i, 'array');
+                    $this->setIsDelete(0, 16, 'array');
                 }
             }
             if (isset($_GET ['isActive'])) {
@@ -186,7 +199,7 @@ class ModuleTranslateModel extends \Core\Validation\ValidationClass {
                     $this->setIsPost(0, $i, 'array');
                 }
             }
-            $primaryKeyAll .= $this->getModuleId($i, 'array') . ",";
+            $primaryKeyAll .= $this->getMidnightMarketId($i, 'array') . ",";
         }
         $this->setPrimaryKeyAll((substr($primaryKeyAll, 0, - 1)));
         /**
@@ -201,16 +214,15 @@ class ModuleTranslateModel extends \Core\Validation\ValidationClass {
         if ($this->getVendor() == self::MYSQL) {
             $this->setExecuteTime("'" . date("Y-m-d H:i:s") . "'");
         } else if ($this->getVendor() == self::MSSQL) {
-            $this->setExecuteTime("'" . date("Y-m-d H:i:s") . "'");
+            $this->setExecuteTime("'" . date("Y-m-d H:i:s.u") . "'");
         } else if ($this->getVendor() == self::ORACLE) {
             $this->setExecuteTime("to_date('" . date("Y-m-d H:i:s") . "','YYYY-MM-DD HH24:MI:SS')");
         }
     }
-
-    /* (non-PHPdoc)
+/* (non-PHPdoc)
      * @see ValidationClass::create()
      */
-
+ 
     public function create() {
         $this->setIsDefault(0, 0, 'single');
         $this->setIsNew(1, 0, 'single');
@@ -222,43 +234,43 @@ class ModuleTranslateModel extends \Core\Validation\ValidationClass {
         $this->setIsReview(0, 0, 'single');
         $this->setIsPost(0, 0, 'single');
     }
-
+ 
     /* (non-PHPdoc)
      * @see ValidationClass::update()
      */
-
+ 
     public function update() {
         $this->setIsDefault(0, 0, 'single');
         $this->setIsNew(0, 0, 'single');
         $this->setIsDraft(0, 0, 'single');
-        $this->setIsUpdate(1, 0, 'single');
+        $this->setIsUpdate(1, '', 'single');
         $this->setIsActive(1, 0, 'single');
         $this->setIsDelete(0, 0, 'single');
         $this->setIsApproved(0, 0, 'single');
         $this->setIsReview(0, 0, 'single');
         $this->setIsPost(0, 0, 'single');
     }
-
+ 
     /* (non-PHPdoc)
      * @see ValidationClass::delete()
      */
-
+ 
     public function delete() {
         $this->setIsDefault(0, 0, 'single');
         $this->setIsNew(0, 0, 'single');
         $this->setIsDraft(0, 0, 'single');
         $this->setIsUpdate(0, 0, 'single');
-        $this->setIsActive(0, 0, 'single');
-        $this->setIsDelete(1, 0, 'single');
+        $this->setIsActive(0, '', 'single');
+        $this->setIsDelete(1, '', 'single');
         $this->setIsApproved(0, 0, 'single');
         $this->setIsReview(0, 0, 'single');
         $this->setIsPost(0, 0, 'single');
     }
-
+ 
     /* (non-PHPdoc)
      * @see ValidationClass::draft()
      */
-
+ 
     public function draft() {
         $this->setIsDefault(0, 0, 'single');
         $this->setIsNew(1, 0, 'single');
@@ -270,11 +282,11 @@ class ModuleTranslateModel extends \Core\Validation\ValidationClass {
         $this->setIsReview(0, 0, 'single');
         $this->setIsPost(0, 0, 'single');
     }
-
+ 
     /* (non-PHPdoc)
-     * @see ValidationClass::draft()
+     * @see ValidationClass::approved()
      */
-
+ 
     public function approved() {
         $this->setIsDefault(0, 0, 'single');
         $this->setIsNew(1, 0, 'single');
@@ -282,15 +294,15 @@ class ModuleTranslateModel extends \Core\Validation\ValidationClass {
         $this->setIsUpdate(0, 0, 'single');
         $this->setIsActive(0, 0, 'single');
         $this->setIsDelete(0, 0, 'single');
-        $this->setIsApproved(0, 0, 'single');
+        $this->setIsApproved(1, 0, 'single');
         $this->setIsReview(0, 0, 'single');
         $this->setIsPost(0, 0, 'single');
     }
-
+ 
     /* (non-PHPdoc)
      * @see ValidationClass::review()
      */
-
+ 
     public function review() {
         $this->setIsDefault(0, 0, 'single');
         $this->setIsNew(1, 0, 'single');
@@ -302,11 +314,11 @@ class ModuleTranslateModel extends \Core\Validation\ValidationClass {
         $this->setIsReview(1, 0, 'single');
         $this->setIsPost(0, 0, 'single');
     }
-
+ 
     /* (non-PHPdoc)
      * @see ValidationClass::post()
      */
-
+ 
     public function post() {
         $this->setIsDefault(0, 0, 'single');
         $this->setIsNew(1, 0, 'single');
@@ -317,90 +329,106 @@ class ModuleTranslateModel extends \Core\Validation\ValidationClass {
         $this->setIsApproved(1, 0, 'single');
         $this->setIsReview(0, 0, 'single');
         $this->setIsPost(1, 0, 'single');
-    }
-
-    /**
-     * Set Module Translation   Value
+    }/**
+     * Set midnightMarket Identification  Value
      * @param int|array $value
      * @param array[int]int $key List Of Primary Key.
      * @param array[int]string $type  List Of Type.0 As 'single' 1 As 'array'
      */
-    public function setModuleTranslateId($value, $key, $type) {
+    public function setMidnightMarketId ($value, $key, $type) {
         if ($type == 'single') {
-            $this->moduleTranslateId = $value;
+            $this->midnightMarketId = $value;
         } else if ($type == 'array') {
-            $this->moduleTranslateId [$key] = $value;
+            $this->midnightMarketId [$key] = $value;
         } else {
-            echo json_encode(array("success" => false, "message" => "Cannot Identifiy Type Single Or Array:setModuleTranslateId ?"));
+            echo json_encode(array("success" => false, "message" => "Cannot Identifiy Type String Or Array:setMidnightMarketId ?"));
             exit();
         }
     }
-
+ 
     /**
-     * Return Module Translation Identification
+     * Return midnightMarket Identification  Value
      * @param array[int]int $key List Of Primary Key.
      * @param array[int]string $type  List Of Type.0 As 'single' 1 As 'array'
-     * @return int|array
+     * @return bool|array
      */
-    public function getModuleTranslateId($key, $type) {
+    public function getMidnightMarketId($key, $type) {
         if ($type == 'single') {
-            return $this->moduleTranslateId;
+            return $this->midnightMarketId;
         } else if ($type == 'array') {
-            return $this->moduleTranslateId [$key];
+            return $this->midnightMarketId [$key];
         } else {
-            echo json_encode(array("success" => false, "message" => "Cannot Identifiy Type Single Or Array:setModuleTranslateId ?"));
+            echo json_encode(array("success" => false, "message" => "Cannot Identifiy Type String Or Array:getMidnightMarketId ?"));
             exit();
         }
     }
-
     /**
-     * Set Module Identication Value
-     * @param  string $value
+     * 
+     * @return $stateId
      */
-    public function setModuleId($value) {
-        $this->moduleId = $value;
+    public function getStateId()
+    {
+        return $this->stateId;
     }
-
+ 
     /**
-     * Return Module Identication Value
-     * @return string
+     * 
+     * @param $stateId
      */
-    public function getModuleId() {
-        return $this->moduleId;
+    public function setStateId($stateId)
+    {
+        $this->stateId = $stateId;
     }
-
     /**
-     * Set Module Translation
-     * @param  string $value
+     * 
+     * @return $dayId
      */
-    public function setModuleNatie($value) {
-        $this->moduleText = $value;
+    public function getDayId()
+    {
+        return $this->dayId;
     }
-
+ 
     /**
-     * Return Module Translation
-     * @return string
+     * 
+     * @param $dayId
      */
-    public function getModuleNative() {
-        return $this->moduleNative;
+    public function setDayId($dayId)
+    {
+        $this->dayId = $dayId;
     }
-
     /**
-     * Set Language Identification
-     * @param  string $value
+     * 
+     * @return $location
      */
-    public function setLanguageId($value) {
-        $this->languageId = $value;
+    public function getLocation()
+    {
+        return $this->location;
     }
-
+ 
     /**
-     * Return Language Identification
-     * @return string Language Identification
+     * 
+     * @param $location
      */
-    public function getLanguageId() {
-        return $this->languageId;
+    public function setLocation($location)
+    {
+        $this->location = $location;
     }
-
+    /**
+     * 
+     * @return $midnightMarketGps
+     */
+    public function getMidnightMarketGps()
+    {
+        return $this->midnightMarketGps;
+    }
+ 
+    /**
+     * 
+     * @param $midnightMarketGps
+     */
+    public function setMidnightMarketGps($midnightMarketGps)
+    {
+        $this->midnightMarketGps = $midnightMarketGps;
+    } 
 }
-
 ?>
