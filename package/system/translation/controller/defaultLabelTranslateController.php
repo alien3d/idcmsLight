@@ -1,12 +1,12 @@
 <?php
+namespace Core\System\Translation\DefaultLabel\Translate\Controller;
 session_start ();
-require_once ("../../class/classAbstract.php");
-require_once("../../class/classRecordSet.php");
-require_once ("../../class/classDate.php");
-require_once ("../../document/class/classDocumentTrail.php");
-require_once ("../../document/model/documentModel.php");
-require_once ("../../class/classSecurity.php");
-require_once ("../../class/classSystemString.php");
+require_once ("/../../../../library/class/classAbstract.php");
+require_once ("/../../../../library/class/classRecordSet.php");
+require_once ("/../../../../library/class/classDate.php");
+require_once ("/../../../../library/class/classSecurity.php");
+require_once ("/../../../../library/class/classSystemString.php");
+require_once ("/../../../../library/class/classDocumentTrail.php");
 require_once ("../model/defaultLabelTranslationModel.php");
 /**
  * this defaultLabelTranslation menu creation

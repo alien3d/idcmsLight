@@ -1,5 +1,5 @@
 <?php
-
+namespace Core\System\Security\Module\Controller;
 session_start();
 require_once ("../../class/classAbstract.php");
 require_once ("../../class/classRecordSet.php");

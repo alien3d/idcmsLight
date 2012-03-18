@@ -1,11 +1,8 @@
 <?php
-
 namespace Core\Portal\Service;
-
 require_once ("/../../../../library/class/classAbstract.php");
 require_once ("/../../../../library/class/classSystemString.php");
 require_once ("/../../../system/management/model/staffModel.php");
-             
 require_once ("/../model/staffWebAcessModel.php");
 
 /**
