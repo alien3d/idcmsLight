@@ -199,6 +199,16 @@ abstract class ConfigClass
 	 * @var enum
 	 */
         public $pageType;
+        /**
+	 * HTML , JSON
+	 * @var enum
+	 */
+        public $pageOutput;
+        /**
+	 * Controller Path.Not automatic because give flexibility
+	 * @var string
+	 */
+        public $controllerPath;
 	/**
 	 * Mysql Database (open Core)
 	 * @var const string
@@ -290,6 +300,8 @@ abstract class ConfigClass
 			// undefined database vendor and application
 		}
 		$this->setDefaultLanguageId(21);
+                // set per page.please overide at the controller if  don't want the same.
+                
 	}
 	/**
 	 * New Record From Database
@@ -1217,5 +1229,31 @@ abstract class ConfigClass
 	{
 	    $this->pageType = $pageType;
 	}
+        public function getPageOutput()
+	{
+	    return $this->pageOutput;
+	}
+
+	public function setPageOutput($pageOutput)
+	{
+	    $this->pageOutput = $pageOutput;
+	}
+        /**
+         * Return Controller Path
+         * @return string 
+         */
+        public function getControllerPath()
+	{
+	    return $this->controllerPath;
+	}
+        /**
+         * Set Controller Path
+         * @param type $controllerPath 
+         */
+	public function setControllerPath($controllerPath)
+	{
+	    $this->controllerPath = $controllerPath;
+	}
+        
 }
 ?>

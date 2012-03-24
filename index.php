@@ -332,7 +332,8 @@ echo $firstHeader;
         
                 var url = './package/portal/main/controller/portalController.php';
                 //    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-
+                $("#centerViewport").removeClass();
+                $("#centerViewport").addClass("container-fluid");    
                 $("#centerViewport").load(url,{ method:'route',pageId:pageId,pageType:pageType }, function(response, status, xhr) {
         
                     

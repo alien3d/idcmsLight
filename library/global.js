@@ -25,12 +25,13 @@
             $(this).attr("checked",status);
         });
     }
-    function ajaxQuery(page,type,offset,params) {
+    function ajaxQuery(page,type,offset,limit,params) {
         $.ajax({
             type: 'POST',
             url: page,
             data: {
-                offset: offset,
+                start: offset,
+                perPage :limit,
                 params : params
             },
             beforeSend:function(){

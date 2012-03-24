@@ -1,5 +1,6 @@
 <?php
-require_once ("../../class/classValidation.php");
+namespace Core\Market\MidnightMarket\Model;
+require_once ("../../../../library/class/classValidation.php");
  
 /**
  * this is midnightMarket model file.This is to ensure strict setting enable for all variable enter to database
@@ -432,3 +433,4 @@ if (isset($_POST ['midnightMarketGps'])) {
     } 
 }
 ?>
+

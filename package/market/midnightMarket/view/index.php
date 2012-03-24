@@ -1,6 +1,22 @@
 <?php
-//require_once("/../controller/midnightMarketController.php");
-  $data = new \Core\market\controller\midnightMarketControllerClass();
+require_once("/../controller/midnightMarketController.php");
+$midnightMarket = new \Core\Market\MidnightMarket\Controller\MidnightMarketClass();
+$offset = 0;
+$limit = 2;
+$midnightMarket->setStart($offset);
+$midnightMarket->setLimit($limit); // normal system don't like paging.. 
+$midnightMarket->execute();
+$midnightMarket->setPageOutput('html');
+$data = $midnightMarket->read();
+require_once ("../../../../library/class/classNavigation.php");
+$navigation = new \Core\Paging\HtmlPaging();
+$navigation->setControllerPath($midnightMarket->getControllerPath());
+$navigation->countRecord = $data[0]['total'];
+
+$navigation->arrayVariable=array('x');
+$navigation->arrayVariableValue=array(1);
+$navigation->offset = $offset;
+$navigation->limit = $limit;
 
 ?>
 <div  class="modal hide fade" id="filterGridAdvance">
@@ -59,20 +75,39 @@
         </tr>
     </thead>
     <tbody id=tableBody>
-        <?php for ($i = 0; $i < count($data['counter']); $i++) { ?>
-            <tr>
-                <td><?php echo $data['counter'][$i]; ?></td>
-                <td><?php echo $data['state'][$i]; ?></td>
-                <td><?php echo $data['location'][$i]; ?></td>
-                <td><?php echo $data['day'][$i]; ?></td>
-                <td><?php //echo $data['maps'][$i];   ?></td>
-                <td><a link=""><a></td>
+        <?php
+        if (is_array($data)) {
+            $totalRecord=count($data);    
+            if ($totalRecord > 0) {
+                $counter = 0;
+                for ($i = 0; $i < $totalRecord; $i++) {
+                    $counter = $i + 1;
+                    ?>
+                    <tr>
+                        <td><?php echo $counter; ?></td>
+                        <td><?php echo $data[$i]['stateDesc']; ?></td>
+                        <td><?php echo $data[$i]['midnightMarketLocation']; ?></td>
+                        <td><?php echo $data[$i]['dayTitle']; ?></td>
+                        <td><?php //echo $data['maps'][$i];     ?></td>
+                        <td><a link=""><a></td>
 
-                            </tr>
-                        <?php } ?>    
+                                    </tr>
+                                <?php }
+                            } else {
+                                ?>
+                                <tr>
+                                    <td colspan="6"><?php $midnightMarket->exceptionMessage("No Record"); ?></td>
+                                </tr> 
+    <?php }
+} else {
+    ?>
+                            <tr>
+                                <td colspan="6"><?php $midnightMarket->exceptionMessage("Data Record Problem"); ?></td>
+                            </tr>    
+<?php } ?>        
                         </tbody>
                         </table>
-                        <div class="pagination" id="CorePaging" name="CorePaging"></div>    
+                        <div class="pagination" id="CorePaging" name="CorePaging"><?php echo $navigation->pagenationv4($offset); ?></div>    
                         <script language="javascript">
                             // ajax request only implement on
                         </script>
