@@ -1,7 +1,11 @@
 <?php
 
 require_once("/../controller/midnightMarketController.php");
+require_once("/../../../system/common/controller/StateController.php");
+require_once("/../../../system/common/controller/DayController.php");
 $midnightMarket = new \Core\Market\MidnightMarket\Controller\MidnightMarketClass();
+$state          = new \Core\System\Common\State\Controller\StateClass();
+$day            = new \Core\System\Common\Day\Controller\DayClass();
 if(isset($_POST['offset'])) {
     $offset= $_POST['offset'];    
 } else {    
@@ -10,20 +14,39 @@ if(isset($_POST['offset'])) {
 if(isset($_POST['limit'])) {
     $limit = $_POST['limit'];
 } else {   
-    $limit = 2;
+    $limit = 14;
 }
+
+// additional variable
+$state->setStart($offset);
+$state->setLimit($limit); // normal system don't like paging.. 
+$state->execute();
+$state->setPageOutput('html');
+$stateArray = $state->read();
+
+$day->setStart($offset);
+$day->setLimit($limit); // normal system don't like paging.. 
+$day->execute();
+$day->setPageOutput('html');
+$dayArray = $day->read();
+
+// end additional variable
+// main
 $midnightMarket->setStart($offset);
 $midnightMarket->setLimit($limit); // normal system don't like paging.. 
 $midnightMarket->execute();
 $midnightMarket->setPageOutput('html');
-$data = $midnightMarket->read();
+$midnightMarketArray = $midnightMarket->read();
+
+
 require_once ("../../../../library/class/classNavigation.php");
 $navigation = new \Core\Paging\HtmlPaging();
 $navigation->setViewPath($midnightMarket->getViewPath());
 $navigation->setOffset($offset);
 $navigation->setLimit($limit);
-$navigation->setTotalRecord($data[0]['total']);
+$navigation->setTotalRecord($midnightMarketArray [0]['total']);
 ?> <?php if(isset($_POST['view'])==1) { ?>
+<div id="infoPanel"></div>
 <div  class="modal hide fade" id="filterGridAdvance">
     <div class="modal-header">
         <a class="close" data-dismiss="modal1">×</a>
@@ -40,17 +63,34 @@ $navigation->setTotalRecord($data[0]['total']);
             <tbody>
                 <tr>
                     <td>Negeri</td>
-                    <td><select name="state" id="state"></state></td>                
+                    <td><select name="state" id="state">
+                            <?php  if (is_array($stateArray)) { 
+                                        $totalRecord=0;
+                                        $totalRecord = count($stateArray);
+                                        for($i=0;$i<$totalRecord;$i++) { ?>
+                            <option value="<?php echo $stateArray[$i]['stateId']; ?>"><?php echo $stateArray[$i]['stateDesc']; ?></option>
+                            <?php  } 
+                            }?>
+                        </state></td>                
                 </tr>
                 <tr>
                     <td>Kawasan</td>
-                    <td><select name="state" id="state"></state></td>                
+                    <td><input type="text" name="midnightMarketLocation" id="midnightLocation"></td>                
                 </tr>
                 <tr>
                     <td>Hari</td>
-                    <td><select name="state" id="state"></state></td>
+                    <td><select name="day" id="day">
+                            <?php  if (is_array($dayArray)) { 
+                                        $totalRecord=0;
+                                        $totalRecord = count($dayArray);
+                                        for($i=0;$i<$totalRecord;$i++) { ?>
+                            <option value="<?php echo $dayArray[$i]['dayId']; ?>"><?php echo $dayArray[$i]['dayDesc']; ?></option>
+                            <?php  } 
+                            }?>
+                        </state></td>
 
                 </tr>
+                
             </tbody>
         </table>
     </div>
@@ -62,10 +102,11 @@ $navigation->setTotalRecord($data[0]['total']);
 
 <div align="right">    
     <input type="text" class="input-small search-query" name="query" id="query">
-    <button class="btn" type="button" onclick="showMe('modal1',1)">New</button>
-    <button class="btn" type="button" onclick="searchMe()">Search</button>
-    <button class="btn" type="button" onclick="showMeModal('filterGridAdvance',1)">Advance Search</button>
-    <button class="btn" type="button">Report</button>
+    <a href="javascript:void(0)"class="btn"><i class="icon-plus"></i> New </a>
+    <a href="javascript:void(0)" class="btn"><i class="icon-zoom-in"></i> Search </a>
+    <a href="javascript:void(0)" class="btn" onclick="showMeModal('filterGridAdvance',1)"><i class="icon-zoom-in" ></i> Advance Search </a>
+    <a href="javascript:void(0)" class="btn"><i class="icon-file"></i> Report </a>
+    
 </div>
 <br>
 
@@ -83,20 +124,21 @@ $navigation->setTotalRecord($data[0]['total']);
     <tbody id=tableBody>
         <?php } ?>
         <?php if(isset($_POST['tableBody'])==1) {
-        if (is_array($data)) {
-            $totalRecord = count($data);
+        if (is_array($midnightMarketArray )) {
+            $totalRecord = 0;
+            $totalRecord = count($midnightMarketArray );
             if ($totalRecord > 0) {
-                $counter = 0;
+              
                 for ($i = 0; $i < $totalRecord; $i++) {
-                    $counter = $i + 1;
+                    
                     ?>
                     <tr>
-                        <td><?php echo $counter; ?></td>
-                        <td><?php echo $data[$i]['stateDesc']; ?></td>
-                        <td><?php echo $data[$i]['midnightMarketLocation']; ?></td>
-                        <td><?php echo $data[$i]['dayTitle']; ?></td>
-                        <td><?php //echo $data['maps'][$i];      ?></td>
-                        <td><a link=""><a></td>
+                        <td><?php echo $midnightMarketArray [$i]['counter']; ?></td>
+                        <td><?php echo $midnightMarketArray [$i]['stateDesc']; ?></td>
+                        <td><?php echo $midnightMarketArray [$i]['midnightMarketLocation']; ?></td>
+                        <td><?php echo $midnightMarketArray [$i]['dayDesc']; ?></td>
+                        <td><?php //echo $midnightMarketArray ['maps'][$i];      ?></td>
+                        <td><a class="btn-warning btn-mini"><i class="icon-edit  icon-white"></i>Update</a>  <a class="btn-danger btn-mini"><i class="icon-trash  icon-white"></i> Delete</a></td>
 
                                     </tr>
                                 <?php
@@ -117,7 +159,11 @@ $navigation->setTotalRecord($data[0]['total']);
                             <?php if(isset($_POST['view'])==1) { ?>
                         </tbody>
                         </table>
-                        <div class="pagination" id="CorePaging" name="CorePaging"><?php echo $navigation->pagenationv4($offset); ?></div>    
+                        <?php }
+                              if(isset($_POST['tableBody'])==1) { ?>
+                        <div class="pagination" id="pagingHtml" name="pagingHtml"><!--seperator--><?php  echo $navigation->pagenationv4($offset); ?></div>    
+                          <?php } 
+                                if(isset($_POST['view'])==1) { ?>
                         <script language="javascript" type="text/javascript">
                             function ajaxQuery(page,type,offset,limit,params) {
                                 $.ajax({
@@ -141,15 +187,19 @@ $navigation->setTotalRecord($data[0]['total']);
                                         // successful request; do something with the data
                                         $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
                                         $('#infoPanel').empty();
-                                        
+                                          
+                                            var data = data.split("seperator");
+                                            
+                                            data[1]=data[1].replace("-->","");
                                             $('#tableBody').empty();
                                             $('#pagingHtml').empty();
-                                            $('#tableBody').append(data);
-                                            $('#pagingHtml').append(data.pagingString);
+                                            $('#tableBody').append(data[0]);
+                                            $('#pagingHtml').append(data[1]);
                                         
                                     },
                                     error:function(){
                                         // failed request; give feedback to user
+                                   
                                         $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
                                     }
                                 });

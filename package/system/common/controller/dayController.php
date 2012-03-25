@@ -1,27 +1,26 @@
 <?php
 
-namespace Core\Market\MidnightMarket\Controller;
+namespace Core\System\Common\Day\Controller;
 
-session_start();
 require_once ("../../../../library/class/classAbstract.php");
 require_once ("../../../../library/class/classRecordSet.php");
 require_once ("../../../../library/class/classDate.php");
 require_once ("../../../../library/class/classSystemString.php");
 //require_once ("/../../../../class/classDocumentTrail.php");
 //require_once ("../../document/model/documentModel.php");
-require_once ("/../model/midnightMarketModel.php");
+require_once ("/../model/dayModel.php");
 
 /**
- * this is midnightMarket setting files.This sample template file for master record
+ * this is day setting files.This sample template file for master record
  * @name IDCMS
  * @version 2
  * @author hafizan
  * @package sample
- * @subpackage midnightMarket
+ * @subpackage day
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class MidnightMarketClass extends \Core\ConfigClass {
+class DayClass extends \Core\ConfigClass {
 
     /**
      * Connection to the database
@@ -94,14 +93,13 @@ class MidnightMarketClass extends \Core\ConfigClass {
      */
     function execute() {
         parent::__construct();
-        $this->setViewPath("./package/market/midnightMarket/view/midnightMarketView.php");
-        $this->setControllerPath("./package/market/midnightMarket/controller/midnightMarketController.php");
+
         //  $this--->x; bugs on generator .. just dummy
         $this->audit = 0;
 
         $this->log = 1;
-        
-        $this->model = new \Core\Market\MidnightMarket\Model\MidnightMarketModel();
+
+        $this->model = new \Core\System\Common\Day\Model\DayModel();
         $this->model->setVendor($this->getVendor());
         $this->model->execute();
 
@@ -152,12 +150,11 @@ class MidnightMarketClass extends \Core\ConfigClass {
         $this->q->start();
         $this->model->create();
         if ($this->getVendor() == self::MYSQL) {
-            $sql = "INSERT INTO `" . $this->q->getCoreDatabase() . "`.`midnightMarket` (
-    `midnightMarketId`,
-    `stateId`,
+            $sql = "INSERT INTO `" . $this->q->getCoreDatabase() . "`.`day` (
     `dayId`,
-    `location`,
-    `midnightMarketGps`,
+    `daySequence`,
+    `dayCode`,
+    `dayDesc`,
     `isDefault`,
     `isNew`,
     `isDraft`,
@@ -171,10 +168,9 @@ class MidnightMarketClass extends \Core\ConfigClass {
     `executeTime`
 ) VALUES (
 null,
- '" . $this->model->getStateId() . "',
- '" . $this->model->getDayId() . "',
- '" . $this->model->getLocation() . "',
- '" . $this->model->getMidnightMarketGps() . "',
+ '" . $this->model->getDaySequence() . "',
+ '" . $this->model->getDayCode() . "',
+ '" . $this->model->getDayDesc() . "',
  '" . $this->model->getIsDefault(0, 'single') . "',
  '" . $this->model->getIsNew(0, 'single') . "',
  '" . $this->model->getIsDraft(0, 'single') . "',
@@ -188,12 +184,11 @@ null,
  " . $this->model->getExecuteTime() . "
  );";
         } else if ($this->getVendor() == self::MSSQL) {
-            $sql = "INSERT INTO [" . $this->q->getCoreDatabase() . "].[midnightMarket] (
-    [midnightMarketId],
-    [stateId],
+            $sql = "INSERT INTO [" . $this->q->getCoreDatabase() . "].[day] (
     [dayId],
-    [location],
-    [midnightMarketGps],
+    [daySequence],
+    [dayCode],
+    [dayDesc],
     [isDefault],
     [isNew],
     [isDraft],
@@ -207,10 +202,9 @@ null,
     [executeTime]
 ) VALUES (
 null,
- '" . $this->model->getStateId() . "',
- '" . $this->model->getDayId() . "',
- '" . $this->model->getLocation() . "',
- '" . $this->model->getMidnightMarketGps() . "',
+ '" . $this->model->getDaySequence() . "',
+ '" . $this->model->getDayCode() . "',
+ '" . $this->model->getDayDesc() . "',
  '" . $this->model->getIsDefault(0, 'single') . "',
  '" . $this->model->getIsNew(0, 'single') . "',
  '" . $this->model->getIsDraft(0, 'single') . "',
@@ -224,12 +218,11 @@ null,
  " . $this->model->getExecuteTime() . "
  );";
         } else if ($this->getVendor() == self::ORACLE) {
-            $sql = "INSERT INTO   MIDNIGHTMARKET (
-    MIDNIGHTMARKETID,
-    STATEID,
+            $sql = "INSERT INTO   DAY (
     DAYID,
-    LOCATION,
-    MIDNIGHTMARKETGPS,
+    DAYSEQUENCE,
+    DAYCODE,
+    DAYDESC,
     ISDEFAULT,
     ISNEW,
     ISDRAFT,
@@ -243,10 +236,9 @@ null,
     EXECUTETIME
 ) VALUES (
 null,
- '" . $this->model->getStateId() . "',
- '" . $this->model->getDayId() . "',
- '" . $this->model->getLocation() . "',
- '" . $this->model->getMidnightMarketGps() . "',
+ '" . $this->model->getDaySequence() . "',
+ '" . $this->model->getDayCode() . "',
+ '" . $this->model->getDayDesc() . "',
  '" . $this->model->getIsDefault(0, 'single') . "',
  '" . $this->model->getIsNew(0, 'single') . "',
  '" . $this->model->getIsDraft(0, 'single') . "',
@@ -260,12 +252,11 @@ null,
  " . $this->model->getExecuteTime() . "
  );";
         } else if ($this->getVendor() == self::DB2) {
-            $sql = "INSERT INTO   MIDNIGHTMARKET (
-    MIDNIGHTMARKETID,
-    STATEID,
+            $sql = "INSERT INTO   DAY (
     DAYID,
-    LOCATION,
-    MIDNIGHTMARKETGPS,
+    DAYSEQUENCE,
+    DAYCODE,
+    DAYDESC,
     ISDEFAULT,
     ISNEW,
     ISDRAFT,
@@ -279,10 +270,9 @@ null,
     EXECUTETIME
 ) VALUES (
 null,
- '" . $this->model->getStateId() . "',
- '" . $this->model->getDayId() . "',
- '" . $this->model->getLocation() . "',
- '" . $this->model->getMidnightMarketGps() . "',
+ '" . $this->model->getDaySequence() . "',
+ '" . $this->model->getDayCode() . "',
+ '" . $this->model->getDayDesc() . "',
  '" . $this->model->getIsDefault(0, 'single') . "',
  '" . $this->model->getIsNew(0, 'single') . "',
  '" . $this->model->getIsDraft(0, 'single') . "',
@@ -296,12 +286,11 @@ null,
  " . $this->model->getExecuteTime() . "
  );";
         } else if ($this->getVendor() == self::POSTGRESS) {
-            $sql = "INSERT INTO   MIDNIGHTMARKET (
-    MIDNIGHTMARKETID,
-    STATEID,
+            $sql = "INSERT INTO   DAY (
     DAYID,
-    LOCATION,
-    MIDNIGHTMARKETGPS,
+    DAYSEQUENCE,
+    DAYCODE,
+    DAYDESC,
     ISDEFAULT,
     ISNEW,
     ISDRAFT,
@@ -315,10 +304,9 @@ null,
     EXECUTETIME
 ) VALUES (
 null,
- '" . $this->model->getStateId() . "',
- '" . $this->model->getDayId() . "',
- '" . $this->model->getLocation() . "',
- '" . $this->model->getMidnightMarketGps() . "',
+ '" . $this->model->getDaySequence() . "',
+ '" . $this->model->getDayCode() . "',
+ '" . $this->model->getDayDesc() . "',
  '" . $this->model->getIsDefault(0, 'single') . "',
  '" . $this->model->getIsNew(0, 'single') . "',
  '" . $this->model->getIsDraft(0, 'single') . "',
@@ -332,7 +320,7 @@ null,
  " . $this->model->getExecuteTime() . "
  );";
         }$this->q->create($sql);
-        $midnightMarketId = $this->q->lastInsertId();
+        $dayId = $this->q->lastInsertId();
         if ($this->q->execute == 'fail') {
             echo json_encode(array("success" => false, "message" => $this->q->responce));
             exit();
@@ -343,7 +331,7 @@ null,
         echo json_encode(
                 array("success" => true,
                     "message" => $this->systemString->getCreateMessage(),
-                    "midnightMarketId" => $midnightMarketId,
+                    "dayId" => $dayId,
                     "time" => $time));
         exit();
     }
@@ -359,11 +347,11 @@ null,
         $start = microtime(true);
         if ($this->getIsAdmin() == 0) {
             if ($this->q->vendor == self::MYSQL) {
-                $this->auditFilter = "   `midnightMarket`.`isActive`     =   1   ";
+                $this->auditFilter = "   `day`.`isActive`        =   1   ";
             } else if ($this->q->vendor == self::MSSQL) {
-                $this->auditFilter = "   [midnightMarket].[isActive]     =   1   ";
+                $this->auditFilter = "   [day].[isActive]        =   1   ";
             } else if ($this->q->vendor == self::ORACLE) {
-                $this->auditFilter = "   MIDNIGHTMARKET.ISACTIVE =   1   ";
+                $this->auditFilter = "   DAY.ISACTIVE    =   1   ";
             }
         } else if ($this->getIsAdmin() == 1) {
             if ($this->getVendor() == self::MYSQL) {
@@ -382,135 +370,124 @@ null,
         }
         $items = array();
         if ($this->getVendor() == self::MYSQL) {
-            $sql = "SELECT `midnightMarket`.`midnightMarketId`,
-`midnightMarket`.`stateId`,
-`midnightMarket`.`dayId`,
-`midnightMarket`.`midnightMarketLocation`,
-`midnightMarket`.`midnightMarketGps`,
-`midnightMarket`.`isDefault`,
-`midnightMarket`.`isNew`,
-`midnightMarket`.`isDraft`,
-`midnightMarket`.`isUpdate`,
-`midnightMarket`.`isDelete`,
-`midnightMarket`.`isActive`,
-`midnightMarket`.`isApproved`,
-`midnightMarket`.`isReview`,
-`midnightMarket`.`isPost`,
-`midnightMarket`.`executeBy`,
-`midnightMarket`.`executeTime`,
-`staff`.`staffName`,
-`state`.`stateDesc`,
-`day`.`dayDesc`
-            FROM    `" . $this->q->getCoreDatabase() . "`.`midnightMarket`
+            $sql = "SELECT`day`.`dayId`,
+`day`.`daySequence`,
+`day`.`dayCode`,
+`day`.`dayDesc`,
+`day`.`isDefault`,
+`day`.`isNew`,
+`day`.`isDraft`,
+`day`.`isUpdate`,
+`day`.`isDelete`,
+`day`.`isActive`,
+`day`.`isApproved`,
+`day`.`isReview`,
+`day`.`isPost`,
+`day`.`executeBy`,
+`day`.`executeTime`,
+`staff`.`staffName`
+            FROM    `" . $this->q->getCoreDatabase() . "`.`day`
             JOIN    `" . $this->q->getManagementDatabase() . "`.`staff`
-            ON      `midnightMarket`.`executeBy` = `staff`.`staffId`
-            JOIN    `" . $this->q->getCoreDatabase() . "`.`state`
-           USING (`stateId`)
-            JOIN    `" . $this->q->getCoreDatabase() . "`.`day`
-           USING (`dayId`) 
+            ON      `day`.`executeBy` = `staff`.`staffId`
             WHERE       " . $this->auditFilter;
-            if ($this->model->getMidnightMarketId(0, 'single')) {
-                $sql .= " AND `" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`='" . $this->model->getMidnightMarketId(0, 'single') . "'";
+            if ($this->model->getDayId(0, 'single')) {
+                $sql .= " AND `" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`='" . $this->model->getDayId(0, 'single') . "'";
             }
         } else if ($this->getVendor() == self::MSSQL) {
-            $sql = "SELECT [midnightMarket].[midnightMarketId],
-[midnightMarket].[stateId],
-[midnightMarket].[dayId],
-[midnightMarket].[location],
-[midnightMarket].[midnightMarketGps],
-[midnightMarket].[isDefault],
-[midnightMarket].[isNew],
-[midnightMarket].[isDraft],
-[midnightMarket].[isUpdate],
-[midnightMarket].[isDelete],
-[midnightMarket].[isActive],
-[midnightMarket].[isApproved],
-[midnightMarket].[isReview],
-[midnightMarket].[isPost],
-[midnightMarket].[executeBy],
-[midnightMarket].[executeTime],
+            $sql = "SELECT [day].[dayId],
+[day].[daySequence],
+[day].[dayCode],
+[day].[dayDesc],
+[day].[isDefault],
+[day].[isNew],
+[day].[isDraft],
+[day].[isUpdate],
+[day].[isDelete],
+[day].[isActive],
+[day].[isApproved],
+[day].[isReview],
+[day].[isPost],
+[day].[executeBy],
+[day].[executeTime],
 [staff].[staffName]
-            FROM    [" . $this->q->getCoreDatabase() . "].[midnightMarket]
+            FROM    [" . $this->q->getCoreDatabase() . "].[day]
             JOIN        [" . $this->q->getManagementDatabase() . "].[staff]
-            ON      [midnightMarket].[executeBy] = [staff].[staffId]
+            ON      [day].[executeBy] = [staff].[staffId]
             WHERE       " . $this->auditFilter;
-            if ($this->model->getMidnightMarketId(0, 'single')) {
-                $sql .= " AND [" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]        =   '" . $this->model->getMidnightMarketId(0, 'single') . "'";
+            if ($this->model->getDayId(0, 'single')) {
+                $sql .= " AND [" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]        =   '" . $this->model->getDayId(0, 'single') . "'";
             }
         } else if ($this->getVendor() == self::ORACLE) {
-            $sql = "SELECT MIDNIGHTMARKET.MIDNIGHTMARKETID,
- MIDNIGHTMARKET.STATEID,
- MIDNIGHTMARKET.DAYID,
- MIDNIGHTMARKET.LOCATION,
- MIDNIGHTMARKET.MIDNIGHTMARKETGPS,
- MIDNIGHTMARKET.ISDEFAULT,
- MIDNIGHTMARKET.ISNEW,
- MIDNIGHTMARKET.ISDRAFT,
- MIDNIGHTMARKET.ISUPDATE,
- MIDNIGHTMARKET.ISDELETE,
- MIDNIGHTMARKET.ISACTIVE,
- MIDNIGHTMARKET.ISAPPROVED,
- MIDNIGHTMARKET.ISREVIEW,
- MIDNIGHTMARKET.ISPOST,
- MIDNIGHTMARKET.EXECUTEBY,
- MIDNIGHTMARKET.EXECUTETIME,
+            $sql = "SELECT DAY.DAYID,
+ DAY.DAYSEQUENCE,
+ DAY.DAYCODE,
+ DAY.DAYDESC,
+ DAY.ISDEFAULT,
+ DAY.ISNEW,
+ DAY.ISDRAFT,
+ DAY.ISUPDATE,
+ DAY.ISDELETE,
+ DAY.ISACTIVE,
+ DAY.ISAPPROVED,
+ DAY.ISREVIEW,
+ DAY.ISPOST,
+ DAY.EXECUTEBY,
+ DAY.EXECUTETIME,
 STAFF.STAFFNAME
-            FROM    MIDNIGHTMARKET
+            FROM    DAY
             JOIN        STAFF
-            ON      MIDNIGHTMARKET.EXECUTEBY = STAFF.STAFFID
+            ON      DAY.EXECUTEBY = STAFF.STAFFID
             WHERE       " . $this->auditFilter;
-            if ($this->model->getMidnightMarketId(0, 'single')) {
-                $sql .= " AND " . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . "='" . $this->model->getMidnightMarketId(0, 'single') . "'";
+            if ($this->model->getDayId(0, 'single')) {
+                $sql .= " AND " . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . "='" . $this->model->getDayId(0, 'single') . "'";
             }
         } else if ($this->getVendor() == self::DB2) {
-            $sql = "SELECT MIDNIGHTMARKET.MIDNIGHTMARKETID,
- MIDNIGHTMARKET.STATEID,
- MIDNIGHTMARKET.DAYID,
- MIDNIGHTMARKET.LOCATION,
- MIDNIGHTMARKET.MIDNIGHTMARKETGPS,
- MIDNIGHTMARKET.ISDEFAULT,
- MIDNIGHTMARKET.ISNEW,
- MIDNIGHTMARKET.ISDRAFT,
- MIDNIGHTMARKET.ISUPDATE,
- MIDNIGHTMARKET.ISDELETE,
- MIDNIGHTMARKET.ISACTIVE,
- MIDNIGHTMARKET.ISAPPROVED,
- MIDNIGHTMARKET.ISREVIEW,
- MIDNIGHTMARKET.ISPOST,
- MIDNIGHTMARKET.EXECUTEBY,
- MIDNIGHTMARKET.EXECUTETIME,
+            $sql = "SELECT DAY.DAYID,
+ DAY.DAYSEQUENCE,
+ DAY.DAYCODE,
+ DAY.DAYDESC,
+ DAY.ISDEFAULT,
+ DAY.ISNEW,
+ DAY.ISDRAFT,
+ DAY.ISUPDATE,
+ DAY.ISDELETE,
+ DAY.ISACTIVE,
+ DAY.ISAPPROVED,
+ DAY.ISREVIEW,
+ DAY.ISPOST,
+ DAY.EXECUTEBY,
+ DAY.EXECUTETIME,
 STAFF.STAFFNAME
-            FROM    MIDNIGHTMARKET
+            FROM    DAY
             JOIN        STAFF
-            ON      MIDNIGHTMARKET.EXECUTEBY = STAFF.STAFFID
+            ON      DAY.EXECUTEBY = STAFF.STAFFID
             WHERE       " . $this->auditFilter;
-            if ($this->model->getMidnightMarketId(0, 'single')) {
-                $sql .= " AND " . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . "='" . $this->model->getMidnightMarketId(0, 'single') . "'";
+            if ($this->model->getDayId(0, 'single')) {
+                $sql .= " AND " . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . "='" . $this->model->getDayId(0, 'single') . "'";
             }
         } else if ($this->getVendor() == self::POSTGRESS) {
-            $sql = "SELECT MIDNIGHTMARKET.MIDNIGHTMARKETID,
- MIDNIGHTMARKET.STATEID,
- MIDNIGHTMARKET.DAYID,
- MIDNIGHTMARKET.LOCATION,
- MIDNIGHTMARKET.MIDNIGHTMARKETGPS,
- MIDNIGHTMARKET.ISDEFAULT,
- MIDNIGHTMARKET.ISNEW,
- MIDNIGHTMARKET.ISDRAFT,
- MIDNIGHTMARKET.ISUPDATE,
- MIDNIGHTMARKET.ISDELETE,
- MIDNIGHTMARKET.ISACTIVE,
- MIDNIGHTMARKET.ISAPPROVED,
- MIDNIGHTMARKET.ISREVIEW,
- MIDNIGHTMARKET.ISPOST,
- MIDNIGHTMARKET.EXECUTEBY,
- MIDNIGHTMARKET.EXECUTETIME,
+            $sql = "SELECT DAY.DAYID,
+ DAY.DAYSEQUENCE,
+ DAY.DAYCODE,
+ DAY.DAYDESC,
+ DAY.ISDEFAULT,
+ DAY.ISNEW,
+ DAY.ISDRAFT,
+ DAY.ISUPDATE,
+ DAY.ISDELETE,
+ DAY.ISACTIVE,
+ DAY.ISAPPROVED,
+ DAY.ISREVIEW,
+ DAY.ISPOST,
+ DAY.EXECUTEBY,
+ DAY.EXECUTETIME,
 STAFF.STAFFNAME
-            FROM    MIDNIGHTMARKET
+            FROM    DAY
             JOIN        STAFF
-            ON      MIDNIGHTMARKET.EXECUTEBY = STAFF.STAFFID
+            ON      DAY.EXECUTEBY = STAFF.STAFFID
             WHERE       " . $this->auditFilter;
-            if ($this->model->getMidnightMarketId(0, 'single')) {
-                $sql .= " AND " . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . "='" . $this->model->getMidnightMarketId(0, 'single') . "'";
+            if ($this->model->getDayId(0, 'single')) {
+                $sql .= " AND " . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . "='" . $this->model->getDayId(0, 'single') . "'";
             }
         } else {
             echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
@@ -545,13 +522,13 @@ STAFF.STAFFNAME
          * @variables $filterArray;
          */
         $filterArray = null;
-        $filterArray = array('midnightMarketId');
+        $filterArray = array('dayId');
         /**
          * filter table
          * @variables $tableArray
          */
         $tableArray = null;
-        $tableArray = array('midnightMarket');
+        $tableArray = array('day');
         if ($this->getFieldQuery()) {
             if ($this->getVendor() == self::MYSQL) {
                 $sql .= $this->q->quickSearch($tableArray, $filterArray);
@@ -581,7 +558,6 @@ STAFF.STAFFNAME
                 
             }
         }
-        
         // optional debugger.uncomment if wanted to used
         //if ($this->q->execute == 'fail') {
         //  echo json_encode(array(
@@ -609,45 +585,43 @@ STAFF.STAFFNAME
         $_SESSION ['sql'] = $sql; // push to session so can make report via excel and pdf
         $_SESSION ['start'] = $this->getStart();
         $_SESSION ['limit'] = $this->getLimit();
-        if ($this->getLimit()) {
+        if ($this->getStart() && $this->getLimit()) {
             // only mysql have limit
             if ($this->getVendor() == self::MYSQL) {
-                
                 $sql .= " LIMIT  " . $this->getStart() . "," . $this->getLimit() . " ";
             } else if ($this->getVendor() == self::MSSQL) {
                 /**
                  * Sql Server and Oracle used row_number
                  * Parameterize Query We don't support
                  */
-                $sql = "WITH [midnightMarketDerived] AS
+                $sql = "WITH [dayDerived] AS
                             (
-                                SELECT [midnightMarket].[midnightMarketId],
-[midnightMarket].[stateId],
-[midnightMarket].[dayId],
-[midnightMarket].[location],
-[midnightMarket].[midnightMarketGps],
-[midnightMarket].[isDefault],
-[midnightMarket].[isNew],
-[midnightMarket].[isDraft],
-[midnightMarket].[isUpdate],
-[midnightMarket].[isDelete],
-[midnightMarket].[isActive],
-[midnightMarket].[isApproved],
-[midnightMarket].[isReview],
-[midnightMarket].[isPost],
-[midnightMarket].[executeBy],
-[midnightMarket].[executeTime],
+                                SELECT [day].[dayId],
+[day].[daySequence],
+[day].[dayCode],
+[day].[dayDesc],
+[day].[isDefault],
+[day].[isNew],
+[day].[isDraft],
+[day].[isUpdate],
+[day].[isDelete],
+[day].[isActive],
+[day].[isApproved],
+[day].[isReview],
+[day].[isPost],
+[day].[executeBy],
+[day].[executeTime],
 [staff].[staffName],
-ROW_NUMBER() OVER (ORDER BY [midnightMarket].[midnightMarketId]) AS 'RowNumber'
+ROW_NUMBER() OVER (ORDER BY [day].[dayId]) AS 'RowNumber'
  
                          
-            FROM    [" . $this->q->getCoreDatabase() . "].[midnightMarket]
+            FROM    [" . $this->q->getCoreDatabase() . "].[day]
             JOIN        [" . $this->q->getManagementDatabase() . "].[staff]
-            ON      [midnightMarket].[executeBy] = [staff].[staffId]
+            ON      [day].[executeBy] = [staff].[staffId]
             WHERE " . $this->auditFilter . $tempSql . $tempSql2 . "
                             )
                             SELECT      *
-                            FROM        [midnightMarketDerived]
+                            FROM        [dayDerived]
                             WHERE       [RowNumber]
                             BETWEEN " . ($this->getStart() + 1) . "
                             AND             " . ($this->getStart() + $this->getLimit()) . " ;";
@@ -660,26 +634,25 @@ ROW_NUMBER() OVER (ORDER BY [midnightMarket].[midnightMarketId]) AS 'RowNumber'
                         FROM ( SELECT   a.*,
                                                 rownum r
                         FROM (
-SELECT MIDNIGHTMARKET.MIDNIGHTMARKETID,
- MIDNIGHTMARKET.STATEID,
- MIDNIGHTMARKET.DAYID,
- MIDNIGHTMARKET.LOCATION,
- MIDNIGHTMARKET.MIDNIGHTMARKETGPS,
- MIDNIGHTMARKET.ISDEFAULT,
- MIDNIGHTMARKET.ISNEW,
- MIDNIGHTMARKET.ISDRAFT,
- MIDNIGHTMARKET.ISUPDATE,
- MIDNIGHTMARKET.ISDELETE,
- MIDNIGHTMARKET.ISACTIVE,
- MIDNIGHTMARKET.ISAPPROVED,
- MIDNIGHTMARKET.ISREVIEW,
- MIDNIGHTMARKET.ISPOST,
- MIDNIGHTMARKET.EXECUTEBY,
- MIDNIGHTMARKET.EXECUTETIME,
+SELECT DAY.DAYID,
+ DAY.DAYSEQUENCE,
+ DAY.DAYCODE,
+ DAY.DAYDESC,
+ DAY.ISDEFAULT,
+ DAY.ISNEW,
+ DAY.ISDRAFT,
+ DAY.ISUPDATE,
+ DAY.ISDELETE,
+ DAY.ISACTIVE,
+ DAY.ISAPPROVED,
+ DAY.ISREVIEW,
+ DAY.ISPOST,
+ DAY.EXECUTEBY,
+ DAY.EXECUTETIME,
 STAFF.STAFFNAME
-            FROM    MIDNIGHTMARKET
+            FROM    DAY
             JOIN        STAFF
-            ON      MIDNIGHTMARKET.EXECUTEBY = STAFF.STAFFID
+            ON      DAY.EXECUTEBY = STAFF.STAFFID
             WHERE       " . $this->auditFilter . $tempSql . $tempSql2 . "
                                  ) a
                         where rownum <= '" . ($this->getStart() + $this->getLimit()) . "' )
@@ -692,28 +665,27 @@ STAFF.STAFFNAME
         /*
          *  Only Execute One Query
          */
-        if (!($this->model->getMidnightMarketId(0, 'single'))) {
+        if (!($this->model->getDayId(0, 'single'))) {
             $this->q->read($sql);
             if ($this->q->execute == 'fail') {
                 echo json_encode(array("success" => false, "message" => $this->q->responce));
                 exit();
             }
         }
-        
+       
         $items = array();
-        $i=1;
+        $i = 1;
         while (($row = $this->q->fetchAssoc()) == TRUE) {
-            $row['total']=$total; // small overide
+            $row['total'] = $total; // small overide
             $row['counter'] = $this->getStart() + $i;
             $items [] = $row;
             $i++;
-        
         }
         if ($this->getPageOutput() == 'html') {
-            
+
             return $items;
         } else if ($this->getPageOutput() == 'json') {
-            if ($this->model->getMidnightMarketId(0, 'single')) {
+            if ($this->model->getDayId(0, 'single')) {
                 $end = microtime(true);
                 $time = $end - $start;
                 $json_encode = json_encode(array(
@@ -722,8 +694,8 @@ STAFF.STAFFNAME
                     'message' => $this->systemString->getReadMessage(),
                     'time' => $time,
                     'firstRecord' => $this->firstRecord('value'),
-                    'previousRecord' => $this->previousRecord('value', $this->model->getMidnightMarketId(0, 'single')),
-                    'nextRecord' => $this->nextRecord('value', $this->model->getMidnightMarketId(0, 'single')),
+                    'previousRecord' => $this->previousRecord('value', $this->model->getDayId(0, 'single')),
+                    'nextRecord' => $this->nextRecord('value', $this->model->getDayId(0, 'single')),
                     'lastRecord' => $this->lastRecord('value'),
                     'data' => $items));
                 $json_encode = str_replace("[", "", $json_encode);
@@ -741,8 +713,8 @@ STAFF.STAFFNAME
                     'message' => $this->systemString->getReadMessage(),
                     'time' => $time,
                     'firstRecord' => $this->recordSet->firstRecord('value'),
-                    'previousRecord' => $this->recordSet->previousRecord('value', $this->model->getMidnightMarketId(0, 'single')),
-                    'nextRecord' => $this->recordSet->nextRecord('value', $this->model->getMidnightMarketId(0, 'single')),
+                    'previousRecord' => $this->recordSet->previousRecord('value', $this->model->getDayId(0, 'single')),
+                    'nextRecord' => $this->recordSet->nextRecord('value', $this->model->getDayId(0, 'single')),
                     'lastRecord' => $this->recordSet->lastRecord('value'),
                     'data' => $items));
                 exit();
@@ -772,27 +744,27 @@ STAFF.STAFFNAME
             $sql = "
         SELECT  `" . $this->model->getPrimaryKeyName() . "`
         FROM    `" . $this->q->getCoreDatabase() . "`.`" . $this->model->getTableName() . "`
-        WHERE   `" . $this->model->getPrimaryKeyName() . "` = '" . $this->model->getMidnightMarketId(0, 'single') . "' ";
+        WHERE   `" . $this->model->getPrimaryKeyName() . "` = '" . $this->model->getDayId(0, 'single') . "' ";
         } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
             SELECT  [" . $this->model->getPrimaryKeyName() . "]
             FROM    [" . $this->q->getCoreDatabase() . "].[" . $this->model->getTableName() . "]
-            WHERE   [" . $this->model->getPrimaryKeyName() . "] = '" . $this->model->getMidnightMarketId(0, 'single') . "' ";
+            WHERE   [" . $this->model->getPrimaryKeyName() . "] = '" . $this->model->getDayId(0, 'single') . "' ";
         } else if ($this->getVendor() == self::ORACLE) {
             $sql = "
         SELECT  " . strtoupper($this->model->getPrimaryKeyName()) . "
         FROM    " . strtoupper($this->model->getTableName()) . "
-        WHERE   " . strtoupper($this->model->getPrimaryKeyName()) . " = '" . $this->model->getMidnightMarketId(0, 'single') . "' ";
+        WHERE   " . strtoupper($this->model->getPrimaryKeyName()) . " = '" . $this->model->getDayId(0, 'single') . "' ";
         } else if ($this->getVendor() == self::DB2) {
             $sql = "
             SELECT  " . strtoupper($this->model->getPrimaryKeyName()) . "
             FROM    " . strtoupper($this->model->getTableName()) . "
-            WHERE   " . strtoupper($this->model->getPrimaryKeyName()) . " = '" . $this->model->getMidnightMarketId(0, 'single') . "' ";
+            WHERE   " . strtoupper($this->model->getPrimaryKeyName()) . " = '" . $this->model->getDayId(0, 'single') . "' ";
         } else if ($this->getVendor() == self::POSTGRESS) {
             $sql = "
             SELECT  " . strtoupper($this->model->getPrimaryKeyName()) . "
             FROM    " . strtoupper($this->model->getTableName()) . "
-            WHERE   " . strtoupper($this->model->getPrimaryKeyName()) . " = '" . $this->model->getMidnightMarketId(0, 'single') . "' ";
+            WHERE   " . strtoupper($this->model->getPrimaryKeyName()) . " = '" . $this->model->getDayId(0, 'single') . "' ";
         }
         $result = $this->q->fast($sql);
         $total = $this->q->numberRows($result, $sql);
@@ -801,11 +773,10 @@ STAFF.STAFFNAME
             exit();
         } else {
             if ($this->getVendor() == self::MYSQL) {
-                $sql = "UPDATE `" . $this->q->getCoreDatabase() . "`.`midnightMarket` SET
- `stateId` = '" . $this->model->getStateId() . "',
- `dayId` = '" . $this->model->getDayId() . "',
- `location` = '" . $this->model->getLocation() . "',
- `midnightMarketGps` = '" . $this->model->getMidnightMarketGps() . "',
+                $sql = "UPDATE `" . $this->q->getCoreDatabase() . "`.`day` SET
+ `daySequence` = '" . $this->model->getDaySequence() . "',
+ `dayCode` = '" . $this->model->getDayCode() . "',
+ `dayDesc` = '" . $this->model->getDayDesc() . "',
  `isDefault` = '" . $this->model->getIsDefault('0', 'single') . "',
  `isNew` = '" . $this->model->getIsNew('0', 'single') . "',
  `isDraft` = '" . $this->model->getIsDraft('0', 'single') . "',
@@ -817,13 +788,12 @@ STAFF.STAFFNAME
  `isPost` = '" . $this->model->getIsPost('0', 'single') . "',
  `executeBy` = '" . $this->model->getExecuteBy('0', 'single') . "',
  `executeTime` = " . $this->model->getExecuteTime() . "
-WHERE `midnightMarketId`='" . $this->model->getMidnightMarketId('0', 'single') . "'";
+WHERE `dayId`='" . $this->model->getDayId('0', 'single') . "'";
             } else if ($this->getVendor() == self::MSSQL) {
-                $sql = "UPDATE [" . $this->q->getCoreDatabase() . "].[midnightMarket] SET
- [stateId] = '" . $this->model->getStateId() . "',
- [dayId] = '" . $this->model->getDayId() . "',
- [location] = '" . $this->model->getLocation() . "',
- [midnightMarketGps] = '" . $this->model->getMidnightMarketGps() . "',
+                $sql = "UPDATE [" . $this->q->getCoreDatabase() . "].[day] SET
+ [daySequence] = '" . $this->model->getDaySequence() . "',
+ [dayCode] = '" . $this->model->getDayCode() . "',
+ [dayDesc] = '" . $this->model->getDayDesc() . "',
  [isDefault] = '" . $this->model->getIsDefault(0, 'single') . "',
  [isNew] = '" . $this->model->getIsNew(0, 'single') . "',
  [isDraft] = '" . $this->model->getIsDraft(0, 'single') . "',
@@ -835,13 +805,12 @@ WHERE `midnightMarketId`='" . $this->model->getMidnightMarketId('0', 'single') .
  [isPost] = '" . $this->model->getIsPost(0, 'single') . "',
  [executeBy] = '" . $this->model->getExecuteBy(0, 'single') . "',
  [executeTime] = " . $this->model->getExecuteTime() . "
-WHERE [midnightMarketId]='" . $this->model->getMidnightMarketId('0', 'single') . "'";
+WHERE [dayId]='" . $this->model->getDayId('0', 'single') . "'";
             } else if ($this->getVendor() == self::ORACLE) {
-                $sql = "UPDATE `MIDNIGHTMARKET` SET
-  STATEID = '" . $this->model->getStateId() . "',
- DAYID = '" . $this->model->getDayId() . "',
- LOCATION = '" . $this->model->getLocation() . "',
- MIDNIGHTMARKETGPS = '" . $this->model->getMidnightMarketGps() . "',
+                $sql = "UPDATE `DAY` SET
+  DAYSEQUENCE = '" . $this->model->getDaySequence() . "',
+ DAYCODE = '" . $this->model->getDayCode() . "',
+ DAYDESC = '" . $this->model->getDayDesc() . "',
  ISDEFAULT = '" . $this->model->getIsDefault(0, 'single') . "',
  ISNEW = '" . $this->model->getIsNew(0, 'single') . "',
  ISDRAFT = '" . $this->model->getIsDraft(0, 'single') . "',
@@ -853,13 +822,12 @@ WHERE [midnightMarketId]='" . $this->model->getMidnightMarketId('0', 'single') .
  ISPOST = '" . $this->model->getIsPost(0, 'single') . "',
  EXECUTEBY = '" . $this->model->getExecuteBy(0, 'single') . "',
  EXECUTETIME = " . $this->model->getExecuteTime() . "
-WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') . "'";
+WHERE `DAYID`='" . $this->model->getDayId('0', 'single') . "'";
             } else if ($this->getVendor() == self::DB2) {
-                $sql = "UPDATE `MIDNIGHTMARKET` SET
-  STATEID = '" . $this->model->getStateId() . "',
- DAYID = '" . $this->model->getDayId() . "',
- LOCATION = '" . $this->model->getLocation() . "',
- MIDNIGHTMARKETGPS = '" . $this->model->getMidnightMarketGps() . "',
+                $sql = "UPDATE `DAY` SET
+  DAYSEQUENCE = '" . $this->model->getDaySequence() . "',
+ DAYCODE = '" . $this->model->getDayCode() . "',
+ DAYDESC = '" . $this->model->getDayDesc() . "',
  ISDEFAULT = '" . $this->model->getIsDefault(0, 'single') . "',
  ISNEW = '" . $this->model->getIsNew(0, 'single') . "',
  ISDRAFT = '" . $this->model->getIsDraft(0, 'single') . "',
@@ -871,13 +839,12 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
  ISPOST = '" . $this->model->getIsPost(0, 'single') . "',
  EXECUTEBY = '" . $this->model->getExecuteBy(0, 'single') . "',
  EXECUTETIME = " . $this->model->getExecuteTime() . "
-WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') . "'";
+WHERE `DAYID`='" . $this->model->getDayId('0', 'single') . "'";
             } else if ($this->getVendor() == self::POSTGRESS) {
-                $sql = "UPDATE `MIDNIGHTMARKET` SET
-  STATEID = '" . $this->model->getStateId() . "',
- DAYID = '" . $this->model->getDayId() . "',
- LOCATION = '" . $this->model->getLocation() . "',
- MIDNIGHTMARKETGPS = '" . $this->model->getMidnightMarketGps() . "',
+                $sql = "UPDATE `DAY` SET
+  DAYSEQUENCE = '" . $this->model->getDaySequence() . "',
+ DAYCODE = '" . $this->model->getDayCode() . "',
+ DAYDESC = '" . $this->model->getDayDesc() . "',
  ISDEFAULT = '" . $this->model->getIsDefault(0, 'single') . "',
  ISNEW = '" . $this->model->getIsNew(0, 'single') . "',
  ISDRAFT = '" . $this->model->getIsDraft(0, 'single') . "',
@@ -889,7 +856,7 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
  ISPOST = '" . $this->model->getIsPost(0, 'single') . "',
  EXECUTEBY = '" . $this->model->getExecuteBy(0, 'single') . "',
  EXECUTETIME = " . $this->model->getExecuteTime() . "
-WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') . "'";
+WHERE `DAYID`='" . $this->model->getDayId('0', 'single') . "'";
             }
 
             $this->q->update($sql);
@@ -926,27 +893,27 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
             $sql = "
         SELECT  `" . $this->model->getPrimaryKeyName() . "`
         FROM    `" . $this->q->getCoreDatabase() . "`.`" . $this->model->getTableName() . "`
-        WHERE   `" . $this->model->getPrimaryKeyName() . "` = '" . $this->model->getMidnightMarketId(0, 'single') . "' ";
+        WHERE   `" . $this->model->getPrimaryKeyName() . "` = '" . $this->model->getDayId(0, 'single') . "' ";
         } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
             SELECT  [" . $this->model->getPrimaryKeyName() . "]
             FROM    [" . $this->q->getCoreDatabase() . "].[" . $this->model->getTableName() . "]
-            WHERE   [" . $this->model->getPrimaryKeyName() . "] = '" . $this->model->getMidnightMarketId(0, 'single') . "' ";
+            WHERE   [" . $this->model->getPrimaryKeyName() . "] = '" . $this->model->getDayId(0, 'single') . "' ";
         } else if ($this->getVendor() == self::ORACLE) {
             $sql = "
         SELECT  " . strtoupper($this->model->getPrimaryKeyName()) . "
         FROM    " . strtoupper($this->model->getTableName()) . "
-        WHERE   " . strtoupper($this->model->getPrimaryKeyName()) . " = '" . $this->model->getMidnightMarketId(0, 'single') . "' ";
+        WHERE   " . strtoupper($this->model->getPrimaryKeyName()) . " = '" . $this->model->getDayId(0, 'single') . "' ";
         } else if ($this->getVendor() == self::DB2) {
             $sql = "
             SELECT  " . strtoupper($this->model->getPrimaryKeyName()) . "
             FROM    " . strtoupper($this->model->getTableName()) . "
-            WHERE   " . strtoupper($this->model->getPrimaryKeyName()) . " = '" . $this->model->getMidnightMarketId(0, 'single') . "' ";
+            WHERE   " . strtoupper($this->model->getPrimaryKeyName()) . " = '" . $this->model->getDayId(0, 'single') . "' ";
         } else if ($this->getVendor() == self::POSTGRESS) {
             $sql = "
             SELECT  " . strtoupper($this->model->getPrimaryKeyName()) . "
             FROM    " . strtoupper($this->model->getTableName()) . "
-            WHERE   " . strtoupper($this->model->getPrimaryKeyName()) . " = '" . $this->model->getMidnightMarketId(0, 'single') . "' ";
+            WHERE   " . strtoupper($this->model->getPrimaryKeyName()) . " = '" . $this->model->getDayId(0, 'single') . "' ";
         }
         $result = $this->q->fast($sql);
         $total = $this->q->numberRows($result, $sql);
@@ -955,7 +922,7 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
             exit();
         } else {
             if ($this->getVendor() == self::MYSQL) {
-                $sql = "      UPDATE  `" . $this->q->getCoreDatabase() . "`.`midnightMarket`
+                $sql = "      UPDATE  `" . $this->q->getCoreDatabase() . "`.`day`
  
                     SET     `isDefault`             =   '" . $this->model->getIsDefault(0, 'single') . "',
                             `isNew`                 =   '" . $this->model->getIsNew(0, 'single') . "',
@@ -968,10 +935,10 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
                             `isPost`                    =   '" . $this->model->getIsPost(0, 'single') . "',
                             `executeBy`             =   '" . $this->model->getExecuteBy() . "',
                             `executeTime`           =   " . $this->model->getExecuteTime() . "
-                WHERE   `midnightMarketId`  =  '" . $this->model->getMidnightMarketId(0, 'single') . "'";
+                WHERE   `dayId` =  '" . $this->model->getDayId(0, 'single') . "'";
             } else if ($this->getVendor() == self::MSSQL) {
                 $sql = "     
-                UPDATE  [" . $this->q->getCoreDatabase() . "].[midnightMarket]
+                UPDATE  [" . $this->q->getCoreDatabase() . "].[day]
                 SET             [isDefault]                 =   '" . $this->model->getIsDefault(0, 'single') . "',
                                 [isNew]                     =   '" . $this->model->getIsNew(0, 'single') . "',
                                 [isDraft]                   =   '" . $this->model->getIsDraft(0, 'single') . "',
@@ -983,10 +950,10 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
                                 [isPost]                        =   '" . $this->model->getIsPost(0, 'single') . "',
                                 [executeBy]             =   '" . $this->model->getExecuteBy() . "',
                                 [executeTime]           =   " . $this->model->getExecuteTime() . "
-                WHERE       [midnightMarketId]  =  '" . $this->model->getMidnightMarketId(0, 'single') . "'";
+                WHERE       [dayId] =  '" . $this->model->getDayId(0, 'single') . "'";
             } else if ($this->getVendor() == self::ORACLE) {
                 $sql = "
-                UPDATE  MIDNIGHTMARKET
+                UPDATE  DAY
                 SET     ISDEFAULT       =   '" . $this->model->getIsDefault(0, 'single') . "',
                         ISNEW           =   '" . $this->model->getIsNew(0, 'single') . "',
                         ISDRAFT         =   '" . $this->model->getIsDraft(0, 'single') . "',
@@ -998,10 +965,10 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
                         ISPOST          =   '" . $this->model->getIsPost(0, 'single') . "',
                         EXECUTEBY       =   '" . $this->model->getExecuteBy() . "',
                         EXECUTETIME     =   " . $this->model->getExecuteTime() . "
-                WHERE   `MIDNIGHTMARKET`    =  '" . $this->model->getMidnightMarketId(0, 'single') . "'";
+                WHERE   `DAY`   =  '" . $this->model->getDayId(0, 'single') . "'";
             } else if ($this->getVendor() == self::DB2) {
                 $sql = "
-                UPDATE  MIDNIGHTMARKET
+                UPDATE  DAY
                 SET     ISDEFAULT       =   '" . $this->model->getIsDefault(0, 'single') . "',
                         ISNEW           =   '" . $this->model->getIsNew(0, 'single') . "',
                         ISDRAFT         =   '" . $this->model->getIsDraft(0, 'single') . "',
@@ -1013,10 +980,10 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
                         ISPOST          =   '" . $this->model->getIsPost(0, 'single') . "',
                         EXECUTEBY       =   '" . $this->model->getExecuteBy() . "',
                         EXECUTETIME     =   " . $this->model->getExecuteTime() . "
-                WHERE   `MIDNIGHTMARKET`    =  '" . $this->model->getMidnightMarketId(0, 'single') . "'";
+                WHERE   `DAY`   =  '" . $this->model->getDayId(0, 'single') . "'";
             } else if ($this->getVendor() == self::POSTGRESS) {
                 $sql = "
-                UPDATE  MIDNIGHTMARKET
+                UPDATE  DAY
                 SET     ISDEFAULT       =   '" . $this->model->getIsDefault(0, 'single') . "',
                         ISNEW           =   '" . $this->model->getIsNew(0, 'single') . "',
                         ISDRAFT         =   '" . $this->model->getIsDraft(0, 'single') . "',
@@ -1028,7 +995,7 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
                         ISPOST          =   '" . $this->model->getIsPost(0, 'single') . "',
                         EXECUTEBY       =   '" . $this->model->getExecuteBy() . "',
                         EXECUTETIME     =   " . $this->model->getExecuteTime() . "
-                WHERE   `MIDNIGHTMARKET`    =  '" . $this->model->getMidnightMarketId(0, 'single') . "'";
+                WHERE   `DAY`   =  '" . $this->model->getDayId(0, 'single') . "'";
             }
             $this->q->update($sql);
             if ($this->q->execute == 'fail') {
@@ -1111,7 +1078,7 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
                                 exit();
                             }
                             $sqlLooping .= "
-                            WHEN '" . $this->model->getMidnightMarketId($i, 'array') . "'
+                            WHEN '" . $this->model->getDayId($i, 'array') . "'
                             THEN '" . $this->model->getIsDefault($i, 'array') . "'";
                             $sqlLooping .= " END,";
                         }
@@ -1135,7 +1102,7 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
                                 exit();
                             }
                             $sqlLooping .= "
-                            WHEN '" . $this->model->getMidnightMarketId($i, 'array') . "'
+                            WHEN '" . $this->model->getDayId($i, 'array') . "'
                             THEN '" . $this->model->getIsNew($i, 'array') . "'";
                             $sqlLooping .= " END,";
                         }
@@ -1159,7 +1126,7 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
                                 exit();
                             }
                             $sqlLooping .= "
-                            WHEN '" . $this->model->getMidnightMarketId($i, 'array') . "'
+                            WHEN '" . $this->model->getDayId($i, 'array') . "'
                             THEN '" . $this->model->getIsDraft($i, 'array') . "'";
                             $sqlLooping .= " END,";
                         }
@@ -1183,7 +1150,7 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
                                 exit();
                             }
                             $sqlLooping .= "
-                            WHEN '" . $this->model->getMidnightMarketId($i, 'array') . "'
+                            WHEN '" . $this->model->getDayId($i, 'array') . "'
                             THEN '" . $this->model->getIsUpdate($i, 'array') . "'";
                             $sqlLooping .= " END,";
                         }
@@ -1207,7 +1174,7 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
                                 exit();
                             }
                             $sqlLooping .= "
-                            WHEN '" . $this->model->getMidnightMarketId($i, 'array') . "'
+                            WHEN '" . $this->model->getDayId($i, 'array') . "'
                             THEN '" . $this->model->getIsDelete($i, 'array') . "'";
                             $sqlLooping .= " END,";
                             if (!$this->getIsAdmin()) {
@@ -1228,7 +1195,7 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
                                         exit();
                                     }
                                     $sqlLooping .= "
-                            WHEN '" . $this->model->getMidnightMarketId($i, 'array') . "'
+                            WHEN '" . $this->model->getDayId($i, 'array') . "'
                             THEN '0'";
                                     $sqlLooping .= " END,";
                                 }
@@ -1254,7 +1221,7 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
                                 exit();
                             }
                             $sqlLooping .= "
-                            WHEN '" . $this->model->getMidnightMarketId($i, 'array') . "'
+                            WHEN '" . $this->model->getDayId($i, 'array') . "'
                             THEN '" . $this->model->getIsActive($i, 'array') . "'";
                             $sqlLooping .= " END,";
                         }
@@ -1278,7 +1245,7 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
                                 exit();
                             }
                             $sqlLooping .= "
-                            WHEN '" . $this->model->getMidnightMarketId($i, 'array') . "'
+                            WHEN '" . $this->model->getDayId($i, 'array') . "'
                             THEN '" . $this->model->getIsApproved($i, 'array') . "'";
                             $sqlLooping .= " END,";
                         }
@@ -1302,7 +1269,7 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
                                 exit();
                             }
                             $sqlLooping .= "
-                            WHEN '" . $this->model->getMidnightMarketId($i, 'array') . "'
+                            WHEN '" . $this->model->getDayId($i, 'array') . "'
                             THEN '" . $this->model->getIsReview($i, 'array') . "'";
                             $sqlLooping .= " END,";
                         }
@@ -1326,7 +1293,7 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
                                 exit();
                             }
                             $sqlLooping .= "
-                                WHEN '" . $this->model->getMidnightMarketId($i, 'array') . "'
+                                WHEN '" . $this->model->getDayId($i, 'array') . "'
                                 THEN '" . $this->model->getIsPost($i, 'array') . "'";
                             $sqlLooping .= " END,";
                         }
@@ -1388,19 +1355,19 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
         if ($this->getVendor() == self::MYSQL) {
             $sql = "
             SELECT  `referenceNo`
-            FROM    `" . $this->q->getCoreDatabase() . "`.`midnightMarket`
+            FROM    `" . $this->q->getCoreDatabase() . "`.`day`
             WHERE   `referenceNo`   =   '" . $this->model->getReferenceNo() . "'
             AND     `isActive`              =   1";
         } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
             SELECT  [referenceNo]
-            FROM    [" . $this->q->getCoreDatabase() . "].[midnightMarket]
+            FROM    [" . $this->q->getCoreDatabase() . "].[day]
             WHERE   [referenceNo]   =   '" . $this->model->getReferenceNo() . "'
             AND     [isActive]              =   1";
         } else if ($this->getVendor() == self::ORACLE) {
             $sql = "
             SELECT  REFERENCENO
-            FROM    MIDNIGHTMARKET
+            FROM    DAY
             WHERE   REFERENCENO =   '" . $this->model->getReferenceNo() . "'
             AND     ISACTIVE            =   1";
         }
@@ -1502,7 +1469,7 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
         $formula = $from . ":" . $to;
         $this->excel->getActiveSheet()->getStyle($formula)->applyFromArray($styleThinBlackBorderOutline);
         $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel2007');
-        $filename = "midnightMarket" . rand(0, 10000000) . ".xlsx";
+        $filename = "day" . rand(0, 10000000) . ".xlsx";
         $path = $_SERVER ['DOCUMENT_ROOT'] . "/" . $this->application . "/basic/document/excel/" . $filename;
         $this->documentTrail->create_trail($this->leafId, $path, $filename);
         $objWriter->save($path);
@@ -1529,7 +1496,7 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
 
 }
 
-$midnightMarketObject = new MidnightMarketClass ();
+$dayObject = new DayClass ();
 /**
  * crud -create,read,update,delete
  * */
@@ -1538,94 +1505,94 @@ if (isset($_POST ['method'])) {
      *  Initilize Value before load in the loader
      */
     if (isset($_POST ['leafId'])) {
-        $midnightMarketObject->setLeafId($_POST ['leafId']);
+        $dayObject->setLeafId($_POST ['leafId']);
     }
     /*
      * Admin Only
      */
     if (isset($_POST ['isAdmin'])) {
-        $midnightMarketObject->setIsAdmin($_POST ['isAdmin']);
+        $dayObject->setIsAdmin($_POST ['isAdmin']);
     }
     /**
      * Database Request
      */
     if (isset($_POST ['databaseRequest'])) {
-        $midnightMarketObject->setRequestDatabase($_POST ['databaseRequest']);
+        $dayObject->setRequestDatabase($_POST ['databaseRequest']);
     }
     /*
      *  Paging
      */
     if (isset($_POST ['start'])) {
-        $midnightMarketObject->setStart($_POST ['start']);
+        $dayObject->setStart($_POST ['start']);
     }
     if (isset($_POST ['perPage'])) {
-        $midnightMarketObject->setLimit($_POST ['perPage']);
+        $dayObject->setLimit($_POST ['perPage']);
     }
     /*
      *  Filtering
      */
     if (isset($_POST ['query'])) {
-        $midnightMarketObject->setFieldQuery($_POST ['query']);
+        $dayObject->setFieldQuery($_POST ['query']);
     }
     if (isset($_POST ['filter'])) {
-        $midnightMarketObject->setGridQuery($_POST ['filter']);
+        $dayObject->setGridQuery($_POST ['filter']);
     }
     if (isset($_POST ['character'])) {
-        $midnightMarketObject->setCharacterQuery($_POST['character']);
+        $dayObject->setCharacterQuery($_POST['character']);
     }
     if (isset($_POST ['dateRangeStart'])) {
-        $midnightMarketObject->setDateRangeStartQuery($_POST['dateRangeStart']);
+        $dayObject->setDateRangeStartQuery($_POST['dateRangeStart']);
         //explode the data to get day,month,year
         $start = explode("-", $_POST ['dateRangeStart']);
-        $midnightMarketObject->setStartDay($start[2]);
-        $midnightMarketObject->setStartMonth($start[1]);
-        $midnightMarketObject->setStartYear($start[0]);
+        $dayObject->setStartDay($start[2]);
+        $dayObject->setStartMonth($start[1]);
+        $dayObject->setStartYear($start[0]);
     }
     if (isset($_POST ['dateRangeEnd'])) {
-        $midnightMarketObject->setDateRangeEndQuery($_POST['dateRangeEnd']);
+        $dayObject->setDateRangeEndQuery($_POST['dateRangeEnd']);
         //explode the data to get day,month,year
         $start = explode("-", $_POST ['dateRangeEnd']);
-        $midnightMarketObject->setEndDay($start[2]);
-        $midnightMarketObject->setEndMonth($start[1]);
-        $midnightMarketObject->setEndYear($start[0]);
+        $dayObject->setEndDay($start[2]);
+        $dayObject->setEndMonth($start[1]);
+        $dayObject->setEndYear($start[0]);
     }
     if (isset($_POST ['dateRangeType'])) {
-        $midnightMarketObject->setDateRangeTypeQuery($_POST['dateRangeType']);
+        $dayObject->setDateRangeTypeQuery($_POST['dateRangeType']);
     }
     /*
      * Ordering
      */
     if (isset($_POST ['order'])) {
-        $midnightMarketObject->setOrder($_POST ['order']);
+        $dayObject->setOrder($_POST ['order']);
     }
     if (isset($_POST ['sortField'])) {
-        $midnightMarketObject->setSortField($_POST ['sortField']);
+        $dayObject->setSortField($_POST ['sortField']);
     }
 
     /*
      *  Load the dynamic value
      */
-    $midnightMarketObject->execute();
+    $dayObject->execute();
     /*
      *  Crud Operation (Create Read Update Delete/Destory)
      */
     if ($_POST ['method'] == 'create') {
-        $midnightMarketObject->create();
+        $dayObject->create();
     }
     if ($_POST ['method'] == 'save') {
-        $midnightMarketObject->update();
+        $dayObject->update();
     }
     if ($_POST ['method'] == 'read') {
-        $midnightMarketObject->read();
+        $dayObject->read();
     }
     if ($_POST ['method'] == 'delete') {
-        $midnightMarketObject->delete();
+        $dayObject->delete();
     }
     if ($_POST ['method'] == 'posting') {
-        //  $midnightMarketObject->posting();
+        //  $dayObject->posting();
     }
     if ($_POST ['method'] == 'reverse') {
-        //  $midnightMarketObject->delete();
+        //  $dayObject->delete();
     }
 }
 if (isset($_GET ['method'])) {
@@ -1633,55 +1600,55 @@ if (isset($_GET ['method'])) {
      *  Initilize Value before load in the loader
      */
     if (isset($_GET ['leafId'])) {
-        $midnightMarketObject->setLeafId($_GET ['leafId']);
+        $dayObject->setLeafId($_GET ['leafId']);
     }
     /*
      * Admin Only
      */
     if (isset($_GET ['isAdmin'])) {
-        $midnightMarketObject->setIsAdmin($_GET ['isAdmin']);
+        $dayObject->setIsAdmin($_GET ['isAdmin']);
     }
     /**
      * Database Request
      */
     if (isset($_GET ['databaseRequest'])) {
-        $midnightMarketObject->setRequestDatabase($_GET ['databaseRequest']);
+        $dayObject->setRequestDatabase($_GET ['databaseRequest']);
     }
     /*
      *  Load the dynamic value
      */
-    $midnightMarketObject->execute();
+    $dayObject->execute();
     if (isset($_GET ['field'])) {
         if ($_GET ['field'] == 'staffId') {
-            $midnightMarketObject->staff();
+            $dayObject->staff();
         }
     }
     /*
      * Update Status of The Table. Admin Level Only
      */
     if ($_GET ['method'] == 'updateStatus') {
-        $midnightMarketObject->updateStatus();
+        $dayObject->updateStatus();
     }
     /*
      *  Checking Any Duplication  Key
      */
     if (isset($_GET ['religionDetailSampleDesc'])) {
         if (strlen($_GET ['religionDetailSampleDesc']) > 0) {
-            $midnightMarketObject->duplicate();
+            $dayObject->duplicate();
         }
     }
     if ($_GET ['method'] == 'dataNavigationRequest') {
         if ($_GET ['dataNavigation'] == 'first') {
-            $midnightMarketObject->firstRecord('json');
+            $dayObject->firstRecord('json');
         }
         if ($_GET ['dataNavigation'] == 'previous') {
-            $midnightMarketObject->previousRecord('json', 0);
+            $dayObject->previousRecord('json', 0);
         }
         if ($_GET ['dataNavigation'] == 'next') {
-            $midnightMarketObject->nextRecord('json', 0);
+            $dayObject->nextRecord('json', 0);
         }
         if ($_GET ['dataNavigation'] == 'last') {
-            $midnightMarketObject->lastRecord('json');
+            $dayObject->lastRecord('json');
         }
     }
     /*
@@ -1689,7 +1656,7 @@ if (isset($_GET ['method'])) {
      */
     if (isset($_GET ['mode'])) {
         if ($_GET ['mode'] == 'excel') {
-            $midnightMarketObject->excel();
+            $dayObject->excel();
         }
     }
 }

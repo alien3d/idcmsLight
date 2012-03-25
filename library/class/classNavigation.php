@@ -145,7 +145,7 @@ class HtmlPaging {
         if ($this->getNewOffset() >= 0) {
             $this->stringOutput.="<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','not'," . $this->getNewOffset() . ", '" . $this->getLimit() . "')\">&laquo;</a></li>";
         } else {
-            $this->stringOutput.="<li><a  href=\"javascript:void(0)\">&laquo; </a></li>";
+            $this->stringOutput.="<li class=\"disabled\"><a  href=\"javascript:void(0)\">&laquo;</a></li>";
         }
         return $this->stringOutput;
     }
@@ -158,24 +158,25 @@ class HtmlPaging {
         $this->pages = NULL;
         $this->stringOutput = NULL;
 
-        if ($this->getTotalRecord()) {
+            
             if ($this->getOffset() <= ($this->getTotalRecord() - $this->getLimit())) {
                 $this->pages = intval($this->getTotalRecord() / $this->getLimit());
                 if ($this->getTotalRecord() % $this->getLimit()) {
                     $this->pages++;
                 }
-             //   if (!(($this->getLimit() / $this->getOffset()) == $this->pages) && $this->pages != 1) {
+                
+                 if (!(@($this->getLimit() / $this->getOffset()) == $this->pages) && $this->pages != 1) {
                     $this->setNewOffset($this->getOffset() + $this->getLimit());
-                    $this->stringOutput.= "<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','not',0,0)></a></li>";
-              //   }
-            } else {
-                $this->stringOutput = "<li><a  href=\"javascript:void(0)\">&raquo;</a></li>";
-            }
-        } else {
-            $this->stringOutput = "<li><a  href=\"javascript:void(0)\">&raquo;</a></li>";
-        }
+                    $this->stringOutput.= "<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','not','".$this->getNewOffset()."','".$this->getLimit()."')\">&raquo;</a></li>";
+                    
+                 } else {
+                    $this->stringOutput.= "<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','not',0,0)\">&raquo; MIAU 3</a></li>";
 
-        return $this->stringOutput;
+                 }
+            } else {
+                $this->stringOutput.= "<li class=\"disabled\"><a  href=\"javascript:void(0)\">&raquo;</a></li>";
+            }
+           return $this->stringOutput;
     }
 
     /**
