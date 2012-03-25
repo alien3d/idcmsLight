@@ -1186,9 +1186,9 @@ abstract class ConfigClass
 	 * 
 	 * @param $type
 	 */
-	public function setType($type)
+	public function setType($value)
 	{
-	    $this->type = $type;
+	    $this->type = $value;
 	}
 
 	public function getFilterMonth()
@@ -1196,9 +1196,9 @@ abstract class ConfigClass
 	    return $this->filterMonth;
 	}
 
-	public function setFilterMonth($filterMonth)
+	public function setFilterMonth($value)
 	{
-	    $this->filterMonth = $filterMonth;
+	    $this->filterMonth = $value;
 	}
 
 	public function getFilterYear()
@@ -1206,9 +1206,9 @@ abstract class ConfigClass
 	    return $this->filterYear;
 	}
 
-	public function setFilterYear($filterYear)
+	public function setFilterYear($value)
 	{
-	    $this->filterYear = $filterYear;
+	    $this->filterYear = $value;
 	}
         
         public function getPageId()
@@ -1216,27 +1216,27 @@ abstract class ConfigClass
 	    return $this->pageId;
 	}
 
-	public function setPageId($pageId)
+	public function setPageId($value)
 	{
-	    $this->pageId = $pageId;
+	    $this->pageId = $value;
 	}
          public function getPageType()
 	{
 	    return $this->pageType;
 	}
 
-	public function setPageType($pageType)
+	public function setPageType($value)
 	{
-	    $this->pageType = $pageType;
+	    $this->pageType = $value;
 	}
         public function getPageOutput()
 	{
 	    return $this->pageOutput;
 	}
 
-	public function setPageOutput($pageOutput)
+	public function setPageOutput($value)
 	{
-	    $this->pageOutput = $pageOutput;
+	    $this->pageOutput = $value;
 	}
         /**
          * Return Controller Path
@@ -1250,9 +1250,25 @@ abstract class ConfigClass
          * Set Controller Path
          * @param type $controllerPath 
          */
-	public function setControllerPath($controllerPath)
+	public function setControllerPath($value)
 	{
-	    $this->controllerPath = $controllerPath;
+	    $this->controllerPath = $value;
+	}
+        /**
+         * Return View Path
+         * @return string 
+         */
+        public function getViewPath()
+	{
+	    return $this->viewPath;
+	}
+        /**
+         * Set Controller Path
+         * @param type $value
+         */
+	public function setViewPath($value)
+	{
+	    $this->viewPath = $value;
 	}
         
 }

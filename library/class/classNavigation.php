@@ -38,26 +38,17 @@ class HtmlPaging {
     private $newOffset;
 
     /**
-     *  Controller Path
+     *  View Path
      *  @var limit string
      */
-    private $controllerPath;
+    private $viewPath;
 
     /**
      * Return String pagenation
      * @var type 
      */
     private $stringOutput;
-    /**
-     * Form Filter
-     * @var type 
-     */
-    private $formFilter;
-    /**
-     * Single Filter Type
-     * @var string
-     */
-    private $textboxFilter;
+    
 
     function __construct() {
         $this->pages = 5;
@@ -126,53 +117,21 @@ class HtmlPaging {
     public function getTotalRecord() {
         return $this->totalRecord;
     }
-
     /**
-     * Return Controller Path
-     * @return string 
+     * Set Total record
+     * @param int $value
      */
-    public function getControllerPath() {
-        return $this->controllerPath;
+    public function setViewPath($value) {
+        $this->viewPath = $value;
     }
 
     /**
-     * Set Controller Path
-     * @param type $controllerPath 
+     * Return Total Record
+     * @return int
      */
-    public function setControllerPath($value) {
-        $this->controllerPath = $value;
+    public function getViewPath() {
+        return $this->viewPath;
     }
-    /**
-     * Return Controller Path
-     * @return string 
-     */
-    public function getFormFilter() {
-        return $this->formFilter;
-    }
-
-    /**
-     * Set Controller Path
-     * @param type $controllerPath 
-     */
-    public function setFormFilter($value) {
-        $this->formFilter = $value;
-    }
-    /**
-     * Return Controller Path
-     * @return string 
-     */
-    public function getTextboxFilter() {
-        return $this->textboxFilter;
-    }
-
-    /**
-     * Set Controller Path
-     * @param type $controllerPath 
-     */
-    public function setTextboxFilter($value) {
-        $this->textboxFilter = $value;
-    }
-
     /*
      * Previous Record
      * @params offset int
@@ -184,7 +143,7 @@ class HtmlPaging {
         
         $this->setNewOffset($this->getOffset() - $this->getLimit());
         if ($this->getNewOffset() >= 0) {
-            $this->stringOutput.="<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getControllerPath() . "','not'," . $this->getNewOffset() . ", '" . $this->getLimit() . "'," . $this->getFormFilter() . "','".$this->getTexboxFilter()."')\">&laquo;</a></li>";
+            $this->stringOutput.="<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','not'," . $this->getNewOffset() . ", '" . $this->getLimit() . "')\">&laquo;</a></li>";
         } else {
             $this->stringOutput.="<li><a  href=\"javascript:void(0)\">&laquo; </a></li>";
         }
@@ -205,10 +164,10 @@ class HtmlPaging {
                 if ($this->getTotalRecord() % $this->getLimit()) {
                     $this->pages++;
                 }
-                if (!(($this->getLimit() / $this->getOffset()) == $this->pages) && $this->pages != 1) {
+             //   if (!(($this->getLimit() / $this->getOffset()) == $this->pages) && $this->pages != 1) {
                     $this->setNewOffset($this->getOffset() + $this->getLimit());
-                    $this->stringOutput.= "<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getControllerPath() . "','not',0,0," . $this->getFormFilter() . "','".$this->getTexboxFilter()."')></a></li>";
-                }
+                    $this->stringOutput.= "<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','not',0,0)></a></li>";
+              //   }
             } else {
                 $this->stringOutput = "<li><a  href=\"javascript:void(0)\">&raquo;</a></li>";
             }
@@ -223,7 +182,7 @@ class HtmlPaging {
      * First Record
      */
     function moveFirst() {
-        return("<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getControllerPath() . "','not','0', '" . $this->getLimit() . "'," . $this->getFormFilter() . "','".$this->getTexboxFilter()."')\" >&larr;</a></li>");
+        return("<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','not','0', '" . $this->getLimit() . "')\" >&larr;</a></li>");
     }
 
     /**
@@ -235,7 +194,7 @@ class HtmlPaging {
         if ($this->getNewOffset() < 0) {
             $this->setNewOffset(0);
         }
-        return ("<li><a  href=\"javascript:void(0)\"  onClick=\"ajaxQuery('" . $this->getControllerPath() . "','not'," . $this->getNewOffset() . ", '" . $this->getLimit() . "'," . $this->getFormFilter() . "','".$this->getTexboxFilter()."')\">&rarr;</a></li>");
+        return ("<li><a  href=\"javascript:void(0)\"  onClick=\"ajaxQuery('" . $this->getViewPath() . "','not'," . $this->getNewOffset() . ", '" . $this->getLimit() . "')\">&rarr;</a></li>");
     }
 
     /**
@@ -260,9 +219,9 @@ class HtmlPaging {
         for ($loopPage = 1; $loopPage <= $this->pages; $loopPage++) {
             $this->stringOutput.="<li ";
             if ($temp == $offsetloop) {
-                $this->stringOutput.=" class=active ";
+                $this->stringOutput.=" class=\"active\" ";
             }
-            $this->stringOutput.=" onClick=\"ajaxQuery('" . $this->getControllerPath() . "','not'," . $offsetloop . ",'" . $this->getLimit() . "', '" . $this->getFormFilter() . "','".$this->getTexboxFilter()."')\">" . $loopPage . "</a></li>";
+            $this->stringOutput.="><a href=\"javascript:void(0)\"  onClick=\"ajaxQuery('" . $this->getViewPath() . "','not'," . $offsetloop . ",'" . $this->getLimit() . "') \">" . $loopPage . "</a></li>";
             $offsetloop += $this->getLimit();
         }
         return $this->stringOutput;
@@ -297,7 +256,7 @@ class HtmlPaging {
     }
 
     function pagenationv4() {
-        echo "<ul>" . $this->moveFirst() . $this->movePrevious() . $this->pagenationv2() . $this->pagenationv3() . $this->moveNext() . $this->moveLast() . "</ul>";
+        echo "<ul>"  . $this->moveFirst().$this->movePrevious().$this->pagenationv2() .$this->pagenationv3().$this->moveNext().$this->moveLast(). "</ul>";
     }
 
 }

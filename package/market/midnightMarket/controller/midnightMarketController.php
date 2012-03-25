@@ -94,6 +94,7 @@ class MidnightMarketClass extends \Core\ConfigClass {
      */
     function execute() {
         parent::__construct();
+        $this->setViewPath("./package/market/midnightMarket/view/midnightMarketView.php");
         $this->setControllerPath("./package/market/midnightMarket/controller/midnightMarketController.php");
         //  $this--->x; bugs on generator .. just dummy
         $this->audit = 0;
