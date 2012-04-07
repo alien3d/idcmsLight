@@ -143,7 +143,7 @@ class HtmlPaging {
         
         $this->setNewOffset($this->getOffset() - $this->getLimit());
         if ($this->getNewOffset() >= 0) {
-            $this->stringOutput.="<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','not'," . $this->getNewOffset() . ", '" . $this->getLimit() . "')\">&laquo;</a></li>";
+            $this->stringOutput.="<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "'," . $this->getNewOffset() . ", '" . $this->getLimit() . "')\">&laquo;</a></li>";
         } else {
             $this->stringOutput.="<li class=\"disabled\"><a  href=\"javascript:void(0)\">&laquo;</a></li>";
         }
@@ -167,10 +167,10 @@ class HtmlPaging {
                 
                  if (!(@($this->getLimit() / $this->getOffset()) == $this->pages) && $this->pages != 1) {
                     $this->setNewOffset($this->getOffset() + $this->getLimit());
-                    $this->stringOutput.= "<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','not','".$this->getNewOffset()."','".$this->getLimit()."')\">&raquo;</a></li>";
+                    $this->stringOutput.= "<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','".$this->getNewOffset()."','".$this->getLimit()."')\">&raquo;</a></li>";
                     
                  } else {
-                    $this->stringOutput.= "<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','not',0,0)\">&raquo; MIAU 3</a></li>";
+                    $this->stringOutput.= "<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "',0,0)\">&raquo;</a></li>";
 
                  }
             } else {
@@ -183,7 +183,7 @@ class HtmlPaging {
      * First Record
      */
     function moveFirst() {
-        return("<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','not','0', '" . $this->getLimit() . "')\" >&larr;</a></li>");
+        return("<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','0', '" . $this->getLimit() . "')\" >&larr;</a></li>");
     }
 
     /**
@@ -195,7 +195,7 @@ class HtmlPaging {
         if ($this->getNewOffset() < 0) {
             $this->setNewOffset(0);
         }
-        return ("<li><a  href=\"javascript:void(0)\"  onClick=\"ajaxQuery('" . $this->getViewPath() . "','not'," . $this->getNewOffset() . ", '" . $this->getLimit() . "')\">&rarr;</a></li>");
+        return ("<li><a  href=\"javascript:void(0)\"  onClick=\"ajaxQuery('" . $this->getViewPath() . "'," . $this->getNewOffset() . ", '" . $this->getLimit() . "')\">&rarr;</a></li>");
     }
 
     /**
@@ -222,7 +222,7 @@ class HtmlPaging {
             if ($temp == $offsetloop) {
                 $this->stringOutput.=" class=\"active\" ";
             }
-            $this->stringOutput.="><a href=\"javascript:void(0)\"  onClick=\"ajaxQuery('" . $this->getViewPath() . "','not'," . $offsetloop . ",'" . $this->getLimit() . "') \">" . $loopPage . "</a></li>";
+            $this->stringOutput.="><a href=\"javascript:void(0)\"  onClick=\"ajaxQuery('" . $this->getViewPath() . "'," . $offsetloop . ",'" . $this->getLimit() . "') \">" . $loopPage . "</a></li>";
             $offsetloop += $this->getLimit();
         }
         return $this->stringOutput;
@@ -248,8 +248,12 @@ class HtmlPaging {
     function pagenationv3() {
         $allrecord = $this->getOffset() + 1;
         $extra = $allrecord + $this->getLimit() - 1;
+        if($extra==99999){
+            $extra=$this->getTotalRecord();
+        }
         if ($allrecord > $this->getTotalRecord()) {
-            $string = "No Record";
+           // $string = "No Record";
+            $string='';
         } else {
             $string = "<li><a href=\"javascript:void(0)\" >" . $allrecord . " to  " . $extra . " from  " . $this->getTotalRecord() . "</a></li>";
         }

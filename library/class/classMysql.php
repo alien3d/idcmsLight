@@ -208,7 +208,16 @@ class Vendor {
 
 
 	public function __construct() {
-	}
+            $this->setCoreDatabase('iCore');
+		$this->setFinancialDatabase('iFinancial');
+		$this->setFixAssetDatabase('ifixAsset');
+		$this->setPayrollDatabase('ipayroll');
+		$this->setHumanResourcesDatabase('ihumanResources');
+		$this->setManagementDatabase('imanagement');
+		$this->setCommonDatabase('icommon');
+		$this->setLogDatabase('ilog');
+            
+        }
 	/**
 	 * To connect mysql database
 	 * @param string $connection
@@ -234,14 +243,7 @@ class Vendor {
 		/**
 		 * Overide above using core database.
 		 */
-		$this->setCoreDatabase('iCore');
-		$this->setFinancialDatabase('iFinancial');
-		$this->setFixAssetDatabase('ifixAsset');
-		$this->setPayrollDatabase('ipayroll');
-		$this->setHumanResourcesDatabase('ihumanResources');
-		$this->setManagementDatabase('imanagement');
-		$this->setCommonDatabase('icommon');
-		$this->setLogDatabase('ilog');
+		
 		$this->databaseName  = $this->coreDatabase;  // overide above
 		$this->password = $password;
 		$this->link = mysqli_connect ( $this->connection, $this->username, $this->password, $this->databaseName, $this->port, $this->socket );
@@ -899,6 +901,7 @@ class Vendor {
 	public function quickSearch($tableArray, $filterArray) {
 		// initilize dummy value
 		$i = 0;
+                $d=0;
 		$key=0;
 		$strSearch = null;
 		$strSearch = "AND ( ";
@@ -916,7 +919,7 @@ class Vendor {
 							$strSearch .= " OR  ";
 							$i ++;
 							$d++;
-							$strSearch .= $strField . " like '%" . $this->fieldQuery . "%'";
+							$strSearch .= $strField . " like '%" . $this->getFieldQuery() . "%'";
 							if($i==1 && $d==1){
 								$strSearch = str_replace("OR","",$strSearch);
 							}
@@ -1073,8 +1076,8 @@ class Vendor {
 	/**
 	 * @param number $defaultLanguageId
 	 */
-	public function setRequestDatabase($requestDatabase) {
-		$this->requestDatabase = $requestDatabase;
+	public function setRequestDatabase($value) {
+		$this->requestDatabase = $value;
 	}
 
 	/**
@@ -1088,11 +1091,11 @@ class Vendor {
 
 	/**
 	 *
-	 * @param $coreDatabase
+	 * @param string $coreDatabase
 	 */
-	public function setCoreDatabase($coreDatabase)
+	public function setCoreDatabase($value)
 	{
-		$this->coreDatabase = $coreDatabase;
+		$this->coreDatabase = $value;
 	}
 
 	/**
@@ -1106,11 +1109,11 @@ class Vendor {
 
 	/**
 	 *
-	 * @param $financialDatabase
+	 * @param string $financialDatabase
 	 */
-	public function setFinancialDatabase($financialDatabase)
+	public function setFinancialDatabase($value)
 	{
-		$this->financialDatabase = $financialDatabase;
+		$this->financialDatabase = $value;
 	}
 
 	/**
@@ -1124,11 +1127,11 @@ class Vendor {
 
 	/**
 	 *
-	 * @param $fixAssetDatabase
+	 * @param string $fixAssetDatabase
 	 */
-	public function setFixAssetDatabase($fixAssetDatabase)
+	public function setFixAssetDatabase($value)
 	{
-		$this->fixAssetDatabase = $fixAssetDatabase;
+		$this->fixAssetDatabase = $value;
 	}
 
 	/**
@@ -1142,11 +1145,11 @@ class Vendor {
 
 	/**
 	 *
-	 * @param $payrollDatabase
+	 * @param string $payrollDatabase
 	 */
-	public function setPayrollDatabase($payrollDatabase)
+	public function setPayrollDatabase($value)
 	{
-		$this->payrollDatabase = $payrollDatabase;
+		$this->payrollDatabase = $value;
 	}
 
 	/**
@@ -1160,11 +1163,11 @@ class Vendor {
 
 	/**
 	 *
-	 * @param $humanResourcesDatabase
+	 * @param string $humanResourcesDatabase
 	 */
-	public function setHumanResourcesDatabase($humanResourcesDatabase)
+	public function setHumanResourcesDatabase($value)
 	{
-		$this->humanResourcesDatabase = $humanResourcesDatabase;
+		$this->humanResourcesDatabase = $value;
 	}
 
 	/**
@@ -1178,11 +1181,11 @@ class Vendor {
 
 	/**
 	 *
-	 * @param $commonDatabase
+	 * @param string $commonDatabase
 	 */
-	public function setCommonDatabase($commonDatabase)
+	public function setCommonDatabase($value)
 	{
-		$this->commonDatabase = $commonDatabase;
+		$this->commonDatabase = $value;
 	}
 
 	/**
@@ -1196,11 +1199,11 @@ class Vendor {
 
 	/**
 	 *
-	 * @param $managementDatabase
+	 * @param string $managementDatabase
 	 */
-	public function setManagementDatabase($managementDatabase)
+	public function setManagementDatabase($value)
 	{
-		$this->managementDatabase = $managementDatabase;
+		$this->managementDatabase = $value;
 	}
 
 	/**
@@ -1214,11 +1217,11 @@ class Vendor {
 
 	/**
 	 *
-	 * @param $tableName
+	 * @param string $tableName
 	 */
-	public function setTableName($tableName)
+	public function setTableName($value)
 	{
-		$this->tableName = $tableName;
+		$this->tableName = $value;
 	}
 
 	/**
@@ -1232,11 +1235,11 @@ class Vendor {
 
 	/**
 	 *
-	 * @param $primaryKeyName
+	 * @param string $primaryKeyName
 	 */
-	public function setPrimaryKeyName($primaryKeyName)
+	public function setPrimaryKeyName($value)
 	{
-		$this->primaryKeyName = $primaryKeyName;
+		$this->primaryKeyName = $value;
 	}
 
 	/**
@@ -1250,11 +1253,11 @@ class Vendor {
 
 	/**
 	 *
-	 * @param $primaryKeyValue
+	 * @param numeric $primaryKeyValue
 	 */
-	public function setPrimaryKeyValue($primaryKeyValue)
+	public function setPrimaryKeyValue($value)
 	{
-		$this->primaryKeyValue = $primaryKeyValue;
+		$this->primaryKeyValue = $value;
 	}
 
 	/**
@@ -1270,11 +1273,24 @@ class Vendor {
 	 *
 	 * @param $columnName
 	 */
-	public function setColumnName($columnName)
+	public function setColumnName($value)
 	{
-		$this->columnName = $columnName;
+		$this->columnName = $value;
 	}
-
+        /**
+         *
+         * @return string 
+         */
+        public function getFieldQuery() {
+            return $this->fieldQuery;
+        }
+        /**
+         *
+         * @param string $value 
+         */
+        public function setFieldQuery($value){
+           $this->fieldQuery = $value;
+        }
 	/**
 	 *
 	 * @return
@@ -1286,11 +1302,11 @@ class Vendor {
 
 	/**
 	 *
-	 * @param $startDate
+	 * @param date $startDate
 	 */
-	public function setStartDate($startDate)
+	public function setStartDate($value)
 	{
-		$this->startDate = $startDate;
+		$this->startDate = $value;
 	}
 
 	/**
@@ -1304,11 +1320,11 @@ class Vendor {
 
 	/**
 	 *
-	 * @param $endDate
+	 * @param date $endDate
 	 */
-	public function setEndDate($endDate)
+	public function setEndDate($value)
 	{
-		$this->endDate = $endDate;
+		$this->endDate = $value;
 	}
 
 	/**
@@ -1322,21 +1338,24 @@ class Vendor {
 
 	/**
 	 *
-	 * @param $dateFilterTypeQuery
+	 * @param string $dateFilterTypeQuery
 	 */
-	public function setDateFilterTypeQuery($dateFilterTypeQuery)
+	public function setDateFilterTypeQuery($value)
 	{
-		$this->dateFilterTypeQuery = $dateFilterTypeQuery;
+		$this->dateFilterTypeQuery = $value;
 	}
 
 	public function getLogDatabase()
 	{
 	    return $this->logDatabase;
 	}
-
-	public function setLogDatabase($logDatabase)
+        /**
+         *
+         * @param string $value 
+         */
+	public function setLogDatabase($value)
 	{
-	    $this->logDatabase = $logDatabase;
+	    $this->logDatabase = $value;
 	}
 }
 ?>

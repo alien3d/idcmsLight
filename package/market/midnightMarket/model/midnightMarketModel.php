@@ -37,7 +37,7 @@ class MidnightMarketModel extends \Core\Validation\ValidationClass {
         /**
         * @var string
         */
-        private $location; 
+        private $midnightMarketLocation; 
          
  
         /**
@@ -54,7 +54,7 @@ class MidnightMarketModel extends \Core\Validation\ValidationClass {
          */
         $this->setTableName('midnightMarket');
         $this->setPrimaryKeyName('midnightMarketId');
-        $this->setMasterForeignKeyName('application');
+        //$this->setMasterForeignKeyName('application');
         //$this->setFilterCharacter('midnightMarketDesc');
         $this->setFilterDate('midnightMarketDate');
         /**
@@ -70,8 +70,8 @@ if (isset($_POST ['dayId'])) {
                         $this->setDayId($this->strict($_POST ['dayId'], 'int'));
                     }
  
-if (isset($_POST ['location'])) {
-                        $this->setLocation($this->strict($_POST ['location'], 'string'));
+if (isset($_POST ['midnightMarketLocation'])) {
+                        $this->setMidnightMarketLocation($this->strict($_POST ['midnightMarketLocation'], 'string'));
                     }
  
 if (isset($_POST ['midnightMarketGps'])) {
@@ -401,18 +401,18 @@ if (isset($_POST ['midnightMarketGps'])) {
      * 
      * @return $location
      */
-    public function getLocation()
+    public function getMidnightMarketLocation()
     {
-        return $this->location;
+        return $this->midnightMarketLocation;
     }
  
     /**
      * 
-     * @param $location
+     * @param string midnightMarketLocation
      */
-    public function setLocation($location)
+    public function setMidnightMarketLocation($midnightMarketLocation )
     {
-        $this->location = $location;
+        $this->midnightMarketLocation = $midnightMarketLocation ;
     }
     /**
      * 
