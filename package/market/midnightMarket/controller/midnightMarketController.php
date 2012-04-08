@@ -89,18 +89,19 @@ class MidnightMarketClass extends \Core\ConfigClass {
      */
     public $duplicateTest;
 
+    function __construct() {
+        $this->setViewPath("./package/market/midnightMarket/view/midnightMarketView.php");
+        $this->setControllerPath("./package/market/midnightMarket/controller/midnightMarketController.php");
+        //$this->setServicePath("./package/market/midnightMarket/service/midnightMarketService.php");
+    }
+
     /**
      * Class Loader
      */
     function execute() {
         parent::__construct();
-        $this->setViewPath("./package/market/midnightMarket/view/midnightMarketView.php");
-        $this->setControllerPath("./package/market/midnightMarket/controller/midnightMarketController.php");
-        //  $this--->x; bugs on generator .. just dummy
         $this->audit = 0;
-
         $this->log = 1;
-        
         $this->model = new \Core\Market\MidnightMarket\Model\MidnightMarketModel();
         $this->model->setVendor($this->getVendor());
         $this->model->execute();
@@ -117,9 +118,9 @@ class MidnightMarketClass extends \Core\ConfigClass {
             $this->q = new \Core\Database\Db2\Vendor();
         }
         $this->q->vendor = $this->getVendor();
-        
+
         $this->q->setRequestDatabase($this->q->getCoreDatabase());
-  
+
         $this->q->connect($this->getConnection(), $this->getUsername(), $this->getDatabase(), $this->getPassword());
 
 
@@ -129,6 +130,7 @@ class MidnightMarketClass extends \Core\ConfigClass {
         $this->systemString->execute();
 
         $this->recordSet = new \Core\Recordset\RecordSet();
+        $this->recordSet->setRequestDatabase($this->q->getCoreDatabase());
         $this->recordSet->setTableName($this->model->getTableName());
         $this->recordSet->setPrimaryKeyName($this->model->getPrimaryKeyName());
         $this->recordSet->execute();
@@ -319,7 +321,7 @@ null,
 null,
  '" . $this->model->getStateId() . "',
  '" . $this->model->getDayId() . "',
- '" . $this->model->getMidnightMarketLocation(). "',
+ '" . $this->model->getMidnightMarketLocation() . "',
  '" . $this->model->getMidnightMarketGps() . "',
  '" . $this->model->getIsDefault(0, 'single') . "',
  '" . $this->model->getIsNew(0, 'single') . "',
@@ -355,7 +357,7 @@ null,
      */
 
     public function read() {
-        if ($this->getPageOutput() == 'JSON') {
+        if ($this->getPageOutput() == 'json') {
             header('Content-Type:application/json; charset=utf-8');
         }
         $start = microtime(true);
@@ -553,12 +555,12 @@ STAFF.STAFFNAME
          * @variables $tableArray
          */
         $tableArray = null;
-        $tableArray = array('midnightMarket','state','day');
-        
+        $tableArray = array('midnightMarket', 'state', 'day');
+
         if ($this->getFieldQuery()) {
             $this->q->setFieldQuery($this->getFieldQuery());
             if ($this->getVendor() == self::MYSQL) {
-               
+
                 $sql .= $this->q->quickSearch($tableArray, $filterArray);
             } else if ($this->getVendor() == self::MSSQL) {
                 $tempSql = $this->q->quickSearch($tableArray, $filterArray);
@@ -586,7 +588,7 @@ STAFF.STAFFNAME
                 
             }
         }
-        
+
         // optional debugger.uncomment if wanted to used
         //if ($this->q->execute == 'fail') {
         //  echo json_encode(array(
@@ -617,7 +619,7 @@ STAFF.STAFFNAME
         if ($this->getLimit()) {
             // only mysql have limit
             if ($this->getVendor() == self::MYSQL) {
-                
+
                 $sql .= " LIMIT  " . $this->getStart() . "," . $this->getLimit() . " ";
             } else if ($this->getVendor() == self::MSSQL) {
                 /**
@@ -704,20 +706,20 @@ STAFF.STAFFNAME
                 exit();
             }
         }
-        
+
         $items = array();
-        $i=1;
+        $i = 1;
         while (($row = $this->q->fetchAssoc()) == TRUE) {
-            $row['total']=$total; // small overide
+            $row['total'] = $total; // small overide
             $row['counter'] = $this->getStart() + $i;
             $items [] = $row;
             $i++;
-        
         }
         if ($this->getPageOutput() == 'html') {
-            
+
             return $items;
         } else if ($this->getPageOutput() == 'json') {
+            
             if ($this->model->getMidnightMarketId(0, 'single')) {
                 $end = microtime(true);
                 $time = $end - $start;
@@ -913,7 +915,7 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
         exit();
     }
 
-/* (non-PHPdoc)
+    /* (non-PHPdoc)
      * @see config::delete()
      */
 
@@ -1051,10 +1053,9 @@ WHERE `MIDNIGHTMARKETID`='" . $this->model->getMidnightMarketId('0', 'single') .
         exit();
     }
 
-/**
+    /**
      * To Update flag Status
      */
-
     function updateStatus() {
         header('Content-Type:application/json; charset=utf-8');
         $start = microtime(true);
@@ -1538,7 +1539,7 @@ $midnightMarketObject = new MidnightMarketClass ();
 /**
  * crud -create,read,update,delete
  * */
-if (isset($_POST ['method'])) {
+if (isset($_POST ['method']) && isset($_POST['output'])) {
     /*
      *  Initilize Value before load in the loader
      */
@@ -1606,10 +1607,11 @@ if (isset($_POST ['method'])) {
     if (isset($_POST ['sortField'])) {
         $midnightMarketObject->setSortField($_POST ['sortField']);
     }
-
+    
     /*
      *  Load the dynamic value
      */
+    $midnightMarketObject->setPageOutput('json');
     $midnightMarketObject->execute();
     /*
      *  Crud Operation (Create Read Update Delete/Destory)
@@ -1633,7 +1635,7 @@ if (isset($_POST ['method'])) {
         //  $midnightMarketObject->delete();
     }
 }
-if (isset($_GET ['method'])) {
+if (isset($_GET ['method']) && isset($_GET['output'])) {
     /*
      *  Initilize Value before load in the loader
      */
@@ -1676,16 +1678,17 @@ if (isset($_GET ['method'])) {
         }
     }
     if ($_GET ['method'] == 'dataNavigationRequest') {
-        if ($_GET ['dataNavigation'] == 'first') {
+
+        if ($_GET ['dataNavigation'] == 'firstRecord') {
             $midnightMarketObject->firstRecord('json');
         }
-        if ($_GET ['dataNavigation'] == 'previous') {
+        if ($_GET ['dataNavigation'] == 'previousRecord') {
             $midnightMarketObject->previousRecord('json', 0);
         }
-        if ($_GET ['dataNavigation'] == 'next') {
+        if ($_GET ['dataNavigation'] == 'nextRecord') {
             $midnightMarketObject->nextRecord('json', 0);
         }
-        if ($_GET ['dataNavigation'] == 'last') {
+        if ($_GET ['dataNavigation'] == 'lastRecord') {
             $midnightMarketObject->lastRecord('json');
         }
     }

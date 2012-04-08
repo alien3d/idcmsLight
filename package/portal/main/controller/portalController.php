@@ -96,7 +96,7 @@ if (isset($_POST['username']) && isset($_POST['password'])) {
     $portal->authentication();
 }
 if (isset($_POST['method'])) {
-    if ($_POST['method'] == 'route') {
+    if ($_POST['method'] == 'read') {
 
         $portal->route();
     }

@@ -4,7 +4,7 @@ namespace Core\Recordset;
 
 require_once("classAbstract.php");
 
-use Core;
+
 
 /**
  * Adodb Like function query .. moveFirst-> firstRecord,moveNext ->nextRecord,movePrevious->previousRecord,moveLast->lastRecord
@@ -20,9 +20,12 @@ class RecordSet extends \Core\ConfigClass {
     private $q;
     private $PrimaryKeyName;
     private $TableName;
-
+    function __construct() {
+        
+    }
     // end basic access database
     public function execute() {
+        parent::__construct();
         if ($this->getVendor() == self::MYSQL) {
             $this->q = new \Core\Database\Mysql\Vendor();
         } else if ($this->getVendor() == self::MSSQL) {
@@ -35,7 +38,6 @@ class RecordSet extends \Core\ConfigClass {
             $this->q = new \Core\Database\Db2\Vendor();
         }
         $this->q->vendor = $this->getVendor();
-        $this->q->setRequestDatabase($this->q->getCoreDatabase());
         $this->q->connect($this->getConnection(), $this->getUsername(), $this->getDatabase(), $this->getPassword());
     }
 
@@ -77,14 +79,15 @@ class RecordSet extends \Core\ConfigClass {
 
     /**
      * Return The First Record
-     * params @value . This return data type. When call by normal read.Value=='value'.When requested by ajax request button Value=='json'
+     * params string @value . This return data type. When call by normal read.Value=='value'.When requested by ajax request button Value=='json'
      * @return int
      */
     public function firstRecord($value) {
-        $first = 0;
+        if($value=='json') { header('Content-Type:application/json; charset=utf-8'); }
+        $firstRecord = 0;
 
         if ($this->getVendor() == self::MYSQL) {
-            $sql = "
+        $sql = "
 	SELECT 	MIN(`" . $this->getPrimaryKeyName() . "`) AS `firstRecord`
 	FROM 	`" . $this->getRequestDatabase() . "`.`" . $this->getTableName() . "`";
         } else if ($this->getVendor() == self::MSSQL) {
@@ -116,18 +119,20 @@ class RecordSet extends \Core\ConfigClass {
         if ($value == 'value') {
             return intval($firstRecord);
         } else {
-            echo $json_encode = json_encode(array('success' => true, 'total' => $total, 'firstRecord' => $firstRecord));
+            echo $json_encode = json_encode(array('success' => TRUE, 'total' => $total, 'firstRecord' => $firstRecord));
             exit();
         }
     }
 
     /**
      * Return Next record
+     * @param string $value 
      * @param int $primaryKeyValue
      * @return int
      */
     public function nextRecord($value, $primaryKeyValue) {
-        $next = 0;
+        if($value=='json') { header('Content-Type:application/json; charset=utf-8'); }
+        $nextRecord = 0;
         if ($this->getVendor() == self::MYSQL) {
             $sql = "
 		SELECT (`" . $this->getPrimaryKeyName() . "`) AS `nextRecord`
@@ -165,18 +170,20 @@ class RecordSet extends \Core\ConfigClass {
         if ($value == 'value') {
             return intval($nextRecord);
         } else {
-            echo $json_encode = json_encode(array('success' => true, 'total' => $total, 'nextRecord' => $nextRecord));
+            echo $json_encode = json_encode(array('success' =>TRUE, 'total' => $total, 'nextRecord' => $nextRecord));
             exit();
         }
     }
 
     /**
      * Return Previous Record
+     * @param string $value
      * @param int $primaryKeyValue
      * @return int
      */
     public function previousRecord($value, $primaryKeyValue) {
-        $previous = 0;
+        if($value=='json') { header('Content-Type:application/json; charset=utf-8'); }
+        $previousRecord = 0;
         if ($this->getVendor() == self::MYSQL) {
             $sql = "
 			SELECT (`" . $this->getPrimaryKeyName() . "`) AS `previousRecord`
@@ -216,16 +223,19 @@ class RecordSet extends \Core\ConfigClass {
         if ($value == 'value') {
             return intval($previousRecord);
         } else {
-            echo $json_encode = json_encode(array('success' => true, 'total' => $total, 'previousRecord' => $previousRecord));
+            echo $json_encode = json_encode(array('success' => TRUE, 'total' => $total, 'previousRecord' => $previousRecord));
             exit();
         }
     }
 
     /**
      * Return Last Record
+     * @param string $value
      * @return int
      */
     public function lastRecord($value) {
+        if($value=='json') { header('Content-Type:application/json; charset=utf-8'); }
+        
         $lastRecord = 0;
         if ($this->getVendor() == self::MYSQL) {
             $sql = "
@@ -259,7 +269,7 @@ class RecordSet extends \Core\ConfigClass {
         if ($value == 'value') {
             return intval($lastRecord);
         } else {
-            echo $json_encode = json_encode(array('success' => true, 'total' => $total, 'lastRecord' => $lastRecord));
+            echo $json_encode = json_encode(array('success' => TRUE, 'total' => $total, 'lastRecord' => $lastRecord));
             exit();
         }
     }
@@ -303,7 +313,7 @@ class RecordSet extends \Core\ConfigClass {
             if (isset($moduleId)) {
                 $sql .= " AND `moduleId`='" . $moduleId . "'";
             } else {
-                echo json_encode(array("success" => false, "message" => "Module Identification Not Found"));
+                echo json_encode(array("success" =>  FALSE, "message" => "Module Identification Not Found"));
                 exit();
             }
         }
@@ -311,20 +321,20 @@ class RecordSet extends \Core\ConfigClass {
             if (isset($moduleId)) {
                 $sql .= " AND `moduleId`='" . $moduleId . "'";
             } else {
-                echo json_encode(array("success" => false, "message" => "Module Identification Not Found"));
+                echo json_encode(array("success" =>  FALSE, "message" => "Module Identification Not Found"));
                 exit();
             }
             if (isset($folderId)) {
                 $sql .= " AND `folderId`='" . $folderId . "'";
             } else {
-                echo json_encode(array("success" => false, "message" => "Folder Identification Not Found"));
+                echo json_encode(array("success" =>  FALSE, "message" => "Folder Identification Not Found"));
                 exit();
             }
         }
 
         $result = $this->q->fast($sql);
         if ($this->q->execute == 'fail') {
-            echo json_encode(array('success' => false, 'message' => $this->q->responce));
+            echo json_encode(array('success' => FALSE, 'message' => $this->q->responce));
 
             exit();
         }
@@ -334,7 +344,7 @@ class RecordSet extends \Core\ConfigClass {
             $nextSequence = 1;
         }
         //return $nextSequence;
-        echo json_encode(array("success" => true, "nextSequence" => $nextSequence));
+        echo json_encode(array("success" => TRUE, "nextSequence" => $nextSequence));
     }
 
     /**

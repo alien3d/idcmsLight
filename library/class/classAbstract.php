@@ -205,10 +205,20 @@ abstract class ConfigClass
 	 */
         public $pageOutput;
         /**
+	 * View Path.Not automatic because give flexibility
+	 * @var string
+	 */
+        public $viewPath;
+        /**
 	 * Controller Path.Not automatic because give flexibility
 	 * @var string
 	 */
         public $controllerPath;
+        /**
+	 * Service Path.Not automatic because give flexibility
+	 * @var string
+	 */
+        public $servicePath;
 	/**
 	 * Mysql Database (open Core)
 	 * @var const string
@@ -1190,50 +1200,82 @@ abstract class ConfigClass
 	{
 	    $this->type = $value;
 	}
-
+        /**
+         *
+         * @return type 
+         */
 	public function getFilterMonth()
 	{
 	    return $this->filterMonth;
 	}
-
+        /**
+         *
+         * @param type $value 
+         */
 	public function setFilterMonth($value)
 	{
 	    $this->filterMonth = $value;
 	}
-
+        /**
+         *
+         * @return type 
+         */
 	public function getFilterYear()
 	{
 	    return $this->filterYear;
 	}
-
+        /**
+         *
+         * @param type $value 
+         */
 	public function setFilterYear($value)
 	{
 	    $this->filterYear = $value;
 	}
-        
+        /**
+         *
+         * @return type 
+         */
         public function getPageId()
 	{
 	    return $this->pageId;
 	}
-
+        /**
+         *
+         * @param type $value 
+         */
 	public function setPageId($value)
 	{
 	    $this->pageId = $value;
 	}
+        /**
+         *
+         * @return type 
+         */
          public function getPageType()
 	{
 	    return $this->pageType;
 	}
-
+        /**
+         *
+         * @param type $value 
+         */
 	public function setPageType($value)
 	{
 	    $this->pageType = $value;
 	}
+        /**
+         *
+         * @return type 
+         */
         public function getPageOutput()
 	{
 	    return $this->pageOutput;
 	}
-
+        /**
+         *
+         * @param string $value 
+         */
 	public function setPageOutput($value)
 	{
 	    $this->pageOutput = $value;
@@ -1248,7 +1290,7 @@ abstract class ConfigClass
 	}
         /**
          * Set Controller Path
-         * @param type $controllerPath 
+         * @param string $controllerPath 
          */
 	public function setControllerPath($value)
 	{
@@ -1264,12 +1306,27 @@ abstract class ConfigClass
 	}
         /**
          * Set Controller Path
-         * @param type $value
+         * @param string $value
          */
 	public function setViewPath($value)
 	{
 	    $this->viewPath = $value;
 	}
-        
+         /**
+         * Return Service Path
+         * @return string 
+         */
+        public function getServicePath()
+	{
+	    return $this->viewPath;
+	}
+        /**
+         * Set Service Path
+         * @param string $value
+         */
+	public function setServicePath($value)
+	{
+	    $this->servicePath = $value;
+	}
 }
 ?>

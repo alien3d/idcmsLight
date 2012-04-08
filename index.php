@@ -334,7 +334,7 @@ echo $firstHeader;
                 //    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
                 $("#centerViewport").removeClass();
                 $("#centerViewport").addClass("container-fluid");    
-                $("#centerViewport").load(url,{ method:'route',pageId:pageId,pageType:pageType,view:1,tableBody:1 }, function(response, status, xhr) {
+                $("#centerViewport").load(url,{ method:'read',type:'list',detail:'body',pageId:pageId,pageType:pageType }, function(response, status, xhr) {
         
                     
             
