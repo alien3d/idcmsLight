@@ -410,7 +410,8 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                 url: '<?php echo $midnightMarket->getControllerPath(); ?>',
                 data: {
                     method:'delete',
-                    midnightMarketId : $("#midnightMarketIdPreview").val()
+                    midnightMarketId : $("#midnightMarketIdPreview").val(),
+                    securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
                 },
                 beforeSend:function(){
                     // this is where we append a loading image
@@ -529,23 +530,23 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
             <a  name="auditRecordButton" id="auditRecordButton"  href="#" class="btn btn-warning disabled" onClick="auditRecord()"><i class="icon-warning-sign icon-white"></i> Audit</a>
         </div>
         <div class="btn-group">
-            <a  name="newRecordButton1" id="newRecordButton"  href="javascript:void(0)" class="btn btn-success  disabled"><i class="icon-plus icon-white"></i>New</a>
-            <a  name="newRecordButton2" id="newRecordButton"   href="javascript:void(0)" data-toggle="dropdown" class="btn dropdown-toggle btn-success  disabled"><span class="caret"></span></a>
+            <a  name="newRecordButton1" id="newRecordButton1"  href="javascript:void(0)" class="btn btn-success  disabled"><i class="icon-plus icon-white"></i>New</a>
+            <a  name="newRecordButton2" id="newRecordButton2"   href="javascript:void(0)" data-toggle="dropdown" class="btn dropdown-toggle btn-success  disabled"><span class="caret"></span></a>
             <ul class="dropdown-menu">
-                <li><a  name="newRecordButton3" id="newRecordButton"   href="javascript:void(0)" onClick="newRecord(1)"><i class="icon-plus"></i>New &AMP; Continue</a></li>
-                <li><a  name="newRecordButton4" id="newRecordButton"   href="javascript:void(0)" onClick="newRecord(2)"><i class="icon-edit"></i>New &AMP; Update </a></li>
-                <li><a  name="newRecordButton5" id="newRecordButton"   href="javascript:void(0)" onClick="newRecord(3)"><i class="icon-print"></i>New &AMP; Continue &AMP; Print </a></li>
-                <li><a  name="newRecordButton6" id="newRecordButton"    href="javascript:void(0)" onClick="newRecord(4)"><i class="icon-print"></i>New &AMP; Update &AMP; Print </a></li>
-                <li><a  name="newRecordButton7" id="newRecordButton"    href="javascript:void(0)" onClick="newRecord(5)"><i class="icon-list"></i>New &AMP; Listing </a></li>
+                <li><a  name="newRecordButton3" id="newRecordButton3"   href="javascript:void(0)" onClick="newRecord(1)" class="disabled"><i class="icon-plus"></i>New &AMP; Continue</a></li>
+                <li><a  name="newRecordButton4" id="newRecordButton4"   href="javascript:void(0)" onClick="newRecord(2)" class="disabled"><i class="icon-edit"></i>New &AMP; Update </a></li>
+                <li><a  name="newRecordButton5" id="newRecordButton5"   href="javascript:void(0)" onClick="newRecord(3)" class="disabled"><i class="icon-print"></i>New &AMP; Continue &AMP; Print </a></li>
+                <li><a  name="newRecordButton6" id="newRecordButton6"    href="javascript:void(0)" onClick="newRecord(4)" class="disabled"><i class="icon-print"></i>New &AMP; Update &AMP; Print </a></li>
+                <li><a  name="newRecordButton7" id="newRecordButton7"    href="javascript:void(0)" onClick="newRecord(5)" class="disabled"><i class="icon-list"></i>New &AMP; Listing </a></li>
             </ul>
         </div>
         <div class="btn-group">
             <a  name="updateRecordButton1" id="updateRecordButton"   href="javascript:void(0)" class="btn btn-info  disabled"><i class="icon-edit icon-white"></i>Update</a>
             <a  name="updateRecordButton2" id="updateRecordButton"    href="javascript:void(0)" data-toggle="dropdown" class="btn dropdown-toggle btn-info  disabled"><span class="caret"></span></a>
             <ul class="dropdown-menu">
-                <li><a  name="updateRecordButton3" id="updateRecordButton"    href="javascript:void(0)"  onClick="updateRecord(1)"><i class="icon-plus"></i>Update</a></li>
-                <li><a  name="updateRecordButton4" id="updateRecordButton"    href="javascript:void(0)" onClick="updateRecord(2)"><i class="icon-print"></i>Update &AMP; Print </a></li>
-                <li><a  name="updateRecordButton5" id="updateRecordButton"    href="javascript:void(0)" onClick="updateRecord(3)"><i class="icon-list-alt"></i>Update &AMP; Listing </a></li>
+                <li><a  name="updateRecordButton3" id="updateRecordButton"    href="javascript:void(0)"  onClick="updateRecord(1)" class="disabled"><i class="icon-plus"></i>Update</a></li>
+                <li><a  name="updateRecordButton4" id="updateRecordButton"    href="javascript:void(0)" onClick="updateRecord(2)" class="disabled"><i class="icon-print"></i>Update &AMP; Print </a></li>
+                <li><a  name="updateRecordButton5" id="updateRecordButton"    href="javascript:void(0)" onClick="updateRecord(3)" class="disabled"><i class="icon-list-alt"></i>Update &AMP; Listing </a></li>
             </ul>
         </div>
         <div class="btn-group">
@@ -581,6 +582,23 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
     <input type="hidden" name="lastRecord" id="lastRecord">
     <input type="hidden" name="endRecord" id="endRecord">
     <script language="javascript" type="text/javascript">
+         $(document).ready(function(){
+            // load the system cell if session  and token exist; 
+            <?php if($_POST['method']=='new') { ?>
+            $("#resetRecordButton").removeClass();
+            $("#resetRecordButton").addClass();
+            
+            $("#newRecordButton").removeClass();
+            $("#newRecordButton").addClass("btn btn-success");
+            
+            $("#firstRecordButton").removeClass();
+            $("#firstRecordButton").addClass();
+            
+            $("#lastRecordButton").removeClass();
+            $("#lastRecordButton").addClass();
+            <?php } else { ?>
+            <?php } ?>    
+         });
         function showGrid() {
             $.ajax({
                 type: 'POST',
@@ -625,7 +643,7 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
             }
         }
         function newRecord(type) {
-            var css =$("#postRecordButton").attr('class');                                        
+            var css =$("#newRecordButton").attr('class');                                        
          
             if(css.search("disabled") > 0) {
                 // access denied  
@@ -655,7 +673,9 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                                 method:'create',
                                 stateId: $("#stateId").val(),
                                 midnightMarketLocation : $("#midnightMarketLocation").val(),
-                                dayId:$("#dayId").val()
+                                dayId:$("#dayId").val(),
+                                securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
+
                             },
                             beforeSend:function(){
                                 // this is where we append a loading image
@@ -710,7 +730,9 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                                 method:'create',
                                 stateId: $("#stateId").val(),
                                 midnightMarketLocation : $("#midnightMarketLocation").val(),
-                                dayId:$("#dayId").val()
+                                dayId:$("#dayId").val(),
+                                securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
+
                             },
                             beforeSend:function(){
                                 // this is where we append a loading image
@@ -762,7 +784,9 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                                 method:'create',
                                 stateId: $("#stateId").val(),
                                 midnightMarketLocation : $("#midnightMarketLocation").val(),
-                                dayId:$("#dayId").val()
+                                dayId:$("#dayId").val(),
+                                securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
+
                             },
                             beforeSend:function(){
                                 // this is where we append a loading image
@@ -814,7 +838,9 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                                 method:'create',
                                 stateId: $("#stateId").val(),
                                 midnightMarketLocation : $("#midnightMarketLocation").val(),
-                                dayId:$("#dayId").val()
+                                dayId:$("#dayId").val(),
+                                securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
+
                             },
                             beforeSend:function(){
                                 // this is where we append a loading image
@@ -864,7 +890,9 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                                 method:'create',
                                 stateId: $("#stateId").val(),
                                 midnightMarketLocation : $("#midnightMarketLocation").val(),
-                                dayId:$("#dayId").val()
+                                dayId:$("#dayId").val(),
+                                securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
+
                             },
                             beforeSend:function(){
                                 // this is where we append a loading image
@@ -926,7 +954,9 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                                 midnightMarketId:$("#midnightMarketId").val(),
                                 stateId: $("#stateId").val(),
                                 midnightMarketLocation : $("#midnightMarketLocation").val(),
-                                dayId:$("#dayId").val()
+                                dayId:$("#dayId").val(),
+                                securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
+
                             },
                             beforeSend:function(){
                                 // this is where we append a loading image
@@ -979,7 +1009,9 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                                 midnightMarketId:$("#midnightMarketId").val(),
                                 stateId: $("#stateId").val(),
                                 midnightMarketLocation : $("#midnightMarketLocation").val(),
-                                dayId:$("#dayId").val()
+                                dayId:$("#dayId").val(),
+                                securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
+
                             },
                             beforeSend:function(){
                                 // this is where we append a loading image
@@ -1032,7 +1064,9 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                                 midnightMarketId:$("#midnightMarketId").val(),
                                 stateId: $("#stateId").val(),
                                 midnightMarketLocation : $("#midnightMarketLocation").val(),
-                                dayId:$("#dayId").val()
+                                dayId:$("#dayId").val(),
+                                securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
+
                             },
                             beforeSend:function(){
                                 // this is where we append a loading image
@@ -1075,7 +1109,9 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                     url: '<?php echo $midnightMarket->getControllerPath(); ?>',
                     data: {
                         method:'delete',
-                        midnightMarketId : $("#midnightMarketId").val()
+                        midnightMarketId : $("#midnightMarketId").val(),
+                        securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
+
                     },
                     beforeSend:function(){
                         // this is where we append a loading image
@@ -1117,8 +1153,7 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
         }
         function postRecord() {
             var css =$("#postRecordButton").attr('class');                                        
-            alert("aaa"+css);
-            alert("aaa"+css.search("disabled"));
+            
             if(css.search("disabled") > 0) {
                 // access denied  
             } else {
@@ -1138,7 +1173,9 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                     data: {                                                        
                         method: 'dataNavigationRequest',
                         dataNavigation: 'firstRecord',
-                        output:'json'
+                        output:'json',
+                        securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
+
                     },
                     beforeSend:function(){
                         // this is where we append a loading image
@@ -1210,7 +1247,9 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                     data: {                                                        
                         method: 'dataNavigationRequest',
                         dataNavigation: 'lastRecord',
-                        output:'json'
+                        output:'json',
+                        securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
+
                     },
                     beforeSend:function(){
                         // this is where we append a loading image
@@ -1288,10 +1327,9 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                         data: {
                             method: 'read',
                             midnightMarketId: $("#midnightMarketId").val(),
-                            leafId: leafId,
-                            isAdmin: isAdmin,
-                            render : false,
-                            output:'json'
+                            output:'json',
+                            securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
+
                         },
                         beforeSend:function(){
                             // this is where we append a loading image
@@ -1336,10 +1374,10 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                         data: {
                             method: 'read',
                             midnightMarketId: $("#midnightMarketId").val(),
-                            leafId: leafId,
-                            isAdmin: isAdmin,
                             render : false,
-                            output:'json'
+                            output:'json',
+                            securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
+
                         },
                         beforeSend:function(){
                             // this is where we append a loading image
