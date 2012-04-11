@@ -134,11 +134,12 @@ class RecordSet extends \Core\ConfigClass {
         if($value=='json') { header('Content-Type:application/json; charset=utf-8'); }
         $nextRecord = 0;
         if ($this->getVendor() == self::MYSQL) {
-            $sql = "
+                 $sql = "
 		SELECT (`" . $this->getPrimaryKeyName() . "`) AS `nextRecord`
 		FROM 	`" . $this->getRequestDatabase() . "`.`" . $this->getTableName() . "`
 		WHERE 	`" . $this->getPrimaryKeyName() . "` > " . $primaryKeyValue . "
 		LIMIT 	1";
+                
         } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
 		SELECT  TOP 1 ([" . $this->getPrimaryKeyName() . "]) AS [nextRecord]
@@ -187,10 +188,12 @@ class RecordSet extends \Core\ConfigClass {
         if ($this->getVendor() == self::MYSQL) {
             $sql = "
 			SELECT (`" . $this->getPrimaryKeyName() . "`) AS `previousRecord`
-					FROM 	`" . $this->getTableName() . "`
-					WHERE 	`" . $this->getRequestDatabase() . "`.`" . $this->getPrimaryKeyName() . "` < " . $primaryKeyValue . "
+					FROM 	`" . $this->getRequestDatabase() . "`.`" . $this->getTableName() . "`
+					WHERE 	`" . $this->getPrimaryKeyName() . "` < " . $primaryKeyValue . "
 					ORDER BY `" . $this->getPrimaryKeyName() . "` DESC
 					LIMIT 	1";
+        
+       
         } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
 						SELECT TOP 1 ([" . $this->getPrimaryKeyName() . "]) AS [previousRecord]

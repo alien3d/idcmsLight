@@ -559,7 +559,7 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
             <a  name="postRecordButton" id="postRecordButton" href="javascript:void(0)" class="btn btn-warning  disabled"  onClick="postRecord()"><i class="icon-cog icon-white"></i> Post</a>
         </div>
         <div class="btn-group">
-            <a  name="listRecordButton" id="listRecordButton" href="javascript:void(0)" class="btn btn-info  disabled" onClick="showGrid()"><i class="icon-list icon-white"></i>Listing</a>
+            <a  name="listRecordButton" id="listRecordButton" href="javascript:void(0)" class="btn btn-info" onClick="showGrid()"><i class="icon-list icon-white"></i>Listing</a>
         </div>
         <div class="btn-group">
             <a  name="firstRecordButton" id="firstRecordButton" href="javascript:void(0)" class="btn btn-info  disabled" onClick="firstRecord()"><i class="icon-fast-backward icon-white"></i> First</a>
@@ -586,16 +586,16 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
             // load the system cell if session  and token exist; 
             <?php if($_POST['method']=='new') { ?>
             $("#resetRecordButton").removeClass();
-            $("#resetRecordButton").addClass();
+            $("#resetRecordButton").addClass("btn btn-info");
             
             $("#newRecordButton").removeClass();
             $("#newRecordButton").addClass("btn btn-success");
             
             $("#firstRecordButton").removeClass();
-            $("#firstRecordButton").addClass();
+            $("#firstRecordButton").addClass("btn btn-info");
             
             $("#lastRecordButton").removeClass();
-            $("#lastRecordButton").addClass();
+            $("#lastRecordButton").addClass("btn btn-info");
             <?php } else { ?>
             <?php } ?>    
          });
@@ -1207,7 +1207,19 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                                         $("#midnightMarketLocation").val(data.data.midnightMarketLocation);
                                         $("#dayId").val(data.data.dayId);
                                         $("#midnightMarketGps").val(data.data.midnightMarketGps);
-                                  
+                                        if(data.nextRecord > 0 ) {
+                                            
+                                            $("#previousRecordButton").removeClass();
+                                            $("#previousRecordButton").addClass("btn btn-info  disabled");
+                                            
+                                            $("#nextRecordButton").removeClass();
+                                            $("#nextRecordButton").addClass("btn btn-info");
+                                            
+                                            $("#firstRecord").val(data.firstRecord);
+                                            $("#previousRecord").val(data.previousRecord);
+                                            $("#nextRecord").val(data.nextRecord);
+                                            $("#lastRecord").val(data.lastRecord);
+                                        }   
 
                                     }
                                                                     
@@ -1281,7 +1293,19 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                                         $("#midnightMarketLocation").val(data.data.midnightMarketLocation);
                                         $("#dayId").val(data.data.dayId);
                                         $("#midnightMarketGps").val(data.data.midnightMarketGps);
-                                  
+                                        if(data.lastRecord  != 0 ) {
+                                            $("#previousRecordButton").removeClass();
+                                            $("#previousRecordButton").addClass("btn btn-info");
+                                            
+                                            $("#nextRecordButton").removeClass();
+                                            $("#nextRecordButton").addClass("btn btn-info disabled");
+                                           
+                                            $("#firstRecord").val(data.firstRecord);
+                                            
+                                            $("#previousRecord").val(data.previousRecord);
+                                            $("#nextRecord").val(data.nextRecord);
+                                            $("#lastRecord").val(data.lastRecord);
+                                        }
 
                                     }
                                                                     
@@ -1317,16 +1341,16 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                 // access denied  
             } else {
                 $('#newButton').removeClass();
-                if ($('#nextRecord').val() == '' || $('#nextRecord').val() == undefined) {
-                    $('#infoPanel').html('<div class=\'alert alert-error\'>'+chooseRecordLabel+'</div>');
+                if ($('#previousRecord').val() == '' || $('#previousRecord').val() == undefined) {
+                    $('#infoPanel').html('<div class=\'alert alert-error\'>testingo</div>');
                 }
-                if ($('#firsRecord').val() >= 1) {
+                if (parseFloat($('#previousRecord').val()) > 0 && parseFloat($("#previousRecord").val())< parseFloat($("#lastRecord").val())) {
                     $.ajax({
                         type: 'POST',
                         url: '<?php echo $midnightMarket->getControllerPath(); ?>',
                         data: {
                             method: 'read',
-                            midnightMarketId: $("#midnightMarketId").val(),
+                            midnightMarketId: $("#previousRecord").val(),
                             output:'json',
                             securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
 
@@ -1339,11 +1363,28 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                             // successful request; do something with the data
                             if(data.success == true) {
                                 $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                                $("#midnightMarketId").val(data.midnightMarketId);
-                                $("#stateId").val(data.stateId);
-                                $("#midnightMarketLocation").val(data.midnightMarketLocation);
-                                $("#dayId").val(data.dayId);
-                                $("#midnightMarketGps").val(data.midnightMarketGps);
+                                $("#midnightMarketId").val(data.data.midnightMarketId);
+                                $("#stateId").val(data.data.stateId);
+                                $("#midnightMarketLocation").val(data.data.midnightMarketLocation);
+                                $("#dayId").val(data.data.dayId);
+                                $("#midnightMarketGps").val(data.data.midnightMarketGps);
+                                
+                                $("#firstRecord").val(data.firstRecord);
+                                $("#previousRecord").val(data.previousRecord);
+                                $("#nextRecord").val(data.nextRecord);
+                                $("#lastRecord").val(data.lastRecord);
+                                
+                                if(parseFloat(data.nextRecord) != parseFloat(data.lastRecord)) {
+                                     $("#nextRecordButton").removeClass();
+                                     $("#nextRecordButton").addClass("btn btn-info");
+                                } else {
+                                    $("#nextRecordButton").removeClass();
+                                     $("#nextRecordButton").addClass("btn btn-info disabled");
+                                }
+                                if(parseFloat(data.previousRecord)==0) {
+                                    $("#previousRecordButton").removeClass();
+                                    $("#previousRecordButton").addClass("btn btn-info disabled");
+                                }
                             }
                                                                     
                         },
@@ -1354,6 +1395,9 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                             }
                         }
                     });
+                } else {
+                    // debugging purpose only
+                    
                 }
             }
         }
@@ -1367,14 +1411,13 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                 if ($('#nextRecord').val() == '' || $('#nextRecord').val() == undefined) {
                     $('#infoPanel').html('<div class=\'alert alert-error\'>sdfd</div>');
                 }
-                if ($('#nextRecord').val() <= $('#lastRecord').val()) {
+                 if (parseFloat($("#nextRecord").val()) < parseFloat($("#lastRecord").val())) {
                     $.ajax({
                         type: 'POST',
                         url: '<?php echo $midnightMarket->getControllerPath(); ?>',
                         data: {
                             method: 'read',
-                            midnightMarketId: $("#midnightMarketId").val(),
-                            render : false,
+                            midnightMarketId: $("#nextRecord").val(),
                             output:'json',
                             securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
 
@@ -1387,11 +1430,29 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                             // successful request; do something with the data
                             if(data.success == true) {
                                 $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                                $("#midnightMarketId").val(data.midnightMarketId);
-                                $("#stateId").val(data.stateId);
-                                $("#midnightMarketLocation").val(data.midnightMarketLocation);
-                                $("#dayId").val(data.dayId);
-                                $("#midnightMarketGps").val(data.midnightMarketGps);
+                                $("#midnightMarketId").val(data.data.midnightMarketId);
+                                $("#stateId").val(data.data.stateId);
+                                $("#midnightMarketLocation").val(data.data.midnightMarketLocation);
+                                $("#dayId").val(data.data.dayId);
+                                $("#midnightMarketGps").val(data.data.idnightMarketGps);
+                                
+                                $("#firstRecord").val(data.firstRecord);
+                                $("#previousRecord").val(data.previousRecord);
+                                $("#nextRecord").val(data.nextRecord);
+                                $("#lastRecord").val(data.lastRecord);
+                                
+                                if(parseFloat(data.previousRecord) > 0 ) {
+                                     $("#previousRecordButton").removeClass();
+                                     $("#previousRecordButton").addClass("btn btn-info");
+                                } else {
+                                    $("#previousRecordButton").removeClass();
+                                     $("#previousRecordButton").addClass("btn btn-info disabled");
+                                }
+                                if(parseFloat(data.nextRecord)==parseFloat('lastRecord')) {
+                                    $("#nextRecordButton").removeClass();
+                                    $("#nextRecordButton").addClass("btn btn-info disabled");
+                                }
+                               
                             }
                                                                     
                         },
@@ -1402,6 +1463,8 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
                             }
                         }
                     });
+                } else {
+                    
                 }
             }
         }
