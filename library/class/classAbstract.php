@@ -163,7 +163,7 @@ abstract class ConfigClass
 	 * Open To See Audit  Column --> approved,new,delete and e.g
 	 * @var int
 	 */
-	public $isAdmin;
+	private $isAdmin;
 	/**
 	 * Enter description here ...
 	 * @var string

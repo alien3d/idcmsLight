@@ -92,28 +92,28 @@ class RecordSet extends \Core\ConfigClass {
             $sql = "
 	SELECT 	MIN(`" . $this->getPrimaryKeyName() . "`) AS `firstRecord`
 	FROM 	`" . $this->getRequestDatabase() . "`.`" . $this->getTableName() . "`";
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0) {
                 $sql.=" AND `isActive` = 1 ";
             }
         } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
 	SELECT 	MIN([" . $this->getPrimaryKeyName() . "]) AS [firstRecord]
 	FROM 	[" . $this->getRequestDatabase() . "].[" . $this->getTableName() . "]";
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0 ) {
                 $sql.=" AND [isActive] = 1 ";
             }
         } else if ($this->getVendor() == self::ORACLE) {
             $sql = "
 	SELECT 	MIN(" . strtoupper($this->getPrimaryKeyName()) . ") AS \"firstRecord\"
 	FROM 	" . strtoupper($this->getTableName()) . " ";
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0 ) {
                 $sql.=" AND ISACTIVE = 1 ";
             }
         } else if ($this->getVendor() == self::DB2) {
             $sql = "
 			SELECT 	MIN(" . strtoupper($this->getPrimaryKeyName()) . ") AS \"firstRecord\"
 			FROM 	" . strtoupper($this->getTableName()) . " ";
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0 ) {
                 $sql.=" AND ISACTIVE = 1 ";
             }
         } else if ($this->getVendor() == self::POSTGRESS) {
@@ -121,7 +121,7 @@ class RecordSet extends \Core\ConfigClass {
 			SELECT 	MIN(" . strtoupper($this->getPrimaryKeyName()) . ") AS \"firstRecord\"
 			FROM 	" . strtoupper($this->getTableName()) . " ";
 
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0) {
                 $sql.=" AND ISACTIVE = 1 ";
             }
         }
@@ -159,7 +159,7 @@ class RecordSet extends \Core\ConfigClass {
 		FROM 	`" . $this->getRequestDatabase() . "`.`" . $this->getTableName() . "`
 		WHERE 	`" . $this->getPrimaryKeyName() . "` > " . $primaryKeyValue . "
 		";
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0 ) {
                 $sql.=" AND `isActive` = 1 ";
             }
             $sql.=" LIMIT 1 ";
@@ -168,7 +168,7 @@ class RecordSet extends \Core\ConfigClass {
 		SELECT  TOP 1 ([" . $this->getPrimaryKeyName() . "]) AS [nextRecord]
 		FROM 	[" . $this->getRequestDatabase() . "].[" . $this->getTableName() . "]
 		WHERE 	[" . $this->getPrimaryKeyName() . "] > " . $primaryKeyValue . " ";
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0) {
                 $sql.=" AND [isActive] = 1 ";
             }
         } else if ($this->getVendor() == self::ORACLE) {
@@ -178,11 +178,11 @@ class RecordSet extends \Core\ConfigClass {
 							WHERE 	" . strtoupper($this->getPrimaryKeyName()) . " > " . $primaryKeyValue . "
 			AND		ROWNUM = 1";
 
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0) {
                 $sql.=" AND ISACTIVE = 1 ";
             }
         } else if ($this->getVendor() == self::DB2) {
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0 ) {
                 $sql.=" AND ISACTIVE = 1 ";
             }
         } else if ($this->getVendor() == self::POSTGRESS) {
@@ -191,7 +191,7 @@ class RecordSet extends \Core\ConfigClass {
 			FROM 	`" . $this->getTableName() . "`
 			WHERE 	`" . $this->getPrimaryKeyName() . "` > " . $primaryKeyValue . "
 			";
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0) {
                 $sql.=" AND ISACTIVE = 1 ";
             }
             $sql.=" LIMIT 1 ";
@@ -230,7 +230,7 @@ class RecordSet extends \Core\ConfigClass {
 					WHERE 	`" . $this->getPrimaryKeyName() . "` < " . $primaryKeyValue . "
 					ORDER BY `" . $this->getPrimaryKeyName() . "` DESC
 					";
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0 ) {
                 $sql.=" AND `isActive` = 1 ";
             }
 
@@ -240,7 +240,7 @@ class RecordSet extends \Core\ConfigClass {
 						SELECT TOP 1 ([" . $this->getPrimaryKeyName() . "]) AS [previousRecord]
 						FROM 	[" . $this->getRequestDatabase() . "].[" . $this->getTableName() . "]
 						WHERE 	[" . $this->getPrimaryKeyName() . "] < " . $primaryKeyValue . " ";
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0 ) {
                 $sql.=" AND [isActive] = 1 ";
             }
         } else if ($this->getVendor() == self::ORACLE) {
@@ -251,11 +251,11 @@ class RecordSet extends \Core\ConfigClass {
 										AND 	ROWNUM  = 1
 										";
 
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0 ) {
                 $sql.=" AND ISACTIVE = 1 ";
             }
         } else if ($this->getVendor() == self::DB2) {
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0 ) {
                 $sql.=" AND ISACTIVE = 1 ";
             }
         } else if ($this->getVendor() == self::POSTGRESS) {
@@ -264,7 +264,7 @@ class RecordSet extends \Core\ConfigClass {
 			FROM 	`" . $this->getTableName() . "`
 			WHERE 	`" . $this->getPrimaryKeyName() . "` < " . $primaryKeyValue . "
 			LIMIT 	1";
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0 ) {
                 $sql.=" AND ISACTIVE = 1 ";
             }
         }
@@ -300,7 +300,7 @@ class RecordSet extends \Core\ConfigClass {
 							SELECT	MAX(`" . $this->getPrimaryKeyName() . "`) AS `lastRecord`
 									FROM 	`" . $this->getRequestDatabase() . "`.`" . $this->getTableName() . "`";
 
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0 ) {
                 $sql.=" AND `isActive` = 1 ";
             }
         } else if ($this->getVendor() == self::MSSQL) {
@@ -308,7 +308,7 @@ class RecordSet extends \Core\ConfigClass {
 									SELECT	MAX([" . $this->getPrimaryKeyName() . "]) AS [lastRecord]
 							FROM 	[" . $this->getRequestDatabase() . "].[" . $this->getTableName() . "]";
 
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0) {
                 $sql.=" AND [isActive] = 1 ";
             }
         } else if ($this->getVendor() == self::ORACLE) {
@@ -316,7 +316,7 @@ class RecordSet extends \Core\ConfigClass {
 								SELECT	MAX(" . strtoupper($this->getPrimaryKeyName()) . ") AS \"lastRecord\"
 								FROM 	" . strtoupper($this->getTableName()) . " ";
 
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0 ) {
                 $sql.=" AND ISACTIVE = 1 ";
             }
         } else if ($this->getVendor() == self::DB2) {
@@ -324,14 +324,14 @@ class RecordSet extends \Core\ConfigClass {
 			SELECT	MAX(" . strtoupper($this->getPrimaryKeyName()) . ") AS \"lastRecord\"
 			FROM 	" . strtoupper($this->getTableName()) . " ";
 
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0 ) {
                 $sql.=" AND ISACTIVE = 1 ";
             }
         } else if ($this->getVendor() == self::POSTGRESS) {
             $sql = "
 			SELECT	MAX(" . strtoupper($this->getPrimaryKeyName()) . ") AS \"lastRecord\"
 			FROM 	" . strtoupper($this->getTableName()) . " ";
-            if ($this->getIsAdmin() == 0 || empty($this->getIsAdmin())) {
+            if ($this->getIsAdmin() == 0 ) {
                 $sql.=" AND ISACTIVE = 1 ";
             }
         }
