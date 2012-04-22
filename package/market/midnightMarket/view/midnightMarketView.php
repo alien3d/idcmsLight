@@ -1,3 +1,9 @@
+
+<head>
+<link href="../../../../library/twitter2/docs/assets/css/bootstrap.css" rel="stylesheet" type="text/css">
+<link href="../../../../library/twitter2/docs/assets/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
+</head>
+
 <?php
 require_once("/../controller/midnightMarketController.php");
 require_once("/../../../system/common/controller/StateController.php");

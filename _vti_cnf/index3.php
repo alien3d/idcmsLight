@@ -1,5 +1,5 @@
 vti_encoding:SR|utf8-nl
-vti_timelastmodified:TR|26 Feb 2012 05:01:03 -0000
+vti_timelastmodified:TR|03 Mar 2012 11:09:57 -0000
 vti_extenderversion:SR|12.0.0.0
 vti_author:SR|WIN-D2B61JVKSL3\\alien3d
 vti_modifiedby:SR|WIN-D2B61JVKSL3\\alien3d
@@ -7,8 +7,8 @@ vti_timecreated:TR|11 Feb 2012 06:59:58 -0000
 vti_title:SR|Bootstrap, from Twitter
 vti_backlinkinfo:VX|index3.php
 vti_nexttolasttimemodified:TW|26 Feb 2012 05:00:28 -0000
-vti_cacheddtm:TX|26 Feb 2012 05:01:03 -0000
-vti_filesize:IR|54805
+vti_cacheddtm:TX|03 Mar 2012 11:09:57 -0000
+vti_filesize:IR|55578
 vti_cachedtitle:SR|Bootstrap, from Twitter
 vti_cachedbodystyle:SR|<body>
 vti_cachedlinkinfo:VX|X|./library/html5.js Q|./library/jquerytools/skin1.css Q|./library/twitter2/docs/assets/css/bootstrap.css Q|./library/twitter2/docs/assets/css/bootstrap-responsive.css H|images/favicon.ico H|images/apple-touch-icon.png H|images/apple-touch-icon-72x72.png H|images/apple-touch-icon-114x114.png K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php S|images/Blueticons_Win/PNGs/Cool.png S|images/icons/folder.png K|index3.php S|images/icons/application-form.png K|index3.php S|images/icons/application-form.png K|index3.php S|images/icons/application-form.png K|index3.php S|images/icons/application-form.png K|index3.php S|images/icons/application-form.png S|images/icons/folder.png K|index3.php S|images/icons/application-form.png K|index3.php S|images/icons/application-form.png K|index3.php S|images/icons/application-form.png S|images/icons/folder.png K|index3.php S|images/icons/application-form.png K|index3.php S|images/icons/application-form.png S|images/icons/folder-open.png K|index3.php S|images/icons/application-form.png K|index3.php S|images/icons/application-form.png K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php K|index3.php S|./library/jquery/jquery-1.7.1.js S|./library/twitter2/js/bootstrap-alert.js S|./library/twitter2/js/bootstrap-button.js S|./library/twitter2/js/bootstrap-carousel.js S|./library/twitter2/js/bootstrap-collapse.js S|./library/twitter2/js/bootstrap-dropdown.js S|./library/twitter2/js/bootstrap-modal.js S|./library/twitter2/js/bootstrap-scrollspy.js S|./library/twitter2/js/bootstrap-tab.js S|./library/twitter2/js/bootstrap-tooltip.js S|./library/twitter2/js/bootstrap-transition.js S|./library/twitter2/js/bootstrap-typeahead.js S|./library/jquerytools/jquery.tools.min.js

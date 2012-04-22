@@ -1,5 +1,8 @@
 <?php
 namespace Core\Portal\Service;
+if(!isset($_SESSION)) {
+	session_start();
+}
 require_once ("/../../../../library/class/classAbstract.php");
 require_once ("/../../../../library/class/classSystemString.php");
 require_once ("/../../../system/management/model/staffModel.php");
@@ -108,6 +111,7 @@ class DefaultClass extends \Core\ConfigClass {
     }
 
     public function authentication($username, $password) {
+    	header('Content-Type:application/json; charset=utf-8');
         $returnArray = array();
         $start = microtime(true);
         $this->model->setStaffName($username);
@@ -305,7 +309,7 @@ class DefaultClass extends \Core\ConfigClass {
 				VALUES (
 							'" . $this->staffWebAccess->getStaffId() . "',
 							" . $this->staffWebAccess->getStaffWebAccessLogIn() . "
-				d		)";
+						)";
             }
             $this->q->update($sql);
 
@@ -314,12 +318,13 @@ class DefaultClass extends \Core\ConfigClass {
             $returnArray['start'] = $start;
             $returnArray['staffName'] = $_SESSION ['staffName'];
             $returnArray['staffImage'] = '';
-            return $returnArray;
+            echo json_encode($returnArray);
         } else {
             $returnArray['success'] = false;
             $returnArray['message'] = $this->systemString->getLoginError();
             $returnArray['start'] = $start;
-            return $returnArray;
+            echo json_encode($returnArray);
+
         }
     }
 
@@ -356,7 +361,9 @@ class MenuNavigatonClass extends \Core\ConfigClass {
     private $teamId;
 
     function __construct() {
-        $this->teamId = 7;
+        // default for portal visitor
+        $this->teamId = 7; 
+        $this->staffId=9; 
     }
 
     function execute() {
@@ -376,6 +383,13 @@ class MenuNavigatonClass extends \Core\ConfigClass {
         $this->systemString->setVendor($this->getVendor());
         $this->systemString->setLeafId($this->getLeafId());
         $this->systemString->execute();
+        
+         if (isset($_SESSION['teamId'])) {
+            $this->teamId = $_SESSION['teamId'];
+        }
+        if (isset($_SESSION['staffId'])) {
+            $this->staffId = $_SESSION['staffId'];
+        }
     }
 
     function create() {
@@ -398,19 +412,18 @@ class MenuNavigatonClass extends \Core\ConfigClass {
         
     }
 
-    /*
+    /**
      *  Reroute application. 
      *  @param int id Application Identification or Lead Identification
      *  @param enum ('app','leaf') type Application Or Leaf
-     */
+     **/
 
     function route($pageId, $pageType) {
         $sql        = null;
         $appendFile = null;
         $error      = 0;
-        if (isset($_SESSION['teamId'])) {
-            $this->teamId = $_SESSION['teamId'];
-        }
+       
+
       
         switch ($pageType) {
             case 'APP':
@@ -505,18 +518,20 @@ class MenuNavigatonClass extends \Core\ConfigClass {
             $this->teamId = $_SESSION['teamId'];
         }
         if ($this->getVendor() == self::MYSQL) {
-            $sql = "
-        SELECT  `" . $this->q->getCoreDatabase() . "`.`moduleTranslate`.`moduleNative`, 
-        FROM    `module`
-        JOIN    `moduleAccess`
+           $sql = "
+        SELECT  `moduleTranslate`.`moduleNative`,
+        		`module`.`moduleId` 
+        FROM     `" . $this->q->getCoreDatabase() . "`.`module`
+        JOIN     `" . $this->q->getCoreDatabase() . "`.`moduleAccess`
         USING   (`moduleId`)
-        JOIN    `moduleTranslate`
+        JOIN    `" . $this->q->getCoreDatabase() . "`. `moduleTranslate`
         USING   (`moduleId`)
-        JOIN    `application` 
-        JOIN    `applicationAccess`
-        USING   (`applicationId`,`teamId`)
+        JOIN    `" . $this->q->getCoreDatabase() . "`. `application` 
+        USING	(`applicationId`)
+        JOIN     `" . $this->q->getCoreDatabase() . "`.`applicationAccess`
+        USING   (`applicationId`)
         WHERE   `moduleAccess`.`teamId`                         =   '" . $this->teamId . "'
-        AND     `aplicationAccess`.`teamId`                     =   '" . $this->teamId . "'
+        AND     `applicationAccess`.`teamId`                     =   '" . $this->teamId . "'
         AND     `moduleAccess`.`moduleAccessValue`              =   1
         AND     `applicationAccess`.`applicationAccessValue`    =   1
         AND     `application`.`applicationId`                   =   '" . $applicationId . "'";
@@ -548,42 +563,50 @@ class MenuNavigatonClass extends \Core\ConfigClass {
 
     /**
      *  Generate Folder
-     *  @param $folderId Folder Identification
+     *  @param numeric $applicaitionId Folder Identification
+     *  @param numeric $moduleId Module Identification
      */
-    public function folder($folderId = null) {
-        $this->folderId = $folderId;
+    public function folder($applicationId = null,$moduleId=null) {
+    
 
         $data = array();
         if (isset($_SESSION['teamId'])) {
             $this->teamId = $_SESSION['teamId'];
         }
         if ($this->getVendor() == self::MYSQL) {
-            $sql = "
-        SELECT  `folderTranslate`.`applicationNative`,
+           $sql = "
+        SELECT  `folderTranslate`.`folderNative`,
                 `folder`.`applicationId`,
                 `folder`.`moduleId`,
                 `folder`.`folderId`,
                 `folder`.`folderPath`,
-                `icon`.`iconId`
+                `icon`.`iconId`,
+                `icon`.`iconName`
         FROM    `" . $this->q->getCoreDatabase() . "`.`folder`
         JOIN    `" . $this->q->getCoreDatabase() . "`.`folderAccess`
         USING   (`folderId`)
-        WHERE   `folderAccess`.`folderAccessValue`  =   1";
+        JOIN    `" . $this->q->getCoreDatabase() . "`.`folderTranslate`
+        USING   (`folderId`)
+        LEFT JOIN    `" . $this->q->getCoreDatabase() . "`.`icon`
+        USING   (`iconId`)
+        WHERE   `folderAccess`.`folderAccessValue`  =   1
+        AND     `folder`.`applicationId`            =   '".$applicationId."'
+        AND     `folder`.`moduleId`                 =   '".$moduleId."'
+        AND     `folderAccess`.`teamId`             =   '" . $this->teamId . "'";
         }
 
-        if (empty($this->folderId)) {
-            $sql.=" AND `folder`.`isDefault` =1 ";
-        } else {
-            $sql.=" AND `folder`.`folderId` = '" . $this->folderId . "'";
-        }
 
-        $sql.=" `folderAccess`.`teamId`             =   '" . $this->teamId . "'";
+
 
         $result = $this->q->fast($sql);
+        if($this->q->execute == 'fail') {
+            $this->exceptionMessage($this->q->responce);
+        }
         while ($row = $this->q->fetchArray($result)) {
             $row['leaf'] = $this->folderAndLeaf($row['applicationId'], $row['moduleId'], $row['folderId']);
             $data[] = $row;
         }
+      
         return $data;
     }
 
@@ -604,25 +627,18 @@ class MenuNavigatonClass extends \Core\ConfigClass {
         }
 
         if ($this->getVendor() == self::MYSQL) {
-            $sql = "
-        SELECT   `" . $this->q->getCoreDatabase() . "`.`leafTranslate`.`moduleNative`, 
-        FROM   `leaf`
-        USINg   (`leafId`)
-        JOIN    `leafAccess`
+           $sql = "
+        SELECT  *
+        FROM   `" . $this->q->getCoreDatabase() . "`.`leaf`
+        JOIN    `" . $this->q->getCoreDatabase() . "`.`leafAccess`
         USING   (`leafId`)
-        JOIN    `folder`
-        USING   (`folderId`) 
-        JOIN    `folderAccess`
-        USING   (`folderId`)
-        JOIN    `folderTranslate`
-        USING   (`folderId`)
-        WHERE   `folderAccess`.`teamId`                 =   '" . $this->teamId . "'
-        AND     `leafAccess`.`staffId`                  =   '" . $_SESSION['staffId'] . "'
-        AND     `folderAccess`.`moduleAccessValue`      =   1
-        AND     `leafAccess`.`applicationAccessValue`   =   1
-        AND     `folder`.`appicationId`                 =   '" . $this->applicationId . "'
-        AND     `folder`.`moduleId`                     =   '" . $this->moduleId . "'
-        AND     `folder`.`folderId`                     =   '" . $this->folderId . "'";
+        JOIN    `" . $this->q->getCoreDatabase() . "`.`leafTranslate`
+        USING   (`leafId`)
+        WHERE   `leafAccess`.`staffId`                  =   '" . $_SESSION['staffId'] . "'
+        AND     `leafAccess`.`leafAccessReadValue`           =   1
+        AND     `leaf`.`applicationId`                 =   '" . $this->applicationId . "'
+        AND     `leaf`.`moduleId`                     =   '" . $this->moduleId . "'
+        AND     `leaf`.`folderId`                     =   '" . $this->folderId . "'";
         } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
         SELECT  * 
@@ -845,7 +861,7 @@ class Portlet extends \Core\ConfigClass {
         }
         $row = array();
         if ($this->getStaffId()) {
-            echo $sql = "
+            $sql = "
         SELECT  `staffAvatar` 
         FROM    `staff` 
         WHERE   `staffId`   =   '" . $this->getStaffId() . "'";
@@ -862,11 +878,11 @@ class Portlet extends \Core\ConfigClass {
             if (($exception)) {
                 if ($this->q->numberRows($result) > 0) {
                     $row = $this->q->fetchArray($result);
-                    $row['staffAvatar'] = 'Cool.png';
+                  //  $row['staffAvatar'] = 'Cool.png';
 
-                    return $row['staffAvatar'];
+                  //  return $row['staffAvatar'];
                 } else {
-                    return $row['emptyAvatar'];
+                  //  return 'evil.gif';
                 }
             }
         }

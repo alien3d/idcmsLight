@@ -3,6 +3,7 @@ session_start();
 require_once ("./package/portal/main/service/portalService.php");
 $menu = new \Core\Portal\Service\MenuNavigatonClass;
 $menu->execute();
+$application = $menu->application();
 
 //$folder = $menu->folder();
 
@@ -54,11 +55,11 @@ $title = "Peringkat Testing";
     <script src="./library/pretty/prettify.js"></script>
 
     <body onload="prettyPrint()">
-        <?php $application = $menu->application(); ?>
+        <?php ?>
         <div class="navbar navbar-fixed-top">
 
             <div class="navbar-inner">
-                <div class="container">
+                <div id="menu" class="container">
                     <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                         <?php
                         $totalApplication = count($application);
@@ -82,38 +83,40 @@ $title = "Peringkat Testing";
                                     }
                                     if ($totalModule == 0) {
                                         ?> 
-                                        <li class="active"><a href="javascript:void(0)" onClick=loadBelow('<?php echo $application[$i]['applicationId']; ?>','APP')>
+                                        <li class="active"><a href="javascript:void(0)" onClick=loadBelow('<?php echo $application[$i]['applicationId']; ?>','','APP')>
 
                                                 <?php
                                                 if (isset($application[$i]['applicationNative'])) {
                                                     echo $application[$i]['applicationNative'];
                                                 }
                                                 ?></a></li>
-        <?php } else { ?>
+                                    <?php } else { ?>
                                         <li class="dropdown">
                                             <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $application[$i]['applicationNative']; ?> <b class="caret"></b></a>
 
                                             <ul class="dropdown-menu">
-                                                <?php // start looping  ?>
-                                                <li><a href="javascript:void(0)" onClick="loadBelow('semi','<?php echo $application[$i]['applicationId']; ?>',<?php echo $application[$i]['module'][$j]['moduleId']; ?>)"><?php echo $application[$i]['module'][$j]['moduleNative']; ?></a></li>
-                                            <?php // end looping ?>    
+                                                <?php for ($j = 0; $j < $totalModule; $j++) { ?>
+                                                    <li><a href="javascript:void(0)" onClick="loadSidebar('<?php echo $application[$i]['applicationId']; ?>','<?php echo $application[$i]['module'][$j]['moduleId']; ?>')"><?php echo $application[$i]['module'][$j]['moduleNative']; ?></a></li>
+                                                <?php } ?>    
                                             </ul>
-                                    <?php } ?>
+                                        <?php }
+                                        ?>
 
                                     </li>
-    <?php }
-}
-?>
+                                    <?php
+                                }
+                            }
+                            ?>
                         </ul>
                     </div><!--/.nav-collapse -->
                     <div id="loginArea" class="navbar-text pull-right">
-                        <!--  username -->
-                        <input type="textbox" name="username" id="username" placeholder="Username">
-                        <!--- password -->
-
-                        <input type="password" name="password" id="password" placeholder="Password">
-
-                        <input type="button" name="loginButton" id="loginButton" value="login" class="btn btn-info"x>
+                        <?php if (isset($_SESSION['staffId'])) { ?>
+                            <p class='navbar-text pull-right'>Logged in as <a href='javascript:void(0)'><i class='icon-user icon-white'></i><?php echo $_SESSION['staffName']; ?></a> | <a href='javascript:void(0)' ><i class='icon-fire icon-white'></i>Notification</a> | <a href='logout.php'><i class='icon-home icon-white'></i>Logout</a></p>
+                        <?php } else { ?>
+                            <input type="textbox" name="username" id="username" placeholder="Username">
+                            <input type="password" name="password" id="password" placeholder="Password">
+                            <input type="button" name="loginButton" id="loginButton" value="login" class="btn btn-info">
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -126,7 +129,7 @@ $title = "Peringkat Testing";
                         <br> 	
                         <a href="" class="thumbnail"><img src="<?php echo $avatar; ?>" alt="It's me" width="100" height="100"></a>
                         <hr>
-                            <?php } ?>
+                    <?php } ?>
                     <div class="sidebar-nav">
 
                         <ul class="nav nav-list">
@@ -142,30 +145,30 @@ $title = "Peringkat Testing";
                                             for ($j = 0; $j < $totalLeaf; $j++) {
                                                 ?>
                                                 <li class="hide"> <a href="javascript:void(0)" onclick="routing(<?php echo $folder[$i]['leaf'][$j]['leafId']; ?>,<?php echo $totalLeaf; ?>,'<?php echo $folder[$i]['leaf'][$j]['leafId']; ?>')"><img src="images/icons/application-form.png" alt="application"><?php echo $folder[$i]['leaf'][$j]['leafNative']; ?></a>
-        <?php
-        }
-    }
-    ?>    
+                                                    <?php
+                                                }
+                                            }
+                                            ?>    
 
 
                                     </ul>
                                 </li>
-                    <?php } ?>
+                            <?php } ?>
                         </ul>
 
 
                     </div><!--/.well -->
-                        <?php if ($setting['topFive'] == 1) { ?>    
+                    <?php if ($setting['topFive'] == 1) { ?>    
                         <hr>
                         <h5><?php echo $topFiveTitle; ?></h5>
                         <ul>
-    <?php
-    if (isset($topFive)) {
-        for ($i = 0; $i < count($topFive); $i++) {
-            ?> 
+                            <?php
+                            if (isset($topFive)) {
+                                for ($i = 0; $i < count($topFive); $i++) {
+                                    ?> 
                                     <li><a class="nav-item" onClick=loadFile(<?php echo $topFive['leafId']; ?>) ><?php echo $topFive['leafNative']; ?></a></li>
 
-                            <?php } ?>  </ul>
+                                <?php } ?>  </ul>
                             <?php
                         }
                     }
@@ -174,17 +177,17 @@ $title = "Peringkat Testing";
                         <hr>
                         <h5><?php echo $bookmarkTitle; ?></h5>
 
-                            <?php if (isset($bookmark)) { ?>
+                        <?php if (isset($bookmark)) { ?>
                             <ul>
-                            <?php for ($i = 0; $i < count($bookmark); $i++) { ?> 
+                                <?php for ($i = 0; $i < count($bookmark); $i++) { ?> 
                                     <li><a class="nav-item" onClick=loadFile(<?php echo $bookmark['leafId']; ?>) ><?php echo $bookmark['leafNative']; ?></a></li>
 
-                            <?php } ?>
+                                <?php } ?>
                             </ul>
-        <?php
-    }
-}
-?>
+                            <?php
+                        }
+                    }
+                    ?>
 
                 </div>
             </div>    
@@ -193,11 +196,11 @@ $title = "Peringkat Testing";
             <div name="centerViewport" id="centerViewport" class="hero-unit">
                 <h1>
                     <img alt="Wait Ya." height="100" width="100" src="./images/Blueticons_Win/PNGs/Devil.png" width="120">
-<?php
-$firstHeader = "Welcome.. Core Light";
-echo $firstHeader;
-?></h1>
-                <p><?php //$firstDetail = " More elegent system and Code to Code";     ?>
+                    <?php
+                    $firstHeader = "Welcome.. Core Light";
+                    echo $firstHeader;
+                    ?></h1>
+                <p><?php //$firstDetail = " More elegent system and Code to Code";      ?>
                     <br>
                 <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
             </div>
@@ -209,7 +212,7 @@ echo $firstHeader;
                         <h2><?php echo $story['title']; ?></h2>
                         <p><?php echo $story['description']; ?></p>
                     </div>
-<?php } ?>
+                <?php } ?>
             </div>
 
 
@@ -262,10 +265,11 @@ echo $firstHeader;
                 } else {
                     $.ajax({
                         type: 'POST',
-                        url: 'index.php',
+                        url: './package/portal/main/controller/portalController.php',
                         data: {
                             username: $("#username").val(),
-                            password : $("#password").val()
+                            password : $("#password").val(),
+                            tokenKey : '<?php echo md5("you have been cheated"); ?>',
                         },
                         beforeSend:function(){
                             // this is where we append a loading image
@@ -276,33 +280,38 @@ echo $firstHeader;
                             // successful request; do something with the data
                             // $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
                             if(data.success ==true){
-                                // $('#infoPanel').html('<div class=\'alert alert-info\'><a class="close" data-dismiss=\'alert\'>×</a>Lai  lai.. come in Welcome</div>');
-                                // $('#infoPanel').show();
+                                $('#infoPanel').html('<div class=\'alert alert-info\'><a class="close" data-dismiss=\'alert\'>×</a>Lai  lai.. come in Welcome</div>');
+                                $('#infoPanel').show();
                                 // change  the north viewport
                                 //  change the left viewport
                                 $("#centerViewport").html("");
                                 $("#centerViewport").empty();
                                 $("#centerViewport").removeClass();
                                 $("#centerViewport").addClass("container-fluid");
+                                // clear the portal menu and insert system menu
+                                $("#menu").html("");
+                                $("#menu").empty();
+                              
                                 // ajax request load left side.
                                 $.ajax({
                                     type: 'POST',
-                                    url: 'index.php',
+                                    url: './package/portal/main/controller/portalController.php',
                                     data: {
-                                        cell : 'left'
+                                        method : 'read',
+                                        type :'menu'
                                     },
                                     success:function(data){
-                                        
+                                        $("#menu").html(data);
                                     },
                                     error:function(){
-                                        
+                                        $('#infoPanel').html('<div class=\'alert alert-error\'><a class="close" data-dismiss=\'alert\'>×</a>Error Could Load The Request Page</div>');
+                                        $('#infoPanel').show();
                                     }
 
                                 });    
-                                $("#centerViewport").html("<div id=leftViewport class=span2>ini tepi</div><div id='rightViewport' class='span9' style='border-left: 1px solid #cccccc ; padding-left:10px;'><div class=\'alert alert-info\'>Loading Complete</div>ini center dalam</div>")
+                                $("#centerViewport").html("Please choose above menu first")
                                 
-                                // change the log in as 
-                                $("#loginArea").html("<p class=\"navbar-text pull-right\">Logged in as <a href=\"#\">username</a></p>");
+                             
                             }    else {
                                 $("#leftViewport").hide(); 
                                 $('#infoPanel').html('<div class=\'alert alert-error\'><a class="close" data-dismiss=\'alert\'>×</a>Who are you ?puchu tau</div>');
@@ -325,16 +334,14 @@ echo $firstHeader;
                 // ask router menu block
                 // ask router left menu block
             });
-            function loadBelow(pageId,pageType){
+            function loadBelow(pageId,moduleId,pageType){
                 //empty the center viewport
-                $("#centerViewport").html('');
-        
-        
+                $("#centerViewport").html('');        
                 var url = './package/portal/main/controller/portalController.php';
                 //    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
                 $("#centerViewport").removeClass();
                 $("#centerViewport").addClass("container-fluid");    
-                $("#centerViewport").load(url,{ method:'read',type:'list',detail:'body',pageId:pageId,pageType:pageType }, function(response, status, xhr) {
+                $("#centerViewport").load(url,{ method:'read',type:'list',detail:'body',pageId:pageId,moduleId:moduleId,pageType:pageType }, function(response, status, xhr) {
         
                     
             
@@ -342,14 +349,50 @@ echo $firstHeader;
                 
                         var msg = "Sorry but there was an error: ";
                 
-                             $('#infoPanel').html('<div class=\'alert alert-error\'><a class="close" data-dismiss=\'alert\'>×</a>aik'+msg + xhr.status + " " + xhr.statusText+'</div>');
+                        $('#infoPanel').html('<div class=\'alert alert-error\'><a class="close" data-dismiss=\'alert\'>×</a>aik'+msg + xhr.status + " " + xhr.statusText+'</div>');
 
                     } 
-                });
-        
-         
-        
-        
+                });        
+            }
+            function loadSidebar(applicationId,moduleId){
+                $('#infoPanel').html('<div class=\'alert alert-info\'><a class="close" data-dismiss=\'alert\'>×</a>Lai  lai.. come in Welcome</div>');
+                $('#infoPanel').show();
+                // change  the north viewport
+                //  change the left viewport
+                $("#centerViewport").html("");
+                $("#centerViewport").empty();
+                $("#centerViewport").removeClass();
+                $("#centerViewport").addClass("container-fluid");
+                $("#centerViewport").removeAttr("style");
+                $("#centerViewport").css( "height","+=768" );
+
+                
+                // ajax request to load side bar westport view
+                $.ajax({
+                    type: 'POST',
+                    url: './package/portal/main/controller/portalController.php',
+                    data: {
+                        method : 'read',
+                        type : 'folder',
+                        applicationId : applicationId,
+                        moduleId : moduleId,
+                        securityTocken:'<?php echo md5("You have been cheated"); ?>'
+                    },
+                    success:function(data){
+                          var str = data;
+                          if(str.search("error") > 1) {
+                            $('#centerViewport').html(data);
+                          } else {
+                                $("#centerViewport").html("<div id=leftViewport class=span2 style='height:768'>"+data+"</div><div id='rightViewport' class='span9' style='height:768;border-left: 1px solid #cccccc ; padding-left:10px;'><div class=\'alert alert-info\'>Loading Complete</div><div style=height:700px>ini center dalam</div></div>")
+
+                          }
+                    },
+                    error:function(){
+                            $('#infoPanel').html('<div class=\'alert alert-error\'><a class="close" data-dismiss=\'alert\'>×</a>Error Could Load The Request Page</div>');
+                            $('#infoPanel').show();           
+                    }
+
+                });   
             }
         </script>
         <div id="additionJs"></div>
