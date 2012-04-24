@@ -492,7 +492,8 @@ class MenuNavigatonClass extends \Core\ConfigClass {
             WHERE   1
             AND     `applicationAccess`.`applicationAccessValue`    =   1
             AND     `applicationAccess`.`teamId` =   '" . $this->teamId . "'
-            AND     `application`.`isActive`=1";
+            AND     `application`.`isActive`=1
+            ORDER BY `application`.`applicationSequence`";
         }
 // debugging 
 // $this->exceptionMessageArray($sql); //  debugging
@@ -520,7 +521,7 @@ class MenuNavigatonClass extends \Core\ConfigClass {
         if ($this->getVendor() == self::MYSQL) {
            $sql = "
         SELECT  `moduleTranslate`.`moduleNative`,
-        		`module`.`moduleId` 
+        	`module`.`moduleId` 
         FROM     `" . $this->q->getCoreDatabase() . "`.`module`
         JOIN     `" . $this->q->getCoreDatabase() . "`.`moduleAccess`
         USING   (`moduleId`)
@@ -534,7 +535,11 @@ class MenuNavigatonClass extends \Core\ConfigClass {
         AND     `applicationAccess`.`teamId`                     =   '" . $this->teamId . "'
         AND     `moduleAccess`.`moduleAccessValue`              =   1
         AND     `applicationAccess`.`applicationAccessValue`    =   1
-        AND     `application`.`applicationId`                   =   '" . $applicationId . "'";
+        AND     `application`.`applicationId`                   =   '" . $applicationId . "'
+        AND     `application`.`isActive`=1
+        AND     `module`.`isActive`=1
+        ORDER BY `application`.`applicationSequence`,
+                 `module`.`moduleSequence` ";
         } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
         SELECT  * 
@@ -592,7 +597,9 @@ class MenuNavigatonClass extends \Core\ConfigClass {
         WHERE   `folderAccess`.`folderAccessValue`  =   1
         AND     `folder`.`applicationId`            =   '".$applicationId."'
         AND     `folder`.`moduleId`                 =   '".$moduleId."'
-        AND     `folderAccess`.`teamId`             =   '" . $this->teamId . "'";
+        AND     `folderAccess`.`teamId`             =   '" . $this->teamId . "'
+        AND     `folder`.`isActive`=1
+        ORDER BY `folder`.`folderSequence`";
         }
 
 
@@ -638,7 +645,9 @@ class MenuNavigatonClass extends \Core\ConfigClass {
         AND     `leafAccess`.`leafAccessReadValue`           =   1
         AND     `leaf`.`applicationId`                 =   '" . $this->applicationId . "'
         AND     `leaf`.`moduleId`                     =   '" . $this->moduleId . "'
-        AND     `leaf`.`folderId`                     =   '" . $this->folderId . "'";
+        AND     `leaf`.`folderId`                     =   '" . $this->folderId . "'
+        AND     `leaf`.`isActive`=1
+        ORDER BY `leaf`.`leafSequence`";
         } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
         SELECT  * 
