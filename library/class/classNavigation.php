@@ -48,6 +48,11 @@ class HtmlPaging {
      * @var type 
      */
     private $stringOutput;
+     /**
+     * Return Security Token
+     * @var string 
+     */
+    private $securityToken;
     
 
     function __construct() {
@@ -132,6 +137,20 @@ class HtmlPaging {
     public function getViewPath() {
         return $this->viewPath;
     }
+     /**
+     *Return Security Token
+     * @return type 
+     */
+    function getSecurityToken() {
+        return $this->securityToken;
+    }
+    /**
+     * Set Security Token
+     * @param string $value 
+     */
+    function setSecurityToken($value){
+        $this->securityToken= $value;
+    }
     /*
      * Previous Record
      * @params offset int
@@ -143,7 +162,7 @@ class HtmlPaging {
         
         $this->setNewOffset($this->getOffset() - $this->getLimit());
         if ($this->getNewOffset() >= 0) {
-            $this->stringOutput.="<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "'," . $this->getNewOffset() . ", '" . $this->getLimit() . "')\">&laquo;</a></li>";
+            $this->stringOutput.="<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','".$this->getSecurityToken()."'," . $this->getNewOffset() . ", '" . $this->getLimit() . "')\">&laquo;</a></li>";
         } else {
             $this->stringOutput.="<li class=\"disabled\"><a  href=\"javascript:void(0)\">&laquo;</a></li>";
         }
@@ -167,10 +186,10 @@ class HtmlPaging {
                 
                  if (!(@($this->getLimit() / $this->getOffset()) == $this->pages) && $this->pages != 1) {
                     $this->setNewOffset($this->getOffset() + $this->getLimit());
-                    $this->stringOutput.= "<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','".$this->getNewOffset()."','".$this->getLimit()."')\">&raquo;</a></li>";
+                    $this->stringOutput.= "<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','".$this->getSecurityToken()."','".$this->getNewOffset()."','".$this->getLimit()."')\">&raquo;</a></li>";
                     
                  } else {
-                    $this->stringOutput.= "<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "',0,0)\">&raquo;</a></li>";
+                    $this->stringOutput.= "<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','".$this->getSecurityToken()."',0,0)\">&raquo;</a></li>";
 
                  }
             } else {
@@ -183,7 +202,7 @@ class HtmlPaging {
      * First Record
      */
     function moveFirst() {
-        return("<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','0', '" . $this->getLimit() . "')\" >&larr;</a></li>");
+        return("<li><a  href=\"javascript:void(0)\" onClick=\"ajaxQuery('" . $this->getViewPath() . "','".$this->getSecurityToken()."','0', '" . $this->getLimit() . "')\" >&larr;</a></li>");
     }
 
     /**
@@ -195,7 +214,7 @@ class HtmlPaging {
         if ($this->getNewOffset() < 0) {
             $this->setNewOffset(0);
         }
-        return ("<li><a  href=\"javascript:void(0)\"  onClick=\"ajaxQuery('" . $this->getViewPath() . "'," . $this->getNewOffset() . ", '" . $this->getLimit() . "')\">&rarr;</a></li>");
+        return ("<li><a  href=\"javascript:void(0)\"  onClick=\"ajaxQuery('" . $this->getViewPath() . "','".$this->getSecurityToken()."'," . $this->getNewOffset() . ", '" . $this->getLimit() . "')\">&rarr;</a></li>");
     }
 
     /**
@@ -222,7 +241,7 @@ class HtmlPaging {
             if ($temp == $offsetloop) {
                 $this->stringOutput.=" class=\"active\" ";
             }
-            $this->stringOutput.="><a href=\"javascript:void(0)\"  onClick=\"ajaxQuery('" . $this->getViewPath() . "'," . $offsetloop . ",'" . $this->getLimit() . "') \">" . $loopPage . "</a></li>";
+            $this->stringOutput.="><a href=\"javascript:void(0)\"  onClick=\"ajaxQuery('" . $this->getViewPath() . "','".$this->getSecurityToken()."'," . $offsetloop . ",'" . $this->getLimit() . "') \">" . $loopPage . "</a></li>";
             $offsetloop += $this->getLimit();
         }
         return $this->stringOutput;
@@ -263,6 +282,7 @@ class HtmlPaging {
     function pagenationv4() {
         echo "<ul>"  . $this->moveFirst().$this->movePrevious().$this->pagenationv2() .$this->pagenationv3().$this->moveNext().$this->moveLast(). "</ul>";
     }
+   
 
 }
 

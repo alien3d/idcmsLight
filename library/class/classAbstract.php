@@ -219,6 +219,11 @@ abstract class ConfigClass
 	 * @var string
 	 */
         public $servicePath;
+           /**
+     * Return Security Token
+     * @var string 
+     */
+    private $securityToken;
 	/**
 	 * Mysql Database (open Core)
 	 * @var const string
@@ -1328,5 +1333,19 @@ abstract class ConfigClass
 	{
 	    $this->servicePath = $value;
 	}
+         /**
+     *Return Security Token
+     * @return type 
+     */
+    function getSecurityToken() {
+        return $this->securityToken;
+    }
+    /**
+     * Set Security Token
+     * @param string $value 
+     */
+    function setSecurityToken($value){
+        $this->securityToken= $value;
+    }
 }
 ?>

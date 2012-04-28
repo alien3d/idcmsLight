@@ -34,17 +34,17 @@ $title = "Peringkat Testing";
         <![endif]-->
 
         <!-- Le styles -->
-
-        <link  id="cssTwitter1" rel="stylesheet" href="./library/twitter2/docs/assets/css/bootstrap.css">
-        <link  id="cssTwitter2" rel="stylesheet" href="./library/twitter2/docs/assets/css/bootstrap-responsive.css">            
-        <link   rel="stylesheet" href="./library/pretty/prettify.css">            
-
         <style type="text/css">
             body {
                 padding-top: 60px;
                 padding-bottom: 40px;
             }
         </style>
+        <link  id="cssTwitter1" rel="stylesheet" href="./library/twitter2/docs/assets/css/bootstrap.css">
+        <link  id="cssTwitter2" rel="stylesheet" href="./library/twitter2/docs/assets/css/bootstrap-responsive.css">            
+        <link   rel="stylesheet" href="./library/pretty/prettify.css">            
+
+
 
         <!-- Le fav and touch icons -->
         <link rel="shortcut icon" href="../../../../../images/favicon.ico">
@@ -55,6 +55,7 @@ $title = "Peringkat Testing";
     <script src="./library/pretty/prettify.js"></script>
 
     <body onload="prettyPrint()">
+
         <?php ?>
         <div class="navbar navbar-fixed-top">
 
@@ -83,21 +84,26 @@ $title = "Peringkat Testing";
                                     }
                                     if ($totalModule == 0) {
                                         ?> 
-                                        <li class="active"><a href="javascript:void(0)" onClick=loadBelow('<?php echo $application[$i]['applicationId']; ?>','','APP')>
+                                        <li class="active"><a href="javascript:void(0)" onClick=loadBelow('<?php echo intval($application[$i]['applicationId']); ?>','','','','application')>
 
                                                 <?php
                                                 if (isset($application[$i]['applicationNative'])) {
                                                     echo $application[$i]['applicationNative'];
                                                 }
                                                 ?></a></li>
-                                    <?php } else { ?>
+                                            <?php } else { ?>
                                         <li class="dropdown">
-                                            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $application[$i]['applicationNative']; ?> <b class="caret"></b></a>
+                                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown" ><?php echo $application[$i]['applicationNative']; ?> <b class="caret"></b></a>
 
                                             <ul class="dropdown-menu">
-                                                <?php for ($j = 0; $j < $totalModule; $j++) { ?>
-                                                    <li><a href="javascript:void(0)" onClick="loadSidebar('<?php echo $application[$i]['applicationId']; ?>','<?php echo $application[$i]['module'][$j]['moduleId']; ?>')"><?php echo $application[$i]['module'][$j]['moduleNative']; ?></a></li>
-                                                <?php } ?>    
+                                                <?php for ($j = 0; $j < $totalModule; $j++) {
+                                                    if ($application[$i]['module'][$j]['isSingle'] == 1) {
+                                                        ?>
+                                                        <li><a href="javascript:void(0)" onClick=loadBelow('<?php echo intval($application[$i]['applicationId']); ?>','<?php echo intval($application[$i]['module'][$j]['moduleId']); ?>','','','module')><?php echo $application[$i]['module'][$j]['moduleNative']; ?></a></li>
+                                                    <?php } else { ?>
+                                                        <li><a href="javascript:void(0)" onClick="loadSidebar('<?php echo intval($application[$i]['applicationId']); ?>','<?php echo $application[$i]['module'][$j]['moduleId']; ?>')"><?php echo $application[$i]['module'][$j]['moduleNative']; ?></a></li>
+                                                    <?php }
+                                                } ?>    
                                             </ul>
                                         <?php }
                                         ?>
@@ -109,15 +115,27 @@ $title = "Peringkat Testing";
                             ?>
                         </ul>
                     </div><!--/.nav-collapse -->
-                    <div id="loginArea" class="navbar-text pull-right">
-                        <?php if (isset($_SESSION['staffId'])) { ?>
-                            <p class='navbar-text pull-right'>Logged in as <a href='javascript:void(0)'><i class='icon-user icon-white'></i><?php echo $_SESSION['staffName']; ?></a> | <a href='javascript:void(0)' ><i class='icon-fire icon-white'></i>Notification</a> | <a href='logout.php'><i class='icon-home icon-white'></i>Logout</a></p>
-                        <?php } else { ?>
+
+
+<?php if (isset($_SESSION['staffId'])) { ?>
+                        <div  id="loginArea" class="btn-group pull-right">
+                            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                <i class="icon-user"></i> <?php echo $_SESSION['staffName']; ?>
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href=href='javascript:void(0)'>Profile</a></li>
+                                <li class="divider"></li>
+                                <li><a href="logout.php">Sign Out</a></li>
+                            </ul></div>
+<?php } else { ?>
+                        <div id="loginArea" class="navbar-text pull-right">
                             <input type="textbox" name="username" id="username" placeholder="Username">
                             <input type="password" name="password" id="password" placeholder="Password">
                             <input type="button" name="loginButton" id="loginButton" value="login" class="btn btn-info">
-                        <?php } ?>
-                    </div>
+                        </div>   
+<?php } ?>
+
                 </div>
             </div>
         </div>
@@ -125,11 +143,11 @@ $title = "Peringkat Testing";
         <div id="centerViewport" class="container">
             <div  id="leftViewportDetail" class="row-fluid hide">
                 <div class="span2" >
-                    <?php if (isset($avatar)) { ?>   
+<?php if (isset($avatar)) { ?>   
                         <br> 	
                         <a href="" class="thumbnail"><img src="<?php echo $avatar; ?>" alt="It's me" width="100" height="100"></a>
                         <hr>
-                    <?php } ?>
+<?php } ?>
                     <div class="sidebar-nav">
 
                         <ul class="nav nav-list">
@@ -144,7 +162,7 @@ $title = "Peringkat Testing";
                                             $totalLeaf = count($folder['detail']);
                                             for ($j = 0; $j < $totalLeaf; $j++) {
                                                 ?>
-                                                <li class="hide"> <a href="javascript:void(0)" onclick="routing(<?php echo $folder[$i]['leaf'][$j]['leafId']; ?>,<?php echo $totalLeaf; ?>,'<?php echo $folder[$i]['leaf'][$j]['leafId']; ?>')"><img src="images/icons/application-form.png" alt="application"><?php echo $folder[$i]['leaf'][$j]['leafNative']; ?></a>
+                                                <li class="hide"> <a href="javascript:void(0)" onclick="loadLeft(<?php echo $folder[$i]['leaf'][$j]['leafId']; ?>,<?php echo $totalLeaf; ?>,'<?php echo $folder[$i]['leaf'][$j]['leafId']; ?>')"><img src="images/icons/application-form.png" alt="application"><?php echo $folder[$i]['leaf'][$j]['leafNative']; ?></a>
                                                     <?php
                                                 }
                                             }
@@ -153,12 +171,12 @@ $title = "Peringkat Testing";
 
                                     </ul>
                                 </li>
-                            <?php } ?>
+<?php } ?>
                         </ul>
 
 
                     </div><!--/.well -->
-                    <?php if ($setting['topFive'] == 1) { ?>    
+<?php if ($setting['topFive'] == 1) { ?>    
                         <hr>
                         <h5><?php echo $topFiveTitle; ?></h5>
                         <ul>
@@ -168,21 +186,21 @@ $title = "Peringkat Testing";
                                     ?> 
                                     <li><a class="nav-item" onClick=loadFile(<?php echo $topFive['leafId']; ?>) ><?php echo $topFive['leafNative']; ?></a></li>
 
-                                <?php } ?>  </ul>
+                            <?php } ?>  </ul>
                             <?php
                         }
                     }
                     ?>
-                    <?php if ($setting['topFive'] == 1) { ?>    
+<?php if ($setting['topFive'] == 1) { ?>    
                         <hr>
                         <h5><?php echo $bookmarkTitle; ?></h5>
 
-                        <?php if (isset($bookmark)) { ?>
+                            <?php if (isset($bookmark)) { ?>
                             <ul>
-                                <?php for ($i = 0; $i < count($bookmark); $i++) { ?> 
+        <?php for ($i = 0; $i < count($bookmark); $i++) { ?> 
                                     <li><a class="nav-item" onClick=loadFile(<?php echo $bookmark['leafId']; ?>) ><?php echo $bookmark['leafNative']; ?></a></li>
 
-                                <?php } ?>
+                            <?php } ?>
                             </ul>
                             <?php
                         }
@@ -200,19 +218,19 @@ $title = "Peringkat Testing";
                     $firstHeader = "Welcome.. Core Light";
                     echo $firstHeader;
                     ?></h1>
-                <p><?php //$firstDetail = " More elegent system and Code to Code";      ?>
+                <p><?php //$firstDetail = " More elegent system and Code to Code";       ?>
                     <br>
                 <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
             </div>
 
             <!-- Example row of columns -->
             <div id="bottomViewport" class="row">
-                <?php foreach ($additionalStory as $story) { ?>
+<?php foreach ($additionalStory as $story) { ?>
                     <div class="span3 well">
                         <h2><?php echo $story['title']; ?></h2>
                         <p><?php echo $story['description']; ?></p>
                     </div>
-                <?php } ?>
+<?php } ?>
             </div>
 
 
@@ -298,7 +316,7 @@ $title = "Peringkat Testing";
                                     url: './package/portal/main/controller/portalController.php',
                                     data: {
                                         method : 'read',
-                                        type :'menu'
+                                        pageType :'menu'
                                     },
                                     success:function(data){
                                         $("#menu").html(data);
@@ -334,14 +352,14 @@ $title = "Peringkat Testing";
                 // ask router menu block
                 // ask router left menu block
             });
-            function loadBelow(pageId,moduleId,pageType){
+            function loadBelow(pageId,moduleId,folderId,leafId,pageType){
                 //empty the center viewport
                 $("#centerViewport").html('');        
                 var url = './package/portal/main/controller/portalController.php';
                 //    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
                 $("#centerViewport").removeClass();
                 $("#centerViewport").addClass("container-fluid");    
-                $("#centerViewport").load(url,{ method:'read',type:'list',detail:'body',pageId:pageId,moduleId:moduleId,pageType:pageType }, function(response, status, xhr) {
+                $("#centerViewport").load(url,{ method:'read',type:'list',detail:'body',pageId:pageId,moduleId:moduleId,folderId:folderId,leafId:leafId,pageType:pageType }, function(response, status, xhr) {
         
                     
             
@@ -364,7 +382,7 @@ $title = "Peringkat Testing";
                 $("#centerViewport").removeClass();
                 $("#centerViewport").addClass("container-fluid");
                 $("#centerViewport").removeAttr("style");
-                $("#centerViewport").css( "height","+=768" );
+           //     $("#centerViewport").css( "height","+=768" );
 
                 
                 // ajax request to load side bar westport view
@@ -373,26 +391,45 @@ $title = "Peringkat Testing";
                     url: './package/portal/main/controller/portalController.php',
                     data: {
                         method : 'read',
-                        type : 'folder',
+                        pageType : 'sidebar',
                         applicationId : applicationId,
                         moduleId : moduleId,
                         securityTocken:'<?php echo md5("You have been cheated"); ?>'
                     },
                     success:function(data){
-                          var str = data;
-                          if(str.search("error") > 1) {
+                        var str = data;
+                        if(str.search("error") > 1) {
                             $('#centerViewport').html(data);
-                          } else {
-                                $("#centerViewport").html("<div id=leftViewport class=span2 style='height:768'>"+data+"</div><div id='rightViewport' class='span9' style='height:768;border-left: 1px solid #cccccc ; padding-left:10px;'><div class=\'alert alert-info\'>Loading Complete</div><div style=height:700px>ini center dalam</div></div>")
+                        } else {
+                            $("#centerViewport").html("<div id=leftViewport class=span2  style='border-right: 1px solid #cccccc ; padding-right:10px;'>"+data+"</div><div id='rightViewport' class='span9' ><div class=\'alert alert-info\'>Loading Complete</div><div >Please Choose Left Menu First</div></div>")
 
-                          }
+                        }
                     },
                     error:function(){
-                            $('#infoPanel').html('<div class=\'alert alert-error\'><a class="close" data-dismiss=\'alert\'>×</a>Error Could Load The Request Page</div>');
-                            $('#infoPanel').show();           
+                        $('#infoPanel').html('<div class=\'alert alert-error\'><a class="close" data-dismiss=\'alert\'>×</a>Error Could Load The Request Page</div>');
+                        $('#infoPanel').show();           
                     }
 
                 });   
+            }
+            function loadLeft(leafId,securityToken){
+                //empty the center viewport
+                $("#rightViewport").html('');        
+                var url = './package/portal/main/controller/portalController.php';
+                //    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
+            
+                $("#rightViewport").load(url,{ method:'read',type:'list',detail:'body',leafId:leafId,pageType:'leaf',securityToken:securityToken }, function(response, status, xhr) {
+        
+                    
+            
+                    if (status == "error") {
+                
+                        var msg = "Sorry but there was an error: ";
+                
+                        $('#infoPanel').html('<div class=\'alert alert-error\'><a class="close" data-dismiss=\'alert\'>×</a>aik'+msg + xhr.status + " " + xhr.statusText+'</div>');
+
+                    } 
+                });        
             }
         </script>
         <div id="additionJs"></div>

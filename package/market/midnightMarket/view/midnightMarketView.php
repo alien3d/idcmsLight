@@ -1,13 +1,15 @@
 
 <head>
-<link href="../../../../library/twitter2/docs/assets/css/bootstrap.css" rel="stylesheet" type="text/css">
-<link href="../../../../library/twitter2/docs/assets/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
+
 </head>
 
 <?php
 require_once("/../controller/midnightMarketController.php");
 require_once("/../../../system/common/controller/StateController.php");
 require_once("/../../../system/common/controller/DayController.php");
+define("LIMIT",14);
+$salt="chak";
+$securityToken= md5("You have been cheated").$salt;
 if (isset($_POST)) {
     if (isset($_POST['method'])) {
         $midnightMarket = new \Core\Market\MidnightMarket\Controller\MidnightMarketClass();
@@ -22,7 +24,7 @@ if (isset($_POST)) {
         if (isset($_POST['limit'])) {
             $limit = $_POST['limit'];
         } else {
-            $limit = 14;
+            $limit = LIMIT;
         }
 
         $state->setStart($offset);
@@ -48,7 +50,7 @@ if (isset($_POST)) {
             if (isset($_POST ['query'])) {
                 $midnightMarket->setFieldQuery($_POST ['query']);
             }
-
+        
             $midnightMarket->setStart($offset);
             $midnightMarket->setLimit($limit); // normal system don't like paging.. 
 // option second if don't like paging used spyscroll + popup
@@ -62,6 +64,7 @@ if (isset($_POST)) {
             $navigation->setViewPath($midnightMarket->getViewPath());
             $navigation->setOffset($offset);
             $navigation->setLimit($limit);
+            $navigation->setSecurityToken($securityToken);    
             if (isset($midnightMarketArray [0]['total'])) {
                 $total = $midnightMarketArray [0]['total'];
             } else {
@@ -71,6 +74,7 @@ if (isset($_POST)) {
         }
     }
 }
+
 ?> <?php if ($_POST['method'] == 'read' && $_POST['type'] == 'list') { ?>
     <div id="infoPanel"></div>
     <div  class="modal hide fade" id="filterGridAdvance">
@@ -159,17 +163,17 @@ if (isset($_POST)) {
             </table>
         </div>
         <div class="modal-footer">
-            <a href="javascript:void(0)" class="btn btn-danger" onClick="deleteRecord()">Delete</a>
+            <a href="javascript:void(0)" class="btn btn-danger" onClick="deleteGridRecord()">Delete</a>
             <a href="javascript:void(0)" onclick="showMeModal('deletePreview',0)" class="btn">Close</a>
         </div>
     </div>
 
     <div align="right">    
         <input type="text" class="input-large search-query" name="query" id="query">
-        <a href="javascript:void(0)" class="btn" onClick="ajaxQuerySearchAll()"><i class="icon-zoom-in"></i> Search </a>
+        <a href="javascript:void(0)" class="btn" onClick="ajaxQuerySearchAll('<?php echo $midnightMarket->getViewPath(); ?>','<?php echo $securityToken; ?>')"><i class="icon-zoom-in"></i> Search </a>
         <a href="javascript:void(0)" class="btn" onclick="showMeModal('filterGridAdvance',1)"><i class="icon-zoom-in" ></i> Advance Search </a>
-        <a href="javascript:void(0)" class="btn hide" onclick="hideButton();ajaxQuery('<?php echo $midnightMarket->getViewPath(); ?>',0,<?php echo $limit; ?>)" name="clearSearch" id="clearSearch"><i class="icon-refresh" ></i>Clear Search </a>
-        <a href="javascript:void(0)" class="btn" onClick="showForm()"><i class="icon-plus"></i> New </a>      
+        <a href="javascript:void(0)" class="btn hide" onclick="hideButton();ajaxQuery('<?php echo $midnightMarket->getViewPath(); ?>','<?php echo $securityToken; ?>',0,<?php echo LIMIT; ?>)" name="clearSearch" id="clearSearch"><i class="icon-refresh" ></i>Clear Search </a>
+        <a href="javascript:void(0)" class="btn" onClick="showForm('<?php echo $midnightMarket->getViewPath(); ?>','<?php echo $securityToken; ?>')"><i class="icon-plus"></i> New </a>      
         <a href="javascript:void(0)" class="btn"><i class="icon-file"></i> Report </a>
 
     </div>
@@ -197,13 +201,14 @@ if (isset($_POST)) {
 
                     for ($i = 0; $i < $totalRecord; $i++) {
                         ?>
+                        <!--above-->
                         <tr>
                             <td><?php echo $midnightMarketArray [$i]['counter']; ?></td>
                             <td><?php echo $midnightMarketArray [$i]['stateDesc']; ?></td>
                             <td><?php echo $midnightMarketArray [$i]['midnightMarketLocation']; ?></td>
                             <td><?php echo $midnightMarketArray [$i]['dayDesc']; ?></td>
                             <td><?php //echo $midnightMarketArray ['maps'][$i];                 ?></td>
-                            <td><a class="btn-warning btn-mini" onClick="showFormUpdate(<?php echo $midnightMarketArray [$i]['midnightMarketId']; ?>)"><i class="icon-edit  icon-white"></i>Update</a>  <a class="btn-danger btn-mini" onClick="showModalDelete('<?php echo $midnightMarketArray [$i]['midnightMarketId']; ?>','<?php echo $midnightMarketArray [$i]['stateDesc']; ?>','<?php echo $midnightMarketArray [$i]['midnightMarketLocation']; ?>','<?php echo $midnightMarketArray [$i]['dayDesc']; ?>')"><i class="icon-trash  icon-white"></i> Delete</a></td>
+                            <td><a class="btn-warning btn-mini" onClick="showFormUpdate('<?php echo $midnightMarket->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo intval($midnightMarketArray [$i]['midnightMarketId']); ?>')"><i class="icon-edit  icon-white"></i>Update</a>  <a class="btn-danger btn-mini" onClick="showModalDelete('<?php echo $midnightMarket->getControllerPath(); ?>','<?php echo $securityToken; ?>','<?php echo $midnightMarketArray [$i]['midnightMarketId']; ?>','<?php echo $midnightMarketArray [$i]['stateDesc']; ?>','<?php echo $midnightMarketArray [$i]['midnightMarketLocation']; ?>','<?php echo $midnightMarketArray [$i]['dayDesc']; ?>')"><i class="icon-trash  icon-white"></i> Delete</a></td>
 
                         </tr>
                         <?php
@@ -224,6 +229,7 @@ if (isset($_POST)) {
             }
         }
         ?>
+          
         <?php if ($_POST['method'] == 'read' && $_POST['type'] == 'list') { ?>
         </tbody>
     </table>
@@ -231,221 +237,20 @@ if (isset($_POST)) {
 }
 if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] == 'body') {
     ?>
-    <div class="pagination" id="pagingHtml" name="pagingHtml"><!--seperator--><?php echo $navigation->pagenationv4($offset); ?></div>    
+    <div class="pagination" id="pagingHtml" name="pagingHtml"><?php echo $navigation->pagenationv4($offset); ?></div>
+     <script language="javascript" type="text/javascript">
+         $(document).ready(function(){
+            // load the system cell if session  and token exist; 
+            <?php if(isset($_POST['query'])) { ?>
+                    $("#clearSearch").removeClass();
+                    $("#clearSearch").addClass("btn");
+            <?php } ?> 
+         });       
+      </script>          
     <?php
 }
-if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
-    ?>
-    <script language="javascript" type="text/javascript">
-        function hideButton() {
-            $("#query").val('');
-            $("#clearSearch").removeClass();
-            $("#clearSearch").addClass('btn hide');
-        }
-        function ajaxQuery(page,offset,limit) {
-                                                                                
-            $.ajax({
-                type: 'POST',
-                url: page,
-                data: {
-                    offset: offset,
-                    limit :limit,
-                                                                                      
-                    tableBody:1,
-                    params :{
-                                                                                            
-                    },
-                    securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-                },
-                beforeSend:function(){
-                    // this is where we append a loading image
-                    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                },
-                success:function(data){
-                    // successful request; do something with the data
-                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                    $('#infoPanel').empty();
-                                                                                          
-                    var data = data.split("seperator");
-                                                                                            
-                    data[1]=data[1].replace("-->","");
-                    $('#tableBody').empty();
-                    $('#pagingHtml').empty();
-                    $('#tableBody').append(data[0]);
-                    $('#pagingHtml').append(data[1]);
-                                                                                        
-                },
-                error:function(){
-                    // failed request; give feedback to user
-                                                                                   
-                    $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                }
-            });
-        }
-        function  ajaxQuerySearchAll() {
-            // unhide button search
-            $("#clearSearch").removeClass();
-            $("#clearSearch").addClass('btn');
-            // unlimited for searching because  lazy paging.
-            $.ajax({
-                type: 'POST',
-                url: '<?php echo $midnightMarket->getViewPath(); ?>',
-                data: {
-                    offset: 0,
-                    limit :99999,
-                    tableBody:1,
-                    method:'read',
-                    query : $("#query").val(),
-                    params :{
-                                                                                            
-                    },
-                    securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-                },
-                beforeSend:function(){
-                    // this is where we append a loading image
-                    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                },
-                success:function(data){
-                    // successful request; do something with the data
-                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                    $('#infoPanel').empty();
-                                                                                          
-                    var data = data.split("seperator");
-                                                                                            
-                    data[1]=data[1].replace("-->","");
-                    $('#tableBody').empty();
-                    $('#pagingHtml').empty();
-                    $('#tableBody').append(data[0]);
-                    $('#pagingHtml').append(data[1]);
-                                                                                        
-                },
-                error:function(){
-                    // failed request; give feedback to user
-                                                                                   
-                    $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                }
-            });
-        }
-        function showForm(){
-                                                        
-            // unlimited for searching because  lazy paging.
-            $.ajax({
-                type: 'POST',
-                url: '<?php echo $midnightMarket->getViewPath(); ?>',
-                data: {
-                    method:'new',
-                    type:'form',
-                    params :{
-                                                                                            
-                    },
-                    securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-                },
-                beforeSend:function(){
-                    // this is where we append a loading image
-                    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                },
-                success:function(data){
-                    // successful request; do something with the data
-                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                    $("#centerViewport").html("");
-                    $("#centerViewport").empty();
-                    $("#centerViewport").removeClass();
-                    $("#centerViewport").addClass("container-fluid");
-                                                                 
-                    $('#centerViewport').append(data);
-                                                                                        
-                },
-                error:function(){
-                    // failed request; give feedback to user
-                                                                                   
-                    $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                }
-            });
-        }
-        function showFormUpdate(midnightMarketId){
-                                                        
-            // unlimited for searching because  lazy paging.
-            $.ajax({
-                type: 'POST',
-                url: '<?php echo $midnightMarket->getViewPath(); ?>',
-                data: {
-                    method:'read',
-                    type:'form',
-                    midnightMarketId:midnightMarketId,
-                    securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-                },
-                beforeSend:function(){
-                    // this is where we append a loading image
-                    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                },
-                success:function(data){
-                    // successful request; do something with the data
-                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                    $("#centerViewport").html("");
-                    $("#centerViewport").empty();
-                    $("#centerViewport").removeClass();
-                    $("#centerViewport").addClass("container-fluid");
-                                                                 
-                    $('#centerViewport').append(data);
-                                                                                        
-                },
-                error:function(){
-                    // failed request; give feedback to user
-                                                                                   
-                    $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                }
-            });
-        }
-        function showModalDelete(midnightMarketId,stateId,midnightMarketLocation,dayId) {
-            // clear first old record if exist
-            $("#midnightMarketIdPreview").val('');
-            $("#stateIdPreview").html('');
-            $("midnightMarketLocationPreview").html('');
-            $("#dayIdPreview").html('');
-            // asign variable        
-            $("#midnightMarketIdPreview").val(midnightMarketId);
-            $("#stateIdPreview").html(stateId);
-            $("#midnightMarketLocationPreview").html(midnightMarketLocation);
-            $("#dayIdPreview").html(dayId);
-            // open modal box
-            showMeModal('deletePreview',1);
-        }
-        function deleteRecord() {
-            $.ajax({
-                type: 'POST',
-                url: '<?php echo $midnightMarket->getControllerPath(); ?>',
-                data: {
-                    method:'delete',
-                    midnightMarketId : $("#midnightMarketIdPreview").val(),
-                    securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-                },
-                beforeSend:function(){
-                    // this is where we append a loading image
-                    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                },
-                success:function(data){
-                    // successful request; do something with the data
-                    if(data.success == true) {
-                        $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                                                           
-                    } else if (data.success== false) {
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>'+data.message+'</div>');   
-                    }
-                                                                    
-                },
-                error:function(data){
-                    // failed request; give feedback to user
-                    if(data.success==false){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                    }
-                }
-            });
-                                                        
-                                                            
-        }
-    </script>
-<?php } ?>
-<?php if ((isset($_POST['method']) == 'new' || isset($_POST['method']) == 'read') && isset($_POST['type']) == 'form') { ?>
+?>
+<?php if ((isset($_POST['method']) == 'new' || isset($_POST['method']) == 'read') && $_POST['type'] == 'form') { ?>
     <div id="infoPanel"></div>
     <input type="hidden" name="midnightMarketId" id="midnightMarketId" value="<?php
     if (isset($_POST['midnightMarketId'])) {
@@ -590,6 +395,10 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
     <script language="javascript" type="text/javascript">
          $(document).ready(function(){
             // load the system cell if session  and token exist; 
+            <?php if(isset($_POST['query'])) { ?>
+                    $("#clearSearch").removeCss();
+                    $("#clearSearch").addClass("btn");
+            <?php } ?>        
             <?php if($_POST['method']=='new') { ?>
             $("#resetRecordButton").removeClass();
             $("#resetRecordButton").addClass("btn btn-info");
@@ -605,875 +414,8 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list') {
             <?php } else { ?>
             <?php } ?>    
          });
-        function showGrid() {
-            $.ajax({
-                type: 'POST',
-                url: '<?php echo $midnightMarket->getViewPath(); ?>',
-                data: {
-                    method:'read',
-                    type:'list',
-                    detail:'body',
-                    params :{
-                                                                                            
-                    },
-                    securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-                },
-                beforeSend:function(){
-                    // this is where we append a loading image
-                    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                },
-                success:function(data){
-                    // successful request; do something with the data
-                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                    $("#centerViewport").html("");
-                    $("#centerViewport").empty();
-                    $("#centerViewport").removeClass();
-                    $("#centerViewport").addClass("container-fluid");
-                                                                 
-                    $('#centerViewport').append(data);
-                                                                                        
-                },
-                error:function(){
-                    // failed request; give feedback to user
-                                                                                   
-                    $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                }
-            });
-        }
-        function auditRecord() {
-            var css =$("#auditRecordButton").attr('class');                                        
-            
-            if(css.search("disabled") > 0) {
-                // access denied  
-            } else {                   
-            }
-        }
-        function newRecord(type) {
-            var css =$("#newRecordButton").attr('class');                                        
-         
-            if(css.search("disabled") > 0) {
-                // access denied  
-            } else {                                        
-                if(type==1){
-                    // new record and continue
-                    if($("#stateId").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose State First</div>');
-                        $('#stateId').addClass("control-group error");
-                        $('#stateId').focus();
-                    } else if($("#midnightMarketLocation").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Key In Description Please</div>');                
-                        $('#midnightMarketLocation').addClass("control-group error");
-                        $('#midnightMarketLocation').focus();
-                    } else if($("#dayId").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Key In Description Please</div>');                
-                        $('#dayId').addClass("control-group error");
-                        $('#dayId').focus();
-                    } else {
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');
-
-                        $.ajax({
-                            type: 'POST',
-                            url: '<?php echo $midnightMarket->getControllerPath(); ?>',
-                                                                  
-                            data: {
-                                method:'create',
-                                stateId: $("#stateId").val(),
-                                midnightMarketLocation : $("#midnightMarketLocation").val(),
-                                dayId:$("#dayId").val(),
-                                securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-
-                            },
-                            beforeSend:function(){
-                                // this is where we append a loading image
-                                $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                            },
-                            success:function(data){
-                                // successful request; do something with the data
-                                if(data.success == true) {
-                                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                                    // reseting field value
-                                    $("#stateId").val('');
-                                    $("#midnightMarketLocation").val('');
-                                    $("#dayId").val('');
-                                } else if (data.success == false) {
-                                    $('#infoPanel').html('<div class=\'alert alert-error\'>'+data.message+'</div>');
-                                }
-                                                                    
-                            },
-                            error:function(data){
-                                // failed request; give feedback to user
-                                if(data.success==false){
-                                    $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                                }
-                            }
-                        });
-                    }
-                                                            
-
-                } else if (type==2){
-                    // new record and update
-                    // new record and continue
-                    if($("#stateId").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose State First</div>');
-                        $('#stateId').addClass("control-group error");
-                        $('#stateId').focus();
-                    } else if($("#midnightMarketLocation").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Key In Description Please</div>');                
-                        $('#midnightMarketLocation').addClass("control-group error");
-                        $('#midnightMarketLocation').focus();
-                    } else if($("#dayId").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Key In Description Please</div>');                
-                        $('#dayId').addClass("control-group error");
-                        $('#dayId').focus();
-                    }  else {
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');
-
-                        $.ajax({
-                            type: 'POST',
-                            url: '<?php echo $midnightMarket->getControllerPath(); ?>',
-                                                                  
-                            data: {
-                                method:'create',
-                                stateId: $("#stateId").val(),
-                                midnightMarketLocation : $("#midnightMarketLocation").val(),
-                                dayId:$("#dayId").val(),
-                                securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-
-                            },
-                            beforeSend:function(){
-                                // this is where we append a loading image
-                                $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                            },
-                            success:function(data){
-                                // successful request; do something with the data
-                                if(data.success == true) {
-                                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                                    // reseting field value
-                                    $("#religionTitle").val("");
-                                    $("#religionDesc").val("");
-                                }
-                                                                    
-                            },
-                            error:function(data){
-                                // failed request; give feedback to user
-                                if(data.success==false){
-                                    $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                                }
-                            }
-                        });
-                    }
-                                                    
-                                                            
-                } else if (type==3){
-                    // new record and continue and print/preview(Open modal box)
-                    // new record and continue
-                    if($("#stateId").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose State First</div>');
-                        $('#stateId').addClass("control-group error");
-                        $('#stateId').focus();
-                    } else if($("#midnightMarketLocation").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Key In Description Please</div>');                
-                        $('#midnightMarketLocation').addClass("control-group error");
-                        $('#midnightMarketLocation').focus();
-                    } else if($("#dayId").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Key In Description Please</div>');                
-                        $('#dayId').addClass("control-group error");
-                        $('#dayId').focus();
-                    }  else {
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');
-
-                        $.ajax({
-                            type: 'POST',
-                            url: '<?php echo $midnightMarket->getControllerPath(); ?>',
-                                                                 
-                            data: {
-                                method:'create',
-                                stateId: $("#stateId").val(),
-                                midnightMarketLocation : $("#midnightMarketLocation").val(),
-                                dayId:$("#dayId").val(),
-                                securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-
-                            },
-                            beforeSend:function(){
-                                // this is where we append a loading image
-                                $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                            },
-                            success:function(data){
-                                // successful request; do something with the data
-                                if(data.success == true) {
-                                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                                    // reseting field value
-                                    $("#religionTitle").val('');
-                                    $("#religionDesc").val('');
-                                                                        
-                                }
-                            },
-                            error:function(data){
-                                // failed request; give feedback to user
-                                if(data.success==false){
-                                    $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                                }
-                            }
-                        });
-                    }    
-
-                                                            
-                } else if (type==4){
-                    // new record and update and  print/preview(open modal box)
-                    // new record and continue
-                    if($("#stateId").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose State First</div>');
-                        $('#stateId').addClass("control-group error");
-                        $('#stateId').focus();
-                    } else if($("#midnightMarketLocation").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Key In Description Please</div>');                
-                        $('#midnightMarketLocation').addClass("control-group error");
-                        $('#midnightMarketLocation').focus();
-                    } else if($("#dayId").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Key In Description Please</div>');                
-                        $('#dayId').addClass("control-group error");
-                        $('#dayId').focus();
-                    } else {
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');
-
-                        $.ajax({
-                            type: 'POST',
-                            url: '<?php echo $midnightMarket->getControllerPath(); ?>',
-                                                                  
-                            data: {
-                                method:'create',
-                                stateId: $("#stateId").val(),
-                                midnightMarketLocation : $("#midnightMarketLocation").val(),
-                                dayId:$("#dayId").val(),
-                                securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-
-                            },
-                            beforeSend:function(){
-                                // this is where we append a loading image
-                                $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                            },
-                            success:function(data){
-                                // successful request; do something with the data
-                                if(data.success == true) {
-                                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                                    // reseting field value
-                                    $("#religionTitle").val("");
-                                    $("#religionDesc").val("");
-                                }
-                                                                    
-                            },
-                            error:function(data){
-                                // failed request; give feedback to user
-                                if(data.success==false){
-                                    $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                                }
-                            }
-                        });
-                    }
-                } else if (type==5){
-                    // new record and listing
-                                                  
-                    if($("#stateId").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose State First</div>');
-                        $('#stateId').addClass("control-group error");
-                        $('#stateId').focus();
-                    } else if($("#midnightMarketLocation").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Key In Description Please</div>');                
-                        $('#midnightMarketLocation').addClass("control-group error");
-                        $('#midnightMarketLocation').focus();
-                    } else if($("#dayId").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Key In Description Please</div>');                
-                        $('#dayId').addClass("control-group error");
-                        $('#dayId').focus();
-                    }  else {
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');
-
-                        $.ajax({
-                            type: 'POST',
-                            url: '<?php echo $midnightMarket->getControllerPath(); ?>',
-                                                                    
-                            data: {
-                                method:'create',
-                                stateId: $("#stateId").val(),
-                                midnightMarketLocation : $("#midnightMarketLocation").val(),
-                                dayId:$("#dayId").val(),
-                                securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-
-                            },
-                            beforeSend:function(){
-                                // this is where we append a loading image
-                                $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                            },
-                            success:function(data){
-                                // successful request; do something with the data
-                                if(data.success == true) {
-                                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                                    // reseting field value
-                                    $("#religionTitle").val("");
-                                    $("#religionDesc").val("");
-                                }
-                                                                    
-                            },
-                            error:function(data){
-                                // failed request; give feedback to user
-                                if(data.success==false){
-                                    $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                                }
-                            }
-                        });
-                    }
-                                                    
-                    showMeDiv('tableDate',0);
-                    showMeDiv('formEntry',1);
-                }
-            }
-        }
-        function updateRecord (type) {
-            var css =$("#updateRecordButton").attr('class');                                        
-            
-            if(css.search("disabled") > 0) {
-                // access denied  
-            } else {
-                if(type==1){
-                    // update record and continue
-                    if($("#stateId").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose State First</div>');
-                        $('#stateId').addClass("control-group error");
-                        $('#stateId').focus();
-                    } else if($("#midnightMarketLocation").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Key In Description Please</div>');                
-                        $('#midnightMarketLocation').addClass("control-group error");
-                        $('#midnightMarketLocation').focus();
-                    } else if($("#dayId").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Key In Description Please</div>');                
-                        $('#dayId').addClass("control-group error");
-                        $('#dayId').focus();
-                    } else {
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');
-
-                        $.ajax({
-                            type: 'POST',
-                            url: '<?php echo $midnightMarket->getControllerPath(); ?>',
-                                                                  
-                            data: {
-                                method:'save',
-                                midnightMarketId:$("#midnightMarketId").val(),
-                                stateId: $("#stateId").val(),
-                                midnightMarketLocation : $("#midnightMarketLocation").val(),
-                                dayId:$("#dayId").val(),
-                                securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-
-                            },
-                            beforeSend:function(){
-                                // this is where we append a loading image
-                                $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                            },
-                            success:function(data){
-                                // successful request; do something with the data
-                                if(data.success == true) {
-                                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                                    // reseting field value
-                                    $("#stateId").val("");
-                                    $("#midnightMarketLocation").val("");
-                                    $("#dayId").val("");
-                                } else if (data.success == false) {
-                                    $('#infoPanel').html('<div class=\'alert alert-error\'>'+data.message+'</div>');
-                                }
-                                                                    
-                            },
-                            error:function(data){
-                                // failed request; give feedback to user
-                                if(data.success==false){
-                                    $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                                }
-                            }
-                        });
-                    }
-                } else  if ($type==2){
-                    // update record  preview(modal box)
-                    if($("#stateId").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose State First</div>');
-                        $('#stateId').addClass("control-group error");
-                        $('#stateId').focus();
-                    } else if($("#midnightMarketLocation").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Key In Description Please</div>');                
-                        $('#midnightMarketLocation').addClass("control-group error");
-                        $('#midnightMarketLocation').focus();
-                    } else if($("#dayId").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Key In Description Please</div>');                
-                        $('#dayId').addClass("control-group error");
-                        $('#dayId').focus();
-                    } else {
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');
-
-                        $.ajax({
-                            type: 'POST',
-                            url: '<?php echo $midnightMarket->getControllerPath(); ?>',
-                                                                  
-                            data: {
-                                method:'save',
-                                midnightMarketId:$("#midnightMarketId").val(),
-                                stateId: $("#stateId").val(),
-                                midnightMarketLocation : $("#midnightMarketLocation").val(),
-                                dayId:$("#dayId").val(),
-                                securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-
-                            },
-                            beforeSend:function(){
-                                // this is where we append a loading image
-                                $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                            },
-                            success:function(data){
-                                // successful request; do something with the data
-                                if(data.success == true) {
-                                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                                    // reseting field value
-                                    $("#stateId").val("");
-                                    $("#midnightMarketLocation").val("");
-                                    $("#dayId").val("");
-                                } else if (data.success == false) {
-                                    $('#infoPanel').html('<div class=\'alert alert-error\'>'+data.message+'</div>');
-                                }
-                                                                    
-                            },
-                            error:function(data){
-                                // failed request; give feedback to user
-                                if(data.success==false){
-                                    $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                                }
-                            }
-                        });
-                    }
-                } else if (type==3){
-                    // update record and listing
-                    if($("#stateId").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose State First</div>');
-                        $('#stateId').addClass("control-group error");
-                        $('#stateId').focus();
-                    } else if($("#midnightMarketLocation").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Key In Description Please</div>');                
-                        $('#midnightMarketLocation').addClass("control-group error");
-                        $('#midnightMarketLocation').focus();
-                    } else if($("#dayId").val().length==0){
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Please Key In Description Please</div>');                
-                        $('#dayId').addClass("control-group error");
-                        $('#dayId').focus();
-                    } else {
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');
-
-                        $.ajax({
-                            type: 'POST',
-                            url: '<?php echo $midnightMarket->getControllerPath(); ?>',
-                                                                  
-                            data: {
-                                method:'save',
-                                midnightMarketId:$("#midnightMarketId").val(),
-                                stateId: $("#stateId").val(),
-                                midnightMarketLocation : $("#midnightMarketLocation").val(),
-                                dayId:$("#dayId").val(),
-                                securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-
-                            },
-                            beforeSend:function(){
-                                // this is where we append a loading image
-                                $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                            },
-                            success:function(data){
-                                // successful request; do something with the data
-                                if(data.success == true) {
-                                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                                    // reseting field value
-                                    $("#stateId").val("");
-                                    $("#midnightMarketLocation").val("");
-                                    $("#dayId").val("");
-                                } else if (data.success == false) {
-                                    $('#infoPanel').html('<div class=\'alert alert-error\'>'+data.message+'</div>');
-                                }
-                                                                    
-                            },
-                            error:function(data){
-                                // failed request; give feedback to user
-                                if(data.success==false){
-                                    $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                                }
-                            }
-                        });
-                    }
-                } 
-            }                                            
-        }
-        function deleteRecord() {
-            
-            var css =$("#deleteRecordButton").attr('class');                                        
-            
-            if(css.search("disabled") > 0) {
-                // access denied  
-            } else {
-               
-               $.ajax({
-                    type: 'POST',
-                    url: '<?php echo $midnightMarket->getControllerPath(); ?>',
-                    data: {
-                        method:'delete',
-                        midnightMarketId : $("#midnightMarketId").val(),
-                        securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-
-                    },
-                    beforeSend:function(){
-                        // this is where we append a loading image
-                        $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                    },
-                    success:function(data){
-                        // successful request; do something with the data
-                        if(data.success == true) {
-                            $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                            // reseting field value
-                            $("#midnightMarketId").val("");
-                            $("#stateId").val("");
-                            $("#midnightMarketLocation").val("");
-                            $("#dayId").val("");
-                            $("#midnightMarketGps").val("");
-                        } else if (data.success== false) {
-                            $('#infoPanel').html('<div class=\'alert alert-error\'>'+data.message+'</div>');   
-                        }
-                                                                    
-                    },
-                    error:function(data){
-                        // failed request; give feedback to user
-                        if(data.success==false){
-                            $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                        }
-                    }
-                });
-                                                        
-            }                                            
-        }
-                                                    
-        function resetRecord() {
-            $("#midnightMarketId").val('');
-            $("#stateId").val('');
-            $("#midnightMarketLocation").val('');
-            $("#dayId").val('');
-            $("#midnightMarketGps").val('');
-                                                        
-        }
-        function postRecord() {
-            var css =$("#postRecordButton").attr('class');                                        
-            
-            if(css.search("disabled") > 0) {
-                // access denied  
-            } else {
-                // access granted  
-            }
-        }
-        function firstRecord() {
-            var css =$("#firstRecordButton").attr('class');                                        
-                
-           
-            if(css.search("disabled") > 0) {
-                // access denied  
-            } else {   
-                $.ajax({
-                    type: 'GET',
-                    url: '<?php echo $midnightMarket->getControllerPath(); ?>',
-                    data: {                                                        
-                        method: 'dataNavigationRequest',
-                        dataNavigation: 'firstRecord',
-                        output:'json',
-                        securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-
-                    },
-                    beforeSend:function(){
-                        // this is where we append a loading image
-                        $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                    },
-                    success:function(data){
-                        // successful request; do something with the data
-                        if(data.success == true) {
-                                      
-                            $.ajax({
-                                type: 'POST',
-                                url: '<?php echo $midnightMarket->getControllerPath(); ?>',
-                                data: {
-                                    method:'read',
-                                    midnightMarketId: data.firstRecord,
-                                    output:'json'
-                                },
-                                beforeSend:function(){
-                                    // this is where we append a loading image
-                                    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                                },
-                                success:function(data){
-                                    // successful request; do something with the data
-                                    if(data.success == true) {
-                                        $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                                        // reseting field value
-                                        $("#midnightMarketId").val(data.data.midnightMarketId);
-                                        $("#stateId").val(data.data.stateId);
-                                        $("#midnightMarketLocation").val(data.data.midnightMarketLocation);
-                                        $("#dayId").val(data.data.dayId);
-                                        $("#midnightMarketGps").val(data.data.midnightMarketGps);
-                                        if(data.nextRecord > 0 ) {
-                                            
-                                            $("#previousRecordButton").removeClass();
-                                            $("#previousRecordButton").addClass("btn btn-info  disabled");
-                                            
-                                            $("#nextRecordButton").removeClass();
-                                            $("#nextRecordButton").addClass("btn btn-info");
-                                            
-                                            $("#firstRecord").val(data.firstRecord);
-                                            $("#previousRecord").val(data.previousRecord);
-                                            $("#nextRecord").val(data.nextRecord);
-                                            $("#lastRecord").val(data.lastRecord);
-                                        }   
-
-                                    }
-                                                                    
-                                },
-                                error:function(data){
-                                    // failed request; give feedback to user
-                                    if(data.success==false){
-                                        $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                                    }
-                                }
-                            });
-                                                                       
-                        } else {
-                            $('#infoPanel').html('<div class=\'alert alert-error\'>'+data.message+'l</div>');
-
-                        }
-                                                                    
-                    },
-                    error:function(data){
-                        // failed request; give feedback to user
-                        if(data.success==false){
-                            $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                        }
-                    }
-                });
-            }     
-        }
-        function lastRecord() {
-            var css =$("#lastRecordButton").attr('class');                                        
-             
-            if(css.search("disabled") > 0) {
-                // access denied  
-            } else {
-                $.ajax({
-                    type: 'GET',
-                    url: '<?php echo $midnightMarket->getControllerPath(); ?>',
-                    data: {                                                        
-                        method: 'dataNavigationRequest',
-                        dataNavigation: 'lastRecord',
-                        output:'json',
-                        securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-
-                    },
-                    beforeSend:function(){
-                        // this is where we append a loading image
-                        $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                    },
-                    success:function(data){
-                        // successful request; do something with the data
-                        if(data.success == true) {
-                                      
-                            $.ajax({
-                                type: 'POST',
-                                url: '<?php echo $midnightMarket->getControllerPath(); ?>',
-                                data: {
-                                    method:'read',
-                                    midnightMarketId: data.lastRecord,
-                                    output:'json'
-                                },
-                                beforeSend:function(){
-                                    // this is where we append a loading image
-                                    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                                },
-                                success:function(data){
-                                    // successful request; do something with the data
-                                    if(data.success == true) {
-                                        $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                                        // reseting field value
-                                        $("#midnightMarketId").val(data.data.midnightMarketId);
-                                        $("#stateId").val(data.data.stateId);
-                                        $("#midnightMarketLocation").val(data.data.midnightMarketLocation);
-                                        $("#dayId").val(data.data.dayId);
-                                        $("#midnightMarketGps").val(data.data.midnightMarketGps);
-                                        if(data.lastRecord  != 0 ) {
-                                            $("#previousRecordButton").removeClass();
-                                            $("#previousRecordButton").addClass("btn btn-info");
-                                            
-                                            $("#nextRecordButton").removeClass();
-                                            $("#nextRecordButton").addClass("btn btn-info disabled");
-                                           
-                                            $("#firstRecord").val(data.firstRecord);
-                                            
-                                            $("#previousRecord").val(data.previousRecord);
-                                            $("#nextRecord").val(data.nextRecord);
-                                            $("#lastRecord").val(data.lastRecord);
-                                        }
-
-                                    }
-                                                                    
-                                },
-                                error:function(data){
-                                    // failed request; give feedback to user
-                                    if(data.success==false){
-                                        $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                                    }
-                                }
-                            });
-                                                                       
-                        } else {
-                            $('#infoPanel').html('<div class=\'alert alert-error\'>'+data.message+'l</div>');
-
-                        }
-                                                                    
-                    },
-                    error:function(data){
-                        // failed request; give feedback to user
-                        if(data.success==false){
-                            $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                        }
-                    }
-                });
-                                                        
-            }}
-        function previousRecord() {
-            
-            var css =$("#previousRecordButton").attr('class');                                        
-               
-            if(css.search("disabled") > 0) {
-                // access denied  
-            } else {
-                $('#newButton').removeClass();
-                if ($('#previousRecord').val() == '' || $('#previousRecord').val() == undefined) {
-                    $('#infoPanel').html('<div class=\'alert alert-error\'>testingo</div>');
-                }
-                if (parseFloat($('#previousRecord').val()) > 0 && parseFloat($("#previousRecord").val())< parseFloat($("#lastRecord").val())) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '<?php echo $midnightMarket->getControllerPath(); ?>',
-                        data: {
-                            method: 'read',
-                            midnightMarketId: $("#previousRecord").val(),
-                            output:'json',
-                            securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-
-                        },
-                        beforeSend:function(){
-                            // this is where we append a loading image
-                            $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                        },
-                        success:function(data){
-                            // successful request; do something with the data
-                            if(data.success == true) {
-                                $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                                $("#midnightMarketId").val(data.data.midnightMarketId);
-                                $("#stateId").val(data.data.stateId);
-                                $("#midnightMarketLocation").val(data.data.midnightMarketLocation);
-                                $("#dayId").val(data.data.dayId);
-                                $("#midnightMarketGps").val(data.data.midnightMarketGps);
-                                
-                                $("#firstRecord").val(data.firstRecord);
-                                $("#previousRecord").val(data.previousRecord);
-                                $("#nextRecord").val(data.nextRecord);
-                                $("#lastRecord").val(data.lastRecord);
-                                
-                                if(parseFloat(data.nextRecord) != parseFloat(data.lastRecord)) {
-                                     $("#nextRecordButton").removeClass();
-                                     $("#nextRecordButton").addClass("btn btn-info");
-                                } else {
-                                    $("#nextRecordButton").removeClass();
-                                     $("#nextRecordButton").addClass("btn btn-info disabled");
-                                }
-                                if(parseFloat(data.previousRecord)==0) {
-                                    $("#previousRecordButton").removeClass();
-                                    $("#previousRecordButton").addClass("btn btn-info disabled");
-                                }
-                            }
-                                                                    
-                        },
-                        error:function(data){
-                            // failed request; give feedback to user
-                            if(data.success==false){
-                                $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                            }
-                        }
-                    });
-                } else {
-                    // debugging purpose only
-                    
-                }
-            }
-        }
-        function nextRecord() {
-            var css =$("#nextRecordButton").attr('class');                                        
-               
-            if(css.search("disabled") > 0) {
-                // access denied  
-            } else {
-                $('#newButton').removeClass();
-                if ($('#nextRecord').val() == '' || $('#nextRecord').val() == undefined) {
-                    $('#infoPanel').html('<div class=\'alert alert-error\'>sdfd</div>');
-                }
-                 if (parseFloat($("#nextRecord").val()) < parseFloat($("#lastRecord").val())) {
-                    $.ajax({
-                        type: 'POST',
-                        url: '<?php echo $midnightMarket->getControllerPath(); ?>',
-                        data: {
-                            method: 'read',
-                            midnightMarketId: $("#nextRecord").val(),
-                            output:'json',
-                            securityToken : { token :'<?php echo md5("You been cheated"); ?>' }
-
-                        },
-                        beforeSend:function(){
-                            // this is where we append a loading image
-                            $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
-                        },
-                        success:function(data){
-                            // successful request; do something with the data
-                            if(data.success == true) {
-                                $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
-                                $("#midnightMarketId").val(data.data.midnightMarketId);
-                                $("#stateId").val(data.data.stateId);
-                                $("#midnightMarketLocation").val(data.data.midnightMarketLocation);
-                                $("#dayId").val(data.data.dayId);
-                                $("#midnightMarketGps").val(data.data.idnightMarketGps);
-                                
-                                $("#firstRecord").val(data.firstRecord);
-                                $("#previousRecord").val(data.previousRecord);
-                                $("#nextRecord").val(data.nextRecord);
-                                $("#lastRecord").val(data.lastRecord);
-                                
-                                if(parseFloat(data.previousRecord) > 0 ) {
-                                     $("#previousRecordButton").removeClass();
-                                     $("#previousRecordButton").addClass("btn btn-info");
-                                } else {
-                                    $("#previousRecordButton").removeClass();
-                                     $("#previousRecordButton").addClass("btn btn-info disabled");
-                                }
-                                if(parseFloat(data.nextRecord)==parseFloat('lastRecord')) {
-                                    $("#nextRecordButton").removeClass();
-                                    $("#nextRecordButton").addClass("btn btn-info disabled");
-                                }
-                               
-                            }
-                                                                    
-                        },
-                        error:function(data){
-                            // failed request; give feedback to user
-                            if(data.success==false){
-                                $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
-                            }
-                        }
-                    });
-                } else {
-                    
-                }
-            }
-        }
+        
     </script>    
 <?php } ?>
+<script language="javascript" type="text/javascript" src="./package/market/midnightMarket/javascript/original/midnightMarket.js"></script>
 

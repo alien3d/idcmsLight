@@ -248,20 +248,10 @@
         }     
          
     }
-    function routing(id,total) {
-    	// appear a  small tick icon.Preventing the usage of breadcrumb eating space
-    	for(i=1;i<total+1;i++) {
-    		$("#choosenLeaf"+i).html("");
-    		if(id == i ) {
-    			$("#choosenLeaf"+i).html("<img src='images/icons/tick-red.png' alt='Choosen Leaf' width=16 height=16>");
-    		} 
-    	}
-    	// appear a load ajax icon like facebook style.
-    	//$("#choosenLeafWaitingIcon"+i).html("<img src='images/loading.gif' alt='loading page'"); 
-    }
-    /**
-     *  Rerouting page
-     *  @param number identification of the page
-     *  @param string either full  or sidebar only
-     */
+    
+     function hideButton() {
+            $("#query").val('');
+            $("#clearSearch").removeClass();
+            $("#clearSearch").addClass('btn hide');
+        }
     

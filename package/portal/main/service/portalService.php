@@ -426,7 +426,7 @@ class MenuNavigatonClass extends \Core\ConfigClass {
 
       
         switch ($pageType) {
-            case 'APP':
+            case 'application':
                 
                 if ($this->getVendor() == self::MYSQL) {
                     $sql = "
@@ -434,19 +434,51 @@ class MenuNavigatonClass extends \Core\ConfigClass {
                     FROM    `application`
                     JOIN    `applicationAccess`
                     USING   (`applicationId`)
-                    WHERE   `applicationAccess`.`teamId` ='" . $this->teamId . "'
-                    AND     `applicationId` = '".$pageId."'";
+                    WHERE   `applicationAccess`.`teamId`    =   '" . $this->teamId . "'
+                    AND     `applicationId`                 =   '".$pageId."'
+                    AND     `application`.`isActive`    =    1       ";
                 }
                 break;
-            case 'LEF':
+           case 'module':
+                
                 if ($this->getVendor() == self::MYSQL) {
                     $sql = "
-                    SELECT  `leafFilename` as `filename`
+                    SELECT  `moduleFilename` as `filename`
+                    FROM    `module`
+                    JOIN    `moduleAccess`
+                    USING   (`moduleId`)
+                    WHERE   `moduleAccess`.`teamId` =   '" . $this->teamId . "'
+                    AND     `moduleId`              =   '".$pageId."'
+                    AND     `module`.`isActive`     =    1       ";
+                }
+                break;
+                
+             case 'folder':
+                
+                if ($this->getVendor() == self::MYSQL) {
+                    $sql = "
+                    SELECT  `folderFilename` as `filename`
+                    FROM    `folder`
+                    JOIN    `folderAccess`
+                    USING   (`folderId`)
+                    WHERE   `folderAccess`.`teamId` =   '" . $this->teamId . "'
+                    AND     `folderId`              =   '".$pageId."'
+                    AND     `folder`.`isActive`     =    1      ";
+                }
+                break;   
+            case 'leaf':
+                if ($this->getVendor() == self::MYSQL) {
+                    $sql = "
+                    SELECT  concat(`folder`.`folderPath`,`leaf`.`leafFilename`) as `filename`
                     FROM    `leaf`
                     JOIN    `leafAccess`
                     USING   (`leafId`)
-                    WHERE   `leafAccess`.`staffId` ='" . $_SESSION['staffId'] . "'
-                    AND     `leafId`               ='".$pageId."'";
+                    JOIN    `folder`
+                    USING   (`folderId`)
+                    WHERE   `leafAccess`.`staffId` =    '" . $_SESSION['staffId'] . "'
+                    AND     `leafId`               =    '".$pageId."'
+                    AND     `leaf`.`isActive`      =    1
+                    AND     `folder`.`isActive`    =    1   ";
                 }
                 break;
            default:
@@ -483,7 +515,8 @@ class MenuNavigatonClass extends \Core\ConfigClass {
         if ($this->getVendor() == self::MYSQL) {
             $sql = "
             SELECT  `applicationTranslate`.`applicationNative`,
-                    `application`.`applicationId`
+                    `application`.`applicationId`,
+                    `application`.`isSingle`
             FROM    `" . $this->q->getCoreDatabase() . "`.`application` 
             JOIN    `" . $this->q->getCoreDatabase() . "`.`applicationAccess`
             USING   (`applicationId`)
@@ -521,7 +554,8 @@ class MenuNavigatonClass extends \Core\ConfigClass {
         if ($this->getVendor() == self::MYSQL) {
            $sql = "
         SELECT  `moduleTranslate`.`moduleNative`,
-        	`module`.`moduleId` 
+        	`module`.`moduleId`,
+                `module`.`isSingle`
         FROM     `" . $this->q->getCoreDatabase() . "`.`module`
         JOIN     `" . $this->q->getCoreDatabase() . "`.`moduleAccess`
         USING   (`moduleId`)
@@ -585,6 +619,7 @@ class MenuNavigatonClass extends \Core\ConfigClass {
                 `folder`.`moduleId`,
                 `folder`.`folderId`,
                 `folder`.`folderPath`,
+                `folder`.`isSingle`,
                 `icon`.`iconId`,
                 `icon`.`iconName`
         FROM    `" . $this->q->getCoreDatabase() . "`.`folder`

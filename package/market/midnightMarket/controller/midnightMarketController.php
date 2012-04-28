@@ -1,8 +1,8 @@
 <?php
-
 namespace Core\Market\MidnightMarket\Controller;
-
-session_start();
+if(!isset($_SESSION)) {
+	session_start();
+}
 require_once ("../../../../library/class/classAbstract.php");
 require_once ("../../../../library/class/classRecordSet.php");
 require_once ("../../../../library/class/classDate.php");
@@ -621,7 +621,8 @@ STAFF.STAFFNAME
             if ($this->getVendor() == self::MYSQL) {
 
                 $sql .= " LIMIT  " . $this->getStart() . "," . $this->getLimit() . " ";
-            } else if ($this->getVendor() == self::MSSQL) {
+        
+         } else if ($this->getVendor() == self::MSSQL) {
                 /**
                  * Sql Server and Oracle used row_number
                  * Parameterize Query We don't support
