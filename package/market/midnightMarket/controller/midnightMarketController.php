@@ -1,7 +1,9 @@
 <?php
+
 namespace Core\Market\MidnightMarket\Controller;
-if(!isset($_SESSION)) {
-	session_start();
+
+if (!isset($_SESSION)) {
+    session_start();
 }
 require_once ("../../../../library/class/classAbstract.php");
 require_once ("../../../../library/class/classRecordSet.php");
@@ -621,8 +623,7 @@ STAFF.STAFFNAME
             if ($this->getVendor() == self::MYSQL) {
 
                 $sql .= " LIMIT  " . $this->getStart() . "," . $this->getLimit() . " ";
-        
-         } else if ($this->getVendor() == self::MSSQL) {
+            } else if ($this->getVendor() == self::MSSQL) {
                 /**
                  * Sql Server and Oracle used row_number
                  * Parameterize Query We don't support
@@ -713,6 +714,12 @@ STAFF.STAFFNAME
         while (($row = $this->q->fetchAssoc()) == TRUE) {
             $row['total'] = $total; // small overide
             $row['counter'] = $this->getStart() + $i;
+            if ($this->model->getMidnightMarketId(0, 'single')) {
+                $row['firstRecord'] = $this->firstRecord('value');
+                $row['previousRecord'] = $this->previousRecord('value', $this->model->getMidnightMarketId(0, 'single'));
+                $row['nextRecord'] = $this->nextRecord('value', $this->model->getMidnightMarketId(0, 'single'));
+                $row['lastRecord'] = $this->lastRecord('value');
+            }
             $items [] = $row;
             $i++;
         }
@@ -720,7 +727,7 @@ STAFF.STAFFNAME
 
             return $items;
         } else if ($this->getPageOutput() == 'json') {
-            
+
             if ($this->model->getMidnightMarketId(0, 'single')) {
                 $end = microtime(true);
                 $time = $end - $start;
@@ -1608,7 +1615,7 @@ if (isset($_POST ['method']) && isset($_POST['output'])) {
     if (isset($_POST ['sortField'])) {
         $midnightMarketObject->setSortField($_POST ['sortField']);
     }
-    
+
     /*
      *  Load the dynamic value
      */

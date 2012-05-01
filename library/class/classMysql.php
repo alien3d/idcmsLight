@@ -1344,18 +1344,37 @@ class Vendor {
 	{
 		$this->dateFilterTypeQuery = $value;
 	}
-
+        /**
+         * Return Log Database
+         * @return string 
+         */
 	public function getLogDatabase()
 	{
 	    return $this->logDatabase;
 	}
         /**
-         *
+         * Set log Database
          * @param string $value 
          */
 	public function setLogDatabase($value)
 	{
 	    $this->logDatabase = $value;
+	}
+        /**
+         * Return Response Structure Query Language Error
+         * @return string 
+         */
+        public function getResponse()
+	{
+	    return $this->response;
+	}
+        /**
+         * Set Response Structure Query Language Error
+         * @param string $value 
+         */
+	public function setResponse($value)
+	{
+	    $this->responce = $value;
 	}
 }
 ?>

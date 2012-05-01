@@ -57,7 +57,19 @@ if (isset($_POST)) {
             $midnightMarket->execute();
             $midnightMarket->setPageOutput('html');
             $midnightMarketArray = $midnightMarket->read();
-
+            if (isset($midnightMarketArray [0]['firstRecord'])) {
+                $firstRecord = $midnightMarketArray [0]['firstRecord'];
+            } 
+            if (isset($midnightMarketArray [0]['nextRecord'])) {
+                $nextRecord = $midnightMarketArray [0]['nextRecord'];
+            }  
+            if (isset($midnightMarketArray [0]['previousRecord'])) {
+                $previousRecord = $midnightMarketArray [0]['previousRecord'];
+            }  
+            if (isset($midnightMarketArray [0]['lastRecord'])) {
+                $lastRecord = $midnightMarketArray [0]['lastRecord'];
+                $endRecord = $midnightMarketArray [0]['lastRecord'];
+            }  
 
             require_once ("../../../../library/class/classNavigation.php");
             $navigation = new \Core\Paging\HtmlPaging();
@@ -74,7 +86,7 @@ if (isset($_POST)) {
         }
     }
 }
-
+//echo  $midnightMarket->exceptionMessageArray($midnightMarketArray ); // for debugging purpose
 ?> <?php if ($_POST['method'] == 'read' && $_POST['type'] == 'list') { ?>
     <div id="infoPanel"></div>
     <div  class="modal hide fade" id="filterGridAdvance">
@@ -172,7 +184,7 @@ if (isset($_POST)) {
         <input type="text" class="input-large search-query" name="query" id="query">
         <a href="javascript:void(0)" class="btn" onClick="ajaxQuerySearchAll('<?php echo $midnightMarket->getViewPath(); ?>','<?php echo $securityToken; ?>')"><i class="icon-zoom-in"></i> Search </a>
         <a href="javascript:void(0)" class="btn" onclick="showMeModal('filterGridAdvance',1)"><i class="icon-zoom-in" ></i> Advance Search </a>
-        <a href="javascript:void(0)" class="btn hide" onclick="hideButton();ajaxQuery('<?php echo $midnightMarket->getViewPath(); ?>','<?php echo $securityToken; ?>',0,<?php echo LIMIT; ?>)" name="clearSearch" id="clearSearch"><i class="icon-refresh" ></i>Clear Search </a>
+        <a href="javascript:void(0)" class="btn hide" onclick="hideButton();showGrid('<?php echo $midnightMarket->getViewPath(); ?>','<?php echo $securityToken; ?>',0,<?php echo LIMIT; ?>)" name="clearSearch" id="clearSearch"><i class="icon-refresh" ></i>Clear Search </a>
         <a href="javascript:void(0)" class="btn" onClick="showForm('<?php echo $midnightMarket->getViewPath(); ?>','<?php echo $securityToken; ?>')"><i class="icon-plus"></i> New </a>      
         <a href="javascript:void(0)" class="btn"><i class="icon-file"></i> Report </a>
 
@@ -275,8 +287,12 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] =
                             $totalRecord = count($stateArray);
                             for ($i = 0; $i < $totalRecord; $i++) {
                                 if (isset($midnightMarketArray[0]['stateId'])) {
-                                    $selected = "selected";
-                                    $stateIdOld = $stateArray[$i]['stateDesc'];
+                                    if($midnightMarketArray[0]['stateId']==$stateArray[$i]['stateId']) {
+                                        $selected = "selected";
+                                        $stateIdOld = $stateArray[$i]['stateDesc'];
+                                    } else {
+                                         $selected = NULL;
+                                    }
                                 } else {
                                     $selected = NULL;
                                 }
@@ -286,7 +302,7 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] =
                             }
                         }
                         ?>
-                    </select><input type="hidden" name="stateIdOld" value="<?php
+                    </select><input type="hidden" name="stateIdOld" id="stateIdOld" value="<?php
                     if (isset($stateIdOld)) {
                         echo $stateIdOld;
                     }
@@ -315,8 +331,12 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] =
                             $totalRecord = count($dayArray);
                             for ($i = 0; $i < $totalRecord; $i++) {
                                 if (isset($midnightMarketArray[0]['dayId'])) {
-                                    $selected = "selected";
-                                    $dayIdOld = $dayArray[$i]['dayDesc'];
+                                    if($midnightMarketArray[0]['dayId']==$dayArray[$i]['dayId']) {
+                                        $selected = "selected";
+                                        $dayIdOld = $dayArray[$i]['dayDesc'];
+                                    } else {
+                                         $selected = NULL;
+                                    }
                                 } else {
                                     $selected = NULL;
                                 }
@@ -330,7 +350,7 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] =
                     if (isset($dayIdOld)) {
                         echo $dayIdOld;
                     }
-                        ?>"</td>
+                        ?>"></td>
 
             </tr>
 
@@ -370,7 +390,7 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] =
             <a  name="postRecordButton" id="postRecordButton" href="javascript:void(0)" class="btn btn-warning  disabled"  onClick="postRecord()"><i class="icon-cog icon-white"></i> Post</a>
         </div>
         <div class="btn-group">
-            <a  name="listRecordButton" id="listRecordButton" href="javascript:void(0)" class="btn btn-info" onClick="showGrid()"><i class="icon-list icon-white"></i>Listing</a>
+            <a  name="listRecordButton" id="listRecordButton" href="javascript:void(0)" class="btn btn-info" onClick="showGrid('<?php echo $midnightMarket->getViewPath(); ?>','<?php echo $securityToken; ?>',0,<?php echo LIMIT; ?>)"><i class="icon-list icon-white"></i>Listing</a>
         </div>
         <div class="btn-group">
             <a  name="firstRecordButton" id="firstRecordButton" href="javascript:void(0)" class="btn btn-info  disabled" onClick="firstRecord()"><i class="icon-fast-backward icon-white"></i> First</a>
@@ -387,11 +407,11 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] =
     </div>
     <input type="hidden" name="x" id="x">
     <!---hidden value for navigation button-->
-    <input type="hidden" name="firstRecord" id="firstRecord">       
-    <input type="hidden" name="nextRecord" id="nextRecord">
-    <input type="hidden" name="previousRecord" id="previousRecord">
-    <input type="hidden" name="lastRecord" id="lastRecord">
-    <input type="hidden" name="endRecord" id="endRecord">
+    <input type="hidden" name="firstRecord" id="firstRecord" value="<?php if(isset($firstRecord)) { echo $firstRecord; } ?>">       
+    <input type="hidden" name="nextRecord" id="nextRecord" value="<?php if(isset($nextRecord)) { echo $nextRecord; } ?>">
+    <input type="hidden" name="previousRecord" id="previousRecord" value="<?php if(isset($previousRecord)) { echo $previousRecord; } ?>">
+    <input type="hidden" name="lastRecord" id="lastRecord" value="<?php if(isset($lastRecord)) { echo $lastRecord; } ?>">
+    <input type="hidden" name="endRecord" id="endRecord" value="<?php if(isset($endRecord)) { echo $endRecord; } ?>">
     <script language="javascript" type="text/javascript">
          $(document).ready(function(){
             // load the system cell if session  and token exist; 

@@ -1,12 +1,15 @@
 <?php
 namespace Core\System\Security\Log\Model;
-session_start();
-require_once ("../../class/classAbstract.php");
-require_once("../../class/classRecordSet.php");
-require_once ("../../document/class/classDocumentTrail.php");
-require_once ("../../document/model/documentModel.php");
-require_once ("../../class/classSystemString.php");
-require_once ("../model/logModel.php");
+if(!isset($_SESSION)) {
+	session_start();
+}
+require_once ("../../../../library/class/classAbstract.php");
+require_once ("../../../../library/class/classRecordSet.php");
+require_once ("../../../../library/class/classDate.php");
+require_once ("../../../../library/class/classSystemString.php");
+//require_once ("/../../../../class/classDocumentTrail.php");
+//require_once ("../../document/model/documentModel.php");
+require_once ("/../model/logModel.php");
 
 /**
  * this is  log file
