@@ -6,7 +6,7 @@ class generator {
 	private $output;
 	public function __construct() {
 	}
-	public function execute() {
+	public function showCode() {
 		$sqlDescribe     ="
 		DESCRIBE `".$this->getTargetDatabase()."`.`".$this->getTargetTable()."`";
 		$resultFieldTable  = mysql_query($sqlFieldTable);
@@ -114,12 +114,19 @@ class generator {
 		return $foreignKey;	
 	} 
 	private function generateHtml($infoColumn) {
+		include ("html2.php");
+		return $str;
 	} 
 	private function generateJavascript($infoColumn) {
+	
+		include("javascript2.php");
+		return $str;
 	} 
 	private function generateController($infoColumn) {
+		include("controller2.php");
 	}
 	private function generateModel($infoColumn) {
+		include("model2.php");
 	} 
 	/**
 	 * Return Target Database
@@ -178,4 +185,8 @@ class generator {
 		$this->targetOutput = $value;
 	}  	
 }
+$generator = new generator();
+$generator->view();
+$generator->execute();
+$generator->showCode();
 ?> 
