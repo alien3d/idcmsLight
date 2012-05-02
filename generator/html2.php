@@ -1,435 +1,382 @@
-<?php
-require_once('/../controller/midnightMarketController.php');
-require_once('/../../../system/common/controller/StateController.php');
-require_once('/../../../system/common/controller/DayController.php');
-define('LIMIT',14);
-$salt='chak';
-$securityToken= md5('You have been cheated').$salt;
-if (isset($_POST)) {
-    if (isset($_POST['method'])) {
-        $midnightMarket = new \Core\Market\MidnightMarket\Controller\MidnightMarketClass();
-        $state = new \Core\System\Common\State\Controller\StateClass();
-        $day = new \Core\System\Common\Day\Controller\DayClass();
-        if (isset($_POST['offset'])) {
-            $offset = $_POST['offset'];
-        } else {
-            $offset = 0;
-        }
-        if (isset($_POST['limit'])) {
-            $limit = $_POST['limit'];
-        } else {
-            $limit = LIMIT;
-        }
-
-        $state->setStart($offset);
-        $state->setLimit($limit); // normal system don't like paging.. 
-        $state->execute();
-        $state->setPageOutput('html');
-        $stateArray = $state->read();
-
-        $day->setStart($offset);
-        $day->setLimit($limit); // normal system don't like paging.. 
-        $day->execute();
-        $day->setPageOutput('html');
-        $dayArray = $day->read();
-
-        if ($_POST['method'] == 'read') {
-
-
-
-// additional variable
-// end additional variable
-// main
-
-            if (isset($_POST ['query'])) {
-                $midnightMarket->setFieldQuery($_POST ['query']);
-            }
-        
-            $midnightMarket->setStart($offset);
-            $midnightMarket->setLimit($limit); // normal system don't like paging.. 
-// option second if don't like paging used spyscroll + popup
-            $midnightMarket->execute();
-            $midnightMarket->setPageOutput('html');
-            $midnightMarketArray = $midnightMarket->read();
-            if (isset($midnightMarketArray [0]['firstRecord'])) {
-                $firstRecord = $midnightMarketArray [0]['firstRecord'];
-            } 
-            if (isset($midnightMarketArray [0]['nextRecord'])) {
-                $nextRecord = $midnightMarketArray [0]['nextRecord'];
-            }  
-            if (isset($midnightMarketArray [0]['previousRecord'])) {
-                $previousRecord = $midnightMarketArray [0]['previousRecord'];
-            }  
-            if (isset($midnightMarketArray [0]['lastRecord'])) {
-                $lastRecord = $midnightMarketArray [0]['lastRecord'];
-                $endRecord = $midnightMarketArray [0]['lastRecord'];
-            }  
-
-            require_once ('../../../../library/class/classNavigation.php');
-            $navigation = new \Core\Paging\HtmlPaging();
-            $navigation->setViewPath($midnightMarket->getViewPath());
-            $navigation->setOffset($offset);
-            $navigation->setLimit($limit);
-            $navigation->setSecurityToken($securityToken);    
-            if (isset($midnightMarketArray [0]['total'])) {
-                $total = $midnightMarketArray [0]['total'];
-            } else {
-                $total = 0;
-            }
-            $navigation->setTotalRecord($total);
-        }
-    }
-}
-
-?> <?php if ($_POST['method'] == 'read' && $_POST['type'] == 'list') { ?>
-    <div id='infoPanel'></div>
-    <div  class='modal hide fade' id='filterGridAdvance'>
-        <div class='modal-header'>
-            <a class='close' data-dismiss='modal1'>×</a>
-            <h3>Advance Search Record</h3>
-        </div>
-        <div class='modal-body'>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Fields</th>
-                        <th>Input</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Negeri</td>
-                        <td><select name='stateIdSearch' id='stateIdSearch'>
-                                <?php
-                                if (is_array($stateArray)) {
-                                    $totalRecord = 0;
-                                    $totalRecord = count($stateArray);
-                                    for ($i = 0; $i < $totalRecord; $i++) {
-                                        ?>
-                                        <option value='<?php echo $stateArray[$i]['stateId']; ?>'><?php echo $stateArray[$i]['stateDesc']; ?></option>
-                                        <?php
-                                    }
-                                }
-                                ?>
-                            </select></td>                
-                    </tr>
-                    <tr>
-                        <td>Kawasan</td>
-                        <td><input type='text' name='midnightMarketLocationSearch' id='midnightLocationSearch'></td>                
-                    </tr>
-                    <tr>
-                        <td>Hari</td>
-                        <td><select name='dayIdSearch' id='dayIdSearch'>
-                                <?php
-                                if (is_array($dayArray)) {
-                                    $totalRecord = 0;
-                                    $totalRecord = count($dayArray);
-                                    for ($i = 0; $i < $totalRecord; $i++) {
-                                        ?>
-                                        <option value='<?php echo $dayArray[$i]['dayId']; ?>'><?php echo $dayArray[$i]['dayDesc']; ?></option>
-                                        <?php
-                                    }
-                                }
-                                ?>
-                            </select></td>
-
-                    </tr>
-
-                </tbody>
-            </table>
-        </div>
-        <div class='modal-footer'>
-            <a href='javascript:void(0)' class='btn btn-info'>Search</a>
-            <a href='javascript:void(0)' onclick='showMeModal('filterGridAdvance',0)' class='btn'>Close</a>
-        </div>
-    </div>
-    <div  class='modal hide fade' id='deletePreview'>
-        <div class='modal-header'>
-            <a class='close' data-dismiss='modal1'>×</a>
-            <h3>Are you sure want to delete this record ?</h3>
-        </div>
-        <div class='modal-body'>
-            <input type='hidden' name='midnightMarketIdPreview' id='midnightMarketIdPreview'>
-            <table>      
-                <tr>
-                    <td>Negeri</td>
-                    <td><div id='stateIdPreview'></div></td>                
-                </tr>
-                <tr>
-                    <td>Kawasan</td>
-                    <td><div id='midnightMarketLocationPreview'></div></td>                
-                </tr>
-                <tr>
-                    <td>Hari</td>
-                    <td><div id='dayIdPreview'></div></td>
-
-                </tr>
-
-                </tbody>
-            </table>
-        </div>
-        <div class='modal-footer'>
-            <a href='javascript:void(0)' class='btn btn-danger' onClick='deleteGridRecord()'>Delete</a>
-            <a href='javascript:void(0)' onclick='showMeModal('deletePreview',0)' class='btn'>Close</a>
-        </div>
-    </div>
-
-    <div align='right'>    
-        <input type='text' class='input-large search-query' name='query' id='query'>
-        <a href='javascript:void(0)' class='btn' onClick='ajaxQuerySearchAll('<?php echo $midnightMarket->getViewPath(); ?>','<?php echo $securityToken; ?>')'><i class='icon-zoom-in'></i> Search </a>
-        <a href='javascript:void(0)' class='btn' onclick='showMeModal('filterGridAdvance',1)'><i class='icon-zoom-in' ></i> Advance Search </a>
-        <a href='javascript:void(0)' class='btn hide' onclick='hideButton();showGrid('<?php echo $midnightMarket->getViewPath(); ?>','<?php echo $securityToken; ?>',0,<?php echo LIMIT; ?>)' name='clearSearch' id='clearSearch'><i class='icon-refresh' ></i>Clear Search </a>
-        <a href='javascript:void(0)' class='btn' onClick='showForm('<?php echo $midnightMarket->getViewPath(); ?>','<?php echo $securityToken; ?>')'><i class='icon-plus'></i> New </a>      
-        <a href='javascript:void(0)' class='btn'><i class='icon-file'></i> Report </a>
-
-    </div>
-    <br>
-
-    <table class='table table-striped table-bordered table-condensed' name='tableData' id='tableData'>   
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Negeri</th>
-                <th>Kawasan</th>
-                <th>Hari</th>
-                <th>Google Maps</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody id=tableBody>
-        <?php } ?>
-        <?php
-        if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] == 'body') {
-            if (is_array($midnightMarketArray)) {
-                $totalRecord = 0;
-                $totalRecord = count($midnightMarketArray);
-                if ($totalRecord > 0) {
-
-                    for ($i = 0; $i < $totalRecord; $i++) {
-                        ?>
-                        <!--above-->
-                        <tr>
-                            <td><?php echo $midnightMarketArray [$i]['counter']; ?></td>
-                            <td><?php echo $midnightMarketArray [$i]['stateDesc']; ?></td>
-                            <td><?php echo $midnightMarketArray [$i]['midnightMarketLocation']; ?></td>
-                            <td><?php echo $midnightMarketArray [$i]['dayDesc']; ?></td>
-                            <td><?php //echo $midnightMarketArray ['maps'][$i];                 ?></td>
-                            <td><a class='btn-warning btn-mini' onClick='showFormUpdate('<?php echo $midnightMarket->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo intval($midnightMarketArray [$i]['midnightMarketId']); ?>')'><i class='icon-edit  icon-white'></i>Update</a>  <a class='btn-danger btn-mini' onClick='showModalDelete('<?php echo $midnightMarket->getControllerPath(); ?>','<?php echo $securityToken; ?>','<?php echo $midnightMarketArray [$i]['midnightMarketId']; ?>','<?php echo $midnightMarketArray [$i]['stateDesc']; ?>','<?php echo $midnightMarketArray [$i]['midnightMarketLocation']; ?>','<?php echo $midnightMarketArray [$i]['dayDesc']; ?>')'><i class='icon-trash  icon-white'></i> Delete</a></td>
-
-                        </tr>
-                        <?php
-                    }
-                } else {
-                    ?>
-                    <tr>
-                        <td colspan='6'><?php $midnightMarket->exceptionMessage('No Record'); ?></td>
-                    </tr> 
-                    <?php
-                }
-            } else {
-                ?>
-                <tr>
-                    <td colspan='6'><?php $midnightMarket->exceptionMessage('Data Record Problem'); ?></td>
-                </tr>    
-                <?php
-            }
-        }
-        ?>
-          
-        <?php if ($_POST['method'] == 'read' && $_POST['type'] == 'list') { ?>
-        </tbody>
-    </table>
-    <?php
-}
-if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] == 'body') {
-    ?>
-    <div class='pagination' id='pagingHtml' name='pagingHtml'><?php echo $navigation->pagenationv4($offset); ?></div>
-     <script language='javascript' type='text/javascript'>
-         $(document).ready(function(){
-            // load the system cell if session  and token exist; 
-            <?php if(isset($_POST['query'])) { ?>
-                    $('#clearSearch').removeClass();
-                    $('#clearSearch').addClass('btn');
-            <?php } ?> 
-         });       
-      </script>          
-    <?php
-}
-?>
-<?php if ((isset($_POST['method']) == 'new' || isset($_POST['method']) == 'read') && $_POST['type'] == 'form') { ?>
-    <div id='infoPanel'></div>
-    <input type='hidden' name='midnightMarketId' id='midnightMarketId' value='<?php
-    if (isset($_POST['midnightMarketId'])) {
-        echo $_POST['midnightMarketId'];
-    }
-    ?>'> 
-    <table>
-        <thead>
-            <tr>
-                <th>Fields</th>
-                <th>Input</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Negeri</td>
-                <td><select name='stateId' id='stateId'>
-                        <option value=''>Please Select Record</option>    
-                        <?php
-                        if (is_array($stateArray)) {
-                            $totalRecord = 0;
-                            $totalRecord = count($stateArray);
-                            for ($i = 0; $i < $totalRecord; $i++) {
-                                if (isset($midnightMarketArray[0]['stateId'])) {
-                                    if($midnightMarketArray[0]['stateId']==$stateArray[$i]['stateId']) {
-                                        $selected = 'selected';
-                                        $stateIdOld = $stateArray[$i]['stateDesc'];
-                                    } else {
-                                         $selected = NULL;
-                                    }
-                                } else {
-                                    $selected = NULL;
-                                }
-                                ?>
-                                <option value='<?php echo $stateArray[$i]['stateId']; ?>' <?php echo $selected; ?>><?php echo $stateArray[$i]['stateDesc']; ?></option>
-                                <?php
-                            }
-                        }
-                        ?>
-                    </select><input type='hidden' name='stateIdOld' id='stateIdOld' value='<?php
-                    if (isset($stateIdOld)) {
-                        echo $stateIdOld;
-                    }
-                        ?>'></td>                
-            </tr>
-            <tr>
-                <td>Kawasan</td>
-                <td><input type='text' name='midnightMarketLocation' id='midnightMarketLocation' value='<?php
-                                if (isset($midnightMarketArray[0]['midnightMarketLocation'])) {
-                                    echo $midnightMarketArray[0]['midnightMarketLocation'];
-                                    $midnightMarketLocationOld = $midnightMarketArray[0]['midnightMarketLocation'];
-                                }
-                        ?>'><input type='hidden' name='midnightMarketLocationOld' id='midnightMarketLocationOld' value='<?php
-                       if (isset($midnightMarketLocationOld)) {
-                           echo $midnightMarketLocationOld;
-                       }
-                        ?>'></td>                
-            </tr>
-            <tr>
-                <td>Hari</td>
-                <td><select name='dayId' id='dayId'>
-                        <option value=''>Please Select Record</option> 
-                        <?php
-                        if (is_array($dayArray)) {
-                            $totalRecord = 0;
-                            $totalRecord = count($dayArray);
-                            for ($i = 0; $i < $totalRecord; $i++) {
-                                if (isset($midnightMarketArray[0]['dayId'])) {
-                                    if($midnightMarketArray[0]['dayId']==$dayArray[$i]['dayId']) {
-                                        $selected = 'selected';
-                                        $dayIdOld = $dayArray[$i]['dayDesc'];
-                                    } else {
-                                         $selected = NULL;
-                                    }
-                                } else {
-                                    $selected = NULL;
-                                }
-                                ?>
-                                <option value='<?php echo $dayArray[$i]['dayId']; ?>' <?php echo $selected; ?>><?php echo $dayArray[$i]['dayDesc']; ?></option>
-                                <?php
-                            }
-                        }
-                        ?>
-                    </select><input type='hidden' name='dayIdOld' id='dayIdOld' value='<?php
-                    if (isset($dayIdOld)) {
-                        echo $dayIdOld;
-                    }
-                        ?>'></td>
-
-            </tr>
-
-        </tbody>
-    </table>
-    <div class='btn-toolbar'>
-        <div class='btn-group'>
-            <a  name='auditRecordButton' id='auditRecordButton'  href='#' class='btn btn-warning disabled' onClick='auditRecord()'><i class='icon-warning-sign icon-white'></i> Audit</a>
-        </div>
-        <div class='btn-group'>
-            <a  name='newRecordButton1' id='newRecordButton1'  href='javascript:void(0)' class='btn btn-success  disabled'><i class='icon-plus icon-white'></i>New</a>
-            <a  name='newRecordButton2' id='newRecordButton2'   href='javascript:void(0)' data-toggle='dropdown' class='btn dropdown-toggle btn-success  disabled'><span class='caret'></span></a>
-            <ul class='dropdown-menu'>
-                <li><a  name='newRecordButton3' id='newRecordButton3'   href='javascript:void(0)' onClick='newRecord(1)' class='disabled'><i class='icon-plus'></i>New &AMP; Continue</a></li>
-                <li><a  name='newRecordButton4' id='newRecordButton4'   href='javascript:void(0)' onClick='newRecord(2)' class='disabled'><i class='icon-edit'></i>New &AMP; Update </a></li>
-                <li><a  name='newRecordButton5' id='newRecordButton5'   href='javascript:void(0)' onClick='newRecord(3)' class='disabled'><i class='icon-print'></i>New &AMP; Continue &AMP; Print </a></li>
-                <li><a  name='newRecordButton6' id='newRecordButton6'    href='javascript:void(0)' onClick='newRecord(4)' class='disabled'><i class='icon-print'></i>New &AMP; Update &AMP; Print </a></li>
-                <li><a  name='newRecordButton7' id='newRecordButton7'    href='javascript:void(0)' onClick='newRecord(5)' class='disabled'><i class='icon-list'></i>New &AMP; Listing </a></li>
-            </ul>
-        </div>
-        <div class='btn-group'>
-            <a  name='updateRecordButton1' id='updateRecordButton'   href='javascript:void(0)' class='btn btn-info  disabled'><i class='icon-edit icon-white'></i>Update</a>
-            <a  name='updateRecordButton2' id='updateRecordButton'    href='javascript:void(0)' data-toggle='dropdown' class='btn dropdown-toggle btn-info  disabled'><span class='caret'></span></a>
-            <ul class='dropdown-menu'>
-                <li><a  name='updateRecordButton3' id='updateRecordButton'    href='javascript:void(0)'  onClick='updateRecord(1)' class='disabled'><i class='icon-plus'></i>Update</a></li>
-                <li><a  name='updateRecordButton4' id='updateRecordButton'    href='javascript:void(0)' onClick='updateRecord(2)' class='disabled'><i class='icon-print'></i>Update &AMP; Print </a></li>
-                <li><a  name='updateRecordButton5' id='updateRecordButton'    href='javascript:void(0)' onClick='updateRecord(3)' class='disabled'><i class='icon-list-alt'></i>Update &AMP; Listing </a></li>
-            </ul>
-        </div>
-        <div class='btn-group'>
-            <a  name='deleteRecordButton' id='deleteRecordButton'  href='javascript:void(0)' class='btn btn-danger  disabled'  onClick='deleteRecord()'><i class='icon-trash icon-white'></i> Delete</a>
-        </div>
-        <div class='btn-group'>
-            <a  name='resetRecordButton' id='resetRecordButton'  href='javascript:void(0)' class='btn btn-info  disabled' onClick='resetRecord()'><i class='icon-refresh icon-white'></i> Reset</a>
-        </div>
-        <div class='btn-group'>
-            <a  name='postRecordButton' id='postRecordButton' href='javascript:void(0)' class='btn btn-warning  disabled'  onClick='postRecord()'><i class='icon-cog icon-white'></i> Post</a>
-        </div>
-        <div class='btn-group'>
-            <a  name='listRecordButton' id='listRecordButton' href='javascript:void(0)' class='btn btn-info' onClick='showGrid('<?php echo $midnightMarket->getViewPath(); ?>','<?php echo $securityToken; ?>',0,<?php echo LIMIT; ?>)'><i class='icon-list icon-white'></i>Listing</a>
-        </div>
-        <div class='btn-group'>
-            <a  name='firstRecordButton' id='firstRecordButton' href='javascript:void(0)' class='btn btn-info  disabled' onClick='firstRecord()'><i class='icon-fast-backward icon-white'></i> First</a>
-        </div>
-        <div class='btn-group'>
-            <a  name='previousRecordButton' id='previousRecordButton'  href='javascript:void(0)' class='btn btn-info  disabled' onClick='previousRecord()'><i class='icon-backward icon-white'></i> Previous</a>
-        </div>
-        <div class='btn-group'>
-            <a  name='nextRecordButton' id='nextRecordButton'  href='javascript:void(0)' class='btn btn-info  disabled' onClick='nextRecord()'><i class='icon-forward icon-white'></i> Next</a>
-        </div>
-        <div class='btn-group'>
-            <a  name='lastRecordButton' id='lastRecordButton'  href='javascript:void(0)' class='btn btn-info disabled' onClick='lastRecord()'><i class='icon-fast-forward icon-white'></i> End</a>
-        </div>
-    </div>
-    <input type='hidden' name='x' id='x'>
-    <!---hidden value for navigation button-->
-    <input type='hidden' name='firstRecord' id='firstRecord' value='<?php if(isset($firstRecord)) { echo $firstRecord; } ?>'>       
-    <input type='hidden' name='nextRecord' id='nextRecord' value='<?php if(isset($nextRecord)) { echo $nextRecord; } ?>'>
-    <input type='hidden' name='previousRecord' id='previousRecord' value='<?php if(isset($previousRecord)) { echo $previousRecord; } ?>'>
-    <input type='hidden' name='lastRecord' id='lastRecord' value='<?php if(isset($lastRecord)) { echo $lastRecord; } ?>'>
-    <input type='hidden' name='endRecord' id='endRecord' value='<?php if(isset($endRecord)) { echo $endRecord; } ?>'>
-    <script language='javascript' type='text/javascript'>
-         $(document).ready(function(){
-            // load the system cell if session  and token exist; 
-            <?php if(isset($_POST['query'])) { ?>
-                    $('#clearSearch').removeCss();
-                    $('#clearSearch').addClass('btn');
-            <?php } ?>        
-            <?php if($_POST['method']=='new') { ?>
-            $('#resetRecordButton').removeClass();
-            $('#resetRecordButton').addClass('btn btn-info');
-            
-            $('#newRecordButton').removeClass();
-            $('#newRecordButton').addClass('btn btn-success');
-            
-            $('#firstRecordButton').removeClass();
-            $('#firstRecordButton').addClass('btn btn-info');
-            
-            $('#lastRecordButton').removeClass();
-            $('#lastRecordButton').addClass('btn btn-info');
-            <?php } else { ?>
-            <?php } ?>    
-         });
-        
-    </script>    
-<?php } ?>
-<script language='javascript' type='text/javascript' src='./package/market/midnightMarket/javascript/original/midnightMarket.js'></script>
+$str.="<?php ";
+$str.="require_once('/../controller/midnightMarketController.php');";
+$str.="require_once('/../../../system/common/controller/StateController.php');";
+$str.="require_once('/../../../system/common/controller/DayController.php');";
+$str.="if (isset(\$_POST)) {";
+$str.="    if (isset(\$_POST['method'])) {";
+$str.="        \$midnightMarket = new \Core\Market\MidnightMarket\Controller\MidnightMarketClass();";
+$str.="        \$state = new \Core\System\Common\State\Controller\StateClass();";
+$str.="        \$day = new \Core\System\Common\Day\Controller\DayClass();";
+$str.="        if (isset(\$_POST['offset'])) {";
+$str.="            \$offset = \$_POST['offset'];";
+$str.="        } else {";
+$str.="            \$offset = 0;";
+$str.="        }";
+$str.="        if (isset(\$_POST['limit'])) {";
+$str.="            \$limit = \$_POST['limit'];";
+$str.="        } else {";
+$str.="            \$limit = LIMIT;";
+$str.="        }";
+$str.="        \$state->setStart(\$offset);";
+$str.="        \$state->setLimit(\$limit); // normal system don't like paging.."; 
+$str.="        \$state->execute();";
+$str.="        \$state->setPageOutput('html');";
+$str.="        \$stateArray = \$state->read();";
+$str.="        \$day->setStart(\$offset);";
+$str.="        \$day->setLimit(\$limit); // normal system don't like paging.. ";
+$str.="        \$day->execute();";
+$str.="        \$day->setPageOutput('html');";
+$str.="        \$dayArray = \$day->read();";
+$str.="        if (\$_POST['method'] == 'read') {";
+$str.="            if (isset(\$_POST ['query'])) {";
+$str.="                \$midnightMarket->setFieldQuery(\$_POST ['query']);";
+$str.="            }";        
+$str.="            \$midnightMarket->setStart(\$offset);";
+$str.="            \$midnightMarket->setLimit(\$limit); // normal system don't like paging.. ";
+$str.="            \$midnightMarket->execute();";
+$str.="            \$midnightMarket->setPageOutput('html');";
+$str.="            \$midnightMarketArray = \$midnightMarket->read();";
+$str.="            if (isset(\$midnightMarketArray [0]['firstRecord'])) {";
+$str.="                \$firstRecord = \$midnightMarketArray [0]['firstRecord'];";
+$str.="            } ";
+$str.="            if (isset(\$midnightMarketArray [0]['nextRecord'])) {";
+$str.="                \$nextRecord = \$midnightMarketArray [0]['nextRecord'];";
+$str.="            }  ";
+$str.="            if (isset(\$midnightMarketArray [0]['previousRecord'])) {";
+$str.="                \$previousRecord = \$midnightMarketArray [0]['previousRecord'];";
+$str.="            }  ";
+$str.="            if (isset(\$midnightMarketArray [0]['lastRecord'])) {";
+$str.="                \$lastRecord = \$midnightMarketArray [0]['lastRecord'];";
+$str.="                \$endRecord = \$midnightMarketArray [0]['lastRecord'];";
+$str.="           }  ";
+$str.="            require_once ('../../../../library/class/classNavigation.php');";
+$str.="            \$navigation = new \Core\Paging\HtmlPaging();";
+$str.="            \$navigation->setViewPath(\$midnightMarket->getViewPath());";
+$str.="            \$navigation->setOffset(\$offset);";
+$str.="            \$navigation->setLimit(\$limit);";
+$str.="            \$navigation->setSecurityToken(\$securityToken);";    
+$str.="            if (isset(\$midnightMarketArray [0]['total'])) {";
+$str.="                \$total = \$midnightMarketArray [0]['total'];";
+$str.="            } else {";
+$str.="                \$total = 0;";
+$str.="            }";
+$str.="            \$navigation->setTotalRecord(\$total);";
+$str.="        }";
+$str.="    }";
+$str.=" }";
+$str.=" if (\$_POST['method'] == 'read' && \$_POST['type'] == 'list') { ?>";
+$str.="    <div id='infoPanel'></div>";
+$str.="    <div  class='modal hide fade' id='filterGridAdvance'>";
+$str.="        <div class='modal-header'>";
+$str.="            <a class='close' data-dismiss='modal1'>×</a>";
+$str.="            <h3>Advance Search Record</h3>";
+$str.="        </div>";
+$str.="        <div class='modal-body'>";
+$str.="            <table>";
+$str.="                <thead>";
+$str.="                    <tr>";
+$str.="                        <th>Fields</th>";
+$str.="                        <th>Input</th>";
+$str.="                    </tr>";
+$str.="                </thead>";
+$str.="                <tbody>";
+$str.="                    <tr>";
+$str.="                        <td>Negeri</td>";
+$str.="                        <td><select name='stateIdSearch' id='stateIdSearch'>";
+$str.="                                <?php";
+$str.="                                if (is_array(\$stateArray)) {";
+$str.="                                    \$totalRecord = 0;";
+$str.="                                    \$totalRecord = count(\$stateArray);";
+$str.="                                    for (\$i = 0; \$i < \$totalRecord; \$i++) {";
+$str.="                                        ?>";
+$str.="                                        <option value='<?php \$stateArray[\$i]['stateId']; ?>'><?php \$stateArray[\$i]['stateDesc']; ?></option>";
+$str.="                                        <?php";
+$str.="                                    }";
+$str.="                                }";
+$str.="                                ?>";
+$str.="                            </select></td>";                
+$str.="                    </tr>";
+$str.="                    <tr>";
+$str.="                        <td>Kawasan</td>";
+$str.="                        <td><input type='text' name='midnightMarketLocationSearch' id='midnightLocationSearch'></td>";                
+$str.="                    </tr>";
+$str.="                    <tr>";
+$str.="                        <td>Hari</td>";
+$str.="                        <td><select name='dayIdSearch' id='dayIdSearch'>";
+$str.="                                <?php";
+$str.="                                if (is_array(\$dayArray)) {";
+$str.="                                    \$totalRecord = 0;";
+$str.="                                    \$totalRecord = count(\$dayArray);";
+$str.="                                    for (\$i = 0; \$i < \$totalRecord; \$i++) { ?>";
+$str.="                                        <option value='<?php \$dayArray[\$i]['dayId']; ?>'><?php \$dayArray[\$i]['dayDesc']; ?></option>";
+$str.="                                        <?php";
+$str.="                                    }";
+$str.="                                }";
+$str.="                                ?>";
+$str.="                            </select></td>";
+$str.="                    </tr>";
+$str.="                </tbody>";
+$str.="            </table>";
+$str.="        </div>";
+$str.="        <div class='modal-footer'>";
+$str.="            <a href='javascript:void(0)' class='btn btn-info'>Search</a>";
+$str.="            <a href='javascript:void(0)' onclick='showMeModal('filterGridAdvance',0)' class='btn'>Close</a>";
+$str.="        </div>";
+$str.="    </div>";
+$str.="    <div  class='modal hide fade' id='deletePreview'>";
+$str.="        <div class='modal-header'>";
+$str.="            <a class='close' data-dismiss='modal1'>×</a>";
+$str.="            <h3>Are you sure want to delete this record ?</h3>";
+$str.="        </div>";
+$str.="        <div class='modal-body'>";
+$str.="            <input type='hidden' name='midnightMarketIdPreview' id='midnightMarketIdPreview'>";
+$str.="            <table>";      
+$str.="                <tr>";
+$str.="                    <td>Negeri</td>";
+$str.="                    <td><div id='stateIdPreview'></div></td>";                
+$str.="                </tr>";
+$str.="                <tr>";
+$str.="                    <td>Kawasan</td>";
+$str.="                    <td><div id='midnightMarketLocationPreview'></div></td>";                
+$str.="                </tr>";
+$str.="                <tr>";
+$str.="                    <td>Hari</td>";
+$str.="                    <td><div id='dayIdPreview'></div></td>";
+$str.="                </tr>";
+$str.="                </tbody>";
+$str.="            </table>";
+$str.="        </div>";
+$str.="        <div class='modal-footer'>";
+$str.="            <a href='javascript:void(0)' class='btn btn-danger' onClick='deleteGridRecord()'>Delete</a>";
+$str.="            <a href='javascript:void(0)' onclick='showMeModal('deletePreview',0)' class='btn'>Close</a>";
+$str.="        </div>";
+$str.="   </div>";
+$str.="<div align='right'>";    
+$str.="        <input type='text' class='input-large search-query' name='query' id='query'>";
+$str.="        <a href='javascript:void(0)' class='btn' onClick='ajaxQuerySearchAll('<?php \$midnightMarket->getViewPath(); ?>','<?php \$securityToken; ?>')'><i class='icon-zoom-in'></i> Search </a>";
+$str.="        <a href='javascript:void(0)' class='btn' onclick='showMeModal('filterGridAdvance',1)'><i class='icon-zoom-in' ></i> Advance Search </a>";
+$str.="        <a href='javascript:void(0)' class='btn hide' onclick='hideButton();showGrid('<?php \$midnightMarket->getViewPath(); ?>','<?php \$securityToken; ?>',0,<?php 'LIMIT; ?>)' name='clearSearch' id='clearSearch'><i class='icon-refresh' ></i>Clear Search </a>";
+$str.="        <a href='javascript:void(0)' class='btn' onClick='showForm('<?php \$midnightMarket->getViewPath(); ?>','<?php \$securityToken; ?>')'><i class='icon-plus'></i> New </a>";      
+$str.="        <a href='javascript:void(0)' class='btn'><i class='icon-file'></i> Report </a>";
+$str.="    </div>";
+$str.="    <br>";
+$str.="<table class='table table-striped table-bordered table-condensed' name='tableData' id='tableData'>";   
+$str.="        <thead>";
+$str.="            <tr>";
+$str.="                <th>No</th>";
+$str.="                <th>Negeri</th>";
+$str.="                <th>Kawasan</th>";
+$str.="                <th>Hari</th>";
+$str.="                <th>Google Maps</th>";
+$str.="                <th>Action</th>";
+$str.="            </tr>";
+$str.="        </thead>";
+$str.="        <tbody id=tableBody>";
+$str.="        <?php } ?>";
+$str.="        <?php if (\$_POST['method'] == 'read' && \$_POST['type'] == 'list' && \$_POST['detail'] == 'body') {";
+$str.="            if (is_array(\$midnightMarketArray)) {";
+$str.="                \$totalRecord = 0;";
+$str.="                \$totalRecord = count(\$midnightMarketArray);";
+$str.="                if (\$totalRecord > 0) {";
+$str.="                    for (\$i = 0; \$i < \$totalRecord; \$i++) { ?>";
+$str.="                        <tr>";
+$str.="                            <td><?php \$midnightMarketArray [\$i]['counter']; ?></td>";
+$str.="                            <td><?php \$midnightMarketArray [\$i]['stateDesc']; ?></td>";
+$str.="                            <td><?php \$midnightMarketArray [\$i]['midnightMarketLocation']; ?></td>";
+$str.="                            <td><?php \$midnightMarketArray [\$i]['dayDesc']; ?></td>";
+$str.="                            <td><?php //\$midnightMarketArray ['maps'][\$i];  ?></td>";
+$str.="                            <td><a class='btn-warning btn-mini' onClick='showFormUpdate('<?php \$midnightMarket->getViewPath(); ?>','<?php \$securityToken; ?>','<?php 'intval(\$midnightMarketArray [\$i]['midnightMarketId']); ?>')'><i class='icon-edit  icon-white'></i>Update</a>  <a class='btn-danger btn-mini' onClick='showModalDelete('<?php \$midnightMarket->getControllerPath(); ?>','<?php \$securityToken; ?>','<?php \$midnightMarketArray [\$i]['midnightMarketId']; ?>','<?php \$midnightMarketArray [\$i]['stateDesc']; ?>','<?php \$midnightMarketArray [\$i]['midnightMarketLocation']; ?>','<?php \$midnightMarketArray [\$i]['dayDesc']; ?>')'><i class='icon-trash  icon-white'></i> Delete</a></td>";
+$str.="                        </tr>";
+$str.="                        <?php";
+$str.="                    }";
+$str.="                } else { ?>";
+$str.="                    <tr>";
+$str.="                        <td colspan='6'><?php \$midnightMarket->exceptionMessage('No Record'); ?></td>";
+$str.="                    </tr>"; 
+$str.="                    <?php";
+$str.="                }";
+$str.="            } else { ?>";
+$str.="                <tr>";
+$str.="                    <td colspan='6'><?php \$midnightMarket->exceptionMessage('Data Record Problem'); ?></td>";
+$str.="                </tr>";    
+$str.="                <?php";
+$str.="            }";
+$str.="        }";
+$str.="        if (\$_POST['method'] == 'read' && \$_POST['type'] == 'list') { ?>";
+$str.="        </tbody>";
+$str.="    </table>";
+ $str.="   <?php";
+$str.="}";
+$str.="if (\$_POST['method'] == 'read' && \$_POST['type'] == 'list' && \$_POST['detail'] == 'body') { ?>";
+$str.="    <div class='pagination' id='pagingHtml' name='pagingHtml'><?php \$navigation->pagenationv4(\$offset); ?></div>";
+$str.="     <script language='javascript' type='text/javascript'>";
+$str.="         \$(document).ready(function(){";
+$str.="            // load the system cell if session  and token exist; ";
+$str.="            <?php if(isset(\$_POST['query'])) { ?>";
+$str.="                    \$('#clearSearch').removeClass();";
+$str.="                    \$('#clearSearch').addClass('btn');";
+$str.="            <?php } ?> ";
+$str.="         });";       
+$str.="      </script>";          
+$str.="    <?php } ?>";
+$str.="<?php if ((isset(\$_POST['method']) == 'new' || isset(\$_POST['method']) == 'read') && \$_POST['type'] == 'form') { ?>";
+$str.="    <div id='infoPanel'></div>";
+$str.="    <input type='hidden' name='midnightMarketId' id='midnightMarketId' value='<?php if (isset(\$_POST['midnightMarketId'])) { \$_POST['midnightMarketId'];    } ?>'>"; 
+$str.="    <table>";
+$str.="        <thead>";
+$str.="            <tr>";
+$str.="                <th>Fields</th>";
+$str.="                <th>Input</th>";
+$str.="            </tr>";
+$str.="        </thead>";
+$str.="        <tbody>";
+$str.="            <tr>";
+$str.="                <td>Negeri</td>";
+$str.="                <td><select name='stateId' id='stateId'>";
+$str.="                        <option value=''>Please Select Record</option>";    
+$str.="                        <?php";
+$str.="                        if (is_array(\$stateArray)) {";
+$str.="                            \$totalRecord = 0;";
+$str.="                            \$totalRecord = count(\$stateArray);";
+$str.="                            for (\$i = 0; \$i < \$totalRecord; \$i++) {";
+$str.="                                if (isset(\$midnightMarketArray[0]['stateId'])) {";
+$str.="                                    if(\$midnightMarketArray[0]['stateId']==\$stateArray[\$i]['stateId']) {";
+$str.="                                        \$selected = 'selected';";
+$str.="                                        \$stateIdOld = \$stateArray[\$i]['stateDesc'];";
+$str.="                                    } else {";
+$str.="                                         \$selected = NULL;";
+$str.="                                    }";
+$str.="                                } else {";
+$str.="                                    \$selected = NULL;";
+$str.="                                }";
+$str.="                                ?>";
+$str.="                                <option value='<?php \$stateArray[\$i]['stateId']; ?>' <?php \$selected; ?>><?php \$stateArray[\$i]['stateDesc']; ?></option>";
+$str.="                                <?php";
+$str.="                            }";
+$str.="                        }";
+$str.="                        ?>";
+$str.="                    </select><input type='hidden' name='stateIdOld' id='stateIdOld' value='<?php";
+$str.="                    if (isset(\$stateIdOld)) {";
+$str.="                        \$stateIdOld;";
+$str.="                    }";
+$str.="                        ?>'></td>";                
+$str.="            </tr>";
+$str.="           <tr>";
+$str.="                <td>Kawasan</td>";
+$str.="                <td><input type='text' name='midnightMarketLocation' id='midnightMarketLocation' value='<?php";
+$str.="                                if (isset(\$midnightMarketArray[0]['midnightMarketLocation'])) {";
+$str.="                                    \$midnightMarketArray[0]['midnightMarketLocation'];";
+$str.="                                    \$midnightMarketLocationOld = \$midnightMarketArray[0]['midnightMarketLocation'];";
+$str.="                                }";
+$str.="                        ?>'><input type='hidden' name='midnightMarketLocationOld' id='midnightMarketLocationOld' value='<?php";
+$str.="                       if (isset(\$midnightMarketLocationOld)) {";
+$str.="                           \$midnightMarketLocationOld;";
+$str.="                       }";
+$str.="                        ?>'></td>";                
+$str.="            </tr>";
+$str.="            <tr>";
+$str.="                <td>Hari</td>";
+$str.="                <td><select name='dayId' id='dayId'>";
+$str.="                        <option value=''>Please Select Record</option> ";
+$str.="                        <?php";
+$str.="                        if (is_array(\$dayArray)) {";
+$str.="                            \$totalRecord = 0;";
+$str.="                            \$totalRecord = count(\$dayArray);";
+$str.="                            for (\$i = 0; \$i < \$totalRecord; \$i++) {";
+$str.="                                if (isset(\$midnightMarketArray[0]['dayId'])) {";
+$str.="                                    if(\$midnightMarketArray[0]['dayId']==\$dayArray[\$i]['dayId']) {";
+$str.="                                        \$selected = 'selected';";
+$str.="                                        \$dayIdOld = \$dayArray[\$i]['dayDesc'];";
+$str.="                                    } else {";
+$str.="                                         \$selected = NULL;";
+$str.="                                    }";
+$str.="                                } else {";
+$str.="                                    \$selected = NULL;";
+$str.="                                }";
+$str.="                                ?>";
+$str.="                                <option value='<?php \$dayArray[\$i]['dayId']; ?>' <?php \$selected; ?>><?php \$dayArray[\$i]['dayDesc']; ?></option>";
+$str.="                                <?php";
+$str.="                            }";
+$str.="                        }";
+$str.="                        ?>";
+$str.="                    </select><input type='hidden' name='dayIdOld' id='dayIdOld' value='<?php   if (isset(\$dayIdOld)) { \$dayIdOld;  } ?>'></td>";
+$str.="            </tr>";
+$str.="        </tbody>";
+$str.="    </table>";
+$str.="    <div class='btn-toolbar'>";
+$str.="        <div class='btn-group'>";
+$str.="            <a  name='auditRecordButton' id='auditRecordButton'  href='#' class='btn btn-warning disabled' onClick='auditRecord()'><i class='icon-warning-sign icon-white'></i> Audit</a>";
+$str.="        </div>";
+$str.="        <div class='btn-group'>";
+$str.="            <a  name='newRecordButton1' id='newRecordButton1'  href='javascript:void(0)' class='btn btn-success  disabled'><i class='icon-plus icon-white'></i>New</a>";
+$str.="            <a  name='newRecordButton2' id='newRecordButton2'   href='javascript:void(0)' data-toggle='dropdown' class='btn dropdown-toggle btn-success  disabled'><span class='caret'></span></a>";
+$str.="            <ul class='dropdown-menu'>";
+$str.="                <li><a  name='newRecordButton3' id='newRecordButton3'   href='javascript:void(0)' onClick='newRecord(1)' class='disabled'><i class='icon-plus'></i>New &AMP; Continue</a></li>";
+$str.="                <li><a  name='newRecordButton4' id='newRecordButton4'   href='javascript:void(0)' onClick='newRecord(2)' class='disabled'><i class='icon-edit'></i>New &AMP; Update </a></li>";
+$str.="                <li><a  name='newRecordButton5' id='newRecordButton5'   href='javascript:void(0)' onClick='newRecord(3)' class='disabled'><i class='icon-print'></i>New &AMP; Continue &AMP; Print </a></li>";
+$str.="                <li><a  name='newRecordButton6' id='newRecordButton6'    href='javascript:void(0)' onClick='newRecord(4)' class='disabled'><i class='icon-print'></i>New &AMP; Update &AMP; Print </a></li>";
+$str.="                <li><a  name='newRecordButton7' id='newRecordButton7'    href='javascript:void(0)' onClick='newRecord(5)' class='disabled'><i class='icon-list'></i>New &AMP; Listing </a></li>";
+$str.="            </ul>";
+$str.="        </div>";
+$str.="        <div class='btn-group'>";
+$str.="            <a  name='updateRecordButton1' id='updateRecordButton'   href='javascript:void(0)' class='btn btn-info  disabled'><i class='icon-edit icon-white'></i>Update</a>";
+$str.="            <a  name='updateRecordButton2' id='updateRecordButton'    href='javascript:void(0)' data-toggle='dropdown' class='btn dropdown-toggle btn-info  disabled'><span class='caret'></span></a>";
+$str.="            <ul class='dropdown-menu'>";
+$str.="                <li><a  name='updateRecordButton3' id='updateRecordButton'    href='javascript:void(0)'  onClick='updateRecord(1)' class='disabled'><i class='icon-plus'></i>Update</a></li>";
+$str.="                <li><a  name='updateRecordButton4' id='updateRecordButton'    href='javascript:void(0)' onClick='updateRecord(2)' class='disabled'><i class='icon-print'></i>Update &AMP; Print </a></li>";
+$str.="               <li><a  name='updateRecordButton5' id='updateRecordButton'    href='javascript:void(0)' onClick='updateRecord(3)' class='disabled'><i class='icon-list-alt'></i>Update &AMP; Listing </a></li>";
+$str.="            </ul>";
+$str.="        </div>";
+$str.="        <div class='btn-group'>";
+$str.="            <a  name='deleteRecordButton' id='deleteRecordButton'  href='javascript:void(0)' class='btn btn-danger  disabled'  onClick='deleteRecord()'><i class='icon-trash icon-white'></i> Delete</a>";
+$str.="        </div>";
+$str.="        <div class='btn-group'>";
+$str.="            <a  name='resetRecordButton' id='resetRecordButton'  href='javascript:void(0)' class='btn btn-info  disabled' onClick='resetRecord()'><i class='icon-refresh icon-white'></i> Reset</a>";
+$str.="        </div>";
+$str.="        <div class='btn-group'>";
+$str.="            <a  name='postRecordButton' id='postRecordButton' href='javascript:void(0)' class='btn btn-warning  disabled'  onClick='postRecord()'><i class='icon-cog icon-white'></i> Post</a>";
+$str.="        </div>";
+$str.="        <div class='btn-group'>";
+$str.="            <a  name='listRecordButton' id='listRecordButton' href='javascript:void(0)' class='btn btn-info' onClick='showGrid('<?php \$midnightMarket->getViewPath(); ?>','<?php \$securityToken; ?>',0,<?php 'LIMIT; ?>)'><i class='icon-list icon-white'></i>Listing</a>";
+$str.="        </div>";
+$str.="        <div class='btn-group'>";
+$str.="            <a  name='firstRecordButton' id='firstRecordButton' href='javascript:void(0)' class='btn btn-info  disabled' onClick='firstRecord()'><i class='icon-fast-backward icon-white'></i> First</a>";
+$str.="        </div>";
+$str.="        <div class='btn-group'>";
+$str.="            <a  name='previousRecordButton' id='previousRecordButton'  href='javascript:void(0)' class='btn btn-info  disabled' onClick='previousRecord()'><i class='icon-backward icon-white'></i> Previous</a>";
+$str.="        </div>";
+$str.="        <div class='btn-group'>";
+$str.="            <a  name='nextRecordButton' id='nextRecordButton'  href='javascript:void(0)' class='btn btn-info  disabled' onClick='nextRecord()'><i class='icon-forward icon-white'></i> Next</a>
+$str.="        </div>";
+$str.="        <div class='btn-group'>";
+$str.="            <a  name='lastRecordButton' id='lastRecordButton'  href='javascript:void(0)' class='btn btn-info disabled' onClick='lastRecord()'><i class='icon-fast-forward icon-white'></i> End</a>";
+$str.="       </div>";
+$str.="    </div>";
+$str.="    <input type='hidden' name='x' id='x'>";
+$str.="    <input type='hidden' name='firstRecord' id='firstRecord' value='<?php if(isset(\$firstRecord)) { \$firstRecord; } ?>'>";       
+$str.="    <input type='hidden' name='nextRecord' id='nextRecord' value='<?php if(isset(\$nextRecord)) { \$nextRecord; } ?>'>";
+$str.="    <input type='hidden' name='previousRecord' id='previousRecord' value='<?php if(isset(\$previousRecord)) { \$previousRecord; } ?>'>";
+$str.="    <input type='hidden' name='lastRecord' id='lastRecord' value='<?php if(isset(\$lastRecord)) { \$lastRecord; } ?>'>";
+$str.="    <input type='hidden' name='endRecord' id='endRecord' value='<?php if(isset(\$endRecord)) { \$endRecord; } ?>'>";
+$str.="    <script language='javascript' type='text/javascript'>";
+$str.="         \$(document).ready(function(){ ";
+$str.="            <?php if(isset(\$_POST['query'])) { ?>";
+$str.="                    \$('#clearSearch').removeCss();";
+$str.="                    \$('#clearSearch').addClass('btn');";
+$str.="            <?php } ?>";        
+$str.="            <?php if(\$_POST['method']=='new') { ?>";
+$str.="            \$('#resetRecordButton').removeClass();";
+$str.="            \$('#resetRecordButton').addClass('btn btn-info');";
+$str.="            \$('#newRecordButton').removeClass();";
+$str.="            \$('#newRecordButton').addClass('btn btn-success');";            
+$str.="            \$('#firstRecordButton').removeClass();";
+$str.="            \$('#firstRecordButton').addClass('btn btn-info'); ";           
+$str.="            \$('#lastRecordButton').removeClass();";
+$str.="            \$('#lastRecordButton').addClass('btn btn-info');";
+$str.="            <?php } else { ?>";
+$str.="            <?php } ?> ";   
+$str.="         });";        
+$str.="    </script>";    
+$str.="<?php } ?>";
+$str.="<script language='javascript' type='text/javascript' src='./package/market/midnightMarket/javascript/original/midnightMarket.js'></script>";
 
