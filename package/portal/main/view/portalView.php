@@ -2,6 +2,7 @@
 session_start();
 require_once ("/../service/portalService.php");
 $menu = new \Core\Portal\Service\MenuNavigatonClass;
+
 $application = $menu->application();
 $folder = $menu->folder();
 $story = new \Core\Portal\Service\StoryClass;
