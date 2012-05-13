@@ -4,7 +4,6 @@ namespace Core\SystemString;
 
 require_once("classAbstract.php");
 
-use Core;
 
 /**
  * Response  if any error

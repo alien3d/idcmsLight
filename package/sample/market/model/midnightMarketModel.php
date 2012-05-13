@@ -1,5 +1,5 @@
 <?php
-namespace Core\Market\MidnightMarket\Model;
+namespace Core\Sample\Market\MidnightMarket\Model;
 require_once ("../../../../library/class/classValidation.php");
  
 /**

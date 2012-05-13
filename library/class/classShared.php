@@ -1,0 +1,474 @@
+<?php
+
+namespace Core\shared;
+
+class SharedClass extends ConfigClass {
+
+    /**
+     * Database connection object
+     * @var string $q
+     */
+    private $q;
+
+    function __construct() {
+        
+    }
+
+// end basic access database
+    public function execute() {
+        parent::__construct();
+        if ($this->getVendor() == self::MYSQL) {
+            $this->q = new \Core\Database\Mysql\Vendor();
+        } else if ($this->getVendor() == self::MSSQL) {
+            $this->q = new \Core\Database\Mssql\Vendor();
+        } else if ($this->getVendor() == self::ORACLE) {
+            $this->q = new \Core\Database\Oracle\Vendor();
+        } else if ($this->getVendor() == self::POSTGRESS) {
+            $this->q = new \Core\Database\Postgress\Vendor();
+        } else if ($this->getVendor() == self ::DB2) {
+            $this->q = new \Core\Database\Db2\Vendor();
+        }
+        $this->q->vendor = $this->getVendor();
+        $this->q->connect($this->getConnection(), $this->getUsername(), $this->getDatabase(), $this->getPassword());
+    }
+
+    public function create() {
+        
+    }
+
+    /* (non-PHPdoc)
+     * @see config::read()
+     */
+
+    public function read() {
+        
+    }
+
+    /* (non-PHPdoc)
+     * @see config::update()
+     */
+
+    public function update() {
+        
+    }
+
+    /* (non-PHPdoc)
+     * @see config::delete()
+     */
+
+    public function delete() {
+        
+    }
+
+    /* (non-PHPdoc)
+     * @see config::excel()
+     */
+
+    public function excel() {
+        
+    }
+
+    /**
+     *
+     * @return array
+     */
+    function getSystemFormat() {
+        if ($this->vendor == sharedx::MYSQL) {
+            /*             * *
+             * set global output UTF8
+             */
+            $sql = "SET NAMES \"utf8\"";
+            $this->q->fast($sql);
+        }
+        /**
+         *  Basic System Information ,Date and  Currency Format
+         */
+        if ($this->q->vendor == sharedx::MYSQL) {
+            $sql = "
+	SELECT `systemSettingDateFormat`,
+		   `systemSettingTimeFormat`,
+		   `systemSettingNumberFormat`,
+		   `countryId`,
+		   `systemSettingCurrencyFormat`
+	FROM   `systemSetting`	";
+        } else if ($this->q->vendor == sharedx::MSSQL) {
+            $sql = "
+	SELECT [systemSettingDateFormat],
+		   [systemSettingTimeFormat],
+		   [systemSettingNumberFormat],
+		   [countryId],
+		   [systemSettingCurrencyFormat]
+	FROM   [systemSetting]	";
+        } else if ($this->q->vendor == sharedx::ORACLE) {
+            $sql = "
+	SELECT SYSTEMSETTINGDATEFORMAT,
+		   SYSTEMSETTINGTIMEFORMAT,
+		   SYSTEMSETTINGNUMBERFORMAT,
+		   COUNTRYID,
+		   SYSTEMSETTINGCURRENCYFORMAT
+	FROM   SYSTEMSETTING	";
+        } else if ($this->q->vendor == sharedx::DB2) {
+            $sql = "
+	SELECT SYSTEMSETTINGDATEFORMAT,
+		   SYSTEMSETTINGTIMEFORMAT,
+		   SYSTEMSETTINGNUMBERFORMAT,
+		   COUNTRYID,
+		   SYSTEMSETTINGCURRENCYFORMAT
+	FROM   SYSTEMSETTING	";
+        } else if ($this->q->vendor == sharedx::POSTGRESS) {
+            $sql = "
+	SELECT SYSTEMSETTINGDATEFORMAT,
+		   SYSTEMSETTINGTIMEFORMAT,
+		   SYSTEMSETTINGNUMBERFORMAT,
+		   COUNTRYID,
+		   SYSTEMSETTINGCURRENCYFORMAT
+	FROM   SYSTEMSETTING	";
+        }
+
+        $result = $this->q->fast($sql);
+        if ($result) {
+            $row = $this->q->fetchAssoc($result);
+            return $row;
+        }
+    }
+
+    /**
+     *
+     * @return array
+     */
+    function getLeafTranslation() {
+//dummy initilization
+        $data = array();
+        if ($this->q->vendor == sharedx::MYSQL) {
+// future
+            $sql = "
+                SELECT 			`tableMapping`.`tableMappingColumnName`,
+                                 `tableMappingTranslate`.`tableMappingNative`
+                FROM 			`tableMapping`
+                JOIN			`tableMappingTranslate`
+                USING			(`tableMappingId`)
+                WHERE 			`tableMappingTranslate`.`languageId`='" . $_SESSION ['languageId'] . "'";
+        } else if ($this->q->vendor == sharedx::MSSQL) {
+            $sql = "
+                SELECT 			[tableMapping].[tableMappingColumnName],
+                                [tableMappingTranslate].[tableMappingNative]
+                FROM 			[tableMapping]
+                JOIN			[tableMappingTranslate]
+                USING			[tableMapping].[tableMappingId]=[tableMappingTranslate].[tableMappingId]
+                WHERE 			[tableMapping].[languageId]='" . $_SESSION ['languageId'] . "'";
+        } else if ($this->q->vendor == sharedx::ORACLE) {
+            $sql = "
+                SELECT DISTINCT TABLEMAPPING.TABLEMAPPINGCOLUMNNAME 			AS 	\"tableMappingColumnName\",
+                                TABLEMAPPINGTRANSLATE.TABLEMAPPINGNATIVELABEL	AS	\"tableMappingNative\"
+                FROM 			TABLEMAPPING
+                JOIN			TABLEMAPPINGTRANSLATE
+                USING			(TABLEMAPPINGID)
+                WHERE 			TABLEMAPPING.LANGUAGEID='" . $_SESSION ['languageId'] . "'";
+        } else if ($this->q->vendor == sharedx::DB2) {
+            $sql = "
+                SELECT DISTINCT TABLEMAPPING.TABLEMAPPINGCOLUMNNAME 			AS 	\"tableMappingColumnName\",
+                                TABLEMAPPINGTRANSLATE.TABLEMAPPINGNATIVELABEL	AS	\"tableMappingNative\"
+                FROM 			TABLEMAPPING
+                JOIN			TABLEMAPPINGTRANSLATE
+                USING			(TABLEMAPPINGID)
+                WHERE 			TABLEMAPPING.LANGUAGEID='" . $_SESSION ['languageId'] . "'";
+        } else if ($this->q->vendor == sharedx::POSTGRESS) {
+            $sql = "
+                SELECT DISTINCT TABLEMAPPING.TABLEMAPPINGCOLUMNNAME 			AS 	\"tableMappingColumnName\",
+                                TABLEMAPPINGTRANSLATE.TABLEMAPPINGNATIVELABEL	AS	\"tableMappingNative\"
+                FROM 			TABLEMAPPING
+                JOIN			TABLEMAPPINGTRANSLATE
+                USING			(TABLEMAPPINGID)
+                WHERE 			TABLEMAPPING.LANGUAGEID='" . $_SESSION ['languageId'] . "'";
+        }
+
+        $result = $q->fast($sql);
+
+        while (($row = $q->fetchAssoc($result)) == TRUE) {
+            ${$row ['tableMappingColumnName'] . "Label"} = $row ['tableMappingNative'];
+            $data[] = ${$row ['tableMappingColumnName'] . "Label"};
+        }
+        return $data;
+    }
+
+    /**
+     *
+     * @return array
+     */
+    function getForeignkeyTranslation() {
+        $data = array();
+
+
+        if ($this->q->vendor == sharedx::MYSQL) {
+// future
+            $sql = "
+                SELECT 			`tableMappingForeignKey`.`tableMappingForeignKeyName`,
+                                 `tableMappingForeignKeyTranslate`.`tableMappingForeignKeyNative`
+                FROM 			`tableMappingForeignKey`
+                JOIN			`tableMappingForeignKeyTranslate`
+                USING			(`tableMappingForeignKeyId`)
+                WHERE 			`tableMappingForeignKeyTranslate`.`languageId`='" . $_SESSION ['languageId'] . "'";
+        } else if ($this->q->vendor == sharedx::MSSQL) {
+            $sql = "
+                SELECT 			[tableMapping].[tableMappingColumnName],
+                                [tableMappingTranslate].[tableMappingNative]
+                FROM 			[tableMapping]
+                JOIN			[tableMappingTranslate]
+                USING			[tableMapping].[tableMappingId]=[tableMappingTranslate].[tableMappingId]
+                WHERE 			[tableMapping].[languageId]='" . $_SESSION ['languageId'] . "'";
+        } else if ($this->q->vendor == sharedx::ORACLE) {
+            $sql = "
+                SELECT DISTINCT TABLEMAPPING.TABLEMAPPINGCOLUMNNAME 			AS 	\"tableMappingColumnName\",
+                                TABLEMAPPINGTRANSLATE.TABLEMAPPINGNATIVELABEL	AS	\"tableMappingNative\"
+                FROM 			TABLEMAPPING
+                JOIN			TABLEMAPPINGTRANSLATE
+                USING			(TABLEMAPPINGID)
+                WHERE 			TABLEMAPPING.LANGUAGEID='" . $_SESSION ['languageId'] . "'";
+        } else if ($this->q->vendor == sharedx::DB2) {
+            
+        } else if ($this->q->vendor == sharedx::POSTGRESS) {
+            
+        }
+
+        $result = $q->fast($sql);
+
+        while (($row = $q->fetchAssoc($result)) == TRUE) {
+            ${$row ['tableMappingForeignKeyName'] . "Label"} = $row ['tableMappingForeignKeyNative'];
+            $data[] = ${$row ['tableMappingForeignKeyName'] . "Label"};
+        }
+
+
+        return $data;
+    }
+
+    /**
+     *
+     * @return array
+     */
+    function getDefaultTranslation() {
+        $data = array();
+        if ($this->q->vendor == sharedx::MYSQL) {
+            $sql = "
+                SELECT	*
+                FROM 	`defaultLabel`
+                JOIN 	`defaultLabelTranslate`
+                USING 	(`defaultLabelId`)
+                WHERE 	`defaultLabelTranslate`.`languageId`	=	'" . $_SESSION ['languageId'] . "'";
+        } else if ($this->q->vendor == sharedx::MSSQL) {
+            $sql = "
+                SELECT	*
+                FROM 	[defaultLabel]
+                JOIN 	[defaultLabelTranslate]
+                ON      [defaultLabel] .[defaultLabelId]=  [defaultLabelTranslate] .[defaultLabelId]
+                WHERE 	[defaultLabelTranslate].[languageId]	=	'" . $_SESSION ['languageId'] . "'";
+        } else if ($this->q->vendor == sharedx::ORACLE) {
+            $sql = "
+                SELECT	DEFAULTLABEL.DEFAULTLABEL 				AS \"defaultLabel\",
+                        DEFAULTLABELTRANSLATE.DEFAULTLABELTEXT 	AS \"defaultLabelText\"
+                FROM 	DEFAULTLABEL
+                JOIN 	DEFAULTLABELTRANSLATE
+                ON		DEFAULTLABEL.DEFAULTLABELID 			= 	DEFAULTLABELTRANSLATE.DEFAULTLABELID
+                WHERE 	DEFAULTLABELTRANSLATE.LANGUAGEID		=	'" . $_SESSION ['languageId'] . "'";
+        } else if ($this->q->vendor == sharedx::DB2) {
+            
+        } else if ($this->q->vendor == sharedx::POSTGRESS) {
+            
+        }
+        $result = $q->fast($sql);
+        while ($row = $q->fetchAssoc($result)) {
+
+            ${$row ['defaultLabel'] . "Label"} = $row ['defaultLabelNative'];
+            $data[] = ${$row ['defaultLabel'] . "Label"};
+        }
+        return $data;
+    }
+
+    /**
+     *
+     * @return array 
+     */
+    public function getButtonTranslation() {
+// for temporary use english first
+        $button = array();
+        $button['isDefaultLabel'] = 'Default Value';
+        $button['isNewLabel'] = 'New';
+        $button['isNewLabel'][0] = 'New &AMP; Continue';
+        $button['isNewLabel'][1] = 'New &AMP; Update ';
+        $button['isNewLabel'][2] = 'New &AMP; Continue &AMP; Print ';
+        $button['isNewLabel'][3] = 'New &AMP; Update &AMP; Print ';
+        $button['isNewLabel'][4] = 'New &AMP; Listing ';
+        $button['isDraftLabel'] = 'Draft';
+        $button['isUpdateLabel'] = 'Update';
+        $button['isUpdateLabel'][0] = 'Update';
+        $button['isUpdateLabel'][1] = 'Update &AMP; Print ';
+        $button['isUpdateLabel'][2] = 'Update &AMP; Listing';
+        $button['isDeleteLabel'] = 'Delete';
+        $button['isActive'] = 'Active';
+        $button['isApprovedLabel'] = 'Approved';
+        $button['auditButtonLabel'] = 'Audit';
+        return $button;
+    }
+
+    public function getLeafAccess() {
+
+        if ($this->q->vendor == sharedx::MYSQL) {
+            $sql = "	SELECT	*
+        FROM	`leaf`
+        JOIN	`leafAccess`
+        USING 	(`leafId`)
+        JOIN 	`leafTranslate`
+        USING	(`leafId`)
+        WHERE  	`leaf`.`leafFilename`			=	'" . basename($_SERVER ['PHP_SELF']) . "'
+        AND  	`leafAccess`.`staffId`			=	'" . $_SESSION ['staffId'] . "'
+        AND		`leafTranslate`.`languageId`	=	'" . $_SESSION ['languageId'] . "'";
+        } else if ($this->q->vendor == sharedx::MSSQL) {
+            $sql = "	
+        SELECT	*
+        FROM	[leaf]
+        JOIN	[leafAccess]
+        ON 		[leaf].[leafId]					= 	[leafAccess].[leafId]
+        JOIN 	[leafTranslate]
+        ON		[leafAccess].[leafId]			=	[leafTranslate].[leafId]
+        AND 	[leafTranslate].[leafId]		= 	[leaf].[leafId]
+        WHERE  	[leaf].[leafFilename]			=	'" . basename($_SERVER ['PHP_SELF']) . "'
+        AND  	[leafAccess].[staffId]			=	'" . $_SESSION ['staffId'] . "'
+        AND		[leafTranslate].[languageId]	=	'" . $_SESSION ['languageId'] . "'";
+        } else if ($this->q->vendor == sharedx::ORACLE) {
+
+            $sql = "	SELECT	LEAF.LEAFID 						AS  \"leafId\",
+                        LEAFTRANSLATE.LEAFNATIVE 		AS	\"leafNative\"
+        FROM	LEAF
+        JOIN	LEAFACCESS
+        ON		LEAF.LEAFID 				= 	LEAFACCESS.LEAFID
+        JOIN 	LEAFTRANSLATE
+        ON		LEAF.LEAFID 				= 	LEAFTRANSLATE.LEAFID
+        WHERE  	LEAF.LEAFFILENAME			=	'" . basename($_SERVER ['PHP_SELF']) . "'
+        AND  	LEAFACCESS.STAFFID			=	'" . $_SESSION ['staffId'] . "'
+        AND		LEAFTRANSLATE.LANGUAGEID	=	'" . $_SESSION ['languageId'] . "'";
+        } else if ($this->q->vendor == sharedx::DB2) {
+            $sql = "	SELECT	LEAF.LEAFID 						AS  \"leafId\",
+                        LEAFTRANSLATE.LEAFNATIVE 		AS	\"leafNative\"
+        FROM	LEAF
+        JOIN	LEAFACCESS
+        ON		LEAF.LEAFID 				= 	LEAFACCESS.LEAFID
+        JOIN 	LEAFTRANSLATE
+        ON		LEAF.LEAFID 				= 	LEAFTRANSLATE.LEAFID
+        WHERE  	LEAF.LEAFFILENAME			=	'" . basename($_SERVER ['PHP_SELF']) . "'
+        AND  	LEAFACCESS.STAFFID			=	'" . $_SESSION ['staffId'] . "'
+        AND		LEAFTRANSLATE.LANGUAGEID	=	'" . $_SESSION ['languageId'] . "'";
+        } else if ($this->q->vendor == sharedx::POSTGRESS) {
+            $sql = "	SELECT	LEAF.LEAFID 						AS  \"leafId\",
+                        LEAFTRANSLATE.LEAFNATIVE 		AS	\"leafNative\"
+        FROM	LEAF
+        JOIN	LEAFACCESS
+        ON		LEAF.LEAFID 				= 	LEAFACCESS.LEAFID
+        JOIN 	LEAFTRANSLATE
+        ON		LEAF.LEAFID 				= 	LEAFTRANSLATE.LEAFID
+        WHERE  	LEAF.LEAFFILENAME			=	'" . basename($_SERVER ['PHP_SELF']) . "'
+        AND  	LEAFACCESS.STAFFID			=	'" . $_SESSION ['staffId'] . "'
+        AND		LEAFTRANSLATE.LANGUAGEID	=	'" . $_SESSION ['languageId'] . "'";
+        }
+
+        $result = $q->fast($sql);
+        if ($result) {
+            $row = $q->fetchAssoc($result);
+            return $row;
+        }
+    }
+
+    /**
+     *
+     * @return array 
+     */
+    public function getAdminAccess() {
+        $data = array();
+        if ($this->q->vendor == sharedx::MYSQL) {
+            $sql = "
+                        SELECT	`team`.`isAdmin`
+                        FROM 	`staff`
+                        JOIN	`team`
+                        USING	(`teamId`)
+                        WHERE 	`staff`.`staffId`	=	'" . $_SESSION ['staffId'] . "'
+                        AND		`team`.`teamId`		=	'" . $_SESSION ['teamId'] . "'
+                        AND		`staff`.`isActive`	=	1
+                        AND		`team`.`isActive`	=	1";
+        } else if ($this->q->vendor == sharedx::MSSQL) {
+            $sql = "
+                        SELECT	[team].[isAdmin]
+                        FROM 	[staff]
+                        JOIN	[team]
+                        ON		[staff].[teamId]  	= 	[team].[teamId]
+                        WHERE 	[staff].[staffId]	=	'" . $_SESSION ['staffId'] . "'
+                        AND		[team].[teamId]		=	'" . $_SESSION ['teamId'] . "'
+                        AND		[staff].[isActive]	=	1
+                        AND		[team].[isActive]	=	1";
+        } else if ($this->q->vendor == sharedx::ORACLE) {
+            $sql = "
+                        SELECT	TEAM.ISADMIN AS \"isAdmin\"
+                        FROM 	STAFF
+                        JOIN	TEAM
+                        ON		TEAM.teamId		= 	STAFF.teamId
+                        WHERE 	STAFF.STAFFID	=	'" . $_SESSION ['staffId'] . "'
+                        AND		TEAM.teamId		=	'" . $_SESSION ['teamId'] . "'
+                        AND		STAFF.ISACTIVE	=	1
+                        AND		TEAM.ISACTIVE	=	1";
+        } else if ($this->q->vendor == sharedx::DB2) {
+            $sql = "
+                        SELECT	TEAM.ISADMIN AS \"isAdmin\"
+                        FROM 	STAFF
+                        JOIN	TEAM
+                        ON		TEAM.teamId		= 	STAFF.teamId
+                        WHERE 	STAFF.STAFFID	=	'" . $_SESSION ['staffId'] . "'
+                        AND		TEAM.teamId		=	'" . $_SESSION ['teamId'] . "'
+                        AND		STAFF.ISACTIVE	=	1
+                        AND		TEAM.ISACTIVE	=	1";
+        } else if ($this->q->vendor == sharedx::POSTGRESS) {
+            $sql = "
+                        SELECT	TEAM.ISADMIN AS \"isAdmin\"
+                        FROM 	STAFF
+                        JOIN	TEAM
+                        ON		TEAM.teamId		= 	STAFF.teamId
+                        WHERE 	STAFF.STAFFID	=	'" . $_SESSION ['staffId'] . "'
+                        AND		TEAM.teamId		=	'" . $_SESSION ['teamId'] . "'
+                        AND		STAFF.ISACTIVE	=	1
+                        AND		TEAM.ISACTIVE	=	1";
+        } else {
+            echo json_encode(array("success" => false, "message" => "cannot identify vendor db[" . $this->q->vendor . "]"));
+            exit();
+        }
+
+//echo $sql;
+        $resultAdmin = $q->fast($sql);
+
+        if ($q->numberRows($resultAdmin) > 0) {
+            $rowAdmin = $q->fetchAssoc($resultAdmin);
+            if ($row['isAdmin'] == 1) {
+                $data['isDefaultHidden'] = false;
+                $data['isNewHidden'] = false;
+                $data['isDraftHidden'] = false;
+                $data['isUpdateHidden'] = false;
+                $data['isDeleteHidden'] = false;
+                $data['isActiveHidden'] = false;
+                $data['isApprovedHidden'] = false;
+                $data['isReviewHidden'] = false;
+                $data['isPostHidden'] = false;
+                $data['auditButtonLabelDisabled'] = false;
+            } else {
+                $data['isDefaultHidden'] = true;
+                $data['isNewHidden'] = true;
+                $data['isDraftHidden'] = true;
+                $data['isUpdateHidden'] = true;
+                $data['isDeleteHidden'] = true;
+                $data['isActiveHidden'] = true;
+                $data['isApprovedHidden'] = true;
+                $data['isReviewHidden'] = true;
+                $data['isPostHidden'] = true;
+                $data['auditButtonLabelDisabled'] = true;
+            }
+            return $data;
+        }
+    }
+
+}
+
+?>

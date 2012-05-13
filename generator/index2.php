@@ -26,10 +26,22 @@ class generator {
      */
     private $targetOutput;
     /**
+     * To target Package
+     * @var string 
+     */
+    private $targetPackage;
+     /**
+     * To target Module
+     * @var string 
+     */
+    private $targetModule;
+    /**
      * To return information about column
      * @var array 
      */
     private $infoColumnArray;
+    
+    public $packageAndModule;
 
     /**
      * 
@@ -42,6 +54,36 @@ class generator {
      */
     public function __construct() {
         mysql_connect("localhost", "root", "123456");
+        
+        $package=array();
+$package[]='document';
+$package[]='financial';
+$package[]='sample';
+$package[]='portal';
+$package[]='problem';
+$package[]='system';
+$package['document'][]='document';
+$package['document'][]='numbering';
+
+$package['financial'][]='accountPayable';
+$package['financial'][]='accountReceivable';
+$package['financial'][]='businessPartner';
+$package['financial'][]='cashbook';
+$package['financial'][]='fixasset';
+$package['financial'][]='generalLedger';
+$package['financial'][]='humanResource';
+$package['financial'][]='payroll';
+$package['financial'][]='project';
+
+$package['market'][]='midnightMarket';
+
+$package['portal'][]='main';
+
+$package['system'][]='common';
+$package['system'][]='management';
+$package['system'][]='security';
+$package['system'][]='translation';
+    $this->packageAndModule = $package;
     }
 
     /**
@@ -64,6 +106,42 @@ class generator {
         <script language="javascript">
             function db(value){
                 location.href ='<?php echo basename($_SERVER['PHP_SELF']); ?>?targetDatabase='+value;
+            }
+            function changePackage(){
+                targetDatabase= $("#targetDatabase").val();
+                targetTable= $("#targetDatabase").val();
+                targetTableId= $("#targetDatabase").val();
+                targetPackage= $("#targetPackage").val();
+                targetModule= $("#module").val();
+                targetOutput= $("#targetOutput").val()
+                targetGridType= $("#targetGridType").val();
+                targetFilterType= $("#targetFilterType").val();
+                url ='<?php echo basename($_SERVER['PHP_SELF']); ?>';
+                if(targetDatabase){
+                    url = url+"?targetDatabase="+targetDatabase;
+                }
+                if(targetTable){
+                    url = url+"&targetTable="+targetTable;
+                }
+                if(targetTableId){
+                    url = url+"&targetTableId="+targetTableId;
+                }
+                if(targetPackage){
+                    url = url+"&targetPackage="+targetPackage;
+                }
+                if(targetModule){
+                    url = url+"&targetModule="+targetModule;
+                }
+                if(targetOutput){
+                    url = url+"&targetOutput="+targetOutput;
+                }
+                if(targetGridType){
+                    url = url+"&targetGridType="+targetGridType;
+                }
+                if(targetFilterType){
+                    url = url+"&targetFilterType="+targetFilterType;
+                }
+                location.href =url;
             }
             function check(value) {
                 if(value=='javascript') {
@@ -146,6 +224,30 @@ class generator {
                                 }
                                 ?></select>
                     </td>
+                </tr>
+                <tr>
+                    <td>Target Package</td>
+                    <td><select name="targetPackage" id="targetPackage" onChange=changePackage()>
+                            <option value="">Please Choose Package</option>
+                            <?php for($i=0;$i<count($this->packageAndModule);$i++) { ?>
+                            <option value="<?php if(isset($this->packageAndModule[$i])) { echo $this->packageAndModule[$i]; } ?>" 
+                            <?php if(isset($_GET['targetPackage'])) { 
+                                        if ($_GET['targetPackage']==$this->packageAndModule[$i]) { echo "selected"; } } ?>>
+                            <?php if(isset($this->packageAndModule[$i])) { echo $this->packageAndModule[$i]; } ?></option>
+                            <?php } ?>
+                        </select></td>
+                </tr>
+                <tr>
+                    <td>Target Module</td>
+                    <td><?php if (isset($_GET['targetPackage'])) { ?><select name="targetModule" id="targetModule">
+                            <option value="">Please Choose Package</option>
+                            <?php for($i=0;$i<count($this->packageAndModule[$_GET['targetPackage']]);$i++) { ?>
+                            <option value="<?php echo $this->packageAndModule[$_GET['targetPackage']][$i]; ?>" <?php if ($_GET['targetPackage']==$this->packageAndModule[$_GET['targetPackage']][$i]) { echo "selected"; } ?>><?php echo $this->packageAndModule[$_GET['targetPackage']][$i]; ?></option>
+                            <?php } ?>
+                        </select>
+                    <?php } else { ?>
+                        Please choose drop down package first.
+                    <?php } ?></td>
                 </tr>
                 <tr>
                     <td>Source Type</td>
@@ -249,6 +351,7 @@ class generator {
      * Output source code 
      */
     public function showCode() {
+        
         // initilize value
         $infoColumn = array();
         if ($this->getTargetTable()) {
@@ -257,7 +360,9 @@ class generator {
             $resultFieldTable = mysql_query($sqlDescribe);
             $i=0;
             while ($rowFieldTable = mysql_fetch_array($resultFieldTable)) {
-                $infoColumn[$i]['tableName'] =  $this->getTargetTable();  
+                $infoColumn[$i]['tableName'] =  $this->getTargetTable();
+                $infoColumn[$i]['package'] =  $this->getTargetPackage();
+                $infoColumn[$i]['module'] =  $this->getTargetModule();
                 $infoColumn[$i]['columnName'] = $rowFieldTable['Field'];
                 $infoColumn[$i]['Type'] = $rowFieldTable['Type'];
                 $infoColumn[$i]['Key'] = $rowFieldTable['Key'];
@@ -466,6 +571,36 @@ class generator {
     public function setTargetOutput($value) {
         $this->targetOutput = $value;
     }
+     /**
+     * Return Target Package
+     * return string $output
+     */
+    public function getTargetPackage() {
+        return $this->targetPackage;
+    }
+
+    /**
+     * Set Target Package
+     * param string $value
+     */
+    public function setTargetPackage($value) {
+        $this->targetPackage = $value;
+    }
+     /**
+     * Return Target Module
+     * return string $output
+     */
+    public function getTargetModule() {
+        return $this->targetModule;
+    }
+
+    /**
+     * Set Target Module
+     * param string $value
+     */
+    public function setTargetModule($value) {
+        $this->targetModule = $value;
+    }
     /**
      * Return Target Output
      * return string $output
@@ -498,6 +633,16 @@ if (isset($_GET['targetGridType']) && strlen($_GET['targetGridType']) > 0) {
 if (isset($_GET['targetOutput']) && strlen($_GET['targetOutput']) > 0) {
     $generator->setTargetOutput($_GET['targetOutput']);
 }
+if (isset($_GET['targetPackage']) && strlen($_GET['targetPackage']) > 0) {
+    $generator->setTargetPackage($_GET['targetPackage']);
+}
+if (isset($_GET['targetModule']) && strlen($_GET['targetModule']) > 0) {
+    $generator->setTargetModule($_GET['targetModule']);
+}
+
+
+
+
 ?> 
 <html>
     <head>

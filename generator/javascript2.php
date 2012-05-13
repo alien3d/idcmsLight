@@ -483,7 +483,7 @@
         $str.="            				}\n";
         $str.="        				});\n";
         $str.="    				}\n";
-        $str.="				} else if ($type == 2) {\n";
+        $str.="				} else if (\$type == 2) {\n";
         $str.="    				// update record  preview(modal box)\n";
         $str.="    				if (\$('#stateId').val().length == 0) {\n";
         $str.="        				\$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose State First</div>');\n";

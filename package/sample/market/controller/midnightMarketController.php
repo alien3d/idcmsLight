@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Market\MidnightMarket\Controller;
+namespace Core\Sample\Market\MidnightMarket\Controller;
 
 if (!isset($_SESSION)) {
     session_start();
@@ -92,8 +92,8 @@ class MidnightMarketClass extends \Core\ConfigClass {
     public $duplicateTest;
 
     function __construct() {
-        $this->setViewPath("./package/market/midnightMarket/view/midnightMarketView.php");
-        $this->setControllerPath("./package/market/midnightMarket/controller/midnightMarketController.php");
+        $this->setViewPath("./package/sample/midnightMarket/view/midnightMarketView.php");
+        $this->setControllerPath("./package/sample/midnightMarket/controller/midnightMarketController.php");
         //$this->setServicePath("./package/market/midnightMarket/service/midnightMarketService.php");
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 namespace Core\Document\Trail;
+require_once("classAbstract.php");
 
 /**
  * Document Trail Audit.All Preprint Microsoft Excel Will Be Tracked

@@ -205,15 +205,30 @@ abstract class ConfigClass
 	 */
         public $pageOutput;
         /**
+	 * View Name.
+	 * @var string
+	 */
+        public $viewFilename;
+        /**
 	 * View Path.Not automatic because give flexibility
 	 * @var string
 	 */
         public $viewPath;
         /**
+	 * Controller Path.
+	 * @var string
+	 */
+        public $controllerFilename;
+        /**
 	 * Controller Path.Not automatic because give flexibility
 	 * @var string
 	 */
         public $controllerPath;
+        /**
+	 * Service Filename
+	 * @var string
+	 */
+        public $serviceFilename;
         /**
 	 * Service Path.Not automatic because give flexibility
 	 * @var string
@@ -1286,6 +1301,22 @@ abstract class ConfigClass
 	    $this->pageOutput = $value;
 	}
         /**
+         * Return Controller Filename
+         * @return string 
+         */
+        public function getControllerFilename()
+	{
+	    return $this->controllerFilename;
+	}
+        /**
+         * Set Controller Filename
+         * @param string $controllerFilename 
+         */
+	public function setControllerFilename($value)
+	{
+	    $this->controllerFilename = $value;
+	}
+        /**
          * Return Controller Path
          * @return string 
          */
@@ -1310,12 +1341,44 @@ abstract class ConfigClass
 	    return $this->viewPath;
 	}
         /**
-         * Set Controller Path
+         * Set View Path
          * @param string $value
          */
 	public function setViewPath($value)
 	{
 	    $this->viewPath = $value;
+	}
+        /**
+         * Return View Filename
+         * @return string 
+         */
+        public function getViewFilename()
+	{
+	    return $this->viewFilename;
+	}
+        /**
+         * Set View Filename
+         * @param string $value
+         */
+	public function setViewFilname($value)
+	{
+	    $this->viewFilename = $value;
+	}
+        /**
+         * Return Service Filename
+         * @return string 
+         */
+        public function getServiceFilename()
+	{
+	    return $this->viewFilename;
+	}
+        /**
+         * Set Service Filename
+         * @param string $value
+         */
+	public function setServiceFilename($value)
+	{
+	    $this->serviceFilename = $value;
 	}
          /**
          * Return Service Path

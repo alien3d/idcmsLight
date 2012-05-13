@@ -1,4 +1,6 @@
 <?php
+namespace Core\Security;
+require_once("classAbstract.php");
 /**
  * this is common library output for security program like icon,folder,tab and leaf.Here we don't require log..Slower the process
  * @name IDCMS
@@ -8,7 +10,7 @@
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class Security extends ConfigClass {
+class Security extends \Core\ConfigClass {
 	/**
 	 * Connection to the database
 	 * @var string
