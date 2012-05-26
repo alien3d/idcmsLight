@@ -3,7 +3,7 @@
 
 $strId = $data[0]['tableName'] . "Id";
 
-$str.="<?php require_once('/../controller/" . $data[0]['tableName'] . ".php'); \n";
+$str.="<?php require_once('/../controller/" . $data[0]['tableName'] . "Controller.php'); \n";
 $str.="require_once ('../../../../library/class/classNavigation.php');  \n";
 $str.="\$translator = new \Core\shared\SharedClass();  \n";
 $str.="\$translator->execute();  \n";
@@ -229,7 +229,7 @@ for ($i = 0; $i < $total; $i++) {
     if ($data[$i]['Key'] == 'PRI') {
         $str.=" <th>Action</th> \n";
     } else {
-        $str.="switch(\$" . $data[0]['tableName'] . "['" . $data[$i]['columnName'] . "'][\$i]) { ?> \n";
+        $str.="switch(\$" . $data[0]['tableName'] . "Array['" . $data[$i]['columnName'] . "'][\$i]) { ?> \n";
         $str.=" case 'isDefault':\n
                 case 'isNew':\n
                 case 'isDraft':\n
@@ -240,12 +240,12 @@ for ($i = 0; $i < $total; $i++) {
                 case 'isReview':\n
                 case 'isPost':\n
                     if(\$_SESSION ['isAdmin'] ==1) {\n";
-        $str.="<th><?php \$" . $data[0]['tableName'] . "['" . $data[$i]['columnName'] . "'][\$i];  ?></th> \n";
+        $str.="<th><?php \$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];  ?></th> \n";
 
         $str.="}\n    
                 break;\n
                 default:\n";
-        $str.="<th><?php \$" . $data[0]['tableName'] . "['" . $data[$i]['columnName'] . "'][\$i];  ?></th> \n";
+        $str.="<th><?php \$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];  ?></th> \n";
 
         $str.=" } ";
     }
@@ -266,11 +266,11 @@ for ($i = 0; $i < $total; $i++) {
         $str.=" <td><a class='btn-warning btn-mini' onClick='showFormUpdate('<?php \$$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo intval(\$" . $data[0]['tableName'] . "Array [\$i]['$" . $data[0]['tableName'] . "Id']); ?>')'><i class='icon-edit  icon-white'></i>Update</a>  
                     <a class='btn-danger btn-mini' onClick='showModalDelete('<?php \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>',";
         for ($d = 0; $d < $total; $d++) {
-            $str.="'<?php \$" . $data[0]['tableName'] . "Array [\$i]['" . $data[$i]['columnName'] . "']; ?>',";
+            $str.="'<?php echo \$" . $data[0]['tableName'] . "Array [\$i]['" . $data[$d]['columnName'] . "']; ?>',";
         }
         $str.=")'><i class='icon-trash  icon-white'></i> Delete</a></td> \n";
     } else {
-        $str.="switch(\$" . $data[0]['tableName'] . "['" . $data[$i]['columnName'] . "'][\$i]) { ?> \n";
+        $str.="switch(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "']) { ?> \n";
         $str.=" case 'isDefault':\n
                 case 'isNew':\n
                 case 'isDraft':\n
@@ -281,12 +281,12 @@ for ($i = 0; $i < $total; $i++) {
                 case 'isReview':\n
                 case 'isPost':\n
                     if(\$_SESSION ['isAdmin'] ==1) {\n";
-        $str.="<td><?php \$" . $data[0]['tableName'] . "['" . $data[$i]['columnName'] . "'][\$i];  ?></td> \n";
+        $str.="<td><?php \$" . $data[0]['tableName'] . "[\$i]['" . $data[$i]['columnName'] . "'];  ?></td> \n";
 
         $str.="}\n    
                 break;\n
                 default:\n";
-        $str.="<td><?php \$" . $data[0]['tableName'] . "['" . $data[$i]['columnName'] . "'][\$i];  ?></td> \n";
+        $str.="<td><?php \$" . $data[0]['tableName'] . "[\$i]['" . $data[$i]['columnName'] . "'];  ?></td> \n";
 
         $str.=" } ";
 

@@ -109,10 +109,10 @@ $package['system'][]='translation';
             }
             function changePackage(){
                 targetDatabase= $("#targetDatabase").val();
-                targetTable= $("#targetDatabase").val();
-                targetTableId= $("#targetDatabase").val();
+                targetTable= $("#targetTable").val();
+                targetMasterTableId= $("#targetMasterTableId").val();
                 targetPackage= $("#targetPackage").val();
-                targetModule= $("#module").val();
+                targetModule= $("#targetModule").val();
                 targetOutput= $("#targetOutput").val()
                 targetGridType= $("#targetGridType").val();
                 targetFilterType= $("#targetFilterType").val();
@@ -158,6 +158,7 @@ $package['system'][]='translation';
                 <tr>
                     <td>Target Db</td>
                     <td><select name="targetDatabase" id="targetDatabase" onChange=db(this.value)>
+						<option value="">Please Select Database First</option>
                             <?php
                             $sql = "show databases;";
                             $result = mysql_query($sql) or die(mysql_error());
@@ -180,7 +181,12 @@ $package['system'][]='translation';
                 </tr>
                 <tr>
                     <td>Target Table</td>
-                    <td><select name="targetTable" id="targetTable">
+                    <td><select name="targetTable" id="targetTable" <?php if(!(isset($_GET['targetDatabase']))) { echo "disabled"; } ?> class="<?php if(!(isset($_GET['targetDatabase']))) { echo "disabled"; } ?>">
+							<?php if(isset($_GET['targetDatabase'])) { ?>
+							<option value="">Please Select Table</option>
+							<?php } else  { ?>
+							<option value="">Please Select Database First</option>
+							<?php } ?>
                             <?php
                             if (isset($_GET['targetDatabase'])) {
                                 $sql = "show tables in " . strtolower($_GET['targetDatabase']) . ";";
@@ -203,7 +209,7 @@ $package['system'][]='translation';
                 </tr>
                 <tr>
                     <td>Target Master Table</td>
-                    <td><select name="targetMasterTableId">
+                    <td><select name="targetMasterTableId" id="targetMasterTableId" <?php if(!(isset($_GET['targetDatabase']))) { echo "disabled"; } ?>>
                             <?php
                             if (isset($_GET['targetDatabase'])) {
                                 $sql = "show tables in " . strtolower($_GET['targetDatabase']) . ";";
@@ -227,7 +233,7 @@ $package['system'][]='translation';
                 </tr>
                 <tr>
                     <td>Target Package</td>
-                    <td><select name="targetPackage" id="targetPackage" onChange=changePackage()>
+                    <td><select name="targetPackage" id="targetPackage" onChange=changePackage() <?php if(!(isset($_GET['targetDatabase']))) { echo "disabled"; } ?>>
                             <option value="">Please Choose Package</option>
                             <?php for($i=0;$i<count($this->packageAndModule);$i++) { ?>
                             <option value="<?php if(isset($this->packageAndModule[$i])) { echo $this->packageAndModule[$i]; } ?>" 
@@ -239,19 +245,21 @@ $package['system'][]='translation';
                 </tr>
                 <tr>
                     <td>Target Module</td>
-                    <td><?php if (isset($_GET['targetPackage'])) { ?><select name="targetModule" id="targetModule">
-                            <option value="">Please Choose Package</option>
+                    <td><select name="targetModule" id="targetModule" <?php if(!(isset($_GET['targetDatabase']))) { echo "disabled"; } ?>>
+                            <?php if (isset($_GET['targetPackage'])) { ?>
+							<option value="">Please Choose Package</option>							
+							<?php }  else { ?>
+							<option value="">Please Choose Module</option>
+							<?php } ?>	
                             <?php for($i=0;$i<count($this->packageAndModule[$_GET['targetPackage']]);$i++) { ?>
                             <option value="<?php echo $this->packageAndModule[$_GET['targetPackage']][$i]; ?>" <?php if ($_GET['targetPackage']==$this->packageAndModule[$_GET['targetPackage']][$i]) { echo "selected"; } ?>><?php echo $this->packageAndModule[$_GET['targetPackage']][$i]; ?></option>
                             <?php } ?>
                         </select>
-                    <?php } else { ?>
-                        Please choose drop down package first.
-                    <?php } ?></td>
+                    </td>
                 </tr>
                 <tr>
                     <td>Source Type</td>
-                    <td><select name="targetOutput" id="targetOutput" onChange=check(this.value)>
+                    <td><select name="targetOutput" id="targetOutput" onChange=check(this.value) <?php if(!(isset($_GET['targetDatabase']))) { echo "disabled"; } ?>>
                             <option value="">Please Choose</option>
                             <option value="html"
                             <?php
@@ -288,7 +296,7 @@ $package['system'][]='translation';
                 </tr>
                 <tr>
                     <td>Target Form Type</td>
-                    <td><select name="targetGridType" id="targetGridType">
+                    <td><select name="targetGridType" id="targetGridType" <?php if(!(isset($_GET['targetDatabase']))) { echo "disabled"; } ?>>
                             <option value="first"
                             <?php
                             if (isset($_GET['targetGridType'])) {
@@ -318,7 +326,7 @@ $package['system'][]='translation';
                 </tr>
                 <tr>
                     <td>Target Filter Type</td>
-                    <td><select name="targetFilterType" id="targetFilterType">
+                    <td><select name="targetFilterType" id="targetFilterType" <?php if(!(isset($_GET['targetDatabase']))) { echo "disabled"; } ?>>
                             <option value="first"
                             <?php
                             if (isset($_GET['targetFilterType'])) {
