@@ -1,332 +1,365 @@
 <?php
-$mainModel.="
 
-require_once (\"../../class/classValidation.php\");
+$str.="<?php ";
+$str.=" namespace\Core\\" . ucwords($data[0]['package']) . "\\" . ucwords($data[0]['module']) . "\\" . ucwords($data[0]['tableName']) . "\Model\\";
 
-/**
- * this is ".$targetTable." model file.This is to ensure strict setting enable for all variable enter to database
- *
- * @name IDCMS.
- * @version 2
- * @author hafizan
- * @package Account Receivable / Account Payable Invoice 
- * @subpackage adjustment
- * @link http://www.idcms.org
- * @license http://www.gnu.org/copyleft/lesser.html LGPL
- */
-class ".ucfirst($targetTable)."Model extends ValidationClass { ";
-	
-$execute="
-/* (non-PHPdoc)
-	 * @see ValidationClass::execute()
-	 */
+$str.="require_once (\"../../../../library/class/classValidation.php\"); \n";
 
-	public function execute() {
-		/*
-		 *  Basic Information Table
-		 */
-		\$this->setTableName('".$targetTable."');
-		\$this->setPrimaryKeyName('".$targetTableId."');
-		\$this->setMasterForeignKeyName('".$targetMasterTable."');
-		//\$this->setFilterCharacter('".$targetTable."Desc');
-		\$this->setFilterDate('".$targetTable."Date');
-		/**
-		 * All the $_POST enviroment.
-		 */ ";
-			
-		$execute.=$executeDalam;	
-		$execute.="
-		/**
-		 * All the \$_GET enviroment.
-		 */
-		if (isset(\$_GET ['".$targetTableId."'])) {
-			\$this->setTotal(count(\$_GET ['".$targetTableId."']));
-		}
+$str.="/** \n";
+$str.="* this is " . $data[0]['tableName'] . " model file.This is to ensure strict setting enable for all variable enter to database \n";
+$str.=" * \n";
+$str.=" * @name IDCMS.\n";
+$str.=" * @version 2\n";
+$str.=" * @author hafizan\n";
+$str.=" * @package " . ucwords($data[0]['package']) . " \n";
+$str.=" * @subpackage " . ucwords($data[0]['module']) . " \n";
+$str.=" * @link http://www.idcms.org\n";
+$str.=" * @license http://www.gnu.org/copyleft/lesser.html LGPL\n";
+$str.=" */\n";
+$str.="class " . ucfirst($data[0]['tableName']) . "Model extends ValidationClass { \n";
+$str.=" /* (non-PHPdoc)\n";
+$str.="	 * @see ValidationClass::execute()\n";
+$str.="	 */\n";
 
-		if (isset(\$_GET ['isDefault'])) {
-			if (is_array(\$_GET ['isDefault'])) {
-				\$this->isDefault = array();
-			}
-		}
-		if (isset(\$_GET ['isNew'])) {
-			if (is_array(\$_GET ['isNew'])) {
-				\$this->isNew = array();
-			}
-		}
-		if (isset(\$_GET ['isDraft'])) {
-			if (is_array(\$_GET ['isDraft'])) {
-				\$this->isDraft = array();
-			}
-		}
-		if (isset(\$_GET ['isUpdate'])) {
-			if (is_array(\$_GET ['isUpdate'])) {
-				\$this->isUpdate = array();
-			}
-		}
-		if (isset(\$_GET ['isDelete'])) {
-			if (is_array(\$_GET ['isDelete'])) {
-				\$this->isDelete = array();
-			}
-		}
-		if (isset(\$_GET ['isActive'])) {
-			if (is_array(\$_GET ['isActive'])) {
-				\$this->isActive = array();
-			}
-		}
-		if (isset(\$_GET ['isApproved'])) {
-			if (is_array(\$_GET ['isApproved'])) {
-				\$this->isApproved = array();
-			}
-		}
-		if (isset(\$_GET ['isReview'])) {
-			if (is_array(\$_GET ['isReview'])) {
-				\$this->isReview = array();
-			}
-		}
-		if (isset(\$_GET ['isPost'])) {
-			if (is_array(\$_GET ['isPost'])) {
-				\$this->isPost = array();
-			}
-		}
-		\$primaryKeyAll = '';
-		for (\$i = 0; \$i < \$this->getTotal(); \$i++) {
-			
-			if (isset(\$_GET ['".$targetTableId."'])) {
-				\$this->set".ucfirst($targetTableId)."(\$this->strict(\$_GET ['".$targetTableId."'] [\$i], 'numeric'), \$i, 'array');
-			}
-			
-			if (isset(\$_GET ['isDefault'])) {
-				if (\$_GET ['isDefault'] [\$i] == 'true') {
-					\$this->setIsDefault(1, \$i, 'array');
-				} else if (\$_GET ['isDefault'] [\$i] == 'false') {
-					\$this->setIsDefault(0, \$i, 'array');
-				}
-			}
-			if (isset(\$_GET ['isNew'])) {
-				if (\$_GET ['isNew'] [\$i] == 'true') {
-					\$this->setIsNew(1, \$i, 'array');
-				} else if (\$_GET ['isNew'] [\$i] == 'false') {
-					\$this->setIsNew(0, \$i, 'array');
-				}
-			}
-			if (isset(\$_GET ['isDraft'])) {
-				if (\$_GET ['isDraft'] [\$i] == 'true') {
-					\$this->setIsDraft(1, \$i, 'array');
-				} else if (\$_GET ['isDraft'] [\$i] == 'false') {
-					\$this->setIsDraft(0, \$i, 'array');
-				}
-			}
-			if (isset(\$_GET ['isUpdate'])) {
-				if (\$_GET ['isUpdate'] [\$i] == 'true') {
-					\$this->setIsUpdate(1, \$i, 'array');
-				} if (\$_GET ['isUpdate'] [\$i] == 'false') {
-					\$this->setIsUpdate(0, \$i, 'array');
-				}
-			}
-			if (isset(\$_GET ['isDelete'])) {
-				if (\$_GET ['isDelete'] [\$i] == 'true') {
-					\$this->setIsDelete(1, \$i, 'array');
-				} else if (\$_GET ['isDelete'] [\$i] == 'false') {
-					\$this->setIsDelete(0, $i, 'array');
-				}
-			}
-			if (isset(\$_GET ['isActive'])) {
-				if (\$_GET ['isActive'] [\$i] == 'true') {
-					\$this->setIsActive(1, \$i, 'array');
-				} else if (\$_GET ['isActive'] [\$i] == 'false') {
-					\$this->setIsActive(0, \$i, 'array');
-				}
-			}
-			if (isset(\$_GET ['isApproved'])) {
-				if (\$_GET ['isApproved'] [\$i] == 'true') {
-					\$this->setIsApproved(1, \$i, 'array');
-				} else if (\$_GET ['isApproved'] [\$i] == 'false') {
-					\$this->setIsApproved(0, \$i, 'array');
-				}
-			}
-			if (isset(\$_GET ['isReview'])) {
-				if (\$_GET ['isReview'] [\$i] == 'true') {
-					\$this->setIsReview(1, \$i, 'array');
-				} else if (\$_GET ['isReview'] [\$i] == 'false') {
-					\$this->setIsReview(0, \$i, 'array');
-				}
-			}
-			if (isset(\$_GET ['isPost'])) {
-				if (\$_GET ['isPost'] [\$i] == 'true') {
-					\$this->setIsPost(1, \$i, 'array');
-				} else if (\$_GET ['isPost'] [\$i] == 'false') {
-					\$this->setIsPost(0, \$i, 'array');
-				}
-			}
-			\$primaryKeyAll .= \$this->get".ucfirst($targetTableId)."(\$i, 'array') . \",\";
-		}
-		\$this->setPrimaryKeyAll((substr(\$primaryKeyAll, 0, - 1)));
-		/**
-		 * All the \$_SESSION enviroment.
-		 */
-		if (isset(\$_SESSION ['staffId'])) {
-			\$this->setExecuteBy(\$_SESSION ['staffId']);
-		}
-		/**
-		 * TimeStamp Value.
-		 */
-		if (\$this->getVendor() == self::MYSQL) {
-			\$this->setExecuteTime(\"'\" . date(\"Y-m-d H:i:s\") . \"'\");
-		} else if (\$this->getVendor() == self::MSSQL) {
-			\$this->setExecuteTime(\"'\" . date(\"Y-m-d H:i:s.u\") . \"'\");
-		} else if (\$this->getVendor() == self::ORACLE) {
-			\$this->setExecuteTime(\"to_date('\" . date(\"Y-m-d H:i:s\") . \"','YYYY-MM-DD HH24:MI:SS')\");
-		}
-	}
-";
+$str.="	public function execute() {\n";
+$str.="		/*\n";
+$str.="		 *  Basic Information Table\n";
+$str.="		 */\n";
+$str.="		\$this->setTableName('" . $data[0]['tableName'] . "');\n";
+$str.="		\$this->setPrimaryKeyName('" . $data[0]['tableName'] . "');\n";
+$str.="		\$this->setMasterForeignKeyName('" . $data[0]['tableName'] . "Id');\n";
+$str.="		//\$this->setFilterCharacter('" . $data[0]['tableName'] . "Desc');\n";
+$str.="		\$this->setFilterDate('" . $data[0]['tableName'] . "Date');\n";
+$str.="		/**\n";
+$str.="		 * All the $_POST enviroment.\n";
+$str.="		 */ \";\n";
 
-$crud="/* (non-PHPdoc)
-	 * @see ValidationClass::create()
-	 */
 
-	public function create() {
-		\$this->setIsDefault(0, 0, 'single');
-		\$this->setIsNew(1, 0, 'single');
-		\$this->setIsDraft(0, 0, 'single');
-		\$this->setIsUpdate(0, 0, 'single');
-		\$this->setIsActive(1, 0, 'single');
-		\$this->setIsDelete(0, 0, 'single');
-		\$this->setIsApproved(0, 0, 'single');
-		\$this->setIsReview(0, 0, 'single');
-		\$this->setIsPost(0, 0, 'single');
-	}
 
-	/* (non-PHPdoc)
-	 * @see ValidationClass::update()
-	 */
+$str.="		/**\n";
+$str.="		 * All the \$_GET enviroment.\n";
+$str.="		 */\n";
+$str.="		if (isset(\$_GET ['" . $data[0]['tableName'] . "Id'])) {\n";
+$str.="			\$this->setTotal(count(\$_GET ['" . $data[0]['tableName'] . "Id']));\n";
+$str.="		}\n";
 
-	public function update() {
-		\$this->setIsDefault(0, 0, 'single');
-		\$this->setIsNew(0, 0, 'single');
-		\$this->setIsDraft(0, 0, 'single');
-		\$this->setIsUpdate(1, '', 'single');
-		\$this->setIsActive(1, 0, 'single');
-		\$this->setIsDelete(0, 0, 'single');
-		\$this->setIsApproved(0, 0, 'single');
-		\$this->setIsReview(0, 0, 'single');
-		\$this->setIsPost(0, 0, 'single');
-	}
+$str.="		if (isset(\$_GET ['isDefault'])) {\n";
+$str.="			if (is_array(\$_GET ['isDefault'])) {\n";
+$str.="				\$this->isDefault = array();\n";
+$str.="			}\n";
+$str.="		}\n";
+$str.="		if (isset(\$_GET ['isNew'])) {\n";
+$str.="			if (is_array(\$_GET ['isNew'])) {\n";
+$str.="				\$this->isNew = array();\n";
+$str.="			}\n";
+$str.="		}\n";
+$str.="		if (isset(\$_GET ['isDraft'])) {\n";
+$str.="			if (is_array(\$_GET ['isDraft'])) {\n";
+$str.="				\$this->isDraft = array();\n";
+$str.="			}\n";
+$str.="		}\n";
+$str.="		if (isset(\$_GET ['isUpdate'])) {\n";
+$str.="			if (is_array(\$_GET ['isUpdate'])) {\n";
+$str.="				\$this->isUpdate = array();\n";
+$str.="			}\n";
+$str.="		}\n";
+$str.="		if (isset(\$_GET ['isDelete'])) {\n";
+$str.="			if (is_array(\$_GET ['isDelete'])) {\n";
+$str.="				\$this->isDelete = array();\n";
+$str.="			}\n";
+$str.="		}\n";
+$str.="		if (isset(\$_GET ['isActive'])) {\n";
+$str.="			if (is_array(\$_GET ['isActive'])) {\n";
+$str.="				\$this->isActive = array();\n";
+$str.="			}\n";
+$str.="		}\n";
+$str.="		if (isset(\$_GET ['isApproved'])) {\n";
+$str.="			if (is_array(\$_GET ['isApproved'])) {\n";
+$str.="				\$this->isApproved = array();\n";
+$str.="			}\n";
+$str.="		}\n";
+$str.="		if (isset(\$_GET ['isReview'])) {\n";
+$str.="			if (is_array(\$_GET ['isReview'])) {\n";
+$str.="				\$this->isReview = array();\n";
+$str.="			}\n";
+$str.="		}\n";
+$str.="		if (isset(\$_GET ['isPost'])) {\n";
+$str.="			if (is_array(\$_GET ['isPost'])) {\n";
+$str.="				\$this->isPost = array();\n";
+$str.="			}\n";
+$str.="		}\n";
+$str.="		\$primaryKeyAll = '';\n";
+$str.="		for (\$i = 0; \$i < \$this->getTotal(); \$i++) {\n";
+$str.="			if (isset(\$_GET ['" . $data[0]['tableName'] . "Id'])) {\n";
+//$str.="				\$this->set".ucfirst(".$data[0]['tableName']."Id)(\$this->strict(\$_GET ['".$data[0]['tableName']."Id'] [\$i], 'numeric'), \$i, 'array');\n";
+$str.="			}\n";
 
-	/* (non-PHPdoc)
-	 * @see ValidationClass::delete()
-	 */
+$str.="			if (isset(\$_GET ['isDefault'])) {\n";
+$str.="				if (\$_GET ['isDefault'] [\$i] == 'true') {\n";
+$str.="					\$this->setIsDefault(1, \$i, 'array');\n";
+$str.="				} else if (\$_GET ['isDefault'] [\$i] == 'false') {\n";
+$str.="					\$this->setIsDefault(0, \$i, 'array');\n";
+$str.="				}\n";
+$str.="			}\n";
+$str.="			if (isset(\$_GET ['isNew'])) {\n";
+$str.="				if (\$_GET ['isNew'] [\$i] == 'true') {\n";
+$str.="					\$this->setIsNew(1, \$i, 'array');\n";
+$str.="				} else if (\$_GET ['isNew'] [\$i] == 'false') {\n";
+$str.="					\$this->setIsNew(0, \$i, 'array');\n";
+$str.="				}\n";
+$str.="			}\n";
+$str.="			if (isset(\$_GET ['isDraft'])) {\n";
+$str.="				if (\$_GET ['isDraft'] [\$i] == 'true') {\n";
+$str.="					\$this->setIsDraft(1, \$i, 'array');\n";
+$str.="				} else if (\$_GET ['isDraft'] [\$i] == 'false') {\n";
+$str.="					\$this->setIsDraft(0, \$i, 'array');\n";
+$str.="				}\n";
+$str.="			}\n";
+$str.="			if (isset(\$_GET ['isUpdate'])) {\n";
+$str.="				if (\$_GET ['isUpdate'] [\$i] == 'true') {\n";
+$str.="					\$this->setIsUpdate(1, \$i, 'array');\n";
+$str.="				} if (\$_GET ['isUpdate'] [\$i] == 'false') {\n";
+$str.="					\$this->setIsUpdate(0, \$i, 'array');\n";
+$str.="				}\n";
+$str.="			}\n";
+$str.="			if (isset(\$_GET ['isDelete'])) {\n";
+$str.="				if (\$_GET ['isDelete'] [\$i] == 'true') {\n";
+$str.="					\$this->setIsDelete(1, \$i, 'array');\n";
+$str.="				} else if (\$_GET ['isDelete'] [\$i] == 'false') {\n";
+$str.="					\$this->setIsDelete(0, \$i, 'array');\n";
+$str.="				}\n";
+$str.="			}\n";
+$str.="			if (isset(\$_GET ['isActive'])) {\n";
+$str.="				if (\$_GET ['isActive'] [\$i] == 'true') {\n";
+$str.="					\$this->setIsActive(1, \$i, 'array');\n";
+$str.="				} else if (\$_GET ['isActive'] [\$i] == 'false') {\n";
+$str.="					\$this->setIsActive(0, \$i, 'array');\n";
+$str.="				}\n";
+$str.="			}\n";
+$str.="			if (isset(\$_GET ['isApproved'])) {\n";
+$str.="				if (\$_GET ['isApproved'] [\$i] == 'true') {\n";
+$str.="					\$this->setIsApproved(1, \$i, 'array');\n";
+$str.="				} else if (\$_GET ['isApproved'] [\$i] == 'false') {\n";
+$str.="					\$this->setIsApproved(0, \$i, 'array');\n";
+$str.="				} \n";
+$str.="			} \n";
+$str.="			if (isset(\$_GET ['isReview'])) {\n";
+$str.="				if (\$_GET ['isReview'] [\$i] == 'true') {\n";
+$str.="					\$this->setIsReview(1, \$i, 'array');\n";
+$str.="				} else if (\$_GET ['isReview'] [\$i] == 'false') {\n";
+$str.="					\$this->setIsReview(0, \$i, 'array');\n";
+$str.="				}\n";
+$str.="			}\n";
+$str.="			if (isset(\$_GET ['isPost'])) {\n";
+$str.="				if (\$_GET ['isPost'] [\$i] == 'true') {\n";
+$str.="					\$this->setIsPost(1, \$i, 'array');\n";
+$str.="				} else if (\$_GET ['isPost'] [\$i] == 'false') {\n";
+$str.="					\$this->setIsPost(0, \$i, 'array');\n";
+$str.="				}\n";
+$str.="			}\n";
+$str.="			\$primaryKeyAll .= \$this->get" . ucfirst($data[0]['tableName'] . "Id") . "(\$i, 'array') . \",\";\n";
+$str.="		}\n";
+$str.="		\$this->setPrimaryKeyAll((substr(\$primaryKeyAll, 0, - 1)));\n";
+$str.="		/**\n";
+$str.="		 * All the \$_SESSION enviroment.\n";
+$str.="		 */\n";
+$str.="		if (isset(\$_SESSION ['staffId'])) {\n";
+$str.="			\$this->setExecuteBy(\$_SESSION ['staffId']);\n";
+$str.="		}\n";
+$str.="		/**\n";
+$str.="		 * TimeStamp Value.\n";
+$str.="		 */\n";
+$str.="		if (\$this->getVendor() == self::MYSQL) {\n";
+$str.="			\$this->setExecuteTime(\"'\" . date(\"Y-m-d H:i:s\") . \"'\");\n";
+$str.="		} else if (\$this->getVendor() == self::MSSQL) {\n";
+$str.="			\$this->setExecuteTime(\"'\" . date(\"Y-m-d H:i:s.u\") . \"'\");\n";
+$str.="		} else if (\$this->getVendor() == self::ORACLE) {\n";
+$str.="			\$this->setExecuteTime(\"to_date('\" . date(\"Y-m-d H:i:s\") . \"','YYYY-MM-DD HH24:MI:SS')\");\n";
+$str.="		}\n";
+$str.="	}\n";
 
-	public function delete() {
-		\$this->setIsDefault(0, 0, 'single');
-		\$this->setIsNew(0, 0, 'single');
-		\$this->setIsDraft(0, 0, 'single');
-		\$this->setIsUpdate(0, 0, 'single');
-		\$this->setIsActive(0, '', 'single');
-		\$this->setIsDelete(1, '', 'single');
-		\$this->setIsApproved(0, 0, 'single');
-		\$this->setIsReview(0, 0, 'single');
-		\$this->setIsPost(0, 0, 'single');
-	}
 
-	/* (non-PHPdoc)
-	 * @see ValidationClass::draft()
-	 */
+$str.=" /* (non-PHPdoc)\n";
+$str.="	 * @see ValidationClass::create()\n";
+$str.="	 */ \n";
 
-	public function draft() {
-		\$this->setIsDefault(0, 0, 'single');
-		\$this->setIsNew(1, 0, 'single');
-		\$this->setIsDraft(1, 0, 'single');
-		\$this->setIsUpdate(0, 0, 'single');
-		\$this->setIsActive(0, 0, 'single');
-		\$this->setIsDelete(0, 0, 'single');
-		\$this->setIsApproved(0, 0, 'single');
-		\$this->setIsReview(0, 0, 'single');
-		\$this->setIsPost(0, 0, 'single');
-	}
+$str.="	public function create() {\n";
+$str.="		\$this->setIsDefault(0, 0, 'single');\n";
+$str.="		\$this->setIsNew(1, 0, 'single');\n";
+$str.="		\$this->setIsDraft(0, 0, 'single');\n";
+$str.="		\$this->setIsUpdate(0, 0, 'single');\n";
+$str.="		\$this->setIsActive(1, 0, 'single');\n";
+$str.="		\$this->setIsDelete(0, 0, 'single');\n";
+$str.="		\$this->setIsApproved(0, 0, 'single');\n";
+$str.="		\$this->setIsReview(0, 0, 'single');\n";
+$str.="		\$this->setIsPost(0, 0, 'single');\n";
+$str.="	} \n";
 
-	/* (non-PHPdoc)
-	 * @see ValidationClass::approved()
-	 */
+$str.="	/* (non-PHPdoc)\n";
+$str.="	 * @see ValidationClass::update()\n";
+$str.="	 */\n";
 
-	public function approved() {
-		\$this->setIsDefault(0, 0, 'single');
-		\$this->setIsNew(1, 0, 'single');
-		\$this->setIsDraft(0, 0, 'single');
-		\$this->setIsUpdate(0, 0, 'single');
-		\$this->setIsActive(0, 0, 'single');
-		\$this->setIsDelete(0, 0, 'single');
-		\$this->setIsApproved(1, 0, 'single');
-		\$this->setIsReview(0, 0, 'single');
-		\$this->setIsPost(0, 0, 'single');
-	}
+$str.="	public function update() {\n";
+$str.="		\$this->setIsDefault(0, 0, 'single');\n";
+$str.="		\$this->setIsNew(0, 0, 'single');\n";
+$str.="		\$this->setIsDraft(0, 0, 'single');\n";
+$str.="		\$this->setIsUpdate(1, '', 'single');\n";
+$str.="		\$this->setIsActive(1, 0, 'single');\n";
+$str.="		\$this->setIsDelete(0, 0, 'single');\n";
+$str.="		\$this->setIsApproved(0, 0, 'single');\n";
+$str.="		\$this->setIsReview(0, 0, 'single');\n";
+$str.="		\$this->setIsPost(0, 0, 'single');\n";
+$str.="	}\n";
 
-	/* (non-PHPdoc)
-	 * @see ValidationClass::review()
-	 */
+$str.="	/* (non-PHPdoc) \n";
+$str.="	 * @see ValidationClass::delete()\n";
+$str.="	 */\n";
 
-	public function review() {
-		\$this->setIsDefault(0, 0, 'single');
-		\$this->setIsNew(1, 0, 'single');
-		\$this->setIsDraft(0, 0, 'single');
-		\$this->setIsUpdate(0, 0, 'single');
-		\$this->setIsActive(0, 0, 'single');
-		\$this->setIsDelete(0, 0, 'single');
-		\$this->setIsApproved(0, 0, 'single');
-		\$this->setIsReview(1, 0, 'single');
-		\$this->setIsPost(0, 0, 'single');
-	}
+$str.="	public function delete() {\n";
+$str.="		\$this->setIsDefault(0, 0, 'single');\n";
+$str.="		\$this->setIsNew(0, 0, 'single');\n";
+$str.="		\$this->setIsDraft(0, 0, 'single');\n";
+$str.="		\$this->setIsUpdate(0, 0, 'single');\n";
+$str.="		\$this->setIsActive(0, '', 'single');\n";
+$str.="		\$this->setIsDelete(1, '', 'single');\n";
+$str.="		\$this->setIsApproved(0, 0, 'single');\n";
+$str.="		\$this->setIsReview(0, 0, 'single');\n";
+$str.="		\$this->setIsPost(0, 0, 'single');\n";
+$str.="	} \n";
 
-	/* (non-PHPdoc)
-	 * @see ValidationClass::post()
-	 */
+$str.="	/* (non-PHPdoc)\n";
+$str.="	 * @see ValidationClass::draft()\n";
+$str.="	 */\n";
 
-	public function post() {
-		\$this->setIsDefault(0, 0, 'single');
-		\$this->setIsNew(1, 0, 'single');
-		\$this->setIsDraft(0, 0, 'single');
-		\$this->setIsUpdate(0, 0, 'single');
-		\$this->setIsActive(0, 0, 'single');
-		\$this->setIsDelete(0, 0, 'single');
-		\$this->setIsApproved(1, 0, 'single');
-		\$this->setIsReview(0, 0, 'single');
-		\$this->setIsPost(1, 0, 'single');
-	}";
-	foreach($columnNameArray as $columnNameMysql) {
-		if($columnNameMysql !='isDefault' &&
-			   $columnNameMysql !='isNew' &&
-			   $columnNameMysql !='isDraft'&&
-			   $columnNameMysql !='isUpdate'&&
-			   $columnNameMysql !='isDelete'&&
-			   $columnNameMysql !='isActive'&&
-			   $columnNameMysql !='isApproved'&&
-			   $columnNameMysql !='isReview'&&
-			   $columnNameMysql !='isPost'&&
-			   $columnNameMysql !='isSeperated'&&
-			   $columnNameMysql !='isConsolidation'&&
-			   $columnNameMysql !='isReconciled' &&
-			   $columnNameMysql !='executeBy'&&
-			   $columnNameMysql !='executeTime' &&
-			   $columnNameMysql !=$targetTableId) {	
-	if($columnNameMysql !='businessPartnerAccountsId'){
-	$getterSetter.="
-	/**
-	 * 
-	 * @return \$$columnNameMysql
-	 */
-	public function get".ucfirst($columnNameMysql)."()
-	{
-	    return \$this->".$columnNameMysql.";
-	}
+$str.="	public function draft() {\n";
+$str.="		\$this->setIsDefault(0, 0, 'single');\n";
+$str.="		\$this->setIsNew(1, 0, 'single');\n";
+$str.="		\$this->setIsDraft(1, 0, 'single');\n";
+$str.="		\$this->setIsUpdate(0, 0, 'single');\n";
+$str.="		\$this->setIsActive(0, 0, 'single');\n";
+$str.="		\$this->setIsDelete(0, 0, 'single');\n";
+$str.="		\$this->setIsApproved(0, 0, 'single');\n";
+$str.="		\$this->setIsReview(0, 0, 'single');\n";
+$str.="		\$this->setIsPost(0, 0, 'single');\n";
+$str.="	}\n";
 
-	/**
-	 * 
-	 * @param \$$columnNameMysql
-	 */
-	public function set".ucfirst($columnNameMysql)."(\$".$columnNameMysql.")
-	{
-	    \$this->".$columnNameMysql." = \$".$columnNameMysql.";
-	}";
-	}
-	}
-	}
+$str.="	/* (non-PHPdoc)\n";
+$str.="	 * @see ValidationClass::approved()\n";
+$str.="	 */\n";
+
+$str.="	public function approved() {\n";
+$str.="		\$this->setIsDefault(0, 0, 'single');\n";
+$str.="		\$this->setIsNew(1, 0, 'single');\n";
+$str.="		\$this->setIsDraft(0, 0, 'single');\n";
+$str.="		\$this->setIsUpdate(0, 0, 'single');\n";
+$str.="		\$this->setIsActive(0, 0, 'single');\n";
+$str.="		\$this->setIsDelete(0, 0, 'single');\n";
+$str.="		\$this->setIsApproved(1, 0, 'single');\n";
+$str.="		\$this->setIsReview(0, 0, 'single');\n";
+$str.="		\$this->setIsPost(0, 0, 'single');\n";
+$str.="	}\n";
+
+$str.="	/* (non-PHPdoc)\n";
+$str.="	 * @see ValidationClass::review()\n";
+$str.="	 */\n";
+
+$str.="public function review() { \n";
+$str.="		\$this->setIsDefault(0, 0, 'single');\n";
+$str.="		\$this->setIsNew(1, 0, 'single');\n";
+$str.="		\$this->setIsDraft(0, 0, 'single');\n";
+$str.="		\$this->setIsUpdate(0, 0, 'single');\n";
+$str.="		\$this->setIsActive(0, 0, 'single');\n";
+$str.="		\$this->setIsDelete(0, 0, 'single');\n";
+$str.="		\$this->setIsApproved(0, 0, 'single');\n";
+$str.="		\$this->setIsReview(1, 0, 'single');\n";
+$str.="		\$this->setIsPost(0, 0, 'single');\n";
+$str.="	} \n";
+
+$str.="	/* (non-PHPdoc)\n";
+$str.="	 * @see ValidationClass::post()\n";
+$str.="	 */\n";
+
+$str.="	public function post() {\n";
+$str.="		\$this->setIsDefault(0, 0, 'single');\n";
+$str.="		\$this->setIsNew(1, 0, 'single');\n";
+$str.="		\$this->setIsDraft(0, 0, 'single');\n";
+$str.="		\$this->setIsUpdate(0, 0, 'single');\n";
+$str.="		\$this->setIsActive(0, 0, 'single');\n";
+$str.="		\$this->setIsDelete(0, 0, 'single');\n";
+$str.="		\$this->setIsApproved(1, 0, 'single');\n";
+$str.="		\$this->setIsReview(0, 0, 'single');\n";
+$str.="		\$this->setIsPost(1, 0, 'single');\n";
+$str.="	}\n";
+$total = count($data);
+for ($i = 0; $i < $total; $i++) {
+    if ($data[$i]['columnName'] == $data[0]['tableName'] . "Id") {
+        $str.="     /** \n";
+        $str.="     * Set midnightMarket Identification  Value \n";
+        $str.="     * @param int|array \$value \n";
+        $str.="     * @param array[int]int \$key List Of Primary Key. \n";
+        $str.="     * @param array[int]string \$type  List Of Type.0 As 'single' 1 As 'array' \n";
+        $str.="     **/ \n";
+        $str.="    public function set" . ucfirst($data[$i]['columnName']) . "(\$value, \$key, \$type) { \n";
+        $str.="        if (\$type == 'single') { \n";
+        $str.="           \$this->" . $data[$i]['columnName'] . " = \$value;\n";
+        $str.="        } else if (\$type == 'array') {\n";
+        $str.="            \$this->" . $data[$i]['columnName'] . "[\$key] = \$value;\n";
+        $str.="        } else {\n";
+        $str.="            echo json_encode(array(\"success\" => false, \"message\" => \"Cannot Identifiy Type String Or Array:set" . $data[$i]['columnName'] . "?\"));\n";
+        $str.="            exit(); \n";
+        $str.="        }\n";
+        $str.="    }\n";
+
+        $str.="    /**\n";
+        $str.="     * Return midnightMarket Identification  Value\n";
+        $str.="     * @param array[int]int \$key List Of Primary Key.\n";
+        $str.="     * @param array[int]string \$type  List Of Type.0 As 'single' 1 As 'array'\n";
+        $str.="     * @return bool|array\n";
+        $str.="     **/\n";
+        $str.="    public function get" . ucfirst($data[$i]['columnName']) . "(\$key, \$type) {\n";
+        $str.="        if (\$type == 'single') {\n";
+        $str.="            return \$" . $data[$i]['columnName'] . ";\n";
+        $str.="        } else if (\$type == 'array') {\n";
+        $str.="            return \$" . $data[$i]['columnName'] . " [\$key];\n";
+        $str.="        } else {\n";
+        $str.="            echo json_encode(array(\"success\" => false, \"message\" => \"Cannot Identifiy Type String Or Array:get" . $data[$i]['columnName'] . " ?\"));\n";
+        $str.="            exit();\n";
+        $str.="        }\n";
+    } else if ($data[$i]['columnName'] != 'isDefault' &&
+            $data[$i]['columnName'] != 'isNew' &&
+            $data[$i]['columnName'] != 'isDraft' &&
+            $data[$i]['columnName'] != 'isUpdate' &&
+            $data[$i]['columnName'] != 'isDelete' &&
+            $data[$i]['columnName'] != 'isActive' &&
+            $data[$i]['columnName'] != 'isApproved' &&
+            $data[$i]['columnName'] != 'isReview' &&
+            $data[$i]['columnName'] != 'isPost' &&
+            $data[$i]['columnName'] != 'isSeperated' &&
+            $data[$i]['columnName'] != 'isConsolidation' &&
+            $data[$i]['columnName'] != 'isReconciled' &&
+            $data[$i]['columnName'] != 'executeBy' &&
+            $data[$i]['columnName'] != 'executeTime' &&
+            $data[$i]['columnName'] != $data[0]['tableName'] . "Id") {
+
+        $str.="	/**\n";
+        $str.="	 * To Return " . $data[$i]['columnName'] . " \n";
+        $str.="	 * @return \$" . $data[$i]['columnName'] . "\n";
+        $str.="	 */ \n";
+        $str.="	public function get" . ucfirst($data[$i]['columnName']) . "()\n";
+        $str.="	{\n";
+        $str.="	    return \$this->" . $data[$i]['columnName'] . ";\n";
+        $str.="	}\n";
+
+        $str.="	/**\n";
+        $str.="	 * To Set " . $data[$i]['columnName'] . " \n";
+        $str.="	 * @param " . $data[$i]['formType'] . " \$" . $data[$i]['columnName'] . "\n";
+        $str.="	 **/\n";
+        $str.="	public function set" . ucfirst($data[$i]['columnName']) . "(\$" . $data[$i]['columnName'] . ")\n";
+        $str.="	{\n";
+        $str.="	    \$this->" . $data[$i]['columnName'] . " = \$" . $data[$i]['columnName'] . ";\n";
+        $str.="	} \n";
+    }
+}
+$str.="}\n";
+$str.="?>";
 ?>

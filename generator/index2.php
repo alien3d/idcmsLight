@@ -75,8 +75,8 @@ $package['financial'][]='humanResource';
 $package['financial'][]='payroll';
 $package['financial'][]='project';
 
-$package['market'][]='midnightMarket';
-
+$package['sample'][]='midnightMarket';
+$package['sample'][]='religion';
 $package['portal'][]='main';
 
 $package['system'][]='common';
@@ -247,9 +247,10 @@ $package['system'][]='translation';
                     <td>Target Module</td>
                     <td><select name="targetModule" id="targetModule" <?php if(!(isset($_GET['targetDatabase']))) { echo "disabled"; } ?>>
                             <?php if (isset($_GET['targetPackage'])) { ?>
-							<option value="">Please Choose Package</option>							
+                            <option value="">Please Choose Module</option>
+													
 							<?php }  else { ?>
-							<option value="">Please Choose Module</option>
+							<option value="">Please Choose Package</option>	
 							<?php } ?>	
                             <?php for($i=0;$i<count($this->packageAndModule[$_GET['targetPackage']]);$i++) { ?>
                             <option value="<?php echo $this->packageAndModule[$_GET['targetPackage']][$i]; ?>" <?php if ($_GET['targetPackage']==$this->packageAndModule[$_GET['targetPackage']][$i]) { echo "selected"; } ?>><?php echo $this->packageAndModule[$_GET['targetPackage']][$i]; ?></option>
