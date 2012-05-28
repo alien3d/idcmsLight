@@ -408,7 +408,8 @@ class generator {
             $resultFieldTable = mysql_query($sqlDescribe);
             $i = 0;
             while ($rowFieldTable = mysql_fetch_array($resultFieldTable)) {
-                $infoColumn[$i]['tableName'] = $this->getTargetTable();
+                $infoColumn[$i]['database'] = $this->getTargetDatabase();
+				$infoColumn[$i]['tableName'] = $this->getTargetTable();
                 $infoColumn[$i]['package'] = $this->getTargetPackage();
                 $infoColumn[$i]['module'] = $this->getTargetModule();
                 $infoColumn[$i]['columnName'] = $rowFieldTable['Field'];
