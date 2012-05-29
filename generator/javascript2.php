@@ -26,11 +26,11 @@
 		$str.="			},\n";
 		$str.="			beforeSend: function () {\n";
 		$str.="				// this is where we append a loading image\n";
-		$str.="				\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+		$str.="				\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
 		$str.="			},\n";
 		$str.="			success: function (data) {\n";
 		$str.="				// successful request; do something with the data\n";
-		$str.="				\$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+		$str.="				\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
 		$str.="				\$('#centerViewport').html('');\n";
 		$str.="				\$('#centerViewport').empty();\n";
 		$str.="				\$('#centerViewport').removeClass();\n";
@@ -39,7 +39,7 @@
 		$str.="			},\n";
 		$str.="				error: function () {\n";
 		$str.="				// failed request; give feedback to user\n";
-		$str.="				\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+		$str.="				\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
 		$str.="			}\n";
 		$str.="		});\n";
 		$str.="	}\n";
@@ -63,11 +63,11 @@
 		$str.="				},\n";
 		$str.="				beforeSend: function () {\n";
 		$str.="					// this is where we append a loading image\n";
-		$str.="					\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+		$str.="					\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
 		$str.="				},\n";
 		$str.="				success: function (data) {\n";
 		$str.="					// successful request; do something with the data\n";
-		$str.="					\$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+		$str.="					\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
 		$str.="					\$('#centerViewport').html('');\n";
 		$str.="					\$('#centerViewport').empty();\n";
 		$str.="					\$('#centerViewport').removeClass();\n";
@@ -76,7 +76,7 @@
 		$str.="				},\n";
 		$str.="				error: function () {\n";
 		$str.="					// failed request; give feedback to user\n";
-		$str.="					\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+		$str.="					\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
 		$str.="				}\n";
 		$str.="		});\n";
 		$str.="	}\n";
@@ -92,11 +92,11 @@
 		$str.="			},\n";
 		$str.="			beforeSend: function () {\n";
 		$str.="				// this is where we append a loading image\n";
-		$str.="				\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+		$str.="				\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
 		$str.="			},\n";
 		$str.="			success: function (data) {\n";
 		$str.="				// successful request; do something with the data\n";
-		$str.="				\$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+		$str.="				\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
 		$str.="				\$('#centerViewport').html('');\n";
 		$str.="				\$('#centerViewport').empty();\n";
 		$str.="				\$('#centerViewport').removeClass();\n";
@@ -105,7 +105,7 @@
 		$str.="			},\n";
 		$str.="			error: function () {\n";
 		$str.="				// failed request; give feedback to user\n";
-		$str.="				\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+		$str.="				\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
 		$str.="			}\n";
 		$str.="		});\n";
 		$str.="	}\n";
@@ -122,11 +122,11 @@
 		$str.="					},\n";
 		$str.="					beforeSend: function () {\n";
 		$str.="						// this is where we append a loading image\n";
-		$str.="						\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+		$str.="						\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
 		$str.="					},\n";
 		$str.="					success: function (data) {\n";
 		$str.="						// successful request; do something with the data\n";
-		$str.="						\$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+		$str.="						\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
 		$str.="						\$('#centerViewport').html('');\n";
 		$str.="						\$('#centerViewport').empty();\n";
 		$str.="						\$('#centerViewport').removeClass();\n";
@@ -135,7 +135,7 @@
 		$str.=					"},\n";
 		$str.="					error: function () {\n";
 		$str.="						// failed request; give feedback to user\n";
-		$str.="						\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+		$str.="						\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
 		$str.="					}\n";
 		$str.="				});\n";
 		$str.="	}\n";
@@ -163,20 +163,20 @@
 		$str.="    				},\n";
 		$str.="					beforeSend: function () {\n";
 		$str.="        				// this is where we append a loading image\n";
-		$str.="       				\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+		$str.="       				\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
 		$str.="    				},\n";
 		$str.="    				success: function (data) {\n";
 		$str.="        				// successful request; do something with the data\n";
 		$str.="        				if (data.success == true) {\n";
-		$str.="            				\$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+		$str.="            				\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
 		$str.="        				} else if (data.success == false) {\n";
-		$str.="            				\$('#infoPanel').html('<div class=\'alert alert-error\'>' + data.message + '</div>');\n";
+		$str.="            				\$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
 		$str.="        				}\n";
 		$str.="    				},\n";
 		$str.="					error: function (data) {\n";
 		$str.="        				// failed request; give feedback to user\n";
 		$str.="						if (data.success == false) {\n";
-		$str.="            				\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+		$str.="            				\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
 		$str.="        				}\n";
 		$str.="    				}\n";
 		$str.="				});\n";
@@ -207,7 +207,7 @@
 				}  else  if($d > 0 ) { 
 					$str.="	} else if (\$('#".$data[$i]['columnName']."').val().length == 0) {\n";		
 				} 
-				$str.=" 				\$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose ".$data[$i]['columnName']." First</div>');\n";
+				$str.=" 				\$('#infoPanel').html('<div class=alert alert-error>Please Choose ".$data[$i]['columnName']." First</div>');\n";
 				$str.="					\$('#".$data[$i]['columnName']."').addClass('control-group error');\n";
 				$str.="					\$('#".$data[$i]['columnName']."').focus();\n\n";					
 				if($d> 0 ) { 
@@ -216,7 +216,7 @@
 			}
 		}
 		$str.="				} else {\n";
-		$str.="					\$('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');\n";
+		$str.="					\$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');\n";
 		$str.="					\$.ajax({\n";
 		$str.="						type	: 	'POST',\n";
 		$str.="						url		: 	url,\n";
@@ -233,12 +233,12 @@
 		$str.="						},\n";
 		$str.="						beforeSend: function () {\n";
 		$str.="							// this is where we append a loading image\n";
-		$str.="							\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+		$str.="							\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
 		$str.="                		},\n";
 		$str.="						success: function (data) {\n";
 		$str.="							// successful request; do something with the data\n";
 		$str.="							if (data.success == true) {\n";
-		$str.="								\$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+		$str.="								\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
 		$str.="								// reseting field value\n";
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
@@ -248,13 +248,13 @@
 			}
 		}
 		$str.="							} else if (data.success == false) {\n";
-		$str.="								\$('#infoPanel').html('<div class=\'alert alert-error\'>' + data.message + '</div>');\n";
+		$str.="								\$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
 		$str.="							}\n";
 		$str.="						},\n";
 		$str.="						error: function (data) {\n";
 		$str.="							// failed request; give feedback to user\n";
 		$str.="							if (data.success == false) {\n";
-		$str.="								\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+		$str.="								\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
 		$str.="							}\n";
 		$str.="						}\n";
 		$str.="					});\n";
@@ -275,7 +275,7 @@
 				}  else  if($d > 0 ) { 
 					$str.="	} else if (\$('#".$data[$i]['columnName']."').val().length == 0) {\n";		
 				} 
-				$str.=" 				\$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose ".$data[$i]['columnName']." First</div>');\n";
+				$str.=" 				\$('#infoPanel').html('<div class=alert alert-error>Please Choose ".$data[$i]['columnName']." First</div>');\n";
 				$str.="					\$('#".$data[$i]['columnName']."').addClass('control-group error');\n";
 				$str.="					\$('#".$data[$i]['columnName']."').focus();\n\n";					
 				if($d> 0 ) { 
@@ -284,7 +284,7 @@
 			}
 		}
 		$str.="				} else {\n";
-		$str.="					\$('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');\n";
+		$str.="					\$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');\n";
 		$str.="					\$.ajax({\n";
 		$str.="						type	:	'POST',\n";
 		$str.="						url		: 	url,\n";
@@ -301,12 +301,12 @@
 		$str.="						},\n";
 		$str.="						beforeSend: function () {\n";
 		$str.="							// this is where we append a loading image\n";
-		$str.="							\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+		$str.="							\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
 		$str.="						},\n";
 		$str.="						success: function (data) {\n";
 		$str.="							// successful request; do something with the data\n";
 		$str.="							if (data.success == true) {\n";
-		$str.="								\$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+		$str.="								\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
 		$str.="								// reseting field value\n";
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
@@ -320,7 +320,7 @@
 		$str.="                		error: function (data) {\n";
 		$str.="                    		// failed request; give feedback to user\n";
 		$str.="                    		if (data.success == false) {\n";
-		$str.="                        		\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+		$str.="                        		\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
 		$str.="                    		}\n";
 		$str.="                		}\n";
 		$str.="            		});\n";
@@ -341,7 +341,7 @@
 				}  else  if($d > 0 ) { 
 					$str.="	} else if (\$('#".$data[$i]['columnName']."').val().length == 0) {\n";		
 				} 
-				$str.=" 				\$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose ".$data[$i]['columnName']." First</div>');\n";
+				$str.=" 				\$('#infoPanel').html('<div class=alert alert-error>Please Choose ".$data[$i]['columnName']." First</div>');\n";
 				$str.="					\$('#".$data[$i]['columnName']."').addClass('control-group error');\n";
 				$str.="					\$('#".$data[$i]['columnName']."').focus();\n\n";					
 				if($d> 0 ) { 
@@ -350,7 +350,7 @@
 			}
 		}
 		$str.="        		} else {\n";
-		$str.="            		\$('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');\n";
+		$str.="            		\$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');\n";
 		$str.="            			\$.ajax({\n";
 		$str.="                		type	: 	'POST',\n";
 		$str.="                		url		: 	url,\n";
@@ -367,12 +367,12 @@
 		$str.="                		},\n";
 		$str.="                		beforeSend: function () {\n";
 		$str.="                    		// this is where we append a loading image\n";
-		$str.="                    		\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+		$str.="                    		\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
 		$str.="                		},\n";
 		$str.="                		success: function (data) {\n";
 		$str.="                    		// successful request; do something with the data\n";
 		$str.="                    		if (data.success == true) {\n";
-		$str.="                        		\$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+		$str.="                        		\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
 		$str.="                        		// reseting field value\n";
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
@@ -386,7 +386,7 @@
 		$str.="                		error: function (data) {\n";
 		$str.="                    		// failed request; give feedback to user\n";
 		$str.="                    		if (data.success == false) {\n";
-		$str.="                        		\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+		$str.="                        		\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
 		$str.="                    		}\n";
 		$str.="                		}\n";
 		$str.="            		});\n";
@@ -407,7 +407,7 @@
 				}  else  if($d > 0 ) { 
 					$str.="	} else if (\$('#".$data[$i]['columnName']."').val().length == 0) {\n";		
 				} 
-				$str.=" 				\$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose ".$data[$i]['columnName']." First</div>');\n";
+				$str.=" 				\$('#infoPanel').html('<div class=alert alert-error>Please Choose ".$data[$i]['columnName']." First</div>');\n";
 				$str.="					\$('#".$data[$i]['columnName']."').addClass('control-group error');\n";
 				$str.="					\$('#".$data[$i]['columnName']."').focus();\n\n";					
 				if($d> 0 ) { 
@@ -416,7 +416,7 @@
 			}
 		}
 		$str.="        } else {\n";
-		$str.="            \$('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');\n";
+		$str.="            \$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');\n";
 		$str.="            \$.ajax({\n";
 		$str.="                type	: 	'POST',\n";
 		$str.="                url	: 	url,\n";
@@ -429,12 +429,12 @@
 		$str.="					},\n";
 		$str.="					beforeSend: function () {\n";
 		$str.="                 	// this is where we append a loading image\n";
-		$str.="                    	\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+		$str.="                    	\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
 		$str.="                	},\n";
 		$str.="                	success: function (data) {\n";
 		$str.="                    // successful request; do something with the data\n";
 		$str.="                    if (data.success == true) {\n";
-		$str.="                        \$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+		$str.="                        \$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
 		$str.="                        // reseting field value\n";
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
@@ -448,7 +448,7 @@
 		$str.="                	error: function (data) {\n";
 		$str.="                 	// failed request; give feedback to user\n";
 		$str.="                    	if (data.success == false) {\n";
-		$str.="                     	\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+		$str.="                     	\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
 		$str.="                    	}\n";
 		$str.="                			}\n";
 		$str.="            		});\n";
@@ -468,7 +468,7 @@
 				}  else  if($d > 0 ) { 
 					$str.="	} else if (\$('#".$data[$i]['columnName']."').val().length == 0) {\n";		
 				} 
-				$str.=" 				\$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose ".$data[$i]['columnName']." First</div>');\n";
+				$str.=" 				\$('#infoPanel').html('<div class=alert alert-error>Please Choose ".$data[$i]['columnName']." First</div>');\n";
 				$str.="					\$('#".$data[$i]['columnName']."').addClass('control-group error');\n";
 				$str.="					\$('#".$data[$i]['columnName']."').focus();\n\n";					
 				if($d> 0 ) { 
@@ -477,7 +477,7 @@
 			}
 		}
 		$str.="        		} else {\n";
-		$str.="            		\$('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');\n";
+		$str.="            		\$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');\n";
 		$str.="            		\$.ajax({\n";
 		$str.="                		type	:	'POST',\n";
 		$str.="                		url		: 	url,\n";
@@ -494,12 +494,12 @@
 		$str.="                		},\n";
 		$str.="               		beforeSend: function () {\n";
 		$str.="                    		// this is where we append a loading image\n";
-		$str.="                    		\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+		$str.="                    		\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
 		$str.="                		},\n";
 		$str.="                		success: function (data) {\n";
 		$str.="                    		// successful request; do something with the data\n";
 		$str.="                    		if (data.success == true) {\n";
-		$str.="                        		\$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+		$str.="                        		\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
 		$str.="                        		// reseting field value\n";
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
@@ -513,7 +513,7 @@
 		$str.="                		error: function (data) {\n";
 		$str.="                    		// failed request; give feedback to user\n";
 		$str.="                    		if (data.success == false) {\n";
-		$str.="                        		\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+		$str.="                        		\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
 		$str.="                    		}\n";
 		$str.="                		}\n";
 		$str.="            		});\n";
@@ -543,7 +543,7 @@
 				}  else  if($d > 0 ) { 
 					$str.="	} else if (\$('#".$data[$i]['columnName']."').val().length == 0) {\n";		
 				} 
-				$str.=" 				\$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose ".$data[$i]['columnName']." First</div>');\n";
+				$str.=" 				\$('#infoPanel').html('<div class=alert alert-error>Please Choose ".$data[$i]['columnName']." First</div>');\n";
 				$str.="					\$('#".$data[$i]['columnName']."').addClass('control-group error');\n";
 				$str.="					\$('#".$data[$i]['columnName']."').focus();\n\n";					
 				if($d> 0 ) { 
@@ -552,7 +552,7 @@
 			}
 		}
 		$str.="       		} else {\n";
-		$str.="          		\$('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');\n";
+		$str.="          		\$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');\n";
 		$str.="          		\$.ajax({\n";
 		$str.="             			type	:	'POST',\n";
 		$str.="            				url		: 	url,\n";
@@ -565,12 +565,12 @@
 		$str.="            				},\n";
 		$str.="           				beforeSend: function () {\n";
 		$str.="                				// this is where we append a loading image\n";
-		$str.="                				\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+		$str.="                				\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
 		$str.="           				},\n";
 		$str.="            				success: function (data) {\n";
 		$str.="               				// successful request; do something with the data\n";
 		$str.="               				if (data.success == true) {\n";
-		$str.="                   				\$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+		$str.="                   				\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
 		$str.="                   				// reseting field value\n";
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
@@ -580,13 +580,13 @@
 			}
 		}
 		$str.="               				} else if (data.success == false) {\n";
-        $str.="                    				\$('#infoPanel').html('<div class=\'alert alert-error\'>' + data.message + '</div>');\n";
+        $str.="                    				\$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
         $str.="                				}\n";
         $str.="            				},\n";
         $str.="            				error: function (data) {\n";
         $str.="                				// failed request; give feedback to user\n";
         $str.="                				if (data.success == false) {\n";
-        $str.="                    				\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+        $str.="                    				\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
         $str.="                				}\n";
         $str.="            				}\n";
         $str.="        				});\n";
@@ -606,7 +606,7 @@
 				}  else  if($d > 0 ) { 
 					$str.="	} else if (\$('#".$data[$i]['columnName']."').val().length == 0) {\n";		
 				} 
-				$str.=" 				\$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose ".$data[$i]['columnName']." First</div>');\n";
+				$str.=" 				\$('#infoPanel').html('<div class=alert alert-error>Please Choose ".$data[$i]['columnName']." First</div>');\n";
 				$str.="					\$('#".$data[$i]['columnName']."').addClass('control-group error');\n";
 				$str.="					\$('#".$data[$i]['columnName']."').focus();\n\n";					
 				if($d> 0 ) { 
@@ -615,7 +615,7 @@
 			}
 		}
         $str.="    				} else {\n";
-        $str.="        				\$('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');\n";  
+        $str.="        				\$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');\n";  
         $str.="        				\$.ajax({\n";
         $str.="        						type	: 	'POST',\n";
         $str.="         					url		: 	url,\n";
@@ -628,12 +628,12 @@
         $str.="            					},\n";
         $str.="            					beforeSend: function () {\n";
         $str.="                					// this is where we append a loading image\n";
-        $str.="                					\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+        $str.="                					\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
         $str.="            					},\n";
         $str.="            					success: function (data) {\n";
         $str.="                					// successful request; do something with the data\n";
         $str.="                					if (data.success == true) {\n";
-        $str.="                    					\$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+        $str.="                    					\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
         $str.="                    					// reseting field value\n";
         for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
@@ -643,13 +643,13 @@
 			}
 		}
         $str.="                					} else if (data.success == false) {\n";
-        $str.="                    					\$('#infoPanel').html('<div class=\'alert alert-error\'>' + data.message + '</div>');\n";
+        $str.="                    					\$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
         $str.="                					}\n";      
         $str.="            					},\n";
         $str.="            					error: function (data) {\n";
         $str.="                					// failed request; give feedback to user\n";
         $str.="                					if (data.success == false) {\n";
-        $str.="                   	 				\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+        $str.="                   	 				\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
         $str.="                					}\n";
         $str.="            					}\n";
         $str.="        					});\n";
@@ -669,7 +669,7 @@
 				}  else  if($d > 0 ) { 
 					$str.="	} else if (\$('#".$data[$i]['columnName']."').val().length == 0) {\n";		
 				} 
-				$str.=" 				\$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose ".$data[$i]['columnName']." First</div>');\n";
+				$str.=" 				\$('#infoPanel').html('<div class=alert alert-error>Please Choose ".$data[$i]['columnName']." First</div>');\n";
 				$str.="					\$('#".$data[$i]['columnName']."').addClass('control-group error');\n";
 				$str.="					\$('#".$data[$i]['columnName']."').focus();\n\n";					
 				if($d> 0 ) { 
@@ -678,7 +678,7 @@
 			}
 		}
         $str.="    					} else {\n";
-        $str.="       					\$('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');\n";
+        $str.="       					\$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');\n";
         $str.="							\$.ajax({\n";
         $str.="            					type: 'POST',\n";
         $str.="            					url: url,\n";
@@ -696,12 +696,12 @@
         $str.="            					},\n";
         $str.="            					beforeSend: function () {\n";
         $str.="                					// this is where we append a loading image\n";
-        $str.="                					\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+        $str.="                					\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
         $str.="            					},\n";
         $str.="            					success: function (data) {\n";
         $str.="                					// successful request; do something with the data\n";
         $str.="                					if (data.success == true) {\n";
-        $str.="                    					\$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+        $str.="                    					\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
         $str.="                    					// reseting field value\n";
         for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
@@ -711,13 +711,13 @@
 			}
 		}
         $str.="                					} else if (data.success == false) {\n";
-        $str.="                    					\$('#infoPanel').html('<div class=\'alert alert-error\'>' + data.message + '</div>');\n";
+        $str.="                    					\$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
         $str.="                					}\n";
         $str.="            					},\n";
         $str.="            					error: function (data) {\n";
         $str.="                					// failed request; give feedback to user\n";
         $str.="                					if (data.success == false) {\n";
-        $str.="                    					\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+        $str.="                    					\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
         $str.="                					}\n";
         $str.="            					}\n";
         $str.="        					});\n";
@@ -741,12 +741,12 @@
         $str.="    				},\n";
         $str.="    				beforeSend: function () {\n";
         $str.="        				// this is where we append a loading image\n";
-        $str.="        				\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+        $str.="        				\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
         $str.="    				},\n";
         $str.="    				success: function (data) {\n";
         $str.="        				// successful request; do something with the data\n";
         $str.="        				if (data.success == true) {\n";
-        $str.="            				\$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+        $str.="            				\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
         $str.="            				// reseting field value\n";
         for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
@@ -756,13 +756,13 @@
 			}
 		}
         $str.="        				} else if (data.success == false) {\n";
-        $str.="            				\$('#infoPanel').html('<div class=\'alert alert-error\'>' + data.message + '</div>');\n";
+        $str.="            				\$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
         $str.="        				}\n";
         $str.="    				},\n";
         $str.="    				error: function (data) {\n";
         $str.="        				// failed request; give feedback to user\n";
         $str.="       		 		if (data.success == false) {\n";
-        $str.="            				\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+        $str.="            				\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
         $str.="        				}\n";
         $str.="    				}\n";
         $str.="				});\n";
@@ -801,7 +801,7 @@
         $str.="    			},\n";
         $str.="    			beforeSend: function () {\n";
         $str.="        			// this is where we append a loading image\n";
-        $str.="        			\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+        $str.="        			\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
         $str.="    			},\n";
         $str.="    			success: function (data) {\n";
         $str.="        			// successful request; do something with the data\n";
@@ -817,12 +817,12 @@
         $str.="                			},\n";
         $str.="                			beforeSend: function () {\n";
         $str.="                    			// this is where we append a loading image\n";
-        $str.="                    			\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+        $str.="                    			\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
         $str.="                			},\n";
         $str.="                			success: function (data) {\n";
         $str.="                    			// successful request; do something with the data\n";
         $str.="                    			if (data.success == true) {\n";
-        $str.="                        			\$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+        $str.="                        			\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
         $str.="                        			// reseting field value\n";
         for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
@@ -846,18 +846,18 @@
         $str.="               			error: function (data) {\n";
         $str.="                   			// failed request; give feedback to user\n";
         $str.="                  			if (data.success == false) {\n";
-        $str.="                      			\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+        $str.="                      			\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
         $str.="                 			}\n";
         $str.="              			}\n";
         $str.="         			});\n";
         $str.="    				} else {\n";
-        $str.="       				\$('#infoPanel').html('<div class=\'alert alert-error\'>' + data.message + 'l</div>');\n";
+        $str.="       				\$('#infoPanel').html('<div class=alert alert-error>' + data.message + 'l</div>');\n";
         $str.="   				}\n";
         $str.="				},\n";
         $str.="			error: function (data) {\n";
         $str.="   			// failed request; give feedback to user\n";
         $str.="    			if (data.success == false) {\n";
-        $str.="        			\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+        $str.="        			\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
         $str.="   			}\n";
         $str.="			}\n";
         $str.="		});\n";
@@ -879,7 +879,7 @@
 		$str.="        		},\n";
 		$str.="       		beforeSend: function () {\n";
 		$str.="          		// this is where we append a loading image\n";
-		$str.="           		\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+		$str.="           		\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
 		$str.="      		},\n";
 		$str.="      		success: function (data) {\n";
 		$str.="            		// successful request; do something with the data\n";
@@ -895,12 +895,12 @@
 		$str.="                    		},\n";
 		$str.="                    		beforeSend: function () {\n";
 		$str.="                       		// this is where we append a loading image\n";
-		$str.="                        		\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+		$str.="                        		\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
 		$str.="                   		},\n";
 		$str.="                   		success: function (data) {\n";
 		$str.="                        		// successful request; do something with the data\n";
 		$str.="                       		if (data.success == true) {\n";
-		$str.="                          		 \$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+		$str.="                          		 \$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
 		$str.="                           		// reseting field value\n";
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
@@ -924,18 +924,18 @@
 		$str.="                   		error: function (data) {\n";
 		$str.="                        		// failed request; give feedback to user\n";
 		$str.="                       		if (data.success == false) {\n";
-		$str.="                           		\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+		$str.="                           		\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
 		$str.="                       		}\n";
 		$str.="                  		}\n";
 		$str.="              		});\n";
 		$str.="           		} else {\n";
-		$str.="              		\$('#infoPanel').html('<div class=\'alert alert-error\'>' + data.message + '</div>');\n";
+		$str.="              		\$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
 		$str.="            		}\n";
 		$str.="        		},\n";
 		$str.="       		error: function (data) {\n";
 		$str.="           		// failed request; give feedback to user\n";
 		$str.="           		if (data.success == false) {\n";
-		$str.="              	 	\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+		$str.="              	 	\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
 		$str.="           		}\n";
 		$str.="       		}\n";
 		$str.="    		});\n";
@@ -948,7 +948,7 @@
 		$str.="   	} else {\n";
 		$str.="      	\$('#newButton').removeClass();\n";
 		$str.="       	if (\$('#previousRecord').val() == '' || \$('#previousRecord').val() == undefined) {\n";
-		$str.="         	\$('#infoPanel').html('<div class=\'alert alert-error\'>testingo</div>');\n";
+		$str.="         	\$('#infoPanel').html('<div class=alert alert-error>testingo</div>');\n";
 		$str.="     	}\n";
 		$str.="       	if (parseFloat(\$('#previousRecord').val()) > 0 && parseFloat(\$('#previousRecord').val()) < parseFloat(\$('#lastRecord').val())) {\n";
 		$str.="         	\$.ajax({\n";
@@ -962,12 +962,12 @@
 		$str.="          			},\n";
 		$str.="           			beforeSend: function () {\n";
 		$str.="               			// this is where we append a loading image\n";
-		$str.="              			\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+		$str.="              			\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
 		$str.="          			},\n";
 		$str.="          			success: function (data) {\n";
 		$str.="              			// successful request; do something with the data\n";
 		$str.="              			if (data.success == true) {\n";
-		$str.="                  			\$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+		$str.="                  			\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
@@ -995,7 +995,7 @@
 		$str.="           		error: function (data) {\n";
 		$str.="             		 // failed request; give feedback to user\n";
 		$str.="               		if (data.success == false) {\n";
-		$str.="                   		\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+		$str.="                   		\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
 		$str.="               		}\n";
 		$str.="           		}\n";
 		$str.="        		});\n";
@@ -1011,7 +1011,7 @@
 		$str.="		} else {\n";
 		$str.="    		\$('#newButton').removeClass();\n";
 		$str.="    		if (\$('#nextRecord').val() == '' || \$('#nextRecord').val() == undefined) {\n";
-		$str.="        		\$('#infoPanel').html('<div class=\'alert alert-error\'>sdfd</div>');\n";
+		$str.="        		\$('#infoPanel').html('<div class=alert alert-error>sdfd</div>');\n";
 		$str.="    		}\n";
 		$str.="    		if (parseFloat(\$('#nextRecord').val()) < parseFloat(\$('#lastRecord').val())) {\n";
 		$str.="        		\$.ajax({\n";
@@ -1025,12 +1025,12 @@
 		$str.="           		},\n";
 		$str.="            		beforeSend: function () {\n";
 		$str.="               		// this is where we append a loading image\n";
-		$str.="               		\$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');\n";
+		$str.="               		\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
 		$str.="            		},\n";
 		$str.="            		success: function (data) {\n";
 		$str.="                		// successful request; do something with the data\n";
 		$str.="               		if (data.success == true) {\n";
-		$str.="                    		\$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');\n";
+		$str.="                    		\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
@@ -1058,7 +1058,7 @@
 		$str.="              	error: function (data) {\n";
 		$str.="                 	// failed request; give feedback to user\n";
 		$str.="                 	if (data.success == false) {\n";
-		$str.="                     	 \$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
+		$str.="                     	 \$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
 		$str.="                  	}\n";
 		$str.="              	}\n";
 		$str.="           	});\n";

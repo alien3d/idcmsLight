@@ -51,19 +51,72 @@ $str.="		/*\n";
 $str.="		 *  Basic Information Table\n";
 $str.="		 */\n";
 $str.="		\$this->setTableName('" . $data[0]['tableName'] . "');\n";
-$str.="		\$this->setPrimaryKeyName('" . $data[0]['tableName'] . "');\n";
+$str.="		\$this->setPrimaryKeyName('" . $data[0]['tableName'] . "Id');\n";
 $str.="		\$this->setMasterForeignKeyName('" . $data[0]['tableName'] . "Id');\n";
 $str.="		//\$this->setFilterCharacter('" . $data[0]['tableName'] . "Desc');\n";
 $str.="		\$this->setFilterDate('" . $data[0]['tableName'] . "Date');\n";
 $str.="		/**\n";
 $str.="		 * All the $_POST enviroment.\n";
 $str.="		 */ \n";
+for ($i = 0; $i < $total; $i++) {
 
+				if($data[$i]['columnName'] !='isDefault' &&
+		$data[$i]['columnName'] !='isNew' &&
+		$data[$i]['columnName'] !='isDraft'&&
+		$data[$i]['columnName'] !='isUpdate'&&
+		$data[$i]['columnName'] !='isDelete'&&
+		$data[$i]['columnName'] !='isActive'&&
+		$data[$i]['columnName'] !='isApproved'&&
+		$data[$i]['columnName'] !='isReview'&&
+		$data[$i]['columnName'] !='isPost'&&
+		$data[$i]['columnName'] !='isSeperated'&&
+		$data[$i]['columnName'] !='isConsolidation'&&
+		$data[$i]['columnName'] !='isReconciled'&&
+		$data[$i]['columnName'] !='executeBy' &&
+		$data[$i]['columnName'] !='executeTime') {
+			if($data[$i]['columnName'] ==  $data[0]['tableName'] . "Id") { 
+				$str.="if (isset(\$_POST ['".$data[$i]['columnName']."'])) { \n ";
+				$str.="    \$this->set".ucfirst($data[$i]['columnName'])."(\$this->strict(\$_POST ['".$data[$i]['columnName']."'], '".$data[$i]['formType']."'), 0, 'single'); \n ";
+				$str.="} \n ";
+			}  else { 
+				$str.="if (isset(\$_POST ['".$data[$i]['columnName']."'])) { \n ";
+				$str.="    \$this->set".ucfirst($data[$i]['columnName'])."(\$this->strict(\$_POST ['".$data[$i]['columnName']."'], '".$data[$i]['formType']."')); \n ";
+				$str.="} \n ";
+			}
+		}
+}
 
 
 $str.="		/**\n";
 $str.="		 * All the \$_GET enviroment.\n";
 $str.="		 */\n";
+for ($i = 0; $i < $total; $i++) {
+
+				if($data[$i]['columnName'] !='isDefault' &&
+		$data[$i]['columnName'] !='isNew' &&
+		$data[$i]['columnName'] !='isDraft'&&
+		$data[$i]['columnName'] !='isUpdate'&&
+		$data[$i]['columnName'] !='isDelete'&&
+		$data[$i]['columnName'] !='isActive'&&
+		$data[$i]['columnName'] !='isApproved'&&
+		$data[$i]['columnName'] !='isReview'&&
+		$data[$i]['columnName'] !='isPost'&&
+		$data[$i]['columnName'] !='isSeperated'&&
+		$data[$i]['columnName'] !='isConsolidation'&&
+		$data[$i]['columnName'] !='isReconciled'&&
+		$data[$i]['columnName'] !='executeBy' &&
+		$data[$i]['columnName'] !='executeTime') {
+			if($data[$i]['columnName'] ==  $data[0]['tableName'] . "Id") { 
+				$str.="if (isset(\$_GET ['".$data[$i]['columnName']."'])) { \n ";
+				$str.="    \$this->set".ucfirst($data[$i]['columnName'])."(\$this->strict(\$_GET ['".$data[$i]['columnName']."'], '".$data[$i]['formType']."'), 0, 'single'); \n ";
+				$str.="} \n ";
+			}  else { 
+				$str.="if (isset(\$_GET ['".$data[$i]['columnName']."'])) { \n ";
+				$str.="    \$this->set".ucfirst($data[$i]['columnName'])."(\$this->strict(\$_GET ['".$data[$i]['columnName']."'], '".$data[$i]['formType']."')); \n ";
+				$str.="} \n ";
+			}
+		}
+}	
 $str.="		if (isset(\$_GET ['" . $data[0]['tableName'] . "Id'])) {\n";
 $str.="			\$this->setTotal(count(\$_GET ['" . $data[0]['tableName'] . "Id']));\n";
 $str.="		}\n";

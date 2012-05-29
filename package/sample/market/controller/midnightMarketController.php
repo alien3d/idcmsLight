@@ -1,7 +1,4 @@
-<?php
-
-namespace Core\Sample\Market\MidnightMarket\Controller;
-
+<?php namespace Core\Sample\Market\MidnightMarket\Controller;
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -104,7 +101,8 @@ class MidnightMarketClass extends \Core\ConfigClass {
         parent::__construct();
         $this->audit = 0;
         $this->log = 1;
-        $this->model = new \Core\Market\MidnightMarket\Model\MidnightMarketModel();
+        $this->model = new \Core\Sample\Market\Model\MidnightMarketModel();
+		                    
         $this->model->setVendor($this->getVendor());
         $this->model->execute();
 

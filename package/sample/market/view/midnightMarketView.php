@@ -12,7 +12,7 @@ $salt="chak";
 $securityToken= md5("You have been cheated").$salt;
 if (isset($_POST)) {
     if (isset($_POST['method'])) {
-        $midnightMarket = new \Core\Market\MidnightMarket\Controller\MidnightMarketClass();
+        $midnightMarket = new \Core\Sample\Market\MidnightMarket\Controller\MidnightMarketClass();
 
         $state = new \Core\System\Common\State\Controller\StateClass();
         $day = new \Core\System\Common\Day\Controller\DayClass();
@@ -437,5 +437,5 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] =
         
     </script>    
 <?php } ?>
-<script language="javascript" type="text/javascript" src="./package/market/midnightMarket/javascript/original/midnightMarket.js"></script>
+<script language="javascript" type="text/javascript" src="./package/sample/market/javascript/original/midnightMarket.js"></script>
 

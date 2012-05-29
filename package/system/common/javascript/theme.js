@@ -14,7 +14,7 @@
             },
             beforeSend: function () {
                 // this is where we append a loading image
-                $('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+                $('#infoPanel').html('<div class=\'progress\'><img src=\'./images/loading.gif'  alt='Loading...\'  /></div>');
             },
             success: function (data) {
                 // successful request; do something with the data

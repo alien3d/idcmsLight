@@ -1,4 +1,7 @@
-<?php namespace Core\System\Common\Theme\Controller; 
+<?php namespace Core\System\Common\Theme\Controller;
+if (!isset($_SESSION)) {
+    session_start();
+} 
 require_once ("../../../../library/class/classAbstract.php"); 
 require_once ("../../../../library/class/classRecordSet.php"); 
 require_once ("../../../../library/class/classDate.php"); 
@@ -72,6 +75,11 @@ class ThemeClass extends \Core\ConfigClass {
      * @var bool
      */ 
     public $duplicateTest; 
+	function __construct() {
+		$this->setViewPath("./package/system/common/view/theme.php");
+        $this->setControllerPath("./package/system/common/controller/themeController.php");
+        //$this->setServicePath("./package/system/common/service/themeService.php");
+	}
     /** 
      * Class Loader 
      */ 
@@ -103,9 +111,9 @@ class ThemeClass extends \Core\ConfigClass {
         $this->systemString->setLeafId($this->getLeafId()); 
         $this->systemString->execute(); 
         $this->recordSet = new \Core\Recordset\RecordSet(); 
-        $this->recordSet->setRequestDatabase($this->q->getCoreDatabase()); 
-        $this->recordSet->setTableName($this->model->getTableName()); 
-        $this->recordSet->setPrimaryKeyName($this->model->getPrimaryKeyName()); 
+        $this->recordSet->setCurrentDatabase($this->q->getCoreDatabase()); 
+        $this->recordSet->setCurrentTable($this->model->getTableName()); 
+        $this->recordSet->setPrimaryKeyName($this->model->getPrimaryKeyName());
         $this->recordSet->execute(); 
         //    $this->documentTrail = new \Core\Document\Trail; 
         //    $this->documentTrail->setVendor($this->getVendor()); 
@@ -597,8 +605,8 @@ STAFF.STAFFNAME
             $row['counter'] = $this->getStart() + 16; 
             if ($this->model->getThemeId(0, 'single')) { 
                 $row['firstRecord'] = $this->firstRecord('value'); 
-                $row['previousRecord'] = $this->previousRecord('value', $this->model->getMidnightMarketId(0, 'single')); 
-                $row['nextRecord'] = $this->nextRecord('value', $this->model->getMidnightMarketId(0, 'single')); 
+                $row['previousRecord'] = $this->previousRecord('value', $this->model->getThemeId(0, 'single')); 
+                $row['nextRecord'] = $this->nextRecord('value', $this->model->getThemeId(0, 'single')); 
                 $row['lastRecord'] = $this->lastRecord('value'); 
             }  
             $items [] = $row; 
@@ -1450,31 +1458,35 @@ if (isset($_POST ['method'])) {
     if (isset($_POST ['sortField'])) { 
         $themeObject->setSortField($_POST ['sortField']); 
     } 
-    /* 
-     *  Load the dynamic value 
-     */ 
-    $themeObject->execute(); 
-    /* 
-     *  Crud Operation (Create Read Update Delete/Destory) 
-     */ 
-    if ($_POST ['method'] == 'create') { 
-        $themeObject->create(); 
-    } 
-    if ($_POST ['method'] == 'save') { 
-        $themeObject->update(); 
-    } 
-    if ($_POST ['method'] == 'read') { 
-        $themeObject->read(); 
-    } 
-    if ($_POST ['method'] == 'delete') { 
-        $themeObject->delete(); 
-    } 
-    if ($_POST ['method'] == 'posting') { 
-    //	$themeObject->posting(); 
-    } 
-    if ($_POST ['method'] == 'reverse') { 
-    //	$themeObject->delete(); 
-    } 
+    if(isset($_POST['output'])) { 
+		/* 
+		 *  Load the dynamic value 
+		 */ 
+		$themeObject ->setPageOutput('json');
+		$themeObject->execute(); 
+		/* 
+		 *  Crud Operation (Create Read Update Delete/Destory) 
+		 */ 
+	 
+		if ($_POST ['method'] == 'create') { 
+			$themeObject->create(); 
+		} 
+		if ($_POST ['method'] == 'save') { 
+			$themeObject->update(); 
+		} 
+		if ($_POST ['method'] == 'read') { 
+			$themeObject->read(); 
+		} 
+		if ($_POST ['method'] == 'delete') { 
+			$themeObject->delete(); 
+		} 
+		if ($_POST ['method'] == 'posting') { 
+		//	$themeObject->posting(); 
+		} 
+		if ($_POST ['method'] == 'reverse') { 
+		//	$themeObject->delete(); 
+		} 
+	}
 } 
 if (isset($_GET ['method'])) {
     /* 
@@ -1519,16 +1531,18 @@ if (isset($_GET ['method'])) {
         } 
     } 
     if ($_GET ['method'] == 'dataNavigationRequest') { 
-        if ($_GET ['dataNavigation'] == 'first') { 
+	
+        if ($_GET ['dataNavigation'] == 'firstRecord') {
+
             $themeObject->firstRecord('json'); 
         } 
-        if ($_GET ['dataNavigation'] == 'previous') { 
+        if ($_GET ['dataNavigation'] == 'previousRecord') { 
             $themeObject->previousRecord('json', 0); 
         } 
-        if ($_GET ['dataNavigation'] == 'next') {
+        if ($_GET ['dataNavigation'] == 'nextRecord') {
             $themeObject->nextRecord('json', 0); 
         } 
-        if ($_GET ['dataNavigation'] == 'last') {
+        if ($_GET ['dataNavigation'] == 'lastRecord') {
             $themeObject->lastRecord('json'); 
         } 
     } 

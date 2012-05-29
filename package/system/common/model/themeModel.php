@@ -12,7 +12,10 @@ require_once ("../../../../library/class/classValidation.php");
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
 class ThemeModel extends \Core\Validation\ValidationClass { 
-      /**
+
+        
+
+        /**
 
         * @var int 
 
@@ -67,17 +70,47 @@ class ThemeModel extends \Core\Validation\ValidationClass {
          *  Basic Information Table
          */
         $this->setTableName('theme');
-        $this->setPrimaryKeyName('theme');
+        $this->setPrimaryKeyName('themeId');
         $this->setMasterForeignKeyName('themeId');
         //$this->setFilterCharacter('themeDesc');
         $this->setFilterDate('themeDate');
         /**
          * All the Array enviroment.
          */ 
-        /**
+if (isset($_POST ['themeId'])) { 
+     $this->setThemeId($this->strict($_POST ['themeId'], 'int'), 0, 'single'); 
+ } 
+ if (isset($_POST ['themeSequence'])) { 
+     $this->setThemeSequence($this->strict($_POST ['themeSequence'], 'int')); 
+ } 
+ if (isset($_POST ['themeCode'])) { 
+     $this->setThemeCode($this->strict($_POST ['themeCode'], 'text')); 
+ } 
+ if (isset($_POST ['themeNote'])) { 
+     $this->setThemeNote($this->strict($_POST ['themeNote'], 'text')); 
+ } 
+ if (isset($_POST ['themePath'])) { 
+     $this->setThemePath($this->strict($_POST ['themePath'], 'text')); 
+ } 
+ 		/**
          * All the $_GET enviroment.
          */
-        if (isset($_GET ['themeId'])) {
+if (isset($_GET ['themeId'])) { 
+     $this->setThemeId($this->strict($_GET ['themeId'], 'int'), 0, 'single'); 
+ } 
+ if (isset($_GET ['themeSequence'])) { 
+     $this->setThemeSequence($this->strict($_GET ['themeSequence'], 'int')); 
+ } 
+ if (isset($_GET ['themeCode'])) { 
+     $this->setThemeCode($this->strict($_GET ['themeCode'], 'text')); 
+ } 
+ if (isset($_GET ['themeNote'])) { 
+     $this->setThemeNote($this->strict($_GET ['themeNote'], 'text')); 
+ } 
+ if (isset($_GET ['themePath'])) { 
+     $this->setThemePath($this->strict($_GET ['themePath'], 'text')); 
+ } 
+ 		if (isset($_GET ['themeId'])) {
             $this->setTotal(count($_GET ['themeId']));
         }
         if (isset($_GET ['isDefault'])) {
@@ -408,4 +441,3 @@ public function review() {
     } 
 }
 ?>
-                

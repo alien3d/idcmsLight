@@ -233,12 +233,23 @@ abstract class ConfigClass
 	 * Service Path.Not automatic because give flexibility
 	 * @var string
 	 */
-        public $servicePath;
-           /**
+     public $servicePath;
+    /**
      * Return Security Token
      * @var string 
      */
     private $securityToken;
+	/**
+	 *
+	 * @var $currentDatabase
+	 */
+	private $currentDatabase;
+	/**
+	 *
+	 * @var $currentTable
+	 */
+	private $currentTable;
+	
 	/**
 	 * Mysql Database (open Core)
 	 * @var const string
@@ -484,7 +495,7 @@ abstract class ConfigClass
 				}
 			}
 			return (addslashes($this->value));
-		} elseif ($this->type == 'numeric' || $this->type == 'n') {
+		} elseif ($this->type == 'numeric' || $this->type == 'n' || $this->type == 'int') {
 			if (! is_numeric($this->value)) {
 				$this->value = 0;
 				return ($this->value);
@@ -497,7 +508,7 @@ abstract class ConfigClass
 			} elseif ($this->value == 'false' || $this->value == 'FALSE' ||  $this->value == false   || $this->value  == FALSE ) {
 				return 0;
 			}
-		} elseif ($this->type == 'string' || $this->type == 's') {
+		} elseif ($this->type == 'string' || $this->type == 's' || $this->type == 'text') {
 			if (empty($this->value) && (strlen($this->value) == 0)) {
 				$this->value = null;
 				return ($this->value);
@@ -1409,6 +1420,34 @@ abstract class ConfigClass
      */
     function setSecurityToken($value){
         $this->securityToken= $value;
+    }
+	/**
+     * Return Current Database 
+     * @return string 
+     */
+    function getCurrentDatabase() {
+        return $this->currentDatabase;
+    }
+    /**
+     * Set Current Database Name
+     * @param string $value 
+     */
+    function setCurrentDatabase($value){
+        $this->currentDatabase= $value;
+    }
+	/**
+     * Return Current Table 
+     * @return string 
+     */
+    function getCurrentTable() {
+        return $this->currentTable;
+    }
+    /**
+     * Set Current Table Name
+     * @param string $value 
+     */
+    function setCurrentTable($value){
+        $this->currentTable= $value;
     }
 }
 ?>

@@ -204,8 +204,11 @@ class Vendor {
 	 *  @var string
 	 */
 	public $managementDatabase;
-
-
+    /**
+	 *  Response Message If Query Fail
+	 *  @var string
+	 */
+	public $response;
 
 	public function __construct() {
             $this->setCoreDatabase('iCore');

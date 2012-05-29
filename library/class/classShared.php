@@ -141,21 +141,25 @@ class SharedClass extends \Core\ConfigClass {
         $data = array();
         if ($this->q->vendor == self::MYSQL) {
 // future
-            $sql = "
+				$sql = "
                 SELECT 			`tableMapping`.`tableMappingColumnName`,
                                  `tableMappingTranslate`.`tableMappingNative`
                 FROM 			`tableMapping`
                 JOIN			`tableMappingTranslate`
                 USING			(`tableMappingId`)
-                WHERE 			`tableMappingTranslate`.`languageId`='" . $_SESSION ['languageId'] . "'";
+                WHERE 			`tableMappingTranslate`.`languageId`	=	'" . $_SESSION ['languageId'] . "'
+				AND				`tableMappingName`						= 	'".$this->getCurrentTable()."'
+				AND				`databaseName`							= 	'".$this->getCurrentDatabase()."'";
         } else if ($this->q->vendor == self::MSSQL) {
             $sql = "
                 SELECT 			[tableMapping].[tableMappingColumnName],
                                 [tableMappingTranslate].[tableMappingNative]
                 FROM 			[tableMapping]
                 JOIN			[tableMappingTranslate]
-                USING			[tableMapping].[tableMappingId]=[tableMappingTranslate].[tableMappingId]
-                WHERE 			[tableMapping].[languageId]='" . $_SESSION ['languageId'] . "'";
+                USING			[tableMapping].[tableMappingId]	=	[tableMappingTranslate].[tableMappingId]
+                WHERE 			[tableMapping].[languageId]		=	'" . $_SESSION ['languageId'] . "'
+				AND				[tableMappingName]				= 	'".$this->getCurrentTable()."'
+				AND				[databaseName]					= 	'".$this->getCurrentDatabase()."'";
         } else if ($this->q->vendor == self::ORACLE) {
             $sql = "
                 SELECT DISTINCT TABLEMAPPING.TABLEMAPPINGCOLUMNNAME 			AS 	\"tableMappingColumnName\",
@@ -163,7 +167,9 @@ class SharedClass extends \Core\ConfigClass {
                 FROM 			TABLEMAPPING
                 JOIN			TABLEMAPPINGTRANSLATE
                 USING			(TABLEMAPPINGID)
-                WHERE 			TABLEMAPPING.LANGUAGEID='" . $_SESSION ['languageId'] . "'";
+                WHERE 			TABLEMAPPING.LANGUAGEID	=	'" . $_SESSION ['languageId'] . "'
+				AND				TABLEMAPPINGNAME		= '".$this->getCurrentTable()."'
+				AND				DATABASENAME			= '".$this->getCurrentDatabase()."'";
         } else if ($this->q->vendor == self::DB2) {
             $sql = "
                 SELECT DISTINCT TABLEMAPPING.TABLEMAPPINGCOLUMNNAME 			AS 	\"tableMappingColumnName\",
@@ -171,7 +177,9 @@ class SharedClass extends \Core\ConfigClass {
                 FROM 			TABLEMAPPING
                 JOIN			TABLEMAPPINGTRANSLATE
                 USING			(TABLEMAPPINGID)
-                WHERE 			TABLEMAPPING.LANGUAGEID='" . $_SESSION ['languageId'] . "'";
+                WHERE 			TABLEMAPPING.LANGUAGEID	=	'" . $_SESSION ['languageId'] . "'
+				AND				TABLEMAPPINGNAME		= 	'".$this->getCurrentTable()."'
+				AND				DATABASENAME			= 	'".$this->getCurrentDatabase()."'";
         } else if ($this->q->vendor == self::POSTGRESS) {
             $sql = "
                 SELECT DISTINCT TABLEMAPPING.TABLEMAPPINGCOLUMNNAME 			AS 	\"tableMappingColumnName\",
@@ -179,15 +187,19 @@ class SharedClass extends \Core\ConfigClass {
                 FROM 			TABLEMAPPING
                 JOIN			TABLEMAPPINGTRANSLATE
                 USING			(TABLEMAPPINGID)
-                WHERE 			TABLEMAPPING.LANGUAGEID='" . $_SESSION ['languageId'] . "'";
+                WHERE 			TABLEMAPPING.LANGUAGEID	=	'" . $_SESSION ['languageId'] . "'
+				AND				TABLEMAPPINGNAME		= 	'".$this->getCurrentTable()."'
+				AND				DATABASENAME			= 	'".$this->getCurrentDatabase()."'";
         }
 
         $result = $this->q->fast($sql);
 
-        while (($row = $this->q->fetchAssoc($result)) == TRUE) {
-            ${$row ['tableMappingColumnName'] . "Label"} = $row ['tableMappingNative'];
-            $data[] = ${$row ['tableMappingColumnName'] . "Label"};
-        }
+		if($result) { 
+			while (($row = $this->q->fetchAssoc($result)) == TRUE) {
+				$data[$row ['tableMappingColumnName'] . "Label"] = $row ['tableMappingNative'];
+			}
+		}
+	
         return $data;
     }
 
@@ -232,9 +244,8 @@ class SharedClass extends \Core\ConfigClass {
 
         $result = $this->q->fast($sql);
 
-        while (($row = $this->q->fetchAssoc($result)) == TRUE) {
-            ${$row ['tableMappingForeignKeyName'] . "Label"} = $row ['tableMappingForeignKeyNative'];
-            $data[] = ${$row ['tableMappingForeignKeyName'] . "Label"};
+        while (($row = $this->q->fetchAssoc($result)) == TRUE) {       
+			$data[$row ['tableMappingForeignKeyName'] . "Label"] = $row ['tableMappingForeignKeyNative'];
         }
 
 
@@ -276,9 +287,7 @@ class SharedClass extends \Core\ConfigClass {
         }
         $result = $this->q->fast($sql);
         while ($row = $this->q->fetchAssoc($result)) {
-
-            ${$row ['defaultLabel'] . "Label"} = $row ['defaultLabelNative'];
-            $data[] = ${$row ['defaultLabel'] . "Label"};
+			$data[$row ['defaultLabel']] = $row ['defaultLabelNative'];
         }
         return $data;
     }
@@ -290,18 +299,21 @@ class SharedClass extends \Core\ConfigClass {
     public function getButtonTranslation() {
 // for temporary use english first
         $button = array();
-        $button['isDefaultLabel'] = 'Default Value';
-        $button['isNewLabel'] = 'New';
-        $button['isNewLabel'][0] = 'New &AMP; Continue';
-        $button['isNewLabel'][1] = 'New &AMP; Update ';
-        $button['isNewLabel'][2] = 'New &AMP; Continue &AMP; Print ';
-        $button['isNewLabel'][3] = 'New &AMP; Update &AMP; Print ';
-        $button['isNewLabel'][4] = 'New &AMP; Listing ';
+        $button['isAuditLabel'] = 'Audit';
+		$button['isPostLabel'] = 'Post';
+		$button['isDefaultLabel'] = 'Default Value';
+		$button['isResetLabel'] = 'Reset';
+        $button['isNewLabel'][0] = 'New';
+        $button['isNewLabel'][1] = 'New &AMP; Continue';
+        $button['isNewLabel'][2] = 'New &AMP; Update ';
+        $button['isNewLabel'][3] = 'New &AMP; Continue &AMP; Print ';
+        $button['isNewLabel'][4] = 'New &AMP; Update &AMP; Print ';
+        $button['isNewLabel'][5] = 'New &AMP; Listing ';
         $button['isDraftLabel'] = 'Draft';
-        $button['isUpdateLabel'] = 'Update';
         $button['isUpdateLabel'][0] = 'Update';
-        $button['isUpdateLabel'][1] = 'Update &AMP; Print ';
-        $button['isUpdateLabel'][2] = 'Update &AMP; Listing';
+        $button['isUpdateLabel'][1] = 'Update';
+        $button['isUpdateLabel'][2] = 'Update &AMP; Print ';
+        $button['isUpdateLabel'][3] = 'Update &AMP; Listing';
         $button['isDeleteLabel'] = 'Delete';
         $button['isActive'] = 'Active';
         $button['isApprovedLabel'] = 'Approved';
