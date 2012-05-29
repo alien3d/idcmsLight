@@ -233,7 +233,9 @@ for ($i = 0; $i < $total; $i++) {
     if ($data[$i]['Key'] == 'PRI') {
         $str.=" <th>Action</th> \n";
     } else {
-        $str.="<?php switch(\$" . $data[0]['tableName'] . "Array['" . $data[$i]['columnName'] . "'][\$i]) {  \n";
+        $str.="<?php 
+		if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) { \n
+		switch(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "']) {  \n";
         $str.=" case 'isDefault':\n
                 case 'isNew':\n
                 case 'isDraft':\n
@@ -243,13 +245,15 @@ for ($i = 0; $i < $total; $i++) {
                 case 'isApproved':\n
                 case 'isReview':\n
                 case 'isPost':\n
-                    if(\$_SESSION ['isAdmin'] ==1) {\n ";
+                    if(\$_SESSION ['isAdmin'] ==1) {\n 
+						if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) { ";
         $str.=" echo \"<td>\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'].\"</th>\"; \n";
-        $str.="      }\n    
+        $str.="    }\n  }\n    
                 break;\n
                 default:\n";
+						$str.=" if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) {  ";
 				        $str.=" echo \"<td>\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'].\"</th>\"; \n";
-				$str.="} \n ?>\n";
+				$str.=" }\n } \n } ?>\n";
 
         
 
@@ -268,14 +272,15 @@ $str.="                    for (\$i = 0; \$i < \$totalRecord; \$i++) { ?> \n";
 $str.="                        <tr> \n";
 for ($i = 0; $i < $total; $i++) {
     if ($data[$i]['Key'] == 'PRI') {
-        $str.=" <td><a class='btn-warning btn-mini' onClick='showFormUpdate('<?php \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo intval(\$" . $data[0]['tableName'] . "Array [\$i]['$" . $data[0]['tableName'] . "Id']); ?>')'><i class='icon-edit  icon-white'></i>Update</a>  
+        $str.=" <td><a class='btn-warning btn-mini' onClick='showFormUpdate('<?php \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo intval(\$" . $data[0]['tableName'] . "Array [\$i]['" . $data[0]['tableName'] . "Id']); ?>')'><i class='icon-edit  icon-white'></i>Update</a>  
                     <a class='btn-danger btn-mini' onClick='showModalDelete('<?php \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>',";
         for ($d = 0; $d < $total; $d++) {
             $str.="'<?php echo \$" . $data[0]['tableName'] . "Array [\$i]['" . $data[$d]['columnName'] . "']; ?>',";
         }
         $str.=")'><i class='icon-trash  icon-white'></i> Delete</a></td> \n";
     } else {
-        $str.="<?php switch(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "']) {  \n";
+        $str.="<?php if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) {  \n 
+						switch(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "']) {  \n";
         $str.=" case 'isDefault':\n
                 case 'isNew':\n
                 case 'isDraft':\n
@@ -285,19 +290,22 @@ for ($i = 0; $i < $total; $i++) {
                 case 'isApproved':\n
                 case 'isReview':\n
                 case 'isPost':\n
-                    if(\$_SESSION ['isAdmin'] ==1) {\n";
+                    if(\$_SESSION ['isAdmin'] ==1) {\n
+						if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) { ";
         $str.=" echo \"<td>\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'].\"</td>\"; \n";
 
-        $str.="}\n    
+        $str.=" } \n }\n    
                 break;\n
                 default:\n";
-        $str.="echo \"<td>\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'].\"</td>\"; \n";
+        $str.="if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) { \n
+					echo \"<td>\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'].\"</td>\"; \n";
 
-        $str.=" } ?>";
+        $str.=" }\n } \n }\n ?>";
 
         ;
     }
 }
+  $str.="<?php }\n } \n } ?>";
 $str.="                        </tr> \n";
 $str.="                        <?php \n";
 $str.="                    } \n";

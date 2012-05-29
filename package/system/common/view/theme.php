@@ -169,7 +169,10 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                     for ($i = 0; $i < $totalRecord; $i++) { ?> 
                         <tr> 
  <th>Action</th> 
-<?php switch($themeArray['themeSequence'][$i]) {  
+<?php 
+        if(isset($themeArray[$i]['themeSequence'])) { 
+
+        switch($themeArray[$i]['themeSequence']) {  
  case 'isDefault':
 
                 case 'isNew':
@@ -189,16 +192,22 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 case 'isPost':
 
                     if($_SESSION ['isAdmin'] ==1) {
-  echo "<td>".$themeArray[$i]['themeSequence']."</th>"; 
-      }
+ 
+                        if(isset($themeArray[$i]['themeSequence'])) {  echo "<td>".$themeArray[$i]['themeSequence']."</th>"; 
+    }
+  }
     
                 break;
 
                 default:
- echo "<td>".$themeArray[$i]['themeSequence']."</th>"; 
-} 
- ?>
-<?php switch($themeArray['themeCode'][$i]) {  
+ if(isset($themeArray[$i]['themeSequence'])) {   echo "<td>".$themeArray[$i]['themeSequence']."</th>"; 
+ }
+ } 
+ } ?>
+<?php 
+        if(isset($themeArray[$i]['themeCode'])) { 
+
+        switch($themeArray[$i]['themeCode']) {  
  case 'isDefault':
 
                 case 'isNew':
@@ -218,16 +227,22 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 case 'isPost':
 
                     if($_SESSION ['isAdmin'] ==1) {
-  echo "<td>".$themeArray[$i]['themeCode']."</th>"; 
-      }
+ 
+                        if(isset($themeArray[$i]['themeCode'])) {  echo "<td>".$themeArray[$i]['themeCode']."</th>"; 
+    }
+  }
     
                 break;
 
                 default:
- echo "<td>".$themeArray[$i]['themeCode']."</th>"; 
-} 
- ?>
-<?php switch($themeArray['themeNote'][$i]) {  
+ if(isset($themeArray[$i]['themeCode'])) {   echo "<td>".$themeArray[$i]['themeCode']."</th>"; 
+ }
+ } 
+ } ?>
+<?php 
+        if(isset($themeArray[$i]['themeNote'])) { 
+
+        switch($themeArray[$i]['themeNote']) {  
  case 'isDefault':
 
                 case 'isNew':
@@ -247,16 +262,22 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 case 'isPost':
 
                     if($_SESSION ['isAdmin'] ==1) {
-  echo "<td>".$themeArray[$i]['themeNote']."</th>"; 
-      }
+ 
+                        if(isset($themeArray[$i]['themeNote'])) {  echo "<td>".$themeArray[$i]['themeNote']."</th>"; 
+    }
+  }
     
                 break;
 
                 default:
- echo "<td>".$themeArray[$i]['themeNote']."</th>"; 
-} 
- ?>
-<?php switch($themeArray['themePath'][$i]) {  
+ if(isset($themeArray[$i]['themeNote'])) {   echo "<td>".$themeArray[$i]['themeNote']."</th>"; 
+ }
+ } 
+ } ?>
+<?php 
+        if(isset($themeArray[$i]['themePath'])) { 
+
+        switch($themeArray[$i]['themePath']) {  
  case 'isDefault':
 
                 case 'isNew':
@@ -276,16 +297,22 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 case 'isPost':
 
                     if($_SESSION ['isAdmin'] ==1) {
-  echo "<td>".$themeArray[$i]['themePath']."</th>"; 
-      }
+ 
+                        if(isset($themeArray[$i]['themePath'])) {  echo "<td>".$themeArray[$i]['themePath']."</th>"; 
+    }
+  }
     
                 break;
 
                 default:
- echo "<td>".$themeArray[$i]['themePath']."</th>"; 
-} 
- ?>
-<?php switch($themeArray['isDefault'][$i]) {  
+ if(isset($themeArray[$i]['themePath'])) {   echo "<td>".$themeArray[$i]['themePath']."</th>"; 
+ }
+ } 
+ } ?>
+<?php 
+        if(isset($themeArray[$i]['isDefault'])) { 
+
+        switch($themeArray[$i]['isDefault']) {  
  case 'isDefault':
 
                 case 'isNew':
@@ -305,16 +332,22 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 case 'isPost':
 
                     if($_SESSION ['isAdmin'] ==1) {
-  echo "<td>".$themeArray[$i]['isDefault']."</th>"; 
-      }
+ 
+                        if(isset($themeArray[$i]['isDefault'])) {  echo "<td>".$themeArray[$i]['isDefault']."</th>"; 
+    }
+  }
     
                 break;
 
                 default:
- echo "<td>".$themeArray[$i]['isDefault']."</th>"; 
-} 
- ?>
-<?php switch($themeArray['isNew'][$i]) {  
+ if(isset($themeArray[$i]['isDefault'])) {   echo "<td>".$themeArray[$i]['isDefault']."</th>"; 
+ }
+ } 
+ } ?>
+<?php 
+        if(isset($themeArray[$i]['isNew'])) { 
+
+        switch($themeArray[$i]['isNew']) {  
  case 'isDefault':
 
                 case 'isNew':
@@ -334,16 +367,22 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 case 'isPost':
 
                     if($_SESSION ['isAdmin'] ==1) {
-  echo "<td>".$themeArray[$i]['isNew']."</th>"; 
-      }
+ 
+                        if(isset($themeArray[$i]['isNew'])) {  echo "<td>".$themeArray[$i]['isNew']."</th>"; 
+    }
+  }
     
                 break;
 
                 default:
- echo "<td>".$themeArray[$i]['isNew']."</th>"; 
-} 
- ?>
-<?php switch($themeArray['isDraft'][$i]) {  
+ if(isset($themeArray[$i]['isNew'])) {   echo "<td>".$themeArray[$i]['isNew']."</th>"; 
+ }
+ } 
+ } ?>
+<?php 
+        if(isset($themeArray[$i]['isDraft'])) { 
+
+        switch($themeArray[$i]['isDraft']) {  
  case 'isDefault':
 
                 case 'isNew':
@@ -363,16 +402,22 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 case 'isPost':
 
                     if($_SESSION ['isAdmin'] ==1) {
-  echo "<td>".$themeArray[$i]['isDraft']."</th>"; 
-      }
+ 
+                        if(isset($themeArray[$i]['isDraft'])) {  echo "<td>".$themeArray[$i]['isDraft']."</th>"; 
+    }
+  }
     
                 break;
 
                 default:
- echo "<td>".$themeArray[$i]['isDraft']."</th>"; 
-} 
- ?>
-<?php switch($themeArray['isUpdate'][$i]) {  
+ if(isset($themeArray[$i]['isDraft'])) {   echo "<td>".$themeArray[$i]['isDraft']."</th>"; 
+ }
+ } 
+ } ?>
+<?php 
+        if(isset($themeArray[$i]['isUpdate'])) { 
+
+        switch($themeArray[$i]['isUpdate']) {  
  case 'isDefault':
 
                 case 'isNew':
@@ -392,16 +437,22 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 case 'isPost':
 
                     if($_SESSION ['isAdmin'] ==1) {
-  echo "<td>".$themeArray[$i]['isUpdate']."</th>"; 
-      }
+ 
+                        if(isset($themeArray[$i]['isUpdate'])) {  echo "<td>".$themeArray[$i]['isUpdate']."</th>"; 
+    }
+  }
     
                 break;
 
                 default:
- echo "<td>".$themeArray[$i]['isUpdate']."</th>"; 
-} 
- ?>
-<?php switch($themeArray['isDelete'][$i]) {  
+ if(isset($themeArray[$i]['isUpdate'])) {   echo "<td>".$themeArray[$i]['isUpdate']."</th>"; 
+ }
+ } 
+ } ?>
+<?php 
+        if(isset($themeArray[$i]['isDelete'])) { 
+
+        switch($themeArray[$i]['isDelete']) {  
  case 'isDefault':
 
                 case 'isNew':
@@ -421,16 +472,22 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 case 'isPost':
 
                     if($_SESSION ['isAdmin'] ==1) {
-  echo "<td>".$themeArray[$i]['isDelete']."</th>"; 
-      }
+ 
+                        if(isset($themeArray[$i]['isDelete'])) {  echo "<td>".$themeArray[$i]['isDelete']."</th>"; 
+    }
+  }
     
                 break;
 
                 default:
- echo "<td>".$themeArray[$i]['isDelete']."</th>"; 
-} 
- ?>
-<?php switch($themeArray['isActive'][$i]) {  
+ if(isset($themeArray[$i]['isDelete'])) {   echo "<td>".$themeArray[$i]['isDelete']."</th>"; 
+ }
+ } 
+ } ?>
+<?php 
+        if(isset($themeArray[$i]['isActive'])) { 
+
+        switch($themeArray[$i]['isActive']) {  
  case 'isDefault':
 
                 case 'isNew':
@@ -450,16 +507,22 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 case 'isPost':
 
                     if($_SESSION ['isAdmin'] ==1) {
-  echo "<td>".$themeArray[$i]['isActive']."</th>"; 
-      }
+ 
+                        if(isset($themeArray[$i]['isActive'])) {  echo "<td>".$themeArray[$i]['isActive']."</th>"; 
+    }
+  }
     
                 break;
 
                 default:
- echo "<td>".$themeArray[$i]['isActive']."</th>"; 
-} 
- ?>
-<?php switch($themeArray['isApproved'][$i]) {  
+ if(isset($themeArray[$i]['isActive'])) {   echo "<td>".$themeArray[$i]['isActive']."</th>"; 
+ }
+ } 
+ } ?>
+<?php 
+        if(isset($themeArray[$i]['isApproved'])) { 
+
+        switch($themeArray[$i]['isApproved']) {  
  case 'isDefault':
 
                 case 'isNew':
@@ -479,16 +542,22 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 case 'isPost':
 
                     if($_SESSION ['isAdmin'] ==1) {
-  echo "<td>".$themeArray[$i]['isApproved']."</th>"; 
-      }
+ 
+                        if(isset($themeArray[$i]['isApproved'])) {  echo "<td>".$themeArray[$i]['isApproved']."</th>"; 
+    }
+  }
     
                 break;
 
                 default:
- echo "<td>".$themeArray[$i]['isApproved']."</th>"; 
-} 
- ?>
-<?php switch($themeArray['isReview'][$i]) {  
+ if(isset($themeArray[$i]['isApproved'])) {   echo "<td>".$themeArray[$i]['isApproved']."</th>"; 
+ }
+ } 
+ } ?>
+<?php 
+        if(isset($themeArray[$i]['isReview'])) { 
+
+        switch($themeArray[$i]['isReview']) {  
  case 'isDefault':
 
                 case 'isNew':
@@ -508,16 +577,22 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 case 'isPost':
 
                     if($_SESSION ['isAdmin'] ==1) {
-  echo "<td>".$themeArray[$i]['isReview']."</th>"; 
-      }
+ 
+                        if(isset($themeArray[$i]['isReview'])) {  echo "<td>".$themeArray[$i]['isReview']."</th>"; 
+    }
+  }
     
                 break;
 
                 default:
- echo "<td>".$themeArray[$i]['isReview']."</th>"; 
-} 
- ?>
-<?php switch($themeArray['isPost'][$i]) {  
+ if(isset($themeArray[$i]['isReview'])) {   echo "<td>".$themeArray[$i]['isReview']."</th>"; 
+ }
+ } 
+ } ?>
+<?php 
+        if(isset($themeArray[$i]['isPost'])) { 
+
+        switch($themeArray[$i]['isPost']) {  
  case 'isDefault':
 
                 case 'isNew':
@@ -537,16 +612,22 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 case 'isPost':
 
                     if($_SESSION ['isAdmin'] ==1) {
-  echo "<td>".$themeArray[$i]['isPost']."</th>"; 
-      }
+ 
+                        if(isset($themeArray[$i]['isPost'])) {  echo "<td>".$themeArray[$i]['isPost']."</th>"; 
+    }
+  }
     
                 break;
 
                 default:
- echo "<td>".$themeArray[$i]['isPost']."</th>"; 
-} 
- ?>
-<?php switch($themeArray['executeBy'][$i]) {  
+ if(isset($themeArray[$i]['isPost'])) {   echo "<td>".$themeArray[$i]['isPost']."</th>"; 
+ }
+ } 
+ } ?>
+<?php 
+        if(isset($themeArray[$i]['executeBy'])) { 
+
+        switch($themeArray[$i]['executeBy']) {  
  case 'isDefault':
 
                 case 'isNew':
@@ -566,16 +647,22 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 case 'isPost':
 
                     if($_SESSION ['isAdmin'] ==1) {
-  echo "<td>".$themeArray[$i]['executeBy']."</th>"; 
-      }
+ 
+                        if(isset($themeArray[$i]['executeBy'])) {  echo "<td>".$themeArray[$i]['executeBy']."</th>"; 
+    }
+  }
     
                 break;
 
                 default:
- echo "<td>".$themeArray[$i]['executeBy']."</th>"; 
-} 
- ?>
-<?php switch($themeArray['executeTime'][$i]) {  
+ if(isset($themeArray[$i]['executeBy'])) {   echo "<td>".$themeArray[$i]['executeBy']."</th>"; 
+ }
+ } 
+ } ?>
+<?php 
+        if(isset($themeArray[$i]['executeTime'])) { 
+
+        switch($themeArray[$i]['executeTime']) {  
  case 'isDefault':
 
                 case 'isNew':
@@ -595,15 +682,18 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 case 'isPost':
 
                     if($_SESSION ['isAdmin'] ==1) {
-  echo "<td>".$themeArray[$i]['executeTime']."</th>"; 
-      }
+ 
+                        if(isset($themeArray[$i]['executeTime'])) {  echo "<td>".$themeArray[$i]['executeTime']."</th>"; 
+    }
+  }
     
                 break;
 
                 default:
- echo "<td>".$themeArray[$i]['executeTime']."</th>"; 
-} 
- ?>
+ if(isset($themeArray[$i]['executeTime'])) {   echo "<td>".$themeArray[$i]['executeTime']."</th>"; 
+ }
+ } 
+ } ?>
             </tr> 
         </thead> 
         <tbody id=tableBody> 
@@ -615,9 +705,11 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 if ($totalRecord > 0) { 
                     for ($i = 0; $i < $totalRecord; $i++) { ?> 
                         <tr> 
- <td><a class='btn-warning btn-mini' onClick='showFormUpdate('<?php $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo intval($themeArray [$i]['$themeId']); ?>')'><i class='icon-edit  icon-white'></i>Update</a>  
+ <td><a class='btn-warning btn-mini' onClick='showFormUpdate('<?php $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo intval($themeArray [$i]['themeId']); ?>')'><i class='icon-edit  icon-white'></i>Update</a>  
                     <a class='btn-danger btn-mini' onClick='showModalDelete('<?php $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>','<?php echo $themeArray [$i]['themeId']; ?>','<?php echo $themeArray [$i]['themeSequence']; ?>','<?php echo $themeArray [$i]['themeCode']; ?>','<?php echo $themeArray [$i]['themeNote']; ?>','<?php echo $themeArray [$i]['themePath']; ?>','<?php echo $themeArray [$i]['isDefault']; ?>','<?php echo $themeArray [$i]['isNew']; ?>','<?php echo $themeArray [$i]['isDraft']; ?>','<?php echo $themeArray [$i]['isUpdate']; ?>','<?php echo $themeArray [$i]['isDelete']; ?>','<?php echo $themeArray [$i]['isActive']; ?>','<?php echo $themeArray [$i]['isApproved']; ?>','<?php echo $themeArray [$i]['isReview']; ?>','<?php echo $themeArray [$i]['isPost']; ?>','<?php echo $themeArray [$i]['executeBy']; ?>','<?php echo $themeArray [$i]['executeTime']; ?>',)'><i class='icon-trash  icon-white'></i> Delete</a></td> 
-<?php switch($themeArray[$i]['themeSequence']) {  
+<?php if(isset($themeArray[$i]['themeSequence'])) {  
+ 
+                        switch($themeArray[$i]['themeSequence']) {  
  case 'isDefault':
 
                 case 'isNew':
@@ -637,395 +729,527 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 case 'isPost':
 
                     if($_SESSION ['isAdmin'] ==1) {
- echo "<td>".$themeArray[$i]['themeSequence']."</td>"; 
-}
-    
-                break;
 
-                default:
-echo "<td>".$themeArray[$i]['themeSequence']."</td>"; 
- } ?><?php switch($themeArray[$i]['themeCode']) {  
- case 'isDefault':
-
-                case 'isNew':
-
-                case 'isDraft':
-
-                case 'isUpdate':
-
-                case 'isDelete':
-
-                case 'isActive':
-
-                case 'isApproved':
-
-                case 'isReview':
-
-                case 'isPost':
-
-                    if($_SESSION ['isAdmin'] ==1) {
- echo "<td>".$themeArray[$i]['themeCode']."</td>"; 
-}
-    
-                break;
-
-                default:
-echo "<td>".$themeArray[$i]['themeCode']."</td>"; 
- } ?><?php switch($themeArray[$i]['themeNote']) {  
- case 'isDefault':
-
-                case 'isNew':
-
-                case 'isDraft':
-
-                case 'isUpdate':
-
-                case 'isDelete':
-
-                case 'isActive':
-
-                case 'isApproved':
-
-                case 'isReview':
-
-                case 'isPost':
-
-                    if($_SESSION ['isAdmin'] ==1) {
- echo "<td>".$themeArray[$i]['themeNote']."</td>"; 
-}
-    
-                break;
-
-                default:
-echo "<td>".$themeArray[$i]['themeNote']."</td>"; 
- } ?><?php switch($themeArray[$i]['themePath']) {  
- case 'isDefault':
-
-                case 'isNew':
-
-                case 'isDraft':
-
-                case 'isUpdate':
-
-                case 'isDelete':
-
-                case 'isActive':
-
-                case 'isApproved':
-
-                case 'isReview':
-
-                case 'isPost':
-
-                    if($_SESSION ['isAdmin'] ==1) {
- echo "<td>".$themeArray[$i]['themePath']."</td>"; 
-}
-    
-                break;
-
-                default:
-echo "<td>".$themeArray[$i]['themePath']."</td>"; 
- } ?><?php switch($themeArray[$i]['isDefault']) {  
- case 'isDefault':
-
-                case 'isNew':
-
-                case 'isDraft':
-
-                case 'isUpdate':
-
-                case 'isDelete':
-
-                case 'isActive':
-
-                case 'isApproved':
-
-                case 'isReview':
-
-                case 'isPost':
-
-                    if($_SESSION ['isAdmin'] ==1) {
- echo "<td>".$themeArray[$i]['isDefault']."</td>"; 
-}
-    
-                break;
-
-                default:
-echo "<td>".$themeArray[$i]['isDefault']."</td>"; 
- } ?><?php switch($themeArray[$i]['isNew']) {  
- case 'isDefault':
-
-                case 'isNew':
-
-                case 'isDraft':
-
-                case 'isUpdate':
-
-                case 'isDelete':
-
-                case 'isActive':
-
-                case 'isApproved':
-
-                case 'isReview':
-
-                case 'isPost':
-
-                    if($_SESSION ['isAdmin'] ==1) {
- echo "<td>".$themeArray[$i]['isNew']."</td>"; 
-}
-    
-                break;
-
-                default:
-echo "<td>".$themeArray[$i]['isNew']."</td>"; 
- } ?><?php switch($themeArray[$i]['isDraft']) {  
- case 'isDefault':
-
-                case 'isNew':
-
-                case 'isDraft':
-
-                case 'isUpdate':
-
-                case 'isDelete':
-
-                case 'isActive':
-
-                case 'isApproved':
-
-                case 'isReview':
-
-                case 'isPost':
-
-                    if($_SESSION ['isAdmin'] ==1) {
- echo "<td>".$themeArray[$i]['isDraft']."</td>"; 
-}
-    
-                break;
-
-                default:
-echo "<td>".$themeArray[$i]['isDraft']."</td>"; 
- } ?><?php switch($themeArray[$i]['isUpdate']) {  
- case 'isDefault':
-
-                case 'isNew':
-
-                case 'isDraft':
-
-                case 'isUpdate':
-
-                case 'isDelete':
-
-                case 'isActive':
-
-                case 'isApproved':
-
-                case 'isReview':
-
-                case 'isPost':
-
-                    if($_SESSION ['isAdmin'] ==1) {
- echo "<td>".$themeArray[$i]['isUpdate']."</td>"; 
-}
-    
-                break;
-
-                default:
-echo "<td>".$themeArray[$i]['isUpdate']."</td>"; 
- } ?><?php switch($themeArray[$i]['isDelete']) {  
- case 'isDefault':
-
-                case 'isNew':
-
-                case 'isDraft':
-
-                case 'isUpdate':
-
-                case 'isDelete':
-
-                case 'isActive':
-
-                case 'isApproved':
-
-                case 'isReview':
-
-                case 'isPost':
-
-                    if($_SESSION ['isAdmin'] ==1) {
- echo "<td>".$themeArray[$i]['isDelete']."</td>"; 
-}
-    
-                break;
-
-                default:
-echo "<td>".$themeArray[$i]['isDelete']."</td>"; 
- } ?><?php switch($themeArray[$i]['isActive']) {  
- case 'isDefault':
-
-                case 'isNew':
-
-                case 'isDraft':
-
-                case 'isUpdate':
-
-                case 'isDelete':
-
-                case 'isActive':
-
-                case 'isApproved':
-
-                case 'isReview':
-
-                case 'isPost':
-
-                    if($_SESSION ['isAdmin'] ==1) {
- echo "<td>".$themeArray[$i]['isActive']."</td>"; 
-}
-    
-                break;
-
-                default:
-echo "<td>".$themeArray[$i]['isActive']."</td>"; 
- } ?><?php switch($themeArray[$i]['isApproved']) {  
- case 'isDefault':
-
-                case 'isNew':
-
-                case 'isDraft':
-
-                case 'isUpdate':
-
-                case 'isDelete':
-
-                case 'isActive':
-
-                case 'isApproved':
-
-                case 'isReview':
-
-                case 'isPost':
-
-                    if($_SESSION ['isAdmin'] ==1) {
- echo "<td>".$themeArray[$i]['isApproved']."</td>"; 
-}
-    
-                break;
-
-                default:
-echo "<td>".$themeArray[$i]['isApproved']."</td>"; 
- } ?><?php switch($themeArray[$i]['isReview']) {  
- case 'isDefault':
-
-                case 'isNew':
-
-                case 'isDraft':
-
-                case 'isUpdate':
-
-                case 'isDelete':
-
-                case 'isActive':
-
-                case 'isApproved':
-
-                case 'isReview':
-
-                case 'isPost':
-
-                    if($_SESSION ['isAdmin'] ==1) {
- echo "<td>".$themeArray[$i]['isReview']."</td>"; 
-}
-    
-                break;
-
-                default:
-echo "<td>".$themeArray[$i]['isReview']."</td>"; 
- } ?><?php switch($themeArray[$i]['isPost']) {  
- case 'isDefault':
-
-                case 'isNew':
-
-                case 'isDraft':
-
-                case 'isUpdate':
-
-                case 'isDelete':
-
-                case 'isActive':
-
-                case 'isApproved':
-
-                case 'isReview':
-
-                case 'isPost':
-
-                    if($_SESSION ['isAdmin'] ==1) {
- echo "<td>".$themeArray[$i]['isPost']."</td>"; 
-}
-    
-                break;
-
-                default:
-echo "<td>".$themeArray[$i]['isPost']."</td>"; 
- } ?><?php switch($themeArray[$i]['executeBy']) {  
- case 'isDefault':
-
-                case 'isNew':
-
-                case 'isDraft':
-
-                case 'isUpdate':
-
-                case 'isDelete':
-
-                case 'isActive':
-
-                case 'isApproved':
-
-                case 'isReview':
-
-                case 'isPost':
-
-                    if($_SESSION ['isAdmin'] ==1) {
- echo "<td>".$themeArray[$i]['executeBy']."</td>"; 
-}
-    
-                break;
-
-                default:
-echo "<td>".$themeArray[$i]['executeBy']."</td>"; 
- } ?><?php switch($themeArray[$i]['executeTime']) {  
- case 'isDefault':
-
-                case 'isNew':
-
-                case 'isDraft':
-
-                case 'isUpdate':
-
-                case 'isDelete':
-
-                case 'isActive':
-
-                case 'isApproved':
-
-                case 'isReview':
-
-                case 'isPost':
-
-                    if($_SESSION ['isAdmin'] ==1) {
- echo "<td>".$themeArray[$i]['executeTime']."</td>"; 
-}
-    
-                break;
-
-                default:
-echo "<td>".$themeArray[$i]['executeTime']."</td>"; 
+                        if(isset($themeArray[$i]['themeSequence'])) {  echo "<td>".$themeArray[$i]['themeSequence']."</td>"; 
+ } 
  }
+    
+                break;
+
+                default:
+if(isset($themeArray[$i]['themeSequence'])) { 
+
+                    echo "<td>".$themeArray[$i]['themeSequence']."</td>"; 
  }
+ } 
  }
- }?>                        </tr> 
+ ?><?php if(isset($themeArray[$i]['themeCode'])) {  
+ 
+                        switch($themeArray[$i]['themeCode']) {  
+ case 'isDefault':
+
+                case 'isNew':
+
+                case 'isDraft':
+
+                case 'isUpdate':
+
+                case 'isDelete':
+
+                case 'isActive':
+
+                case 'isApproved':
+
+                case 'isReview':
+
+                case 'isPost':
+
+                    if($_SESSION ['isAdmin'] ==1) {
+
+                        if(isset($themeArray[$i]['themeCode'])) {  echo "<td>".$themeArray[$i]['themeCode']."</td>"; 
+ } 
+ }
+    
+                break;
+
+                default:
+if(isset($themeArray[$i]['themeCode'])) { 
+
+                    echo "<td>".$themeArray[$i]['themeCode']."</td>"; 
+ }
+ } 
+ }
+ ?><?php if(isset($themeArray[$i]['themeNote'])) {  
+ 
+                        switch($themeArray[$i]['themeNote']) {  
+ case 'isDefault':
+
+                case 'isNew':
+
+                case 'isDraft':
+
+                case 'isUpdate':
+
+                case 'isDelete':
+
+                case 'isActive':
+
+                case 'isApproved':
+
+                case 'isReview':
+
+                case 'isPost':
+
+                    if($_SESSION ['isAdmin'] ==1) {
+
+                        if(isset($themeArray[$i]['themeNote'])) {  echo "<td>".$themeArray[$i]['themeNote']."</td>"; 
+ } 
+ }
+    
+                break;
+
+                default:
+if(isset($themeArray[$i]['themeNote'])) { 
+
+                    echo "<td>".$themeArray[$i]['themeNote']."</td>"; 
+ }
+ } 
+ }
+ ?><?php if(isset($themeArray[$i]['themePath'])) {  
+ 
+                        switch($themeArray[$i]['themePath']) {  
+ case 'isDefault':
+
+                case 'isNew':
+
+                case 'isDraft':
+
+                case 'isUpdate':
+
+                case 'isDelete':
+
+                case 'isActive':
+
+                case 'isApproved':
+
+                case 'isReview':
+
+                case 'isPost':
+
+                    if($_SESSION ['isAdmin'] ==1) {
+
+                        if(isset($themeArray[$i]['themePath'])) {  echo "<td>".$themeArray[$i]['themePath']."</td>"; 
+ } 
+ }
+    
+                break;
+
+                default:
+if(isset($themeArray[$i]['themePath'])) { 
+
+                    echo "<td>".$themeArray[$i]['themePath']."</td>"; 
+ }
+ } 
+ }
+ ?><?php if(isset($themeArray[$i]['isDefault'])) {  
+ 
+                        switch($themeArray[$i]['isDefault']) {  
+ case 'isDefault':
+
+                case 'isNew':
+
+                case 'isDraft':
+
+                case 'isUpdate':
+
+                case 'isDelete':
+
+                case 'isActive':
+
+                case 'isApproved':
+
+                case 'isReview':
+
+                case 'isPost':
+
+                    if($_SESSION ['isAdmin'] ==1) {
+
+                        if(isset($themeArray[$i]['isDefault'])) {  echo "<td>".$themeArray[$i]['isDefault']."</td>"; 
+ } 
+ }
+    
+                break;
+
+                default:
+if(isset($themeArray[$i]['isDefault'])) { 
+
+                    echo "<td>".$themeArray[$i]['isDefault']."</td>"; 
+ }
+ } 
+ }
+ ?><?php if(isset($themeArray[$i]['isNew'])) {  
+ 
+                        switch($themeArray[$i]['isNew']) {  
+ case 'isDefault':
+
+                case 'isNew':
+
+                case 'isDraft':
+
+                case 'isUpdate':
+
+                case 'isDelete':
+
+                case 'isActive':
+
+                case 'isApproved':
+
+                case 'isReview':
+
+                case 'isPost':
+
+                    if($_SESSION ['isAdmin'] ==1) {
+
+                        if(isset($themeArray[$i]['isNew'])) {  echo "<td>".$themeArray[$i]['isNew']."</td>"; 
+ } 
+ }
+    
+                break;
+
+                default:
+if(isset($themeArray[$i]['isNew'])) { 
+
+                    echo "<td>".$themeArray[$i]['isNew']."</td>"; 
+ }
+ } 
+ }
+ ?><?php if(isset($themeArray[$i]['isDraft'])) {  
+ 
+                        switch($themeArray[$i]['isDraft']) {  
+ case 'isDefault':
+
+                case 'isNew':
+
+                case 'isDraft':
+
+                case 'isUpdate':
+
+                case 'isDelete':
+
+                case 'isActive':
+
+                case 'isApproved':
+
+                case 'isReview':
+
+                case 'isPost':
+
+                    if($_SESSION ['isAdmin'] ==1) {
+
+                        if(isset($themeArray[$i]['isDraft'])) {  echo "<td>".$themeArray[$i]['isDraft']."</td>"; 
+ } 
+ }
+    
+                break;
+
+                default:
+if(isset($themeArray[$i]['isDraft'])) { 
+
+                    echo "<td>".$themeArray[$i]['isDraft']."</td>"; 
+ }
+ } 
+ }
+ ?><?php if(isset($themeArray[$i]['isUpdate'])) {  
+ 
+                        switch($themeArray[$i]['isUpdate']) {  
+ case 'isDefault':
+
+                case 'isNew':
+
+                case 'isDraft':
+
+                case 'isUpdate':
+
+                case 'isDelete':
+
+                case 'isActive':
+
+                case 'isApproved':
+
+                case 'isReview':
+
+                case 'isPost':
+
+                    if($_SESSION ['isAdmin'] ==1) {
+
+                        if(isset($themeArray[$i]['isUpdate'])) {  echo "<td>".$themeArray[$i]['isUpdate']."</td>"; 
+ } 
+ }
+    
+                break;
+
+                default:
+if(isset($themeArray[$i]['isUpdate'])) { 
+
+                    echo "<td>".$themeArray[$i]['isUpdate']."</td>"; 
+ }
+ } 
+ }
+ ?><?php if(isset($themeArray[$i]['isDelete'])) {  
+ 
+                        switch($themeArray[$i]['isDelete']) {  
+ case 'isDefault':
+
+                case 'isNew':
+
+                case 'isDraft':
+
+                case 'isUpdate':
+
+                case 'isDelete':
+
+                case 'isActive':
+
+                case 'isApproved':
+
+                case 'isReview':
+
+                case 'isPost':
+
+                    if($_SESSION ['isAdmin'] ==1) {
+
+                        if(isset($themeArray[$i]['isDelete'])) {  echo "<td>".$themeArray[$i]['isDelete']."</td>"; 
+ } 
+ }
+    
+                break;
+
+                default:
+if(isset($themeArray[$i]['isDelete'])) { 
+
+                    echo "<td>".$themeArray[$i]['isDelete']."</td>"; 
+ }
+ } 
+ }
+ ?><?php if(isset($themeArray[$i]['isActive'])) {  
+ 
+                        switch($themeArray[$i]['isActive']) {  
+ case 'isDefault':
+
+                case 'isNew':
+
+                case 'isDraft':
+
+                case 'isUpdate':
+
+                case 'isDelete':
+
+                case 'isActive':
+
+                case 'isApproved':
+
+                case 'isReview':
+
+                case 'isPost':
+
+                    if($_SESSION ['isAdmin'] ==1) {
+
+                        if(isset($themeArray[$i]['isActive'])) {  echo "<td>".$themeArray[$i]['isActive']."</td>"; 
+ } 
+ }
+    
+                break;
+
+                default:
+if(isset($themeArray[$i]['isActive'])) { 
+
+                    echo "<td>".$themeArray[$i]['isActive']."</td>"; 
+ }
+ } 
+ }
+ ?><?php if(isset($themeArray[$i]['isApproved'])) {  
+ 
+                        switch($themeArray[$i]['isApproved']) {  
+ case 'isDefault':
+
+                case 'isNew':
+
+                case 'isDraft':
+
+                case 'isUpdate':
+
+                case 'isDelete':
+
+                case 'isActive':
+
+                case 'isApproved':
+
+                case 'isReview':
+
+                case 'isPost':
+
+                    if($_SESSION ['isAdmin'] ==1) {
+
+                        if(isset($themeArray[$i]['isApproved'])) {  echo "<td>".$themeArray[$i]['isApproved']."</td>"; 
+ } 
+ }
+    
+                break;
+
+                default:
+if(isset($themeArray[$i]['isApproved'])) { 
+
+                    echo "<td>".$themeArray[$i]['isApproved']."</td>"; 
+ }
+ } 
+ }
+ ?><?php if(isset($themeArray[$i]['isReview'])) {  
+ 
+                        switch($themeArray[$i]['isReview']) {  
+ case 'isDefault':
+
+                case 'isNew':
+
+                case 'isDraft':
+
+                case 'isUpdate':
+
+                case 'isDelete':
+
+                case 'isActive':
+
+                case 'isApproved':
+
+                case 'isReview':
+
+                case 'isPost':
+
+                    if($_SESSION ['isAdmin'] ==1) {
+
+                        if(isset($themeArray[$i]['isReview'])) {  echo "<td>".$themeArray[$i]['isReview']."</td>"; 
+ } 
+ }
+    
+                break;
+
+                default:
+if(isset($themeArray[$i]['isReview'])) { 
+
+                    echo "<td>".$themeArray[$i]['isReview']."</td>"; 
+ }
+ } 
+ }
+ ?><?php if(isset($themeArray[$i]['isPost'])) {  
+ 
+                        switch($themeArray[$i]['isPost']) {  
+ case 'isDefault':
+
+                case 'isNew':
+
+                case 'isDraft':
+
+                case 'isUpdate':
+
+                case 'isDelete':
+
+                case 'isActive':
+
+                case 'isApproved':
+
+                case 'isReview':
+
+                case 'isPost':
+
+                    if($_SESSION ['isAdmin'] ==1) {
+
+                        if(isset($themeArray[$i]['isPost'])) {  echo "<td>".$themeArray[$i]['isPost']."</td>"; 
+ } 
+ }
+    
+                break;
+
+                default:
+if(isset($themeArray[$i]['isPost'])) { 
+
+                    echo "<td>".$themeArray[$i]['isPost']."</td>"; 
+ }
+ } 
+ }
+ ?><?php if(isset($themeArray[$i]['executeBy'])) {  
+ 
+                        switch($themeArray[$i]['executeBy']) {  
+ case 'isDefault':
+
+                case 'isNew':
+
+                case 'isDraft':
+
+                case 'isUpdate':
+
+                case 'isDelete':
+
+                case 'isActive':
+
+                case 'isApproved':
+
+                case 'isReview':
+
+                case 'isPost':
+
+                    if($_SESSION ['isAdmin'] ==1) {
+
+                        if(isset($themeArray[$i]['executeBy'])) {  echo "<td>".$themeArray[$i]['executeBy']."</td>"; 
+ } 
+ }
+    
+                break;
+
+                default:
+if(isset($themeArray[$i]['executeBy'])) { 
+
+                    echo "<td>".$themeArray[$i]['executeBy']."</td>"; 
+ }
+ } 
+ }
+ ?><?php if(isset($themeArray[$i]['executeTime'])) {  
+ 
+                        switch($themeArray[$i]['executeTime']) {  
+ case 'isDefault':
+
+                case 'isNew':
+
+                case 'isDraft':
+
+                case 'isUpdate':
+
+                case 'isDelete':
+
+                case 'isActive':
+
+                case 'isApproved':
+
+                case 'isReview':
+
+                case 'isPost':
+
+                    if($_SESSION ['isAdmin'] ==1) {
+
+                        if(isset($themeArray[$i]['executeTime'])) {  echo "<td>".$themeArray[$i]['executeTime']."</td>"; 
+ } 
+ }
+    
+                break;
+
+                default:
+if(isset($themeArray[$i]['executeTime'])) { 
+
+                    echo "<td>".$themeArray[$i]['executeTime']."</td>"; 
+ }
+ } 
+ }
+ ?><?php }
+ } 
+ } ?>                        </tr> 
                         <?php 
                     } 
                 } else { ?> 
