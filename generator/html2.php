@@ -267,14 +267,14 @@ $str.="                    for (\$i = 0; \$i < \$totalRecord; \$i++) { ?> \n";
 $str.="                        <tr> \n";
 for ($i = 0; $i < $total; $i++) {
     if ($data[$i]['Key'] == 'PRI') {
-        $str.=" <td><a class='btn-warning btn-mini' onClick='showFormUpdate('<?php \$$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo intval(\$" . $data[0]['tableName'] . "Array [\$i]['$" . $data[0]['tableName'] . "Id']); ?>')'><i class='icon-edit  icon-white'></i>Update</a>  
+        $str.=" <td><a class='btn-warning btn-mini' onClick='showFormUpdate('<?php \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo intval(\$" . $data[0]['tableName'] . "Array [\$i]['$" . $data[0]['tableName'] . "Id']); ?>')'><i class='icon-edit  icon-white'></i>Update</a>  
                     <a class='btn-danger btn-mini' onClick='showModalDelete('<?php \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>',";
         for ($d = 0; $d < $total; $d++) {
             $str.="'<?php echo \$" . $data[0]['tableName'] . "Array [\$i]['" . $data[$d]['columnName'] . "']; ?>',";
         }
         $str.=")'><i class='icon-trash  icon-white'></i> Delete</a></td> \n";
     } else {
-        $str.="switch(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "']) { ?> \n";
+        $str.="<?php switch(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "']) { ?> \n";
         $str.=" case 'isDefault':\n
                 case 'isNew':\n
                 case 'isDraft':\n
@@ -285,14 +285,14 @@ for ($i = 0; $i < $total; $i++) {
                 case 'isReview':\n
                 case 'isPost':\n
                     if(\$_SESSION ['isAdmin'] ==1) {\n";
-        $str.="<td><?php \$" . $data[0]['tableName'] . "[\$i]['" . $data[$i]['columnName'] . "'];  ?></td> \n";
+        $str.=" echo \"<td>\".\$" . $data[0]['tableName'] . "[\$i]['" . $data[$i]['columnName'] . "'].\"</td>\"; \n";
 
         $str.="}\n    
                 break;\n
                 default:\n";
-        $str.="<td><?php \$" . $data[0]['tableName'] . "[\$i]['" . $data[$i]['columnName'] . "'];  ?></td> \n";
+        $str.="echo \"<td>\".\$" . $data[0]['tableName'] . "[\$i]['" . $data[$i]['columnName'] . "'].\"</td>\"; \n";
 
-        $str.=" } ";
+        $str.=" } ?>";
 
         ;
     }

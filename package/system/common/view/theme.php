@@ -615,7 +615,7 @@ define("LIMIT",14);        if (isset($_POST['offset'])) {
                 if ($totalRecord > 0) { 
                     for ($i = 0; $i < $totalRecord; $i++) { ?> 
                         <tr> 
- <td><a class='btn-warning btn-mini' onClick='showFormUpdate('<?php $$theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo intval($themeArray [$i]['$themeId']); ?>')'><i class='icon-edit  icon-white'></i>Update</a>  
+ <td><a class='btn-warning btn-mini' onClick='showFormUpdate('<?php $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo intval($themeArray [$i]['$themeId']); ?>')'><i class='icon-edit  icon-white'></i>Update</a>  
                     <a class='btn-danger btn-mini' onClick='showModalDelete('<?php $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>','<?php echo $themeArray [$i]['themeId']; ?>','<?php echo $themeArray [$i]['themeSequence']; ?>','<?php echo $themeArray [$i]['themeCode']; ?>','<?php echo $themeArray [$i]['themeNote']; ?>','<?php echo $themeArray [$i]['themePath']; ?>','<?php echo $themeArray [$i]['isDefault']; ?>','<?php echo $themeArray [$i]['isNew']; ?>','<?php echo $themeArray [$i]['isDraft']; ?>','<?php echo $themeArray [$i]['isUpdate']; ?>','<?php echo $themeArray [$i]['isDelete']; ?>','<?php echo $themeArray [$i]['isActive']; ?>','<?php echo $themeArray [$i]['isApproved']; ?>','<?php echo $themeArray [$i]['isReview']; ?>','<?php echo $themeArray [$i]['isPost']; ?>','<?php echo $themeArray [$i]['executeBy']; ?>','<?php echo $themeArray [$i]['executeTime']; ?>',)'><i class='icon-trash  icon-white'></i> Delete</a></td> 
 switch($themeArray[$i]['themeSequence']) { ?> 
  case 'isDefault':
