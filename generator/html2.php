@@ -5,6 +5,7 @@ $strId = $data[0]['tableName'] . "Id";
 
 $str.="<?php require_once('/../controller/" . $data[0]['tableName'] . "Controller.php'); \n";
 $str.="require_once ('../../../../library/class/classNavigation.php');  \n";
+$str.="require_once ('../../../../library/class/classShared.php');  \n";
 $str.="\$translator = new \Core\shared\SharedClass();  \n";
 $str.="\$translator->execute();  \n";
 $str.="\$systemFormat           =   \$translator->getSystemFormat();  \n";
@@ -222,7 +223,7 @@ $str.="    <br> \n";
 $str.="<table class='table table-striped table-bordered table-condensed' name='tableData' id='tableData'> \n";
 $str.="        <thead> \n";
 $str.="            <tr> \n";
-$str.="              if (is_array(\$" . $data[0]['tableName'] . "Array)) { \n";
+$str.="           <?php   if (is_array(\$" . $data[0]['tableName'] . "Array)) { \n";
 $str.="                \$totalRecord = 0; \n";
 $str.="                \$totalRecord = count(\$" . $data[0]['tableName'] . "Array); \n";
 $str.="                if (\$totalRecord > 0) { \n";
@@ -243,11 +244,11 @@ for ($i = 0; $i < $total; $i++) {
                 case 'isReview':\n
                 case 'isPost':\n
                     if(\$_SESSION ['isAdmin'] ==1) {\n ";
-        $str.=" echo \"<th>\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];  ?></th>\"; \n";
+        $str.=" echo \"<td>\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'].\"</th>\"; \n";
         $str.="      }\n    
                 break;\n
                 default:\n";
-				        $str.=" echo \"<th>\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];  ?></th>\"; \n";
+				        $str.=" echo \"<td>\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'].\"</th>\"; \n";
 				$str.="} \n ?>\n";
 
         
@@ -274,7 +275,7 @@ for ($i = 0; $i < $total; $i++) {
         }
         $str.=")'><i class='icon-trash  icon-white'></i> Delete</a></td> \n";
     } else {
-        $str.="<?php switch(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "']) { ?> \n";
+        $str.="<?php switch(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "']) {  \n";
         $str.=" case 'isDefault':\n
                 case 'isNew':\n
                 case 'isDraft':\n
@@ -285,12 +286,12 @@ for ($i = 0; $i < $total; $i++) {
                 case 'isReview':\n
                 case 'isPost':\n
                     if(\$_SESSION ['isAdmin'] ==1) {\n";
-        $str.=" echo \"<td>\".\$" . $data[0]['tableName'] . "[\$i]['" . $data[$i]['columnName'] . "'].\"</td>\"; \n";
+        $str.=" echo \"<td>\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'].\"</td>\"; \n";
 
         $str.="}\n    
                 break;\n
                 default:\n";
-        $str.="echo \"<td>\".\$" . $data[0]['tableName'] . "[\$i]['" . $data[$i]['columnName'] . "'].\"</td>\"; \n";
+        $str.="echo \"<td>\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'].\"</td>\"; \n";
 
         $str.=" } ?>";
 
