@@ -1,7 +1,6 @@
 <?php
 
-$str.="<?php ";
-$str.=" namespace\Core\\" . ucwords($data[0]['package']) . "\\" . ucwords($data[0]['module']) . "\\" . ucwords($data[0]['tableName']) . "\Model\\";
+$str.="<?php  namespace Core\\" . ucwords($data[0]['package']) . "\\" . ucwords($data[0]['module']) . "\\" . ucwords($data[0]['tableName']) . "\Model;\n";
 
 $str.="require_once (\"../../../../library/class/classValidation.php\"); \n";
 
@@ -16,11 +15,37 @@ $str.=" * @subpackage " . ucwords($data[0]['module']) . " \n";
 $str.=" * @link http://www.idcms.org\n";
 $str.=" * @license http://www.gnu.org/copyleft/lesser.html LGPL\n";
 $str.=" */\n";
-$str.="class " . ucfirst($data[0]['tableName']) . "Model extends ValidationClass { \n";
+$str.="class " . ucfirst($data[0]['tableName']) . "Model extends \Core\Validation\ValidationClass { \n";
+
+$total = 0;
+$total = count($data);
+for ($i = 0; $i < $total; $i++) {
+
+				if($data[$i]['columnName'] !='isDefault' &&
+		$data[$i]['columnName'] !='isNew' &&
+		$data[$i]['columnName'] !='isDraft'&&
+		$data[$i]['columnName'] !='isUpdate'&&
+		$data[$i]['columnName'] !='isDelete'&&
+		$data[$i]['columnName'] !='isActive'&&
+		$data[$i]['columnName'] !='isApproved'&&
+		$data[$i]['columnName'] !='isReview'&&
+		$data[$i]['columnName'] !='isPost'&&
+		$data[$i]['columnName'] !='isSeperated'&&
+		$data[$i]['columnName'] !='isConsolidation'&&
+		$data[$i]['columnName'] !='isReconciled'&&
+		$data[$i]['columnName'] !='executeBy' &&
+		$data[$i]['columnName'] !='executeTime') {
+			$str.="
+		\n
+		/**\n
+		* @var ".$data[$i]['formType']." \n
+		*/\n
+		private \$".$data[$i]['columnName']."; \n ";
+		}
+}		
 $str.=" /* (non-PHPdoc)\n";
 $str.="	 * @see ValidationClass::execute()\n";
 $str.="	 */\n";
-
 $str.="	public function execute() {\n";
 $str.="		/*\n";
 $str.="		 *  Basic Information Table\n";
@@ -32,7 +57,7 @@ $str.="		//\$this->setFilterCharacter('" . $data[0]['tableName'] . "Desc');\n";
 $str.="		\$this->setFilterDate('" . $data[0]['tableName'] . "Date');\n";
 $str.="		/**\n";
 $str.="		 * All the $_POST enviroment.\n";
-$str.="		 */ \";\n";
+$str.="		 */ \n";
 
 
 
@@ -294,7 +319,7 @@ $total = count($data);
 for ($i = 0; $i < $total; $i++) {
     if ($data[$i]['columnName'] == $data[0]['tableName'] . "Id") {
         $str.="     /** \n";
-        $str.="     * Set midnightMarket Identification  Value \n";
+        $str.="     * Set ".$data[0]['tableName']." Identification  Value \n";
         $str.="     * @param int|array \$value \n";
         $str.="     * @param array[int]int \$key List Of Primary Key. \n";
         $str.="     * @param array[int]string \$type  List Of Type.0 As 'single' 1 As 'array' \n";
@@ -311,20 +336,21 @@ for ($i = 0; $i < $total; $i++) {
         $str.="    }\n";
 
         $str.="    /**\n";
-        $str.="     * Return midnightMarket Identification  Value\n";
+        $str.="     * Return ".$data[0]['tableName']." Identification  Value\n";
         $str.="     * @param array[int]int \$key List Of Primary Key.\n";
         $str.="     * @param array[int]string \$type  List Of Type.0 As 'single' 1 As 'array'\n";
         $str.="     * @return bool|array\n";
         $str.="     **/\n";
         $str.="    public function get" . ucfirst($data[$i]['columnName']) . "(\$key, \$type) {\n";
         $str.="        if (\$type == 'single') {\n";
-        $str.="            return \$" . $data[$i]['columnName'] . ";\n";
+        $str.="            return \$this->" . $data[$i]['columnName'] . ";\n";
         $str.="        } else if (\$type == 'array') {\n";
-        $str.="            return \$" . $data[$i]['columnName'] . " [\$key];\n";
+        $str.="            return \$this->" . $data[$i]['columnName'] . " [\$key];\n";
         $str.="        } else {\n";
         $str.="            echo json_encode(array(\"success\" => false, \"message\" => \"Cannot Identifiy Type String Or Array:get" . $data[$i]['columnName'] . " ?\"));\n";
         $str.="            exit();\n";
         $str.="        }\n";
+		$str.="	}\n";
     } else if ($data[$i]['columnName'] != 'isDefault' &&
             $data[$i]['columnName'] != 'isNew' &&
             $data[$i]['columnName'] != 'isDraft' &&

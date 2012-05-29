@@ -284,7 +284,7 @@ class generator {
                                 <option value="">Please Choose Package</option>	
         <?php } ?>	
         <?php for ($i = 0; $i < count($this->packageAndModule[$_GET['targetPackage']]); $i++) { ?>
-                                <option value="<?php echo $this->packageAndModule[$_GET['targetPackage']][$i]; ?>" <?php if ($_GET['targetPackage'] == $this->packageAndModule[$_GET['targetPackage']][$i]) {
+                                <option value="<?php echo $this->packageAndModule[$_GET['targetPackage']][$i]; ?>" <?php if ($_GET['targetModule'] == $this->packageAndModule[$_GET['targetPackage']][$i]) {
                 echo "selected";
             } ?>><?php echo $this->packageAndModule[$_GET['targetPackage']][$i]; ?></option>
         <?php } ?>

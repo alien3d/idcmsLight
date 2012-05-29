@@ -15,12 +15,15 @@ $str.="\$buttonTranslation      =   \$translator->getButtonTranslation();  \n";
 $str.="\$isAdmin                =   \$translator->getAdminAccess(); \n";
 $str.="\$leafAccess             =   \$translator->getLeafAccess(); \n";
 $str.="   \n";
+$str.="\$salt=\"chak\"; \n";
+$str.="\$securityToken= md5(\"You have been cheated\").\$salt;\n";
+
 $str.="if (isset(\$_POST)) {  \n";
 $str.="    if (isset(\$_POST['method'])) {  \n";
 $str.="        \$" . $data[0]['tableName'] . " = new \Core\\" . ucwords($data[0]['package']) . "\\" . ucwords($data[0]['module']) . "\\" . ucwords($data[0]['tableName']) . "\Controller\\";
 $str.=$data[0]['tableName'];
 $str.="Class();  \n";
-
+$str.="define(\"LIMIT\",14);";
 
 $str.="        if (isset(\$_POST['offset'])) {  \n";
 $str.="            \$offset = \$_POST['offset'];  \n";
@@ -51,27 +54,27 @@ $str.="            \$" . $data[0]['tableName'] . "->setStart(\$offset);  \n";
 $str.="            \$" . $data[0]['tableName'] . "->setLimit(\$limit); // normal system don't like paging..  \n";
 $str.="            \$" . $data[0]['tableName'] . "->execute();  \n";
 $str.="            \$" . $data[0]['tableName'] . "->setPageOutput('html');  \n";
-$str.="            \$" . $data[0]['tableName'] . " = \$" . $data[0]['tableName'] . "->read();  \n";
-$str.="            if (isset(\$" . $data[0]['tableName'] . " [0]['firstRecord'])) {  \n";
-$str.="                \$firstRecord = \$" . $data[0]['tableName'] . " [0]['firstRecord'];  \n";
+$str.="            \$" . $data[0]['tableName'] . "Array = \$" . $data[0]['tableName'] . "->read();  \n";
+$str.="            if (isset(\$" . $data[0]['tableName'] . "Array [0]['firstRecord'])) {  \n";
+$str.="                \$firstRecord = \$" . $data[0]['tableName'] . "Array [0]['firstRecord'];  \n";
 $str.="            }  \n";
-$str.="            if (isset(\$" . $data[0]['tableName'] . " [0]['nextRecord'])) {  \n";
-$str.="                \$nextRecord = \$" . $data[0]['tableName'] . " [0]['nextRecord'];  \n";
+$str.="            if (isset(\$" . $data[0]['tableName'] . "Array [0]['nextRecord'])) {  \n";
+$str.="                \$nextRecord = \$" . $data[0]['tableName'] . "Array [0]['nextRecord'];  \n";
 $str.="            }   \n";
-$str.="            if (isset(\$" . $data[0]['tableName'] . " [0]['previousRecord'])) {  \n";
-$str.="                \$previousRecord = \$" . $data[0]['tableName'] . " [0]['previousRecord'];  \n";
+$str.="            if (isset(\$" . $data[0]['tableName'] . "Array [0]['previousRecord'])) {  \n";
+$str.="                \$previousRecord = \$" . $data[0]['tableName'] . "Array [0]['previousRecord'];  \n";
 $str.="            }   \n";
-$str.="            if (isset(\$" . $data[0]['tableName'] . " [0]['lastRecord'])) {  \n";
-$str.="                \$lastRecord = \$" . $data[0]['tableName'] . " [0]['lastRecord'];  \n";
-$str.="                \$endRecord = \$" . $data[0]['tableName'] . " [0]['lastRecord'];  \n";
+$str.="            if (isset(\$" . $data[0]['tableName'] . "Array [0]['lastRecord'])) {  \n";
+$str.="                \$lastRecord = \$" . $data[0]['tableName'] . "Array [0]['lastRecord'];  \n";
+$str.="                \$endRecord = \$" . $data[0]['tableName'] . "Array [0]['lastRecord'];  \n";
 $str.="           }   \n";
 $str.="            \$navigation = new \Core\Paging\HtmlPaging();  \n";
 $str.="            \$navigation->setViewPath(\$" . $data[0]['tableName'] . "->getViewPath());  \n";
 $str.="            \$navigation->setOffset(\$offset);  \n";
 $str.="            \$navigation->setLimit(\$limit);  \n";
 $str.="            \$navigation->setSecurityToken(\$securityToken);  \n";
-$str.="            if (isset(\$" . $data[0]['tableName'] . " [0]['total'])) {  \n";
-$str.="                \$total = \$" . $data[0]['tableName'] . " [0]['total'];  \n";
+$str.="            if (isset(\$" . $data[0]['tableName'] . "Array [0]['total'])) {  \n";
+$str.="                \$total = \$" . $data[0]['tableName'] . "Array [0]['total'];  \n";
 $str.="            } else {  \n";
 $str.="                \$total = 0;  \n";
 $str.="            }  \n";
@@ -212,7 +215,7 @@ $str.="        <input type='text' class='input-large search-query' name='query' 
 $str.="        <a href='javascript:void(0)' class='btn' onClick='ajaxQuerySearchAll('<?php \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>')'><i class='icon-zoom-in'></i> Search </a> \n";
 $str.="        <a href='javascript:void(0)' class='btn' onclick='showMeModal('filterGridAdvance',1)'><i class='icon-zoom-in' ></i> Advance Search </a> \n";
 $str.="        <a href='javascript:void(0)' class='btn hide' onclick='hideButton();showGrid('<?php \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>',0,<?php echo LIMIT; ?>)' name='clearSearch' id='clearSearch'><i class='icon-refresh' ></i>Clear Search </a> \n";
-$str.="        <a href='javascript:void(0)' class='btn' onClick='showForm('<?php \$midnightMarket->getViewPath(); ?>','<?php echo \$securityToken; ?>')'><i class='icon-plus'></i> New </a> \n";
+$str.="        <a href='javascript:void(0)' class='btn' onClick='showForm('<?php \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>')'><i class='icon-plus'></i> New </a> \n";
 $str.="        <a href='javascript:void(0)' class='btn'><i class='icon-file'></i> Report </a> \n";
 $str.="    </div> \n";
 $str.="    <br> \n";
@@ -229,7 +232,7 @@ for ($i = 0; $i < $total; $i++) {
     if ($data[$i]['Key'] == 'PRI') {
         $str.=" <th>Action</th> \n";
     } else {
-        $str.="switch(\$" . $data[0]['tableName'] . "Array['" . $data[$i]['columnName'] . "'][\$i]) { ?> \n";
+        $str.="<?php switch(\$" . $data[0]['tableName'] . "Array['" . $data[$i]['columnName'] . "'][\$i]) {  \n";
         $str.=" case 'isDefault':\n
                 case 'isNew':\n
                 case 'isDraft':\n
@@ -239,16 +242,17 @@ for ($i = 0; $i < $total; $i++) {
                 case 'isApproved':\n
                 case 'isReview':\n
                 case 'isPost':\n
-                    if(\$_SESSION ['isAdmin'] ==1) {\n";
-        $str.="<th><?php \$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];  ?></th> \n";
-
-        $str.="}\n    
+                    if(\$_SESSION ['isAdmin'] ==1) {\n ";
+        $str.=" echo \"<th>\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];  ?></th>\"; \n";
+        $str.="      }\n    
                 break;\n
                 default:\n";
-        $str.="<th><?php \$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];  ?></th> \n";
+				        $str.=" echo \"<th>\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];  ?></th>\"; \n";
+				$str.="} \n ?>\n";
 
-        $str.=" } ";
-    }
+        
+
+	}
 }
 $str.="            </tr> \n";
 $str.="        </thead> \n";
@@ -403,26 +407,26 @@ $str.="    <div class='btn-toolbar'> \n";
 $str.="        <div class='btn-group'> \n";
 $str.="            <a  name='auditRecordButton' id='auditRecordButton'  href='javascript:void(0)' 
     class='<?php if(\$leafAccess['isDraft']==0) { ?>btn btn-warning disabled<?php } else { ?>btn btn-warning<?php } ?>' 
-    onClick='<?php if(\$leafAccess['isDraft']==1?>) { ?>auditRecord()<?php } ?>'><i class='icon-warning-sign icon-white'></i><?php echo \$button['isAuditLabel']; ?></a> \n";
+    onClick='<?php if(\$leafAccess['isDraft']==1) { ?>) { ?>auditRecord()<?php } ?>'><i class='icon-warning-sign icon-white'></i><?php echo \$button['isAuditLabel']; ?></a> \n";
 $str.="        </div>";
 $str.="        <div class='btn-group'>";
 $str.="            <a  name='newRecordButton1' id='newRecordButton1'  href='javascript:void(0)' class='<?php if(\$leafAccess['isNew']==0) { ?>btn btn-success disabled<?php } else { ?>btn btn-success  <?php } ?>'><i class='icon-plus icon-white'></i><?php echo \$button['isNewLabel']; ?></a> \n";
 $str.="            <a  name='newRecordButton2' id='newRecordButton2'   href='javascript:void(0)' data-toggle='dropdown' class='btn dropdown-toggle btn-success  disabled'><span class='caret'></span></a> \n";
 $str.="            <ul class='dropdown-menu'> \n";
-$str.="                <li><a  name='newRecordButton3' id='newRecordButton3'   href='javascript:void(0)' onClick='<?php if(\$leafAccess['isNew']==1) { ?>newRecord(1) <?php } ?>' class='disabled'><i class='icon-plus'></i><?php echo \$button['isNewLabel'][0]; ?></a></li> \n";
-$str.="                <li><a  name='newRecordButton4' id='newRecordButton4'   href='javascript:void(0)' onClick='<?php if(\$leafAccess['isNew']==1) { ?>newRecord(2) <?php } ?>' class='disabled'><i class='icon-edit'></i><?php echo \$button['isNewLabel'][1]; ?></a></li> \n";
-$str.="                <li><a  name='newRecordButton5' id='newRecordButton5'   href='javascript:void(0)' onClick='<?php if(\$leafAccess['isNew']==1) { ?>newRecord(3) <?php } ?>' class='disabled'><i class='icon-print'></i><?php echo \$button['isNewLabel'][2]; ?></a></li> \n";
-$str.="                <li><a  name='newRecordButton6' id='newRecordButton6'    href='javascript:void(0)' onClick='<?php if(\$leafAccess['isNew']==1) { ?>newRecord(4) <?php } ?>' class='disabled'><i class='icon-print'></i><?php echo \$button['isNewLabel'][3]; ?></a></li> \n";
-$str.="                <li><a  name='newRecordButton7' id='newRecordButton7'    href='javascript:void(0)' onClick='<?php if(\$leafAccess['isNew']==1) { ?>newRecord(5) <?php } ?>' class='disabled'><i class='icon-list'></i><?php echo \$button['isNewLabel'][4]; ?></a></li> \n";
+$str.="                <li><a  name='newRecordButton3' id='newRecordButton3'   href='javascript:void(0)' onClick='<?php if(\$leafAccess['isNew']==1) { ?>newRecord(1) <?php } ?>' class='<?php if(\$leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class='icon-plus'></i><?php echo \$button['isNewLabel'][0]; ?></a></li> \n";
+$str.="                <li><a  name='newRecordButton4' id='newRecordButton4'   href='javascript:void(0)' onClick='<?php if(\$leafAccess['isNew']==1) { ?>newRecord(2) <?php } ?>' class='<?php if(\$leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class='icon-edit'></i><?php echo \$button['isNewLabel'][1]; ?></a></li> \n";
+$str.="                <li><a  name='newRecordButton5' id='newRecordButton5'   href='javascript:void(0)' onClick='<?php if(\$leafAccess['isNew']==1) { ?>newRecord(3) <?php } ?>' class='<?php if(\$leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class='icon-print'></i><?php echo \$button['isNewLabel'][2]; ?></a></li> \n";
+$str.="                <li><a  name='newRecordButton6' id='newRecordButton6'    href='javascript:void(0)' onClick='<?php if(\$leafAccess['isNew']==1) { ?>newRecord(4) <?php } ?>' class='<?php if(\$leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class='icon-print'></i><?php echo \$button['isNewLabel'][3]; ?></a></li> \n";
+$str.="                <li><a  name='newRecordButton7' id='newRecordButton7'    href='javascript:void(0)' onClick='<?php if(\$leafAccess['isNew']==1) { ?>newRecord(5) <?php } ?>' class='<?php if(\$leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class='icon-list'></i><?php echo \$button['isNewLabel'][4]; ?></a></li> \n";
 $str.="            </ul> \n";
 $str.="        </div> \n";
 $str.="        <div class='btn-group'> \n";
 $str.="            <a  name='updateRecordButton1' id='updateRecordButton'   href='javascript:void(0)' class='<?php if(\$leafAccess['isUpdate']==0) { ?>btn btn-info  disabled<?php } else { ?>btn btn-info <?php } ?>'><i class='icon-edit icon-white'></i><?php echo \$button['isUpdateLabel']; ?></a> \n";
 $str.="            <a  name='updateRecordButton2' id='updateRecordButton'    href='javascript:void(0)' data-toggle='dropdown' class='btn dropdown-toggle btn-info  disabled'><span class='caret'></span></a> \n";
 $str.="            <ul class='dropdown-menu'> \n";
-$str.="                <li><a  name='updateRecordButton3' id='updateRecordButton'    href='javascript:void(0)'  onClick='<?php if(\$leafAccess['isUpdate']==1) { ?>updateRecord(1)<?php } ?>' class='disabled <?php } ?>'><i class='icon-plus'></i><?php echo \$button['isUpdateLabel'][0]; ?></a></li> \n";
-$str.="                <li><a  name='updateRecordButton4' id='updateRecordButton'    href='javascript:void(0)' onClick='<?php if(\$leafAccess['isUpdate']==1) { ?>updateRecord(2)<?php } ?>' class='disabled <?php } ?>'><i class='icon-print'></i><?php echo \$button['isUpdateLabel'][1]; ?></a></li> \n";
-$str.="               <li><a  name='updateRecordButton5' id='updateRecordButton'    href='javascript:void(0)' onClick='<?php if(\$leafAccess['isUpdate']==1) { ?>updateRecord(3)<?php } ?>' class='disabled <?php } ?>'><i class='icon-list-alt'></i><?php echo \$button['isUpdateLabel'][2]; ?></a></li> \n";
+$str.="                <li><a  name='updateRecordButton3' id='updateRecordButton'    href='javascript:void(0)'  onClick='<?php if(\$leafAccess['isUpdate']==1) { ?>updateRecord(1)<?php } ?>' class='<?php if(\$leafAccess['isUpdate']==0) { ?>disabled <?php } ?>'><i class='icon-plus'></i><?php echo \$button['isUpdateLabel'][0]; ?></a></li> \n";
+$str.="                <li><a  name='updateRecordButton4' id='updateRecordButton'    href='javascript:void(0)' onClick='<?php if(\$leafAccess['isUpdate']==1) { ?>updateRecord(2)<?php } ?>' class='<?php if(\$leafAccess['isUpdate']==0) { ?>disabled <?php } ?>'><i class='icon-print'></i><?php echo \$button['isUpdateLabel'][1]; ?></a></li> \n";
+$str.="               <li><a  name='updateRecordButton5' id='updateRecordButton'    href='javascript:void(0)' onClick='<?php if(\$leafAccess['isUpdate']==1) { ?>updateRecord(3)<?php } ?>' class='<?php if(\$leafAccess['isUpdate']==0) { ?>disabled <?php } ?>'><i class='icon-list-alt'></i><?php echo \$button['isUpdateLabel'][2]; ?></a></li> \n";
 $str.="            </ul> \n";
 $str.="        </div> \n";
 $str.="        <div class='btn-group'> \n";
@@ -435,7 +439,7 @@ $str.="        <div class='btn-group'>";
 $str.="            <a  name='postRecordButton' id='postRecordButton' href='javascript:void(0)' class='<?php if(\$leafAccess['isPost']==0) { ?>btn btn-warning  disabled<?php } else { ?>btn btn-warning<?php } ?>'  onClick='<?php if(\$leafAccess['isPost']==1) { ?>postRecord()<?php } ?>'><i class='icon-cog icon-white'></i><?php echo \$button['isPostLabel']; ?></a> \n";
 $str.="        </div> \n";
 $str.="        <div class='btn-group'>";
-$str.="            <a  name='listRecordButton' id='listRecordButton' href='javascript:void(0)' class='btn btn-info' onClick='showGrid('<?php \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>',0,<?php 'LIMIT; ?>)'><i class='icon-list icon-white'></i>Listing</a> \n";
+$str.="            <a  name='listRecordButton' id='listRecordButton' href='javascript:void(0)' class='btn btn-info' onClick='showGrid('<?php \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>',0,<?php echo LIMIT; ?>)'><i class='icon-list icon-white'></i>Listing</a> \n";
 $str.="        </div> \n";
 $str.="        <div class='btn-group'> \n";
 $str.="            <a  name='firstRecordButton' id='firstRecordButton' href='javascript:void(0)' class='btn btn-info  disabled' onClick='firstRecord()'><i class='icon-fast-backward icon-white'></i><?php echo \$defaultTranslation['firstButtonLabel']; ?></a> \n";

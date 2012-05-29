@@ -1,16 +1,14 @@
 <?php
 $total = 0;
 $total = count($data);
-$str.="<?php ";
-$str.=" namespace\Core\\" . ucwords($data[0]['package']) . "\\" . ucwords($data[0]['module']) . "\\" . ucwords($data[0]['tableName']) . "\Controller\\ \n";
+$str.="<?php namespace Core\\" . ucwords($data[0]['package']) . "\\" . ucwords($data[0]['module']) . "\\" . ucwords($data[0]['tableName']) . "\Controller; \n";
 $str.="require_once (\"../../../../library/class/classAbstract.php\"); \n";
 $str.="require_once (\"../../../../library/class/classRecordSet.php\"); \n";
 $str.="require_once (\"../../../../library/class/classDate.php\"); \n";
 $str.="require_once (\"../../../../library/class/classSystemString.php\"); \n";
 $str.="//require_once (\"/../../../../class/classDocumentTrail.php\"); \n";
 $str.="//require_once (\"../../document/model/documentModel.php\"); \n";
-$str.="require_once (\"/../model/midnightMarketModel.php\"); \n";
-$str.="require_once (\"../model/" . $data[0]['tableName'] . "Model.php\"); \n";
+$str.="require_once (\"/../model/" . $data[0]['tableName'] . "Model.php\"); \n";
 
 $str.="/** \n";
 $str.=" * this is " . $data[0]['tableName'] . " setting files.This sample template file for master record \n";
@@ -22,7 +20,7 @@ $str.=" * @subpackage " . ucwords($data[0]['module']) . " \n";
 $str.=" * @link http://www.idcms.org \n";
 $str.=" * @license http://www.gnu.org/copyleft/lesser.html LGPL \n";
 $str.=" */ \n";
-$str.="class ".ucfirst($data[0]['tableName'])."Class extends ConfigClass { \n";
+$str.="class ".ucfirst($data[0]['tableName'])."Class extends \Core\ConfigClass { \n";
 
 $str.="	/** \n";
 $str.="	 * Connection to the database \n"; 
@@ -95,7 +93,9 @@ $str.="	function execute() { \n";
 $str.="		parent::__construct(); \n";
 $str.="        \$this->audit = 0; \n";
 $str.="       \$this->log = 1; \n";
-$str.="        \$this->model = new \Core\Market\MidnightMarket\Model\MidnightMarketModel(); \n";
+
+$str.="        \$this->model  = new \Core\\" . ucwords($data[0]['package']) . "\\" . ucwords($data[0]['module']) . "\\" . ucwords($data[0]['tableName']) . "\Model\\";
+$str.=ucfirst($data[0]['tableName'])."Model(); \n";
 $str.="        \$this->model->setVendor(\$this->getVendor()); \n";
 $str.="        \$this->model->execute(); \n";
 
@@ -347,7 +347,7 @@ $oracleInsertStatement.="
 	$oracleInsertStatement.=$oracleInsertStatementValue;
 	$oracleInsertStatement.="\n );\";\n";	
 $str.=$oracleInsertStatement;
-
+$str.=" } \n";
 
 $str.="		 \$this->q->create(\$sql); \n";
 $str.="		\$" . $data[0]['tableName'] . "Id = \$this->q->lastInsertId(); \n";
@@ -418,7 +418,7 @@ $mysqlReadInsideStatement=null;
 $str.=		$mysqlReadStatement;	
 $str.="		 if (\$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single')) { \n";
 $str.="				\$sql .= \" AND `\" . \$this->model->getTableName() . \"`.`\" . \$this->model->getPrimaryKeyName() . \"`='\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single') . \"'\";  \n";
-$str.="		} else if (\$this->getVendor() == self::MSSQL) {  \n";
+$str.="	}\n	} else if (\$this->getVendor() == self::MSSQL) {  \n";
 $mssqlReadStatement=null;
 $mssqlReadInsideStatement=null;
 $mssqlReadStatement.="\n\$sql = \"SELECT ";
@@ -666,7 +666,7 @@ $str.="        \$i = 1; \n";
 $str.="		while ((\$row = \$this->q->fetchAssoc()) == TRUE) { \n";
 $str.="			\$row['total'] = \$total; // small overide \n";
 $str.="            \$row['counter'] = \$this->getStart() + $i; \n";
-$str.="            if (\$this->model->getMidnightMarketId(0, 'single')) { \n";
+$str.="            if (\$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single')) { \n";
 $str.="                \$row['firstRecord'] = \$this->firstRecord('value'); \n";
 $str.="                \$row['previousRecord'] = \$this->previousRecord('value', \$this->model->getMidnightMarketId(0, 'single')); \n";
 $str.="                \$row['nextRecord'] = \$this->nextRecord('value', \$this->model->getMidnightMarketId(0, 'single')); \n";
@@ -801,7 +801,9 @@ $mysqlUpdateStatement="\n\$sql=\"UPDATE `".$data[0]['database']."`.`" . $data[0]
 	$mysqlUpdateStatement.=$mysqlUpdateStatementValue;
 	$mysqlUpdateStatement.=" \nWHERE `".$data[0]['tableName']."Id`='\".\$this->model->get".ucfirst($data[0]['tableName'])."Id('0','single').\"'\";\n\n";
 $str.=$mysqlUpdateStatement;
+
 $str.="			 } else if (\$this->getVendor() == self::MSSQL) {  \n";
+
 $mssqlUpdateStatement=null;
 $mssqlUpdateStatementInsideValue=null;
 $mssqlUpdateStatementValue=null;
@@ -835,7 +837,7 @@ $mssqlUpdateStatement="\n\$sql=\"UPDATE [".$data[0]['database']."].[".$data[0]['
 	$mssqlUpdateStatementValue.=(substr($mssqlUpdateStatementInsideValue,0,-2));
 	$mssqlUpdateStatement.=$mssqlUpdateStatementValue;
 	$mssqlUpdateStatement.=" \nWHERE [".$data[0]['tableName']."Id]='\".\$this->model->get".ucfirst($data[0]['tableName'])."Id('0','single').\"'\";\n\n";
-
+$str.=$mssqlUpdateStatement;
 $str.="			 } else if (\$this->getVendor() == self::ORACLE) {  \n";
 $oracleUpdateStatement=null;
 $oracleUpdateStatementInsideValue=null;
@@ -869,9 +871,9 @@ $oracleUpdateStatement="\n\$sql=\"UPDATE `".strtoupper($data[0]['tableName'])."`
 	}
 	$oracleUpdateStatementValue.=(substr($oracleUpdateStatementInsideValue,0,-2));
 	$oracleUpdateStatement.=$oracleUpdateStatementValue;
-	$str.=" \nWHERE `".strtoupper($data[0]['tableName']."Id")."`='\".\$this->model->get".ucfirst($data[0]['tableName'])."Id('0','single').\"'\";\n\n";
+	$oracleUpdateStatement.=" \nWHERE `".strtoupper($data[0]['tableName']."Id")."`='\".\$this->model->get".ucfirst($data[0]['tableName'])."Id('0','single').\"'\";\n\n";
 
-
+$str.=$oracleUpdateStatement;
 $str.="			 } else if (\$this->getVendor() == self::DB2) {  \n";
 $oracleUpdateStatement=null;
 $oracleUpdateStatementInsideValue=null;
@@ -907,7 +909,7 @@ $oracleUpdateStatement="\n\$sql=\"UPDATE `".strtoupper($data[0]['tableName'])."`
 	$oracleUpdateStatement.=$oracleUpdateStatementValue;
 	$oracleUpdateStatement.=" \nWHERE `".strtoupper($data[0]['tableName']."Id")."`='\".\$this->model->get".ucfirst($data[0]['tableName'])."Id('0','single').\"'\";\n\n";
 
-
+$str.=$oracleUpdateStatement;
 $str.="			} else if (\$this->getVendor() == self::POSTGRESS) {  \n";
 $oracleUpdateStatement=null;
 $oracleUpdateStatementInsideValue=null;
@@ -941,9 +943,9 @@ $oracleUpdateStatement="\n\$sql=\"UPDATE `".strtoupper($data[0]['tableName'])."`
 	}
 	$oracleUpdateStatementValue.=(substr($oracleUpdateStatementInsideValue,0,-2));
 	$oracleUpdateStatement.=$oracleUpdateStatementValue;
-	$str.=" \nWHERE `".strtoupper($data[0]['tableName']."Id")."`='\".\$this->model->get".ucfirst($data[0]['tableName'])."Id('0','single').\"'\";\n\n";
+	$oracleUpdateStatement.=" \nWHERE `".strtoupper($data[0]['tableName']."Id")."`='\".\$this->model->get".ucfirst($data[0]['tableName'])."Id('0','single').\"'\";\n\n";
 
-
+$str.=$oracleUpdateStatement;
 $str.="			} \n";
 
 $str.="			\$this->q->update(\$sql); \n";
