@@ -1,5 +1,4 @@
-
-    function showGrid(page, securityToken, offset, limit) {
+ function showGrid(page, securityToken, offset, limit) {
         $.ajax({
             type	: 	'POST',
             url		: 	page,
@@ -14,11 +13,11 @@
             },
             beforeSend: function () {
                 // this is where we append a loading image
-                $('#infoPanel').html('<div class=\'progress\'><img src=\'./images/loading.gif'  alt='Loading...\'  /></div>');
+                $('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
             },
             success: function (data) {
                 // successful request; do something with the data
-                $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                $('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
                 $('#centerViewport').html('');
                 $('#centerViewport').empty();
                 $('#centerViewport').removeClass();
@@ -27,7 +26,7 @@
             },
                 error: function () {
                 // failed request; give feedback to user
-                $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                $('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
             }
         });
     }
@@ -51,11 +50,11 @@
                 },
                 beforeSend: function () {
                     // this is where we append a loading image
-                    $('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+                    $('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
                 },
                 success: function (data) {
                     // successful request; do something with the data
-                    $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                    $('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
                     $('#centerViewport').html('');
                     $('#centerViewport').empty();
                     $('#centerViewport').removeClass();
@@ -64,7 +63,7 @@
                 },
                 error: function () {
                     // failed request; give feedback to user
-                    $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                    $('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
                 }
         });
     }
@@ -80,11 +79,11 @@
             },
             beforeSend: function () {
                 // this is where we append a loading image
-                $('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+                $('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
             },
             success: function (data) {
                 // successful request; do something with the data
-                $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                $('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
                 $('#centerViewport').html('');
                 $('#centerViewport').empty();
                 $('#centerViewport').removeClass();
@@ -93,7 +92,7 @@
             },
             error: function () {
                 // failed request; give feedback to user
-                $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                $('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
             }
         });
     }
@@ -110,11 +109,11 @@
                     },
                     beforeSend: function () {
                         // this is where we append a loading image
-                        $('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+                        $('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
                     },
                     success: function (data) {
                         // successful request; do something with the data
-                        $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                        $('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
                         $('#centerViewport').html('');
                         $('#centerViewport').empty();
                         $('#centerViewport').removeClass();
@@ -123,7 +122,7 @@
 },
                     error: function () {
                         // failed request; give feedback to user
-                        $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                        $('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
                     }
                 });
     }
@@ -185,20 +184,20 @@
     				},
                     beforeSend: function () {
         				// this is where we append a loading image
-       				$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+       				$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
     				},
     				success: function (data) {
         				// successful request; do something with the data
         				if (data.success == true) {
-            				$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+            				$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
         				} else if (data.success == false) {
-            				$('#infoPanel').html('<div class=\'alert alert-error\'>' + data.message + '</div>');
+            				$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
         				}
     				},
                     error: function (data) {
         				// failed request; give feedback to user
                         if (data.success == false) {
-            				$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+            				$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
         				}
     				}
                 });
@@ -216,77 +215,77 @@
         } else {
             if (type == 1) {
                 // new record and continue
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeId First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeId First</div>');
                     $('#themeId').addClass('control-group error');
                     $('#themeId').focus();
 
     if ($('#themeSequence').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeSequence First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeSequence First</div>');
                     $('#themeSequence').addClass('control-group error');
                     $('#themeSequence').focus();
 
     } else if ($('#themeCode').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeCode First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeCode First</div>');
                     $('#themeCode').addClass('control-group error');
                     $('#themeCode').focus();
 
     } else if ($('#themeNote').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeNote First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeNote First</div>');
                     $('#themeNote').addClass('control-group error');
                     $('#themeNote').focus();
 
     } else if ($('#themePath').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themePath First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themePath First</div>');
                     $('#themePath').addClass('control-group error');
                     $('#themePath').focus();
 
     } else if ($('#isDefault').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDefault First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDefault First</div>');
                     $('#isDefault').addClass('control-group error');
                     $('#isDefault').focus();
 
     } else if ($('#isNew').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isNew First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isNew First</div>');
                     $('#isNew').addClass('control-group error');
                     $('#isNew').focus();
 
     } else if ($('#isDraft').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDraft First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDraft First</div>');
                     $('#isDraft').addClass('control-group error');
                     $('#isDraft').focus();
 
     } else if ($('#isUpdate').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isUpdate First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isUpdate First</div>');
                     $('#isUpdate').addClass('control-group error');
                     $('#isUpdate').focus();
 
     } else if ($('#isDelete').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDelete First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDelete First</div>');
                     $('#isDelete').addClass('control-group error');
                     $('#isDelete').focus();
 
     } else if ($('#isActive').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isActive First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isActive First</div>');
                     $('#isActive').addClass('control-group error');
                     $('#isActive').focus();
 
     } else if ($('#isApproved').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isApproved First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isApproved First</div>');
                     $('#isApproved').addClass('control-group error');
                     $('#isApproved').focus();
 
     } else if ($('#isReview').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isReview First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isReview First</div>');
                     $('#isReview').addClass('control-group error');
                     $('#isReview').focus();
 
     } else if ($('#isPost').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isPost First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isPost First</div>');
                     $('#isPost').addClass('control-group error');
                     $('#isPost').focus();
 
                 } else {
-                    $('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');
+                    $('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');
                     $.ajax({
                         type	: 	'POST',
                         url		: 	url,
@@ -310,12 +309,12 @@
                         },
                         beforeSend: function () {
                             // this is where we append a loading image
-                            $('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+                            $('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
                 		},
                         success: function (data) {
                             // successful request; do something with the data
                             if (data.success == true) {
-                                $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                                $('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
                                 // reseting field value
                                 $('#themeId').val('');
                                 $('#themeSequence').val('');
@@ -332,13 +331,13 @@
                                 $('#isReview').val('');
                                 $('#isPost').val('');
                             } else if (data.success == false) {
-                                $('#infoPanel').html('<div class=\'alert alert-error\'>' + data.message + '</div>');
+                                $('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
                             }
                         },
                         error: function (data) {
                             // failed request; give feedback to user
                             if (data.success == false) {
-                                $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                                $('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
                             }
                         }
                     });
@@ -346,77 +345,77 @@
             } else if (type == 2) {
                 // new record and update
                 // new record and continue
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeId First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeId First</div>');
                     $('#themeId').addClass('control-group error');
                     $('#themeId').focus();
 
     if ($('#themeSequence').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeSequence First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeSequence First</div>');
                     $('#themeSequence').addClass('control-group error');
                     $('#themeSequence').focus();
 
     } else if ($('#themeCode').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeCode First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeCode First</div>');
                     $('#themeCode').addClass('control-group error');
                     $('#themeCode').focus();
 
     } else if ($('#themeNote').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeNote First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeNote First</div>');
                     $('#themeNote').addClass('control-group error');
                     $('#themeNote').focus();
 
     } else if ($('#themePath').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themePath First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themePath First</div>');
                     $('#themePath').addClass('control-group error');
                     $('#themePath').focus();
 
     } else if ($('#isDefault').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDefault First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDefault First</div>');
                     $('#isDefault').addClass('control-group error');
                     $('#isDefault').focus();
 
     } else if ($('#isNew').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isNew First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isNew First</div>');
                     $('#isNew').addClass('control-group error');
                     $('#isNew').focus();
 
     } else if ($('#isDraft').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDraft First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDraft First</div>');
                     $('#isDraft').addClass('control-group error');
                     $('#isDraft').focus();
 
     } else if ($('#isUpdate').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isUpdate First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isUpdate First</div>');
                     $('#isUpdate').addClass('control-group error');
                     $('#isUpdate').focus();
 
     } else if ($('#isDelete').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDelete First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDelete First</div>');
                     $('#isDelete').addClass('control-group error');
                     $('#isDelete').focus();
 
     } else if ($('#isActive').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isActive First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isActive First</div>');
                     $('#isActive').addClass('control-group error');
                     $('#isActive').focus();
 
     } else if ($('#isApproved').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isApproved First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isApproved First</div>');
                     $('#isApproved').addClass('control-group error');
                     $('#isApproved').focus();
 
     } else if ($('#isReview').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isReview First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isReview First</div>');
                     $('#isReview').addClass('control-group error');
                     $('#isReview').focus();
 
     } else if ($('#isPost').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isPost First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isPost First</div>');
                     $('#isPost').addClass('control-group error');
                     $('#isPost').focus();
 
                 } else {
-                    $('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');
+                    $('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');
                     $.ajax({
                         type	:	'POST',
                         url		: 	url,
@@ -440,12 +439,12 @@
                         },
                         beforeSend: function () {
                             // this is where we append a loading image
-                            $('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+                            $('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
                         },
                         success: function (data) {
                             // successful request; do something with the data
                             if (data.success == true) {
-                                $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                                $('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
                                 // reseting field value
                                 $('#themeId').val('');
                                 $('#themeSequence').val('');
@@ -466,7 +465,7 @@
                 		error: function (data) {
                     		// failed request; give feedback to user
                     		if (data.success == false) {
-                        		$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                        		$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
                     		}
                 		}
             		});
@@ -474,77 +473,77 @@
     		} else if (type == 3) {
         		// new record and continue and print/preview(Open modal box)
         		// new record and continue
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeId First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeId First</div>');
                     $('#themeId').addClass('control-group error');
                     $('#themeId').focus();
 
     if ($('#themeSequence').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeSequence First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeSequence First</div>');
                     $('#themeSequence').addClass('control-group error');
                     $('#themeSequence').focus();
 
     } else if ($('#themeCode').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeCode First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeCode First</div>');
                     $('#themeCode').addClass('control-group error');
                     $('#themeCode').focus();
 
     } else if ($('#themeNote').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeNote First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeNote First</div>');
                     $('#themeNote').addClass('control-group error');
                     $('#themeNote').focus();
 
     } else if ($('#themePath').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themePath First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themePath First</div>');
                     $('#themePath').addClass('control-group error');
                     $('#themePath').focus();
 
     } else if ($('#isDefault').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDefault First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDefault First</div>');
                     $('#isDefault').addClass('control-group error');
                     $('#isDefault').focus();
 
     } else if ($('#isNew').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isNew First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isNew First</div>');
                     $('#isNew').addClass('control-group error');
                     $('#isNew').focus();
 
     } else if ($('#isDraft').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDraft First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDraft First</div>');
                     $('#isDraft').addClass('control-group error');
                     $('#isDraft').focus();
 
     } else if ($('#isUpdate').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isUpdate First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isUpdate First</div>');
                     $('#isUpdate').addClass('control-group error');
                     $('#isUpdate').focus();
 
     } else if ($('#isDelete').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDelete First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDelete First</div>');
                     $('#isDelete').addClass('control-group error');
                     $('#isDelete').focus();
 
     } else if ($('#isActive').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isActive First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isActive First</div>');
                     $('#isActive').addClass('control-group error');
                     $('#isActive').focus();
 
     } else if ($('#isApproved').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isApproved First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isApproved First</div>');
                     $('#isApproved').addClass('control-group error');
                     $('#isApproved').focus();
 
     } else if ($('#isReview').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isReview First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isReview First</div>');
                     $('#isReview').addClass('control-group error');
                     $('#isReview').focus();
 
     } else if ($('#isPost').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isPost First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isPost First</div>');
                     $('#isPost').addClass('control-group error');
                     $('#isPost').focus();
 
         		} else {
-            		$('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');
+            		$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');
             			$.ajax({
                 		type	: 	'POST',
                 		url		: 	url,
@@ -568,12 +567,12 @@
                 		},
                 		beforeSend: function () {
                     		// this is where we append a loading image
-                    		$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+                    		$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
                 		},
                 		success: function (data) {
                     		// successful request; do something with the data
                     		if (data.success == true) {
-                        		$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                        		$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
                         		// reseting field value
                                 $('#themeId').val('');
                                 $('#themeSequence').val('');
@@ -594,7 +593,7 @@
                 		error: function (data) {
                     		// failed request; give feedback to user
                     		if (data.success == false) {
-                        		$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                        		$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
                     		}
                 		}
             		});
@@ -602,77 +601,77 @@
     		} else if (type == 4) {
         		// new record and update and  print/preview(open modal box)
         		// new record and continue
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeId First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeId First</div>');
                     $('#themeId').addClass('control-group error');
                     $('#themeId').focus();
 
     if ($('#themeSequence').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeSequence First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeSequence First</div>');
                     $('#themeSequence').addClass('control-group error');
                     $('#themeSequence').focus();
 
     } else if ($('#themeCode').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeCode First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeCode First</div>');
                     $('#themeCode').addClass('control-group error');
                     $('#themeCode').focus();
 
     } else if ($('#themeNote').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeNote First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeNote First</div>');
                     $('#themeNote').addClass('control-group error');
                     $('#themeNote').focus();
 
     } else if ($('#themePath').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themePath First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themePath First</div>');
                     $('#themePath').addClass('control-group error');
                     $('#themePath').focus();
 
     } else if ($('#isDefault').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDefault First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDefault First</div>');
                     $('#isDefault').addClass('control-group error');
                     $('#isDefault').focus();
 
     } else if ($('#isNew').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isNew First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isNew First</div>');
                     $('#isNew').addClass('control-group error');
                     $('#isNew').focus();
 
     } else if ($('#isDraft').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDraft First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDraft First</div>');
                     $('#isDraft').addClass('control-group error');
                     $('#isDraft').focus();
 
     } else if ($('#isUpdate').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isUpdate First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isUpdate First</div>');
                     $('#isUpdate').addClass('control-group error');
                     $('#isUpdate').focus();
 
     } else if ($('#isDelete').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDelete First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDelete First</div>');
                     $('#isDelete').addClass('control-group error');
                     $('#isDelete').focus();
 
     } else if ($('#isActive').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isActive First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isActive First</div>');
                     $('#isActive').addClass('control-group error');
                     $('#isActive').focus();
 
     } else if ($('#isApproved').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isApproved First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isApproved First</div>');
                     $('#isApproved').addClass('control-group error');
                     $('#isApproved').focus();
 
     } else if ($('#isReview').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isReview First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isReview First</div>');
                     $('#isReview').addClass('control-group error');
                     $('#isReview').focus();
 
     } else if ($('#isPost').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isPost First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isPost First</div>');
                     $('#isPost').addClass('control-group error');
                     $('#isPost').focus();
 
         } else {
-            $('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');
+            $('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');
             $.ajax({
                 type	: 	'POST',
                 url	: 	url,
@@ -698,12 +697,12 @@
                     },
                     beforeSend: function () {
                  	// this is where we append a loading image
-                    	$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+                    	$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
                 	},
                 	success: function (data) {
                     // successful request; do something with the data
                     if (data.success == true) {
-                        $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                        $('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
                         // reseting field value
                                 $('#themeId').val('');
                                 $('#themeSequence').val('');
@@ -724,84 +723,84 @@
                 	error: function (data) {
                  	// failed request; give feedback to user
                     	if (data.success == false) {
-                     	$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                     	$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
                     	}
                 			}
             		});
         		}
     		} else if (type == 5) {
         		// new record and listing
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeId First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeId First</div>');
                     $('#themeId').addClass('control-group error');
                     $('#themeId').focus();
 
     if ($('#themeSequence').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeSequence First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeSequence First</div>');
                     $('#themeSequence').addClass('control-group error');
                     $('#themeSequence').focus();
 
     } else if ($('#themeCode').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeCode First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeCode First</div>');
                     $('#themeCode').addClass('control-group error');
                     $('#themeCode').focus();
 
     } else if ($('#themeNote').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeNote First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeNote First</div>');
                     $('#themeNote').addClass('control-group error');
                     $('#themeNote').focus();
 
     } else if ($('#themePath').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themePath First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themePath First</div>');
                     $('#themePath').addClass('control-group error');
                     $('#themePath').focus();
 
     } else if ($('#isDefault').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDefault First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDefault First</div>');
                     $('#isDefault').addClass('control-group error');
                     $('#isDefault').focus();
 
     } else if ($('#isNew').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isNew First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isNew First</div>');
                     $('#isNew').addClass('control-group error');
                     $('#isNew').focus();
 
     } else if ($('#isDraft').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDraft First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDraft First</div>');
                     $('#isDraft').addClass('control-group error');
                     $('#isDraft').focus();
 
     } else if ($('#isUpdate').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isUpdate First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isUpdate First</div>');
                     $('#isUpdate').addClass('control-group error');
                     $('#isUpdate').focus();
 
     } else if ($('#isDelete').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDelete First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDelete First</div>');
                     $('#isDelete').addClass('control-group error');
                     $('#isDelete').focus();
 
     } else if ($('#isActive').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isActive First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isActive First</div>');
                     $('#isActive').addClass('control-group error');
                     $('#isActive').focus();
 
     } else if ($('#isApproved').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isApproved First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isApproved First</div>');
                     $('#isApproved').addClass('control-group error');
                     $('#isApproved').focus();
 
     } else if ($('#isReview').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isReview First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isReview First</div>');
                     $('#isReview').addClass('control-group error');
                     $('#isReview').focus();
 
     } else if ($('#isPost').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isPost First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isPost First</div>');
                     $('#isPost').addClass('control-group error');
                     $('#isPost').focus();
 
         		} else {
-            		$('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');
+            		$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');
             		$.ajax({
                 		type	:	'POST',
                 		url		: 	url,
@@ -825,12 +824,12 @@
                 		},
                		beforeSend: function () {
                     		// this is where we append a loading image
-                    		$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+                    		$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
                 		},
                 		success: function (data) {
                     		// successful request; do something with the data
                     		if (data.success == true) {
-                        		$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                        		$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
                         		// reseting field value
                                 $('#themeId').val('');
                                 $('#themeSequence').val('');
@@ -851,7 +850,7 @@
                 		error: function (data) {
                     		// failed request; give feedback to user
                     		if (data.success == false) {
-                        		$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                        		$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
                     		}
                 		}
             		});
@@ -868,77 +867,77 @@
         } else {
             if (type == 1) {
         		// update record and continue
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeId First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeId First</div>');
                     $('#themeId').addClass('control-group error');
                     $('#themeId').focus();
 
     if ($('#themeSequence').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeSequence First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeSequence First</div>');
                     $('#themeSequence').addClass('control-group error');
                     $('#themeSequence').focus();
 
     } else if ($('#themeCode').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeCode First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeCode First</div>');
                     $('#themeCode').addClass('control-group error');
                     $('#themeCode').focus();
 
     } else if ($('#themeNote').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeNote First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeNote First</div>');
                     $('#themeNote').addClass('control-group error');
                     $('#themeNote').focus();
 
     } else if ($('#themePath').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themePath First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themePath First</div>');
                     $('#themePath').addClass('control-group error');
                     $('#themePath').focus();
 
     } else if ($('#isDefault').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDefault First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDefault First</div>');
                     $('#isDefault').addClass('control-group error');
                     $('#isDefault').focus();
 
     } else if ($('#isNew').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isNew First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isNew First</div>');
                     $('#isNew').addClass('control-group error');
                     $('#isNew').focus();
 
     } else if ($('#isDraft').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDraft First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDraft First</div>');
                     $('#isDraft').addClass('control-group error');
                     $('#isDraft').focus();
 
     } else if ($('#isUpdate').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isUpdate First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isUpdate First</div>');
                     $('#isUpdate').addClass('control-group error');
                     $('#isUpdate').focus();
 
     } else if ($('#isDelete').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDelete First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDelete First</div>');
                     $('#isDelete').addClass('control-group error');
                     $('#isDelete').focus();
 
     } else if ($('#isActive').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isActive First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isActive First</div>');
                     $('#isActive').addClass('control-group error');
                     $('#isActive').focus();
 
     } else if ($('#isApproved').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isApproved First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isApproved First</div>');
                     $('#isApproved').addClass('control-group error');
                     $('#isApproved').focus();
 
     } else if ($('#isReview').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isReview First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isReview First</div>');
                     $('#isReview').addClass('control-group error');
                     $('#isReview').focus();
 
     } else if ($('#isPost').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isPost First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isPost First</div>');
                     $('#isPost').addClass('control-group error');
                     $('#isPost').focus();
 
        		} else {
-          		$('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');
+          		$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');
           		$.ajax({
              			type	:	'POST',
             				url		: 	url,
@@ -964,12 +963,12 @@
             				},
            				beforeSend: function () {
                 				// this is where we append a loading image
-                				$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+                				$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
            				},
             				success: function (data) {
                				// successful request; do something with the data
                				if (data.success == true) {
-                   				$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                   				$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
                    				// reseting field value
                                 $('#themeId').val('');
                                 $('#themeSequence').val('');
@@ -986,90 +985,90 @@
                                 $('#isReview').val('');
                                 $('#isPost').val('');
                				} else if (data.success == false) {
-                    				$('#infoPanel').html('<div class=\'alert alert-error\'>' + data.message + '</div>');
+                    				$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
                 				}
             				},
             				error: function (data) {
                 				// failed request; give feedback to user
                 				if (data.success == false) {
-                    				$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                    				$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
                 				}
             				}
         				});
     				}
                 } else if ($type == 2) {
     				// update record  preview(modal box)
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeId First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeId First</div>');
                     $('#themeId').addClass('control-group error');
                     $('#themeId').focus();
 
     if ($('#themeSequence').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeSequence First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeSequence First</div>');
                     $('#themeSequence').addClass('control-group error');
                     $('#themeSequence').focus();
 
     } else if ($('#themeCode').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeCode First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeCode First</div>');
                     $('#themeCode').addClass('control-group error');
                     $('#themeCode').focus();
 
     } else if ($('#themeNote').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeNote First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeNote First</div>');
                     $('#themeNote').addClass('control-group error');
                     $('#themeNote').focus();
 
     } else if ($('#themePath').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themePath First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themePath First</div>');
                     $('#themePath').addClass('control-group error');
                     $('#themePath').focus();
 
     } else if ($('#isDefault').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDefault First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDefault First</div>');
                     $('#isDefault').addClass('control-group error');
                     $('#isDefault').focus();
 
     } else if ($('#isNew').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isNew First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isNew First</div>');
                     $('#isNew').addClass('control-group error');
                     $('#isNew').focus();
 
     } else if ($('#isDraft').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDraft First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDraft First</div>');
                     $('#isDraft').addClass('control-group error');
                     $('#isDraft').focus();
 
     } else if ($('#isUpdate').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isUpdate First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isUpdate First</div>');
                     $('#isUpdate').addClass('control-group error');
                     $('#isUpdate').focus();
 
     } else if ($('#isDelete').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDelete First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDelete First</div>');
                     $('#isDelete').addClass('control-group error');
                     $('#isDelete').focus();
 
     } else if ($('#isActive').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isActive First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isActive First</div>');
                     $('#isActive').addClass('control-group error');
                     $('#isActive').focus();
 
     } else if ($('#isApproved').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isApproved First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isApproved First</div>');
                     $('#isApproved').addClass('control-group error');
                     $('#isApproved').focus();
 
     } else if ($('#isReview').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isReview First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isReview First</div>');
                     $('#isReview').addClass('control-group error');
                     $('#isReview').focus();
 
     } else if ($('#isPost').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isPost First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isPost First</div>');
                     $('#isPost').addClass('control-group error');
                     $('#isPost').focus();
 
     				} else {
-        				$('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');
+        				$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');
         				$.ajax({
         						type	: 	'POST',
          					url		: 	url,
@@ -1095,12 +1094,12 @@
             					},
             					beforeSend: function () {
                 					// this is where we append a loading image
-                					$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+                					$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
             					},
             					success: function (data) {
                 					// successful request; do something with the data
                 					if (data.success == true) {
-                    					$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                    					$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
                     					// reseting field value
                                 $('#themeId').val('');
                                 $('#themeSequence').val('');
@@ -1117,90 +1116,90 @@
                                 $('#isReview').val('');
                                 $('#isPost').val('');
                 					} else if (data.success == false) {
-                    					$('#infoPanel').html('<div class=\'alert alert-error\'>' + data.message + '</div>');
+                    					$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
                 					}
             					},
             					error: function (data) {
                 					// failed request; give feedback to user
                 					if (data.success == false) {
-                   	 				$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                   	 				$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
                 					}
             					}
         					});
     					}
                     } else if (type == 3) {
     					// update record and listing
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeId First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeId First</div>');
                     $('#themeId').addClass('control-group error');
                     $('#themeId').focus();
 
     if ($('#themeSequence').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeSequence First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeSequence First</div>');
                     $('#themeSequence').addClass('control-group error');
                     $('#themeSequence').focus();
 
     } else if ($('#themeCode').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeCode First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeCode First</div>');
                     $('#themeCode').addClass('control-group error');
                     $('#themeCode').focus();
 
     } else if ($('#themeNote').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themeNote First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeNote First</div>');
                     $('#themeNote').addClass('control-group error');
                     $('#themeNote').focus();
 
     } else if ($('#themePath').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose themePath First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themePath First</div>');
                     $('#themePath').addClass('control-group error');
                     $('#themePath').focus();
 
     } else if ($('#isDefault').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDefault First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDefault First</div>');
                     $('#isDefault').addClass('control-group error');
                     $('#isDefault').focus();
 
     } else if ($('#isNew').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isNew First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isNew First</div>');
                     $('#isNew').addClass('control-group error');
                     $('#isNew').focus();
 
     } else if ($('#isDraft').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDraft First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDraft First</div>');
                     $('#isDraft').addClass('control-group error');
                     $('#isDraft').focus();
 
     } else if ($('#isUpdate').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isUpdate First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isUpdate First</div>');
                     $('#isUpdate').addClass('control-group error');
                     $('#isUpdate').focus();
 
     } else if ($('#isDelete').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isDelete First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDelete First</div>');
                     $('#isDelete').addClass('control-group error');
                     $('#isDelete').focus();
 
     } else if ($('#isActive').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isActive First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isActive First</div>');
                     $('#isActive').addClass('control-group error');
                     $('#isActive').focus();
 
     } else if ($('#isApproved').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isApproved First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isApproved First</div>');
                     $('#isApproved').addClass('control-group error');
                     $('#isApproved').focus();
 
     } else if ($('#isReview').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isReview First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isReview First</div>');
                     $('#isReview').addClass('control-group error');
                     $('#isReview').focus();
 
     } else if ($('#isPost').val().length == 0) {
- 				$('#infoPanel').html('<div class=\'alert alert-error\'>Please Choose isPost First</div>');
+ 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isPost First</div>');
                     $('#isPost').addClass('control-group error');
                     $('#isPost').focus();
 
     					} else {
-       					$('#infoPanel').html('<div class=\'alert alert-error\'>Form Complete</div>');
+       					$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');
                             $.ajax({
             					type: 'POST',
             					url: url,
@@ -1225,12 +1224,12 @@
             					},
             					beforeSend: function () {
                 					// this is where we append a loading image
-                					$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+                					$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
             					},
             					success: function (data) {
                 					// successful request; do something with the data
                 					if (data.success == true) {
-                    					$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                    					$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
                     					// reseting field value
                                 $('#themeId').val('');
                                 $('#themeSequence').val('');
@@ -1247,13 +1246,13 @@
                                 $('#isReview').val('');
                                 $('#isPost').val('');
                 					} else if (data.success == false) {
-                    					$('#infoPanel').html('<div class=\'alert alert-error\'>' + data.message + '</div>');
+                    					$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
                 					}
             					},
             					error: function (data) {
                 					// failed request; give feedback to user
                 					if (data.success == false) {
-                    					$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                    					$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
                 					}
             					}
         					});
@@ -1277,12 +1276,12 @@
     				},
     				beforeSend: function () {
         				// this is where we append a loading image
-        				$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+        				$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
     				},
     				success: function (data) {
         				// successful request; do something with the data
         				if (data.success == true) {
-            				$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+            				$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
             				// reseting field value
                                 $('#themeId').val('');
                                 $('#themeSequence').val('');
@@ -1299,13 +1298,13 @@
                                 $('#isReview').val('');
                                 $('#isPost').val('');
         				} else if (data.success == false) {
-            				$('#infoPanel').html('<div class=\'alert alert-error\'>' + data.message + '</div>');
+            				$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
         				}
     				},
     				error: function (data) {
         				// failed request; give feedback to user
        		 		if (data.success == false) {
-            				$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+            				$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
         				}
     				}
                 });
@@ -1351,7 +1350,7 @@
     			},
     			beforeSend: function () {
         			// this is where we append a loading image
-        			$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+        			$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
     			},
     			success: function (data) {
         			// successful request; do something with the data
@@ -1367,12 +1366,12 @@
                 			},
                 			beforeSend: function () {
                     			// this is where we append a loading image
-                    			$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+                    			$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
                 			},
                 			success: function (data) {
                     			// successful request; do something with the data
                     			if (data.success == true) {
-                        			$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                        			$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
                         			// reseting field value
         $('#themeId').val(data.data.themeId);
         $('#themeSequence').val(data.data.themeSequence);
@@ -1403,18 +1402,18 @@
                			error: function (data) {
                    			// failed request; give feedback to user
                   			if (data.success == false) {
-                      			$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                      			$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
                  			}
               			}
          			});
     				} else {
-       				$('#infoPanel').html('<div class=\'alert alert-error\'>' + data.message + 'l</div>');
+       				$('#infoPanel').html('<div class=alert alert-error>' + data.message + 'l</div>');
    				}
                 },
             error: function (data) {
    			// failed request; give feedback to user
     			if (data.success == false) {
-        			$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+        			$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
    			}
             }
         });
@@ -1436,7 +1435,7 @@
         		},
        		beforeSend: function () {
           		// this is where we append a loading image
-           		$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+           		$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
       		},
       		success: function (data) {
             		// successful request; do something with the data
@@ -1452,12 +1451,12 @@
                     		},
                     		beforeSend: function () {
                        		// this is where we append a loading image
-                        		$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+                        		$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
                    		},
                    		success: function (data) {
                         		// successful request; do something with the data
                        		if (data.success == true) {
-                          		 $('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                          		 $('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
                            		// reseting field value
         $('#themeId').val(data.data.themeId);
         $('#themeSequence').val(data.data.themeSequence);
@@ -1488,18 +1487,18 @@
                    		error: function (data) {
                         		// failed request; give feedback to user
                        		if (data.success == false) {
-                           		$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                           		$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
                        		}
                   		}
               		});
            		} else {
-              		$('#infoPanel').html('<div class=\'alert alert-error\'>' + data.message + '</div>');
+              		$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
             		}
         		},
        		error: function (data) {
            		// failed request; give feedback to user
            		if (data.success == false) {
-              	 	$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+              	 	$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
            		}
        		}
     		});
@@ -1512,7 +1511,7 @@
    	} else {
       	$('#newButton').removeClass();
        	if ($('#previousRecord').val() == '' || $('#previousRecord').val() == undefined) {
-         	$('#infoPanel').html('<div class=\'alert alert-error\'>testingo</div>');
+         	$('#infoPanel').html('<div class=alert alert-error>testingo</div>');
      	}
        	if (parseFloat($('#previousRecord').val()) > 0 && parseFloat($('#previousRecord').val()) < parseFloat($('#lastRecord').val())) {
          	$.ajax({
@@ -1526,12 +1525,12 @@
           			},
            			beforeSend: function () {
                			// this is where we append a loading image
-              			$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+              			$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
           			},
           			success: function (data) {
               			// successful request; do something with the data
               			if (data.success == true) {
-                  			$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                  			$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
         $('#themeId').val(data.data.themeId);
         $('#themeSequence').val(data.data.themeSequence);
         $('#themeCode').val(data.data.themeCode);
@@ -1566,7 +1565,7 @@
            		error: function (data) {
              		 // failed request; give feedback to user
                		if (data.success == false) {
-                   		$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                   		$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
                		}
            		}
         		});
@@ -1582,7 +1581,7 @@
         } else {
     		$('#newButton').removeClass();
     		if ($('#nextRecord').val() == '' || $('#nextRecord').val() == undefined) {
-        		$('#infoPanel').html('<div class=\'alert alert-error\'>sdfd</div>');
+        		$('#infoPanel').html('<div class=alert alert-error>sdfd</div>');
     		}
     		if (parseFloat($('#nextRecord').val()) < parseFloat($('#lastRecord').val())) {
         		$.ajax({
@@ -1596,12 +1595,12 @@
            		},
             		beforeSend: function () {
                		// this is where we append a loading image
-               		$('#infoPanel').html('<div class='progress'><img src='./images/loading.gif'  alt='Loading...'  /></div>');
+               		$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
             		},
             		success: function (data) {
                 		// successful request; do something with the data
                		if (data.success == true) {
-                    		$('#infoPanel').html('<div class=\'alert alert-info\'>Loading Complete</div>');
+                    		$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
         $('#themeId').val(data.data.themeId);
         $('#themeSequence').val(data.data.themeSequence);
         $('#themeCode').val(data.data.themeCode);
@@ -1636,7 +1635,7 @@
               	error: function (data) {
                  	// failed request; give feedback to user
                  	if (data.success == false) {
-                     	 $('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');
+                     	 $('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
                   	}
               	}
            	});

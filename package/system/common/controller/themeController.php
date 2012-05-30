@@ -454,7 +454,8 @@ STAFF.STAFFNAME
          */ 
         $tableArray = null; 
         $tableArray = array('theme'); 
-        if ($this->getFieldQuery()) { 
+        if ($this->getFieldQuery()) {
+			$this->q->setFieldQuery($this->getFieldQuery());	
             if ($this->getVendor() == self::MYSQL) { 
                 $sql .= $this->q->quickSearch($tableArray, $filterArray); 
             } else if ($this->getVendor() == self::MSSQL) { 
@@ -465,6 +466,7 @@ STAFF.STAFFNAME
                 $sql .= $tempSql; 
             } 
         } 
+		
         /** 
          * Extjs filtering mode 
          */ 

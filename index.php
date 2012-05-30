@@ -419,7 +419,7 @@ $title = "Peringkat Testing";
                 //    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
             
                 $("#rightViewport").load(url,{ method:'read',type:'list',detail:'body',leafId:leafId,pageType:'leaf',securityToken:securityToken }, function(response, status, xhr) {
-        
+				$("#leftViewport").hide();
                     
             
                     if (status == "error") {
