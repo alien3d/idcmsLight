@@ -129,46 +129,46 @@
     function showModalDelete(themeId,themeSequence,themeCode,themeNote,themePath,isDefault,isNew,isDraft,isUpdate,isDelete,isActive,isApproved,isReview,isPost) {
         // clear first old record if exist
         $('#themeIdPreview').val('');
-        $('#themeIdPreview').val(themeId);
+        $('#themeIdPreview').val(unescape(themeId));
 
         $('#themeSequencePreview').val('');
-        $('#themeSequencePreview').val(themeSequence);
+        $('#themeSequencePreview').val(escape(themeSequence));
 
         $('#themeCodePreview').val('');
-        $('#themeCodePreview').val(themeCode);
+        $('#themeCodePreview').val(unescape(themeCode));
 
         $('#themeNotePreview').val('');
-        $('#themeNotePreview').val(themeNote);
+        $('#themeNotePreview').val(unescape(themeNote));
 
         $('#themePathPreview').val('');
-        $('#themePathPreview').val(themePath);
+        $('#themePathPreview').val(unescape(themePath));
 
         $('#isDefaultPreview').val('');
-        $('#isDefaultPreview').val(isDefault);
+        $('#isDefaultPreview').val(unescape(isDefault));
 
         $('#isNewPreview').val('');
-        $('#isNewPreview').val(isNew);
+        $('#isNewPreview').val(unescape(isNew));
 
         $('#isDraftPreview').val('');
-        $('#isDraftPreview').val(isDraft);
+        $('#isDraftPreview').val(unescape(isDraft));
 
         $('#isUpdatePreview').val('');
-        $('#isUpdatePreview').val(isUpdate);
+        $('#isUpdatePreview').val(unescape(isUpdate));
 
         $('#isDeletePreview').val('');
-        $('#isDeletePreview').val(isDelete);
+        $('#isDeletePreview').val(unescape(isDelete));
 
         $('#isActivePreview').val('');
-        $('#isActivePreview').val(isActive);
+        $('#isActivePreview').val(unescape(isActive));
 
         $('#isApprovedPreview').val('');
-        $('#isApprovedPreview').val(isApproved);
+        $('#isApprovedPreview').val(unescape(isApproved));
 
         $('#isReviewPreview').val('');
-        $('#isReviewPreview').val(isReview);
+        $('#isReviewPreview').val(unescape(isReview));
 
         $('#isPostPreview').val('');
-        $('#isPostPreview').val(isPost);
+        $('#isPostPreview').val(unescape(isPost));
 
         // open modal box
         showMeModal('deletePreview', 1);
@@ -209,7 +209,8 @@
         }	 else {}
     }
     function newRecord(url, securityToken, type) {
-        var css = $('#newRecordButton').attr('class');
+		alert("running daaa");
+        var css = $('#newRecordButton2').attr('class');
         if (css.search('disabled') > 0) {
             // access denied
         } else {

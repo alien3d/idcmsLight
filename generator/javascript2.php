@@ -5,7 +5,20 @@
 		for ($i = 0; $i < $total; $i++) {
 			// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation') {
 				$fieldName.=$data[$i]['columnName'].",";
 			}
 		
@@ -146,7 +159,8 @@
 			if ($data[$i]['columnName'] != 'executeBy' &&
 				$data[$i]['columnName'] != 'executeTime') {
 				$str.="		\$('#".$data[$i]['columnName']."Preview').val('');\n";
-				$str.="		\$('#".$data[$i]['columnName']."Preview').val(".$data[$i]['columnName'].");\n\n";
+				// decode back
+				$str.="		\$('#".$data[$i]['columnName']."Preview').val(unescape(".$data[$i]['columnName']."));\n\n";
 			}
 		}
 		$str.="		// open modal box\n";
@@ -181,14 +195,14 @@
 		$str.="    				}\n";
 		$str.="				});\n";
 		$str.="		}\n";
-		$str.="	function auditRecord() {\n";
+		$str.="	function auditRecord(url, securityToken) {\n";
 		$str.="		var css = \$('#auditRecordButton').attr('class');\n";
 		$str.="		if (css.search('disabled') > 0) {\n";
 		$str.="			// access denied  \n";
 		$str.="		}	 else {}\n";
 		$str.="	}\n";
 		$str.="	function newRecord(url, securityToken, type) {\n";
-		$str.="		var css = \$('#newRecordButton').attr('class');\n";
+		$str.="		var css = \$('#newRecordButton2').attr('class');\n";
 		$str.="		if (css.search('disabled') > 0) {\n";
 		$str.="			// access denied\n";  
 		$str.="		} else {\n";
@@ -196,9 +210,27 @@
 		$str.="				// new record and continue\n";
 		 $d=0;
 		for ($i = 0; $i < $total; $i++) {
-				// this field is auto update by session
+				// this field is auto update by session and id don't exist yet..
+				// extjs generate phantom id instead
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation'&&
+				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
 				if($i ==0) {
 					// first do nothing because it was primary key
 				}  else if($d==0)  {
@@ -223,9 +255,23 @@
 		$str.="						data	:	{\n";
 		$str.="							method					:	'create',\n";
 		for ($i = 0; $i < $total; $i++) {
-				// this field is auto update by session
+				// filter unnessary field to create a new record
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime' &&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation'&&
+				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
 				$str.="							".$data[$i]['columnName']."					: 	\$('#".$data[$i]['columnName']."').val(),\n";
 			}
 		}
@@ -243,7 +289,21 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation'&&
+				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
 				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
 			}
 		}
@@ -266,7 +326,21 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation'&&
+				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
 				if($i ==0) {
 					// first do nothing because it was primary key
 				}  else if($d==0)  {
@@ -293,7 +367,21 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation'&&
+				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
 				$str.="							".$data[$i]['columnName']."Id					: 	\$('#".$data[$i]['columnName']."Id').val(),\n";
 			}
 		}
@@ -311,7 +399,21 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation'&&
+				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
 				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
 			}
 		}
@@ -332,7 +434,21 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation'&&
+				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
 				if($i ==0) {
 					// first do nothing because it was primary key
 				}  else if($d==0)  {
@@ -359,7 +475,21 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation'&&
+				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
 				$str.="                					".$data[$i]['columnName'].": \$('#".$data[$i]['columnName']."').val(),\n";
 			}
 		}
@@ -377,7 +507,21 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 		if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation'&&
+				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
 				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
 			}
 		}
@@ -398,7 +542,21 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation'&&
+				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
 				if($i ==0) {
 					// first do nothing because it was primary key
 				}  else if($d==0)  {
@@ -423,7 +581,24 @@
 		$str.="                data	:	{\n";
 		$str.="                		method					:	'create',\n";
 		for ($i = 0; $i < $total; $i++) {
-			$str.="                					".$data[$i]['columnName'].": \$('#".$data[$i]['columnName']."').val(),\n";
+			if ($data[$i]['columnName'] != 'executeBy' &&
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation'&&
+				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
+					$str.="                					".$data[$i]['columnName'].": \$('#".$data[$i]['columnName']."').val(),\n";
+			}
 		}
 		$str.="                    	securityToken			: 	securityToken\n";
 		$str.="					},\n";
@@ -439,7 +614,21 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation'&&
+				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
 				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
 			}
 		}
@@ -459,7 +648,21 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation'&&
+				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
 				if($i ==0) {
 					// first do nothing because it was primary key
 				}  else if($d==0)  {
@@ -486,7 +689,21 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation'&&
+				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
 				$str.="                					".$data[$i]['columnName'].": \$('#".$data[$i]['columnName']."').val(),\n";
 			}
 		}
@@ -504,7 +721,21 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation'&&
+				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
 				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
 			}
 		}
@@ -534,7 +765,20 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation') {
 				if($i ==0) {
 					// first do nothing because it was primary key
 				}  else if($d==0)  {
@@ -575,7 +819,20 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation') {
 				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
 			}
 		}
@@ -597,7 +854,20 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation') {
 				if($i ==0) {
 					// first do nothing because it was primary key
 				}  else if($d==0)  {
@@ -622,7 +892,23 @@
 		$str.="								data	:	{\n";
 		$str.="									method					:	'save',\n";
         for ($i = 0; $i < $total; $i++) {
+					if ($data[$i]['columnName'] != 'executeBy' &&
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation') {
 			$str.="                					".$data[$i]['columnName'].": \$('#".$data[$i]['columnName']."').val(),\n";
+			}
 		}
         $str.="                					securityToken			: 	securityToken\n";
         $str.="            					},\n";
@@ -638,7 +924,20 @@
         for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation') {
 				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
 			}
 		}
@@ -660,7 +959,20 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation') {
 				if($i ==0) {
 					// first do nothing because it was primary key
 				}  else if($d==0)  {
@@ -687,7 +999,21 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation'
+				) {
 				$str.="                					".$data[$i]['columnName'].": \$('#".$data[$i]['columnName']."').val(),\n";
 			}
 		}
@@ -706,7 +1032,20 @@
         for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation') {
 				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
 			}
 		}
@@ -751,7 +1090,20 @@
         for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation') {
 				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
 			}
 		}
@@ -772,7 +1124,20 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation') {
 				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
 			}
 		}
@@ -827,7 +1192,20 @@
         for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation') {
 				$str.="		\$('#".$data[$i]['columnName']."').val(data.data.".$data[$i]['columnName'].");\n";	
 			}
 		}
@@ -905,7 +1283,20 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation') {
 				$str.="		\$('#".$data[$i]['columnName']."').val(data.data.".$data[$i]['columnName'].");\n";	
 			}
 		}
@@ -971,7 +1362,20 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime'&&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation') {
 				$str.="		\$('#".$data[$i]['columnName']."').val(data.data.".$data[$i]['columnName'].");\n";	
 			}			
 		}

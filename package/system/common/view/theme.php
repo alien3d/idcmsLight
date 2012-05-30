@@ -73,7 +73,7 @@ define("LIMIT",14);
         <div class='modal-body'>  
 <div class='control-group' id='themeSequenceDiv' >
 
-                                <label class='control-label'><?php if(isset($themeSequence)) {  echo $leafTranslation['themeSequence']; } ?></label>
+                                <label class='control-label'><?php if(isset($themeSequence)) {  echo $leafTranslation['themeSequenceLabel']; } ?></label>
 
                                 <div class='controls  input-prepend'>
 
@@ -85,24 +85,24 @@ define("LIMIT",14);
 
                             </div>
 <div class='control-group' id='themeCodeDiv'>
-                                <label class='control-label'><?php if(isset($themeCode)) {  echo $leafTranslation['themeCode']; } ?></label>
+                                <label class='control-label'><?php if(isset($themeCode)) {  echo $leafTranslation['themeCodeLabel']; } ?></label>
                                 <div class='controls  input-prepend'>
                                     <input type='text' name='themeCode' id='themeCode' placeholder='Field Of themeCode' class='span3'>
                                 </div>
                             </div><div class='control-group' id='themeNoteDiv'>
-                                <label class='control-label'><?php if(isset($themeNote)) {  echo $leafTranslation['themeNote']; } ?></label>
+                                <label class='control-label'><?php if(isset($themeNote)) {  echo $leafTranslation['themeNoteLabel']; } ?></label>
                                 <div class='controls  input-prepend'>
                                     <input type='text' name='themeNote' id='themeNote' placeholder='Field Of themeNote' class='span3'>
                                 </div>
                             </div><div class='control-group' id='themePathDiv'>
-                                <label class='control-label'><?php if(isset($themePath)) {  echo $leafTranslation['themePath']; } ?></label>
+                                <label class='control-label'><?php if(isset($themePath)) {  echo $leafTranslation['themePathLabel']; } ?></label>
                                 <div class='controls  input-prepend'>
                                     <input type='text' name='themePath' id='themePath' placeholder='Field Of themePath' class='span3'>
                                 </div>
                             </div>        </div> 
         <div class='modal-footer'> 
-            <a href='javascript:void(0)' class='btn btn-info'>Search</a> 
-            <a href='javascript:void(0)' onclick='showMeModal('filterGridAdvance',0)' class='btn'>Close</a> 
+            <a href=javascript:void(0) class='btn btn-info'>Search</a> 
+            <a href=javascript:void(0) onclick=showMeModal('filterGridAdvance',0) class='btn'>Close</a> 
         </div> 
     </div> 
     <div  class='modal hide fade' id='deletePreview'> 
@@ -113,44 +113,44 @@ define("LIMIT",14);
         <div class='modal-body'> 
             <input type='hidden' name='themeIdPreview' id='themeIdPreview'> 
 <div class='control-group' id='themeSequenceDiv'>
-                                <label class='control-label'><?php if(isset($themeSequence)) {  echo $leafTranslation['themeSequence']; } ?></label>
+                                <label class='control-label'><?php echo $leafTranslation['themeSequenceLabel'];  ?></label>
                                 <div class='controls  input-prepend'>
                                     <input type='text' name='themeSequencePreview' id='themeSequencePreview' placeholder='Field Of themeSequence' class='span3'>
                                 </div>
                             </div><div class='control-group' id='themeCodeDiv'>
-                                <label class='control-label'><?php if(isset($themeCode)) {  echo $leafTranslation['themeCode']; } ?></label>
+                                <label class='control-label'><?php echo $leafTranslation['themeCodeLabel'];  ?></label>
                                 <div class='controls  input-prepend'>
                                     <input type='text' name='themeCodePreview' id='themeCodePreview' placeholder='Field Of themeCode' class='span3'>
                                 </div>
                             </div><div class='control-group' id='themeNoteDiv'>
-                                <label class='control-label'><?php if(isset($themeNote)) {  echo $leafTranslation['themeNote']; } ?></label>
+                                <label class='control-label'><?php echo $leafTranslation['themeNoteLabel'];  ?></label>
                                 <div class='controls  input-prepend'>
                                     <input type='text' name='themeNotePreview' id='themeNotePreview' placeholder='Field Of themeNote' class='span3'>
                                 </div>
                             </div><div class='control-group' id='themePathDiv'>
-                                <label class='control-label'><?php if(isset($themePath)) {  echo $leafTranslation['themePath']; } ?></label>
+                                <label class='control-label'><?php echo $leafTranslation['themePathLabel'];  ?></label>
                                 <div class='controls  input-prepend'>
                                     <input type='text' name='themePathPreview' id='themePathPreview' placeholder='Field Of themePath' class='span3'>
                                 </div>
                             </div><div class='control-group' id='isDefaultDiv'>
-                                <label class='control-label'><?php if(isset($isDefault)) {  echo $leafTranslation['isDefault']; } ?></label>
+                                <label class='control-label'><?php echo $leafTranslation['isDefaultLabel'];  ?></label>
                                 <div class='controls  input-prepend'>
                                     <input type='text' name='isDefaultPreview' id='isDefaultPreview' placeholder='Field Of isDefault' class='span3'>
                                 </div>
                             </div><div class='control-group' id='isApprovedDiv'>
-                                <label class='control-label'><?php if(isset($isApproved)) {  echo $leafTranslation['isApproved']; } ?></label>
+                                <label class='control-label'><?php echo $leafTranslation['isApprovedLabel'];  ?></label>
                                 <div class='controls  input-prepend'>
                                     <input type='text' name='isApprovedPreview' id='isApprovedPreview' placeholder='Field Of isApproved' class='span3'>
                                 </div>
                             </div><div class='control-group' id='isPostDiv'>
-                                <label class='control-label'><?php if(isset($isPost)) {  echo $leafTranslation['isPost']; } ?></label>
+                                <label class='control-label'><?php echo $leafTranslation['isPostLabel'];  ?></label>
                                 <div class='controls  input-prepend'>
                                     <input type='text' name='isPostPreview' id='isPostPreview' placeholder='Field Of isPost' class='span3'>
                                 </div>
                             </div>        </div> 
         <div class='modal-footer'> 
-            <a href='javascript:void(0)' class='btn btn-danger' onClick='deleteGridRecord()'>Delete</a> 
-            <a href='javascript:void(0)' onclick='showMeModal('deletePreview',0)' class='btn'>Close</a> 
+            <a href=javascript:void(0) class='btn btn-danger' onClick=deleteGridRecord()>Delete</a> 
+            <a href=javascript:void(0) onclick=showMeModal('deletePreview',0) class='btn'>Close</a> 
         </div> 
    </div> 
 <div align='right'> 
@@ -243,8 +243,8 @@ if($_SESSION ['isAdmin'] ==1) {
                 if ($totalRecord > 0) { 
                     for ($i = 0; $i < $totalRecord; $i++) { ?> 
                         <tr> 
- <td><a class='btn-warning btn-mini' onClick=showFormUpdate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo intval($themeArray [$i]['themeId']); ?>')><i class='icon-edit  icon-white'></i>Update</a>  
-                    <a class='btn-danger btn-mini' onClick=showModalDelete('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>','<?php echo $themeArray [$i]['themeId']; ?>','<?php echo $themeArray [$i]['themeSequence']; ?>','<?php echo $themeArray [$i]['themeCode']; ?>','<?php echo $themeArray [$i]['themeNote']; ?>','<?php echo $themeArray [$i]['themePath']; ?>','<?php echo $themeArray [$i]['isDefault']; ?>','<?php echo $themeArray [$i]['isNew']; ?>','<?php echo $themeArray [$i]['isDraft']; ?>','<?php echo $themeArray [$i]['isUpdate']; ?>','<?php echo $themeArray [$i]['isDelete']; ?>','<?php echo $themeArray [$i]['isActive']; ?>','<?php echo $themeArray [$i]['isApproved']; ?>','<?php echo $themeArray [$i]['isReview']; ?>','<?php echo $themeArray [$i]['isPost']; ?>','<?php echo $themeArray [$i]['executeBy']; ?>','<?php echo $themeArray [$i]['executeTime']; ?>')><i class='icon-trash  icon-white'></i> Delete</a></td> 
+ <td><a class='btn-warning btn-mini' onClick=showFormUpdate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo intval($themeArray [$i]['themeId']); ?>')><i class='icon-edit icon-white'></i>Update</a>  
+                    <a class='btn-danger btn-mini' onClick=showModalDelete('<?php echo rawurlencode($themeArray [$i]['themeId']); ?>','<?php echo rawurlencode($themeArray [$i]['themeSequence']); ?>','<?php echo rawurlencode($themeArray [$i]['themeCode']); ?>','<?php echo rawurlencode($themeArray [$i]['themeNote']); ?>','<?php echo rawurlencode($themeArray [$i]['themePath']); ?>','<?php echo rawurlencode($themeArray [$i]['isDefault']); ?>','<?php echo rawurlencode($themeArray [$i]['isNew']); ?>','<?php echo rawurlencode($themeArray [$i]['isDraft']); ?>','<?php echo rawurlencode($themeArray [$i]['isUpdate']); ?>','<?php echo rawurlencode($themeArray [$i]['isDelete']); ?>','<?php echo rawurlencode($themeArray [$i]['isActive']); ?>','<?php echo rawurlencode($themeArray [$i]['isApproved']); ?>','<?php echo rawurlencode($themeArray [$i]['isReview']); ?>','<?php echo rawurlencode($themeArray [$i]['isPost']); ?>','<?php echo rawurlencode($themeArray [$i]['executeBy']); ?>','<?php echo rawurlencode($themeArray [$i]['executeTime']); ?>')><i class='icon-trash  icon-white'></i> Delete</a></td> 
 <?php  
 if(isset($themeArray[$i]['themeSequence'])) { 
 
@@ -468,34 +468,34 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] =
                                 </div>
                             </div>    <div class='btn-toolbar'> 
         <div class='btn-group'> 
-            <a  name='auditRecordButton' id='auditRecordButton'  href='javascript:void(0)' 
+            <a  name='auditRecordButton' id='auditRecordButton'  href=javascript:void(0) 
     class='<?php if($leafAccess['isDraft']==0) { ?>btn btn-warning disabled<?php } else { ?>btn btn-warning<?php } ?>' 
-    onClick='<?php if($leafAccess['isDraft']==1) { ?>) { ?>auditRecord()<?php } ?>'><i class='icon-warning-sign icon-white'></i><?php echo $buttonTranslation['isAuditLabel']; ?></a> 
+    onClick=<?php if($leafAccess['isDraft']==1) { ?>) { ?>auditRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',)<?php } ?>><i class='icon-warning-sign icon-white'></i><?php echo $buttonTranslation['isAuditLabel']; ?></a> 
         </div>        <div class='btn-group'>            <a  name=newRecordButton1 id=newRecordButton1 href=javascript:void(0) class='<?php if($leafAccess['isNew']==0) { ?>btn btn-success disabled<?php } else { ?>btn btn-success  <?php } ?>'><i class=icon-plus icon-white></i><?php echo $buttonTranslation['isNewLabel'][0]; ?></a> 
             <a  name=newRecordButton2 id=newRecordButton2 href=javascript:void(0) data-toggle='dropdown' class='btn dropdown-toggle btn-success'><span class=caret></span></a> 
             <ul class='dropdown-menu'> 
-                <li><a name=newRecordButton3 id=newRecordButton3 href=javascript:void(0) onClick=<?php if($leafAccess['isNew']==1) { ?>newRecord(1) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class=icon-plus></i><?php echo $buttonTranslation['isNewLabel'][1]; ?></a></li> 
-                <li><a name=newRecordButton4 id=newRecordButton4 href=javascript:void(0) onClick=<?php if($leafAccess['isNew']==1) { ?>newRecord(2) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class=icon-edit></i><?php echo $buttonTranslation['isNewLabel'][2]; ?></a></li> 
-                <li><a name=newRecordButton5 id=newRecordButton5 href=javascript:void(0) onClick=<?php if($leafAccess['isNew']==1) { ?>newRecord(3) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class=icon-print></i><?php echo $buttonTranslation['isNewLabel'][3]; ?></a></li> 
-                <li><a name=newRecordButton6 id=newRecordButton6 href=javascript:void(0) onClick=<?php if($leafAccess['isNew']==1) { ?>newRecord(4) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class=icon-print></i><?php echo $buttonTranslation['isNewLabel'][4]; ?></a></li> 
-                <li><a name=newRecordButton7 id=newRecordButton7 href=javascript:void(0) onClick=<?php if($leafAccess['isNew']==1) { ?>newRecord(5) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class=icon-list></i><?php echo $buttonTranslation['isNewLabel'][5]; ?></a></li> 
+                <li><a name=newRecordButton3 id=newRecordButton3 href=javascript:void(0) onClick=<?php if($leafAccess['isNew']==1) { ?>newRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',1) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class=icon-plus></i><?php echo $buttonTranslation['isNewLabel'][1]; ?></a></li> 
+                <li><a name=newRecordButton4 id=newRecordButton4 href=javascript:void(0) onClick=<?php if($leafAccess['isNew']==1) { ?>newRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',2) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class=icon-edit></i><?php echo $buttonTranslation['isNewLabel'][2]; ?></a></li> 
+                <li><a name=newRecordButton5 id=newRecordButton5 href=javascript:void(0) onClick=<?php if($leafAccess['isNew']==1) { ?>newRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',3) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class=icon-print></i><?php echo $buttonTranslation['isNewLabel'][3]; ?></a></li> 
+                <li><a name=newRecordButton6 id=newRecordButton6 href=javascript:void(0) onClick=<?php if($leafAccess['isNew']==1) { ?>newRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',4) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class=icon-print></i><?php echo $buttonTranslation['isNewLabel'][4]; ?></a></li> 
+                <li><a name=newRecordButton7 id=newRecordButton7 href=javascript:void(0) onClick=<?php if($leafAccess['isNew']==1) { ?>newRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',5) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class=icon-list></i><?php echo $buttonTranslation['isNewLabel'][5]; ?></a></li> 
             </ul> 
         </div> 
         <div class='btn-group'> 
             <a  name=updateRecordButton1 id=updateRecordButton href=javascript:void(0) class='<?php if($leafAccess['isUpdate']==0) { ?>btn btn-info 	disabled<?php } else { ?>btn btn-info <?php } ?>'><i class=icon-edit icon-white></i><?php echo $buttonTranslation['isUpdateLabel'][0]; ?></a> 
             <a  name=updateRecordButton2 id=updateRecordButton href=javascript:void(0) data-toggle='dropdown' class='btn dropdown-toggle btn-info'><span class=caret></span></a> 
             <ul class='dropdown-menu'> 
-                <li><a name=updateRecordButton3 id=updateRecordButton href=javascript:void(0) onClick=<?php if($leafAccess['isUpdate']==1) { ?>updateRecord(1)<?php } ?>' class=<?php if($leafAccess['isUpdate']==0) { ?>disabled <?php } ?>><i class=icon-plus></i><?php echo $buttonTranslation['isUpdateLabel'][1]; ?></a></li> 
-                <li><a name=updateRecordButton4 id=updateRecordButton href=javascript:void(0) onClick=<?php if($leafAccess['isUpdate']==1) { ?>updateRecord(2)<?php } ?>' class=<?php if($leafAccess['isUpdate']==0) { ?>disabled <?php } ?>><i class=icon-print></i><?php echo $buttonTranslation['isUpdateLabel'][2]; ?></a></li> 
-                <li><a name=updateRecordButton5 id=updateRecordButton href=javascript:void(0) onClick=<?php if($leafAccess['isUpdate']==1) { ?>updateRecord(3)<?php } ?>' class=<?php if($leafAccess['isUpdate']==0) { ?>disabled <?php } ?>><i class=icon-list-alt></i><?php echo $buttonTranslation['isUpdateLabel'][3]; ?></a></li> 
+                <li><a name=updateRecordButton3 id=updateRecordButton href=javascript:void(0) onClick=<?php if($leafAccess['isUpdate']==1) { ?>updateRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',1)<?php } ?>' class=<?php if($leafAccess['isUpdate']==0) { ?>disabled <?php } ?>><i class=icon-plus></i><?php echo $buttonTranslation['isUpdateLabel'][1]; ?></a></li> 
+                <li><a name=updateRecordButton4 id=updateRecordButton href=javascript:void(0) onClick=<?php if($leafAccess['isUpdate']==1) { ?>updateRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',2)<?php } ?>' class=<?php if($leafAccess['isUpdate']==0) { ?>disabled <?php } ?>><i class=icon-print></i><?php echo $buttonTranslation['isUpdateLabel'][2]; ?></a></li> 
+                <li><a name=updateRecordButton5 id=updateRecordButton href=javascript:void(0) onClick=<?php if($leafAccess['isUpdate']==1) { ?>updateRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',3)<?php } ?>' class=<?php if($leafAccess['isUpdate']==0) { ?>disabled <?php } ?>><i class=icon-list-alt></i><?php echo $buttonTranslation['isUpdateLabel'][3]; ?></a></li> 
             </ul> 
         </div> 
         <div class='btn-group'> 
-            <a name=deleteRecordButton id=deleteRecordButton href=javascript:void(0)  onClick=<?php if($leafAccess['isDelete']==1) { ?>deleteRecord()<?php } ?> class=<?php if($leafAccess['isDelete']==0) { ?>btn btn-danger disabled<?php } else { ?>btn btn-danger<?php } ?>><i class=icon-trash icon-white></i><?php echo $buttonTranslation['isDeleteLabel']; ?></a> 
+            <a name=deleteRecordButton id=deleteRecordButton href=javascript:void(0)  onClick=<?php if($leafAccess['isDelete']==1) { ?>deleteRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',)<?php } ?> class=<?php if($leafAccess['isDelete']==0) { ?>btn btn-danger disabled<?php } else { ?>btn btn-danger<?php } ?>><i class=icon-trash icon-white></i><?php echo $buttonTranslation['isDeleteLabel']; ?></a> 
         </div> 
         <div class='btn-group'>            <a name=resetRecordButton id=resetRecordButton href=javascript:void(0) class='btn btn-info' onClick=resetRecord()><i class=icon-refresh icon-white></i><?php echo $buttonTranslation['isResetLabel']; ?></a> 
         </div> 
-        <div class='btn-group'>            <a name=postRecordButton id=postRecordButton href=javascript:void(0) class='<?php if($leafAccess['isPost']==0) { ?>btn btn-warning  disabled<?php } else { ?>btn btn-warning<?php } ?>' onClick=<?php if($leafAccess['isPost']==1) { ?>postRecord()<?php } ?>><i class=icon-cog icon-white></i><?php echo $buttonTranslation['isPostLabel']; ?></a> 
+        <div class='btn-group'>            <a name=postRecordButton id=postRecordButton href=javascript:void(0) class='<?php if($leafAccess['isPost']==0) { ?>btn btn-warning  disabled<?php } else { ?>btn btn-warning<?php } ?>' onClick=<?php if($leafAccess['isPost']==1) { ?>postRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',)<?php } ?>><i class=icon-cog icon-white></i><?php echo $buttonTranslation['isPostLabel']; ?></a> 
         </div> 
         <div class='btn-group'>            <a name=listRecordButton id=listRecordButton href=javascript:void(0) class='btn btn-info' onClick=showGrid('<?php $theme->getViewPath(); ?>','<?php echo $securityToken; ?>',0,<?php echo LIMIT; ?>)><i class=icon-list icon-white></i>Listing</a> 
         </div> 
