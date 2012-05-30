@@ -245,6 +245,10 @@ for ($i = 0; $i < $total; $i++) {
                 case 'isApproved':
                 case 'isReview':
                 case 'isPost':
+				/**
+				// hidden for temporaly purpose.customer request then open it
+				**/
+				break;
 				case 'executeBy':
                 case 'executeTime':
                     $str.="if(\$_SESSION ['isAdmin'] ==1) {\n ";
@@ -291,20 +295,94 @@ for ($i = 0; $i < $total; $i++) {
                 case 'isApproved':
                 case 'isReview':
                 case 'isPost':
-                    $str.=" if(\$_SESSION ['isAdmin'] ==1) {\n ";
+                /**
+				// hidden for temporaly purpose.customer request then open it
+					$str.=" if(\$_SESSION ['isAdmin'] ==1) {\n ";
 					$str.="		if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) {\n ";
 									$str.=" echo \"<td>\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'].\"</td>\"; \n";
 								$str.=" } else { \n";
 								$str.="			echo \"<td>&nbsp;</td>\"; \n";
 								$str.="		}\n";
 						$str.="	} \n ";
-$str.="?>\n";						
+$str.="?>\n";		
+				**/		
                 break;
-                default:
-							$str.="if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) { \n
-										echo \"<td>\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'].\"</td>\"; \n";
+				case 'executeBy':
+				$str.="if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) { \n
+										echo \"<td>\".\$" . $data[0]['tableName'] . "Array[\$i]['staffName'].\"</td>\"; \n";
 							$str.="} else { \n 
 										echo \"<td>&nbsp;</td>\"; \n
+								    } \n  ?>";
+				break;
+				case 'executeTime':
+					$str.="if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) { \n";
+								$str.=" 	\$valueArray = \$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];  \n";
+								
+								$str.=" 	\$valueArrayDate 	=	explode(' ',\$valueArray);  \n";
+								$str.=" 	\$valueArrayFirst 	= 	\$valueArrayDate[0];         \n";
+								$str.=" 	\$valueArraySecond	= 	\$valueArrayDate[1];          \n";    
+								
+								$str.=" 	\$valueDataFirst 	= 	explode('-',\$valueArrayFirst);  \n";
+								$str.=" 	\$year 				=	\$valueDataFirst[0];               \n";
+								$str.=" 	\$month 			= 	\$valueDataFirst[1];            \n";
+								$str.=" 	\$day	 			= 	\$valueDataFirst[2];                \n";
+								
+								$$str.="	\$valueDataSecond 	= 	explode('-',\$valueArraySecond);  \n";
+								$str.=" 	\$hour 				= 	\$valueDataSecond[0];  \n";
+								$str.=" 	\$minute 			= 	\$valueDataSecond[1];  \n";
+								$str.=" 	\$second 			= 	\$valueDataSecond[2];  \n";
+								
+								$str.=" \$value = date(\$systemFormat['systemSettingDateFormat'].\$systemFormat['systemSettingTimeFormat'],mktime(\$hour,\$minute,\$second,\$month,\$day,\$year)); \n";
+								$str.="		echo \"<td>\".\$value.\"</td>\"; \n";
+							$str.="} else { \n 
+										echo \"<td>&nbsp;</td>\"; \n
+								    } \n  ?>";
+				break;
+                default:
+							// if the type are decimel or float. align right
+							// if the length is 4 align  center
+							// if  normal align  left.For easy reading
+							if($data[$i]['formType']=='double' || $data[$i]['formType']=='int') { 
+								$align='right';
+							} else if ($data[$i]['length']==4) {
+								$align='center';
+							} else {
+								$align='left';
+							}
+							//must check data type if date .. convert output to master setting date
+							if($data[$i]['formType']=='date') {
+								$str.=" 	\$valueArray 		= 	\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "']; \n";
+								$str.=" 	\$valueData 		= 	explode('-',\$valueArray);  \n";
+								$str.=" 	\$year 				= 	\$valueData[0];  \n";
+								$str.=" 	\$month 			= 	\$valueData[1];   \n";
+								$str.=" 	\$day 				= 	\$valueData[2];  \n";
+								$str.=" 	\$value				=	date(\$systemFormat['systemSettingDateFormat'],mktime(0,0,0,\$month,\$day,\$year));  \n";
+							} else if($data[$i]['formType']=='datetime') {
+								$str.=" 	\$valueArray = \$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];  \n";
+								
+								$str.=" 	\$valueArrayDate 	=	explode(' ',\$valueArray);  \n";
+								$str.=" 	\$valueArrayFirst 	= 	\$valueArrayDate[0];         \n";
+								$str.=" 	\$valueArraySecond	= 	\$valueArrayDate[1];          \n";    
+								
+								$str.=" 	\$valueDataFirst 	= 	explode('-',\$valueArrayFirst);  \n";
+								$str.=" 	\$year 				=	\$valueDataFirst[0];               \n";
+								$str.=" 	\$month 			= 	\$valueDataFirst[1];            \n";
+								$str.=" 	\$day	 			= 	\$valueDataFirst[2];                \n";
+								
+								$$str.="	\$valueDataSecond 	= 	explode('-',\$valueArraySecond);  \n";
+								$str.=" 	\$hour 				= 	\$valueDataSecond[0];  \n";
+								$str.=" 	\$minute 			= 	\$valueDataSecond[1];  \n";
+								$str.=" 	\$second 			= 	\$valueDataSecond[2];  \n";
+								
+								$str.=" \$value = date(\$systemFormat['systemSettingDateFormat'].\$systemFormat['systemSettingTimeFormat'],mktime(\$hour,\$minute,\$second,\$month,\$day,\$year)); \n";
+								$str.="  echo \"<td align=".$align.">\".\$value.\"</td>\"; \n";
+							} else {
+								$str.=" \$value = \$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "']; \n";
+							}
+							$str.="if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) { \n
+										echo \"<td align=".$align.">\".\$value.\"</td>\"; \n";
+							$str.="} else { \n 
+										echo \"<td  align=".$align.">&nbsp;</td>\"; \n
 								    } \n  ?>";
 		}							
 

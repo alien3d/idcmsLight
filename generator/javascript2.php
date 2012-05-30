@@ -157,7 +157,20 @@
 		for ($i = 0; $i < $total; $i++) {
 			// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime' &&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation') {
 				$str.="		\$('#".$data[$i]['columnName']."Preview').val('');\n";
 				// decode back
 				$str.="		\$('#".$data[$i]['columnName']."Preview').val(unescape(".$data[$i]['columnName']."));\n\n";
@@ -395,28 +408,9 @@
 		$str.="							// successful request; do something with the data\n";
 		$str.="							if (data.success == true) {\n";
 		$str.="								\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-		$str.="								// reseting field value\n";
-		for ($i = 0; $i < $total; $i++) {
-				// this field is auto update by session
-			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime'&&
-				$data[$i]['columnName'] != 'isDefault' &&
-				$data[$i]['columnName'] != 'isApproved' &&
-				$data[$i]['columnName'] != 'isPost' &&
-				$data[$i]['columnName'] != 'isDelete' &&
-				$data[$i]['columnName'] != 'isNew' &&
-				$data[$i]['columnName'] != 'isDraft' &&
-				$data[$i]['columnName'] != 'isUpdate' &&
-				$data[$i]['columnName'] != 'isDelete' &&
-				$data[$i]['columnName'] != 'isActive' &&
-				$data[$i]['columnName'] != 'isSeperated' &&
-				$data[$i]['columnName'] != 'isSingle' &&
-				$data[$i]['columnName'] != 'isReview' &&
-				$data[$i]['columnName'] != 'isConsolidation'&&
-				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
-				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
-			}
-		}
+		// no need to reset . can continue update the record
+		//$str.="								// reseting field value\n";
+		
 		$str.="							}\n";
 		$str.="						},\n";
 		$str.="                		error: function (data) {\n";
@@ -610,28 +604,9 @@
 		$str.="                    // successful request; do something with the data\n";
 		$str.="                    if (data.success == true) {\n";
 		$str.="                        \$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-		$str.="                        // reseting field value\n";
-		for ($i = 0; $i < $total; $i++) {
-				// this field is auto update by session
-			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime'&&
-				$data[$i]['columnName'] != 'isDefault' &&
-				$data[$i]['columnName'] != 'isApproved' &&
-				$data[$i]['columnName'] != 'isPost' &&
-				$data[$i]['columnName'] != 'isDelete' &&
-				$data[$i]['columnName'] != 'isNew' &&
-				$data[$i]['columnName'] != 'isDraft' &&
-				$data[$i]['columnName'] != 'isUpdate' &&
-				$data[$i]['columnName'] != 'isDelete' &&
-				$data[$i]['columnName'] != 'isActive' &&
-				$data[$i]['columnName'] != 'isSeperated' &&
-				$data[$i]['columnName'] != 'isSingle' &&
-				$data[$i]['columnName'] != 'isReview' &&
-				$data[$i]['columnName'] != 'isConsolidation'&&
-				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
-				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
-			}
-		}
+		// no need to reset value
+		//$str.="                        // reseting field value\n";
+		
 		$str.="                    }\n";
 		$str.="                	},\n";
 		$str.="                	error: function (data) {\n";
@@ -717,28 +692,7 @@
 		$str.="                    		// successful request; do something with the data\n";
 		$str.="                    		if (data.success == true) {\n";
 		$str.="                        		\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-		$str.="                        		// reseting field value\n";
-		for ($i = 0; $i < $total; $i++) {
-				// this field is auto update by session
-			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime'&&
-				$data[$i]['columnName'] != 'isDefault' &&
-				$data[$i]['columnName'] != 'isApproved' &&
-				$data[$i]['columnName'] != 'isPost' &&
-				$data[$i]['columnName'] != 'isDelete' &&
-				$data[$i]['columnName'] != 'isNew' &&
-				$data[$i]['columnName'] != 'isDraft' &&
-				$data[$i]['columnName'] != 'isUpdate' &&
-				$data[$i]['columnName'] != 'isDelete' &&
-				$data[$i]['columnName'] != 'isActive' &&
-				$data[$i]['columnName'] != 'isSeperated' &&
-				$data[$i]['columnName'] != 'isSingle' &&
-				$data[$i]['columnName'] != 'isReview' &&
-				$data[$i]['columnName'] != 'isConsolidation'&&
-				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
-				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
-			}
-		}
+		// no need to reset record instead redirect to list page again
 		$str.="                    		}	\n";
 		$str.="                		},\n";
 		$str.="                		error: function (data) {\n";
@@ -1438,7 +1392,20 @@
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime') {
+				$data[$i]['columnName'] != 'executeTime' &&
+				$data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation') {
 				$str.="		\$('#".$data[$i]['columnName']."').val(data.data.".$data[$i]['columnName'].");\n";	
 			}
 		}

@@ -418,7 +418,7 @@ class generator {
                 $infoColumn[$i]['Type'] = $rowFieldTable['Type'];
                 $infoColumn[$i]['Key'] = $rowFieldTable['Key'];
                 $infoColumn[$i]['foreignKey'] = $this->getInfoTableColumn($rowFieldTable['Field']);
-
+				$infoColumn[$i]['length'] = preg_replace("/[^0-9]/","",$rowFieldTable['Type']); 
                 $findme = 'varchar';
                 $pos = strpos($rowFieldTable['Type'], $findme);
                 if ($pos !== false) {
