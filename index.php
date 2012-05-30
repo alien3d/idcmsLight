@@ -420,8 +420,9 @@ $title = "Peringkat Testing";
             
                 $("#rightViewport").load(url,{ method:'read',type:'list',detail:'body',leafId:leafId,pageType:'leaf',securityToken:securityToken }, function(response, status, xhr) {
 				$("#leftViewport").hide();
-                    
-            
+                //force thhe right side 
+				$("#rightViewport").removeClass();
+				$("#rightViewport").addClass("span13");
                     if (status == "error") {
                 
                         var msg = "Sorry but there was an error: ";

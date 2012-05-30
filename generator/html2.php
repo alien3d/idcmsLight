@@ -265,14 +265,16 @@ $str.="                \$totalRecord = count(\$" . $data[0]['tableName'] . "Arra
 $str.="                if (\$totalRecord > 0) { \n";
 $str.="                    for (\$i = 0; \$i < \$totalRecord; \$i++) { ?> \n";
 $str.="                        <tr> \n";
+$strInside=null;
 for ($i = 0; $i < $total; $i++) {
     if ($data[$i]['Key'] == 'PRI') {
-        $str.=" <td><a class='btn-warning btn-mini' onClick='showFormUpdate('<?php \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo intval(\$" . $data[0]['tableName'] . "Array [\$i]['" . $data[0]['tableName'] . "Id']); ?>')'><i class='icon-edit  icon-white'></i>Update</a>  
-                    <a class='btn-danger btn-mini' onClick='showModalDelete('<?php \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>',";
+        $str.=" <td><a class='btn-warning btn-mini' onClick=showFormUpdate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo intval(\$" . $data[0]['tableName'] . "Array [\$i]['" . $data[0]['tableName'] . "Id']); ?>')><i class='icon-edit icon-white'></i>Update</a>  
+                    <a class='btn-danger btn-mini' onClick=showModalDelete('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>',";
         for ($d = 0; $d < $total; $d++) {
-            $str.="'<?php echo \$" . $data[0]['tableName'] . "Array [\$i]['" . $data[$d]['columnName'] . "']; ?>',";
+            $strInside.="'<?php echo \$" . $data[0]['tableName'] . "Array [\$i]['" . $data[$d]['columnName'] . "']; ?>',";
         }
-        $str.=")'><i class='icon-trash  icon-white'></i> Delete</a></td> \n";
+		$str.=substr($strInside,0,-1);
+        $str.=")><i class='icon-trash  icon-white'></i> Delete</a></td> \n";
     } else {
 		$str.="<?php  \n";
 		switch($data[$i]['columnName']) {

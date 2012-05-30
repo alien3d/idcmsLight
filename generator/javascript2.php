@@ -109,7 +109,7 @@
 		$str.="			}\n";
 		$str.="		});\n";
 		$str.="	}\n";
-		$str.="	function showFormUpdate(url, securityToken, midnightMarketId) {\n";
+		$str.="	function showFormUpdate(url, securityToken, " . $data[0]['tableName'] . "Id) {\n";
 		$str.="		// unlimited for searching because  lazy paging.\n";
 		$str.="		\$.ajax({\n";
 		$str.="    				type	: 	'POST',\n";

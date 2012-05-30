@@ -96,7 +96,7 @@
             }
         });
     }
-    function showFormUpdate(url, securityToken, midnightMarketId) {
+    function showFormUpdate(url, securityToken, themeId) {
         // unlimited for searching because  lazy paging.
         $.ajax({
     				type	: 	'POST',
