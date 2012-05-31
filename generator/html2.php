@@ -537,7 +537,7 @@ $str.="        <div class='btn-group'>";
 $str.="            <a name=postRecordButton id=postRecordButton href=javascript:void(0) class='<?php if(\$leafAccess['isPost']==0) { ?>btn btn-warning  disabled<?php } else { ?>btn btn-warning<?php } ?>' <?php if(\$leafAccess['isPost']==1) { ?>onClick=postRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>',)<?php } ?>><i class=icon-cog icon-white></i><?php echo \$buttonTranslation['isPostLabel']; ?></a> \n";
 $str.="        </div> \n";
 $str.="        <div class='btn-group'>";
-$str.="            <a name=listRecordButton id=listRecordButton href=javascript:void(0) class='btn btn-info' onClick=showGrid('<?php \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>',0,<?php echo LIMIT; ?>)><i class=icon-list icon-white></i>Listing</a> \n";
+$str.="            <a name=listRecordButton id=listRecordButton href=javascript:void(0) class='btn btn-info' onClick=showGrid('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>',0,<?php echo LIMIT; ?>)><i class=icon-list icon-white></i>Listing</a> \n";
 $str.="        </div> \n";
 $str.="        <div class='btn-group'> \n";
 $str.="            <a name=firstRecordButton id=firstRecordButton href=javascript:void(0) class='btn btn-info' onClick=firstRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-fast-backward icon-white></i><?php echo \$defaultTranslation['firstButtonLabel']; ?></a> \n";

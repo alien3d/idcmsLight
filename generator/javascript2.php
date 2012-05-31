@@ -873,27 +873,13 @@
 		$str.="               				// successful request; do something with the data\n";
 		$str.="               				if (data.success == true) {\n";
 		$str.="                   				\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-		$str.="                   				// reseting field value\n";
-		for ($i = 0; $i < $total; $i++) {
-				// this field is auto update by session
-			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime'&&
-				$data[$i]['columnName'] != 'isDefault' &&
-				$data[$i]['columnName'] != 'isApproved' &&
-				$data[$i]['columnName'] != 'isPost' &&
-				$data[$i]['columnName'] != 'isDelete' &&
-				$data[$i]['columnName'] != 'isNew' &&
-				$data[$i]['columnName'] != 'isDraft' &&
-				$data[$i]['columnName'] != 'isUpdate' &&
-				$data[$i]['columnName'] != 'isDelete' &&
-				$data[$i]['columnName'] != 'isActive' &&
-				$data[$i]['columnName'] != 'isSeperated' &&
-				$data[$i]['columnName'] != 'isSingle' &&
-				$data[$i]['columnName'] != 'isReview' &&
-				$data[$i]['columnName'] != 'isConsolidation') {
-				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
-			}
-		}
+		
+		//  enable the delete button
+		// enable the delete button
+        $str.="\$('#deleteRecordButton').removeClass(); \n";
+        $str.="\$('#deleteRecordButton').addClass("btn btn-danger"); \n";
+        $str.="\$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
+
 		$str.="               				} else if (data.success == false) {\n";
         $str.="                    				\$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
         $str.="                				}\n";
@@ -980,27 +966,12 @@
         $str.="                					// successful request; do something with the data\n";
         $str.="                					if (data.success == true) {\n";
         $str.="                    					\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-        $str.="                    					// reseting field value\n";
-        for ($i = 0; $i < $total; $i++) {
-				// this field is auto update by session
-			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime'&&
-				$data[$i]['columnName'] != 'isDefault' &&
-				$data[$i]['columnName'] != 'isApproved' &&
-				$data[$i]['columnName'] != 'isPost' &&
-				$data[$i]['columnName'] != 'isDelete' &&
-				$data[$i]['columnName'] != 'isNew' &&
-				$data[$i]['columnName'] != 'isDraft' &&
-				$data[$i]['columnName'] != 'isUpdate' &&
-				$data[$i]['columnName'] != 'isDelete' &&
-				$data[$i]['columnName'] != 'isActive' &&
-				$data[$i]['columnName'] != 'isSeperated' &&
-				$data[$i]['columnName'] != 'isSingle' &&
-				$data[$i]['columnName'] != 'isReview' &&
-				$data[$i]['columnName'] != 'isConsolidation') {
-				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
-			}
-		}
+        // enable the delete button
+        // enable the delete button
+        $str.="\$('#deleteRecordButton').removeClass(); \n";
+        $str.="\$('#deleteRecordButton').addClass("btn btn-danger"); \n";
+        $str.="\$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
+
         $str.="                					} else if (data.success == false) {\n";
         $str.="                    					\$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
         $str.="                					}\n";      
@@ -1089,27 +1060,11 @@
         $str.="                					// successful request; do something with the data\n";
         $str.="                					if (data.success == true) {\n";
         $str.="                    					\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-        $str.="                    					// reseting field value\n";
-        for ($i = 0; $i < $total; $i++) {
-				// this field is auto update by session
-			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime'&&
-				$data[$i]['columnName'] != 'isDefault' &&
-				$data[$i]['columnName'] != 'isApproved' &&
-				$data[$i]['columnName'] != 'isPost' &&
-				$data[$i]['columnName'] != 'isDelete' &&
-				$data[$i]['columnName'] != 'isNew' &&
-				$data[$i]['columnName'] != 'isDraft' &&
-				$data[$i]['columnName'] != 'isUpdate' &&
-				$data[$i]['columnName'] != 'isDelete' &&
-				$data[$i]['columnName'] != 'isActive' &&
-				$data[$i]['columnName'] != 'isSeperated' &&
-				$data[$i]['columnName'] != 'isSingle' &&
-				$data[$i]['columnName'] != 'isReview' &&
-				$data[$i]['columnName'] != 'isConsolidation') {
-				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
-			}
-		}
+        // enable the delete button
+        $str.="\$('#deleteRecordButton').removeClass(); \n";
+        $str.="\$('#deleteRecordButton').addClass("btn btn-danger"); \n";
+        $str.="\$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
+
         $str.="                					} else if (data.success == false) {\n";
         $str.="                    					\$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
         $str.="                					}\n";
@@ -1131,6 +1086,11 @@
         $str.="			// access denied \n"; 
 		$str.="		} else {\n";
 		$str.="			\n";
+		$str.="var \value=\$('#" . $data[0]['tableName'] . "Id').val(); \n";
+		$str.="if(!value) {\n";
+			// alert something wrong with the record and cannot be deleted.	
+		$str.="\$('#infoPanel').html('<div class=alert alert-info>Please Contact Administrator</div>');\n";	
+		$str.="} else { \n";
         $str.="			\$.ajax({\n";
         $str.="    				type	:	'POST',\n";
         $str.="    				url		: 	url,\n";
@@ -1181,6 +1141,7 @@
         $str.="    				}\n";
         $str.="				});\n";
 		$str.="			}\n";
+		$str.="		}\n";
 		$str.="	}\n";
 		$str.="	function resetRecord() {\n";
 		for ($i = 0; $i < $total; $i++) {
@@ -1202,6 +1163,20 @@
 				$data[$i]['columnName'] != 'isConsolidation') {
 				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
 			}
+			// start button segment
+				// disable all button new
+				// disable all button update
+				// disable all button delete
+				// disable all button reset
+			// end button segment
+
+			// navigation segment
+				// disable move next
+				// disable move previous
+				// enable the first record
+				// enable the last record
+			// end navigation segment
+
 		}
 		$str.="	}\n";
 		$str.="	function postRecord() {\n";
