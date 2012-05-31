@@ -1,3 +1,4 @@
+  
 <?php require_once('/../controller/themeController.php'); 
 require_once ('../../../../library/class/classNavigation.php');  
 require_once ('../../../../library/class/classShared.php');  
@@ -67,7 +68,7 @@ define("LIMIT",14);
     <div id='infoPanel'></div>  
     <div  class='modal hide fade' id='filterGridAdvance'>  
         <div class='modal-header'>  
-            <a class='close' data-dismiss='modal1'>ï¿½</a>  
+            <a class='close' data-dismiss='modal1'>x</a>  
             <h3>Advance Search Record</h3>  
         </div>  
         <div class='modal-body'>  
@@ -107,7 +108,7 @@ define("LIMIT",14);
     </div> 
     <div  class='modal hide fade' id='deletePreview'> 
         <div class='modal-header'> 
-            <a class='close' data-dismiss='modal1'>ï¿½</a> 
+            <a class='close' data-dismiss='modal1'>x</a> 
             <h3>Are you sure want to delete this record ?</h3> 
         </div> 
         <div class='modal-body'> 
@@ -180,25 +181,25 @@ if($_SESSION ['isAdmin'] ==1) {
 if(isset($themeArray[$i]['themeSequence'])) {
     echo "<td align=right>".$value."</td>"; 
 } else { 
- 	echo "<td  align=right>&nbsp;</td>"; 
+    echo "<td  align=right>&nbsp;</td>"; 
  }
  $value = $themeArray[$i]['themeCode'];
 if(isset($themeArray[$i]['themeCode'])) {
     echo "<td align=center>".$value."</td>"; 
 } else { 
- 	echo "<td  align=center>&nbsp;</td>"; 
+    echo "<td  align=center>&nbsp;</td>"; 
  }
  $value = $themeArray[$i]['themeNote'];
 if(isset($themeArray[$i]['themeNote'])) {
     echo "<td align=left>".$value."</td>"; 
 } else { 
- 	echo "<td  align=left>&nbsp;</td>"; 
+    echo "<td  align=left>&nbsp;</td>"; 
  }
  $value = $themeArray[$i]['themePath'];
 if(isset($themeArray[$i]['themePath'])) {
     echo "<td align=left>".$value."</td>"; 
 } else { 
- 	echo "<td  align=left>&nbsp;</td>"; 
+    echo "<td  align=left>&nbsp;</td>"; 
  }
 if(isset($themeArray[$i]['executeBy'])) { 
     echo "<td>".$themeArray[$i]['staffName']."</td>"; 
@@ -206,24 +207,24 @@ if(isset($themeArray[$i]['executeBy'])) {
     echo "<td>&nbsp;</td>";
     }
   if(isset($themeArray[$i]['executeTime'])) { 
- 	$valueArray = $themeArray[$i]['executeTime'];  
- 	$valueArrayDate 	=	explode(' ',$valueArray);  
- 	$valueArrayFirst 	= 	$valueArrayDate[0];         
- 	$valueArraySecond	= 	$valueArrayDate[1];          
- 	$valueDataFirst 	= 	explode('-',$valueArrayFirst);  
- 	$year 				=	$valueDataFirst[0];               
- 	$month 			= 	$valueDataFirst[1];            
- 	$day	 			= 	$valueDataFirst[2];                
-        $valueDataSecond 	= 	explode(':',$valueArraySecond);  
- 	$hour 				= 	$valueDataSecond[0];  
- 	$minute 			= 	$valueDataSecond[1];  
- 	$second 			= 	$valueDataSecond[2];  
+    $valueArray = $themeArray[$i]['executeTime'];  
+    $valueArrayDate     =   explode(' ',$valueArray);  
+    $valueArrayFirst    =   $valueArrayDate[0];         
+    $valueArraySecond   =   $valueArrayDate[1];          
+    $valueDataFirst     =   explode('-',$valueArrayFirst);  
+    $year               =   $valueDataFirst[0];               
+    $month          =   $valueDataFirst[1];            
+    $day                =   $valueDataFirst[2];                
+        $valueDataSecond    =   explode(':',$valueArraySecond);  
+    $hour               =   $valueDataSecond[0];  
+    $minute             =   $valueDataSecond[1];  
+    $second             =   $valueDataSecond[2];  
     $value = date($systemFormat['systemSettingDateFormat'].$systemFormat['systemSettingTimeFormat'],mktime($hour,$minute,$second,$month,$day,$year)); 
     echo "<td>".$value."</td>"; 
 } else { 
     echo "<td>&nbsp;</td>"; 
 } 
-  	                    echo "</tr>"; 
+                        echo "</tr>"; 
                   }  } 
                 } else { ?> 
                     <tr> 
@@ -312,32 +313,32 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] =
         <div class='btn-group'> 
             <a  name='auditRecordButton' id='auditRecordButton'  href=javascript:void(0) 
     class='<?php if($leafAccess['isDraft']==0) { ?>btn btn-warning disabled<?php } else { ?>btn btn-warning<?php } ?>' 
-    onClick=<?php if($leafAccess['isDraft']==1) { ?>) { ?>auditRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',)<?php } ?>><i class='icon-warning-sign icon-white'></i><?php echo $buttonTranslation['isAuditLabel']; ?></a> 
-        </div>        <div class='btn-group'>            <a  name=newRecordButton1 id=newRecordButton1 href=javascript:void(0) class='<?php if($leafAccess['isNew']==0) { ?>btn btn-success disabled<?php } else { ?>btn btn-success  <?php } ?>'><i class=icon-plus icon-white></i><?php echo $buttonTranslation['isNewLabel'][0]; ?></a> 
-            <a  name=newRecordButton2 id=newRecordButton2 href=javascript:void(0) data-toggle='dropdown' class='<?php if($leafAccess['isNew']==0) { ?>btn dropdown-toggle btn-success disabled<?php } else { ?>btn dropdown-toggle btn-success<?php } ?>'><span class=caret></span></a> 
+    <?php if($leafAccess['isDraft']==1) { ?>) { ?>onClick=auditRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',)<?php } ?>><i class='icon-warning-sign icon-white'></i><?php echo $buttonTranslation['isAuditLabel']; ?></a> 
+        </div>        <div class='btn-group'>            <a  name='newRecordButton1' id='newRecordButton1' href=javascript:void(0) class='<?php if($leafAccess['isNew']==0) { ?>btn btn-success disabled<?php } else { ?>btn btn-success  <?php } ?>'><i class=icon-plus icon-white></i><?php echo $buttonTranslation['isNewLabel'][0]; ?></a> 
+            <a  name='newRecordButton2' id='newRecordButton2' href=javascript:void(0) data-toggle='dropdown' class='<?php if($leafAccess['isNew']==0) { ?>btn dropdown-toggle btn-success disabled<?php } else { ?>btn dropdown-toggle btn-success<?php } ?>'><span class=caret></span></a> 
             <ul class='dropdown-menu'> 
-                <li><a name=newRecordButton3 id=newRecordButton3 href=javascript:void(0) onClick=<?php if($leafAccess['isNew']==1) { ?>newRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',1) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class=icon-plus></i><?php echo $buttonTranslation['isNewLabel'][1]; ?></a></li> 
-                <li><a name=newRecordButton4 id=newRecordButton4 href=javascript:void(0) onClick=<?php if($leafAccess['isNew']==1) { ?>newRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',2) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class=icon-edit></i><?php echo $buttonTranslation['isNewLabel'][2]; ?></a></li> 
-                <li><a name=newRecordButton5 id=newRecordButton5 href=javascript:void(0) onClick=<?php if($leafAccess['isNew']==1) { ?>newRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',3) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class=icon-print></i><?php echo $buttonTranslation['isNewLabel'][3]; ?></a></li> 
-                <li><a name=newRecordButton6 id=newRecordButton6 href=javascript:void(0) onClick=<?php if($leafAccess['isNew']==1) { ?>newRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',4) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class=icon-print></i><?php echo $buttonTranslation['isNewLabel'][4]; ?></a></li> 
-                <li><a name=newRecordButton7 id=newRecordButton7 href=javascript:void(0) onClick=<?php if($leafAccess['isNew']==1) { ?>newRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',5) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class=icon-list></i><?php echo $buttonTranslation['isNewLabel'][5]; ?></a></li> 
+                <li><a name='newRecordButton3' id='newRecordButton3' href=javascript:void(0) <?php if($leafAccess['isNew']==1) { ?>onClick=newRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',1) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class='icon-plus'></i><?php echo $buttonTranslation['isNewLabel'][1]; ?></a></li> 
+                <li><a name='newRecordButton4' id='newRecordButton4' href=javascript:void(0) <?php if($leafAccess['isNew']==1) { ?>onClick=newRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',2) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class='icon-edit'></i><?php echo $buttonTranslation['isNewLabel'][2]; ?></a></li> 
+                <li><a name='newRecordButton5' id='newRecordButton5' href=javascript:void(0) <?php if($leafAccess['isNew']==1) { ?>onClick=newRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',3) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class='icon-print'></i><?php echo $buttonTranslation['isNewLabel'][3]; ?></a></li> 
+                <li><a name='newRecordButton6' id='newRecordButton6' href=javascript:void(0) <?php if($leafAccess['isNew']==1) { ?>onClick=newRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',4) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class='icon-print'></i><?php echo $buttonTranslation['isNewLabel'][4]; ?></a></li> 
+                <li><a name='newRecordButton7' id='newRecordButton7' href=javascript:void(0) <?php if($leafAccess['isNew']==1) { ?>onClick=newRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',5) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class='icon-list'></i><?php echo $buttonTranslation['isNewLabel'][5]; ?></a></li> 
             </ul> 
         </div> 
         <div class='btn-group'> 
-            <a  name=updateRecordButton1 id=updateRecordButton href=javascript:void(0) class='<?php if($leafAccess['isUpdate']==0) { ?>btn btn-info 	disabled<?php } else { ?>btn btn-info <?php } ?>'><i class=icon-edit icon-white></i><?php echo $buttonTranslation['isUpdateLabel'][0]; ?></a> 
-            <a  name=updateRecordButton2 id=updateRecordButton href=javascript:void(0) data-toggle='dropdown' class='<?php if($leafAccess['isUpdate']==0) { ?>btn dropdown-toggle btn-info disabled<?php } else { ?>btn dropdown-toggle btn-info <?php } ?>'><span class=caret></span></a> 
+            <a  name='updateRecordButton1' id='updateRecordButton1' href=javascript:void(0) class='<?php if($leafAccess['isUpdate']==0) { ?>btn btn-info    disabled<?php } else { ?>btn btn-info <?php } ?>'><i class=icon-edit icon-white></i><?php echo $buttonTranslation['isUpdateLabel'][0]; ?></a> 
+            <a  name='updateRecordButton2' id='updateRecordButton2' href=javascript:void(0) data-toggle='dropdown' class='<?php if($leafAccess['isUpdate']==0) { ?>btn dropdown-toggle btn-info disabled<?php } else { ?>btn dropdown-toggle btn-info <?php } ?>'><span class='caret'></span></a> 
             <ul class='dropdown-menu'> 
-                <li><a name=updateRecordButton3 id=updateRecordButton href=javascript:void(0) onClick=<?php if($leafAccess['isUpdate']==1) { ?>updateRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',1)<?php } ?>' class=<?php if($leafAccess['isUpdate']==0) { ?>disabled <?php } ?>><i class=icon-plus></i><?php echo $buttonTranslation['isUpdateLabel'][1]; ?></a></li> 
-                <li><a name=updateRecordButton4 id=updateRecordButton href=javascript:void(0) onClick=<?php if($leafAccess['isUpdate']==1) { ?>updateRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',2)<?php } ?>' class=<?php if($leafAccess['isUpdate']==0) { ?>disabled <?php } ?>><i class=icon-print></i><?php echo $buttonTranslation['isUpdateLabel'][2]; ?></a></li> 
-                <li><a name=updateRecordButton5 id=updateRecordButton href=javascript:void(0) onClick=<?php if($leafAccess['isUpdate']==1) { ?>updateRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',3)<?php } ?>' class=<?php if($leafAccess['isUpdate']==0) { ?>disabled <?php } ?>><i class=icon-list-alt></i><?php echo $buttonTranslation['isUpdateLabel'][3]; ?></a></li> 
+                <li><a name='updateRecordButton3' id='updateRecordButton3' href=javascript:void(0) <?php if($leafAccess['isUpdate']==1) { ?>onClick=updateRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',1)<?php } ?> class='<?php if($leafAccess['isUpdate']==0) { ?>disabled <?php } ?>'><i class='icon-plus'></i><?php echo $buttonTranslation['isUpdateLabel'][1]; ?></a></li> 
+                <li><a name='updateRecordButton4' id='updateRecordButton4' href=javascript:void(0) <?php if($leafAccess['isUpdate']==1) { ?>onClick=updateRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',2)<?php } ?> class='<?php if($leafAccess['isUpdate']==0) { ?>disabled <?php } ?>'><i class='icon-print'></i><?php echo $buttonTranslation['isUpdateLabel'][2]; ?></a></li> 
+                <li><a name='updateRecordButton5' id='updateRecordButton5' href=javascript:void(0) <?php if($leafAccess['isUpdate']==1) { ?>onClick=updateRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',3)<?php } ?> class='<?php if($leafAccess['isUpdate']==0) { ?>disabled <?php } ?>'><i class='icon-list-alt'></i><?php echo $buttonTranslation['isUpdateLabel'][3]; ?></a></li> 
             </ul> 
         </div> 
         <div class='btn-group'> 
-            <a name=deleteRecordButton id=deleteRecordButton href=javascript:void(0)  onClick=<?php if($leafAccess['isDelete']==1) { ?>deleteRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',)<?php } ?> class=<?php if($leafAccess['isDelete']==0) { ?>btn btn-danger disabled<?php } else { ?>btn btn-danger<?php } ?>><i class=icon-trash icon-white></i><?php echo $buttonTranslation['isDeleteLabel']; ?></a> 
+            <a name='deleteRecordButton' id='deleteRecordButton' href='javascript:void(0)'   <?php if($leafAccess['isDelete']==1) { ?>onClick=deleteRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',)<?php } ?> class='<?php if($leafAccess['isDelete']==0) { ?>btn btn-danger disabled<?php } else { ?>btn btn-danger<?php } ?>'><i class='icon-trash icon-white'></i><?php echo $buttonTranslation['isDeleteLabel']; ?></a> 
         </div> 
         <div class='btn-group'>            <a name=resetRecordButton id=resetRecordButton href=javascript:void(0) class='btn btn-info' onClick=resetRecord()><i class=icon-refresh icon-white></i><?php echo $buttonTranslation['isResetLabel']; ?></a> 
         </div> 
-        <div class='btn-group'>            <a name=postRecordButton id=postRecordButton href=javascript:void(0) class='<?php if($leafAccess['isPost']==0) { ?>btn btn-warning  disabled<?php } else { ?>btn btn-warning<?php } ?>' onClick=<?php if($leafAccess['isPost']==1) { ?>postRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',)<?php } ?>><i class=icon-cog icon-white></i><?php echo $buttonTranslation['isPostLabel']; ?></a> 
+        <div class='btn-group'>            <a name=postRecordButton id=postRecordButton href=javascript:void(0) class='<?php if($leafAccess['isPost']==0) { ?>btn btn-warning  disabled<?php } else { ?>btn btn-warning<?php } ?>' <?php if($leafAccess['isPost']==1) { ?>onClick=postRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',)<?php } ?>><i class=icon-cog icon-white></i><?php echo $buttonTranslation['isPostLabel']; ?></a> 
         </div> 
         <div class='btn-group'>            <a name=listRecordButton id=listRecordButton href=javascript:void(0) class='btn btn-info' onClick=showGrid('<?php $theme->getViewPath(); ?>','<?php echo $securityToken; ?>',0,<?php echo LIMIT; ?>)><i class=icon-list icon-white></i>Listing</a> 
         </div> 

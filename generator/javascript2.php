@@ -398,7 +398,7 @@
 				$data[$i]['columnName'] != 'isReview' &&
 				$data[$i]['columnName'] != 'isConsolidation'&&
 				$data[$i]['columnName'] != ($data[0]['tableName'].'Id')) {
-				$str.="							".$data[$i]['columnName']."Id					: 	\$('#".$data[$i]['columnName']."Id').val(),\n";
+				$str.="							".$data[$i]['columnName']."					: 	\$('#".$data[$i]['columnName']."').val(),\n";
 			}
 		}
 		$str.="							securityToken			:	securityToken\n";
@@ -411,9 +411,57 @@
 		$str.="							// successful request; do something with the data\n";
 		$str.="							if (data.success == true) {\n";
 		$str.="								\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-		// no need to reset . can continue update the record
+		$str.="$('#".$data[0]['tableName']."Id"."').val(data.".$data[0]['tableName']."Id); \n";
+		// disable the new button. new record only avaible upon pressing reset button
 		//$str.="								// reseting field value\n";
-		
+		// new button segment
+		// remove classes
+		$str.="	\$('#newRecordButton1').removeClass(); \n";
+		$str.="	\$('#newRecordButton2').removeClass(); \n"; 
+		$str.="	\$('#newRecordButton3').removeClass(); \n";
+		$str.="	\$('#newRecordButton4').removeClass(); \n";
+		$str.="	\$('#newRecordButton5').removeClass(); \n";
+		$str.="	\$('#newRecordButton6').removeClass(); \n";
+		$str.="	\$('#newRecordButton7').removeClass(); \n";
+		// add disabled class
+		$str.="	\$('#newRecordButton1').addClass('btn btn-success disabled'); \n";
+		$str.="	\$('#newRecordButton2').addClass('btn  dropdown-toggle btn-success disabled'); \n";
+		$str.="	\$('#newRecordButton3').addClass('btn btn-success disabled'); \n";
+		$str.="	\$('#newRecordButton4').addClass('btn btn-success disabled'); \n";
+		$str.="	\$('#newRecordButton5').addClass('btn btn-success disabled'); \n";
+		$str.="	\$('#newRecordButton6').addClass('btn btn-success disabled'); \n";
+		$str.="	\$('#newRecordButton7').addClass('btn btn-success disabled'); \n";
+		// empty the  onClick field.
+		$str.="	\$('#newRecordButton1').attr('onClick', ''); \n";
+		$str.="	\$('#newRecordButton2').attr('onClick', ''); \n";
+		$str.="	\$('#newRecordButton3').attr('onClick', ''); \n";
+		$str.="	\$('#newRecordButton4').attr('onClick', ''); \n";
+		$str.="	\$('#newRecordButton5').attr('onClick', ''); \n";
+		$str.="	\$('#newRecordButton6').attr('onClick', ''); \n";
+		$str.="	\$('#newRecordButton7').attr('onClick', ''); \n";
+		// end new button segment
+		// update button segment
+		$str.="	\$('#updateRecordButton1').removeClass(); \n";
+		$str.="	\$('#updateRecordButton2').removeClass(); \n"; 
+		$str.="	\$('#updateRecordButton3').removeClass(); \n";
+		$str.="	\$('#updateRecordButton4').removeClass(); \n";
+		$str.="	\$('#updateRecordButton5').removeClass(); \n";
+		// add disabled class
+		$str.="	\$('#updateRecordButton1').addClass('btn btn-info'); \n";
+		// toggle button
+		$str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info'); \n";
+		// drop down don't have  css class.blank empty
+		//$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
+		//$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
+		//$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
+		// put back the  onClick field
+		//@todo.. what if the client have no access to update..
+		$str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
+		$str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
+		$str.="	\$('#updateRecordButton3').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
+		$str.="	\$('#updateRecordButton4').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+2+\"\\\")\"); \n";
+		$str.="	\$('#updateRecordButton5').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+3+\"\\\")\"); \n";
+		// end button segment
 		$str.="							}\n";
 		$str.="						},\n";
 		$str.="                		error: function (data) {\n";
@@ -609,8 +657,57 @@
 		$str.="                    // successful request; do something with the data\n";
 		$str.="                    if (data.success == true) {\n";
 		$str.="                        \$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-		// no need to reset value
-		//$str.="                        // reseting field value\n";
+		$str.="$('#".$data[0]['tableName']."Id"."').val(data.".$data[0]['tableName']."Id); \n";
+		// disable the new button. new record only avaible upon pressing reset button
+		//$str.="								// reseting field value\n";
+		// new button segment
+		// remove classes
+		$str.="	\$('#newRecordButton1').removeClass(); \n";
+		$str.="	\$('#newRecordButton2').removeClass(); \n"; 
+		$str.="	\$('#newRecordButton3').removeClass(); \n";
+		$str.="	\$('#newRecordButton4').removeClass(); \n";
+		$str.="	\$('#newRecordButton5').removeClass(); \n";
+		$str.="	\$('#newRecordButton6').removeClass(); \n";
+		$str.="	\$('#newRecordButton7').removeClass(); \n";
+		// add disabled class
+		$str.="	\$('#newRecordButton1').addClass('btn btn-success disabled'); \n";
+		$str.="	\$('#newRecordButton2').addClass('btn  dropdown-toggle btn-success disabled'); \n";
+		$str.="	\$('#newRecordButton3').addClass('btn btn-success disabled'); \n";
+		$str.="	\$('#newRecordButton4').addClass('btn btn-success disabled'); \n";
+		$str.="	\$('#newRecordButton5').addClass('btn btn-success disabled'); \n";
+		$str.="	\$('#newRecordButton6').addClass('btn btn-success disabled'); \n";
+		$str.="	\$('#newRecordButton7').addClass('btn btn-success disabled'); \n";
+		// empty the  onClick field.
+		$str.="	\$('#newRecordButton1').attr('onClick', ''); \n";
+		$str.="	\$('#newRecordButton2').attr('onClick', ''); \n";
+		$str.="	\$('#newRecordButton3').attr('onClick', ''); \n";
+		$str.="	\$('#newRecordButton4').attr('onClick', ''); \n";
+		$str.="	\$('#newRecordButton5').attr('onClick', ''); \n";
+		$str.="	\$('#newRecordButton6').attr('onClick', ''); \n";
+		$str.="	\$('#newRecordButton7').attr('onClick', ''); \n";
+		// end new button segment
+		// update button segment
+		$str.="	\$('#updateRecordButton1').removeClass(); \n";
+		$str.="	\$('#updateRecordButton2').removeClass(); \n"; 
+		$str.="	\$('#updateRecordButton3').removeClass(); \n";
+		$str.="	\$('#updateRecordButton4').removeClass(); \n";
+		$str.="	\$('#updateRecordButton5').removeClass(); \n";
+		// add disabled class
+		$str.="	\$('#updateRecordButton1').addClass('btn btn-info'); \n";
+		// toggle button
+		$str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info'); \n";
+		// drop down don't have  css class.blank empty
+		//$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
+		//$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
+		//$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
+		// put back the  onClick field
+		//@todo.. what if the client have no access to update..
+		$str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
+		$str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
+		$str.="	\$('#updateRecordButton3').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
+		$str.="	\$('#updateRecordButton4').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+2+\"\\\")\"); \n";
+		$str.="	\$('#updateRecordButton5').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+3+\"\\\")\"); \n";
+		// end button segment	
 		
 		$str.="                    }\n";
 		$str.="                	},\n";
@@ -715,7 +812,7 @@
 		$str.="		}\n";
 		$str.="	}\n";
 		$str.="	function updateRecord(url, securityToken, type) {\n";
-		$str.="		var css = \$('#updateRecordButton').attr('class');\n";
+		$str.="		var css = \$('#updateRecordButton2').attr('class');\n";
 		$str.="		if (css.search('disabled') > 0) {\n";
 		$str.="   		// access denied\n";  
 		$str.="		} else {\n";
@@ -818,6 +915,7 @@
 				$data[$i]['columnName'] != 'executeTime'&&
 				$data[$i]['columnName'] != 'isDelete' &&
 				$data[$i]['columnName'] != 'isDefault' &&
+
 				$data[$i]['columnName'] != 'isApproved' &&
 				$data[$i]['columnName'] != 'isPost' &&
 				$data[$i]['columnName'] != 'isNew' &&

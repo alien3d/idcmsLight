@@ -789,8 +789,8 @@ $mysqlUpdateStatementValue=null;
 $mysqlUpdateStatement="\n\$sql=\"UPDATE `".$data[0]['database']."`.`" . $data[0]['tableName'] . "` SET \n";
 	$i=0;
 	for ($i = 0; $i < $total; $i++) {
-		$i++;
-		if($i !=1 ) { 
+		
+		if($i >= 1  ) { 
 		if($data[$i]['columnName'] !='isDefault' &&
 		$data[$i]['columnName'] !='isNew' &&
 		$data[$i]['columnName'] !='isDraft'&&
@@ -827,8 +827,8 @@ $mssqlUpdateStatementValue=null;
 $mssqlUpdateStatement="\n\$sql=\"UPDATE [".$data[0]['database']."].[".$data[0]['tableName']."] SET \n";
 	$i=0;;
 	for ($i = 0; $i < $total; $i++) {
-		$i++;
-		if($i !=1 ) { 
+		
+		if($i >= 1 ) { 
 		if($data[$i]['columnName'] !='isDefault' &&
 		$data[$i]['columnName'] !='isNew' &&
 		$data[$i]['columnName'] !='isDraft'&&
@@ -862,7 +862,7 @@ $oracleUpdateStatementValue=null;
 $oracleUpdateStatement="\n\$sql=\"UPDATE `".strtoupper($data[0]['tableName'])."` SET\n ";
 	$i=0;
 	for ($i = 0; $i < $total; $i++) {
-		$i++;
+		
 		if($i !=1 ) { 
 		if($data[$i]['columnName'] !='isDefault' &&
 		$data[$i]['columnName'] !='isNew' &&
@@ -898,8 +898,8 @@ $oracleUpdateStatementValue=null;
 $oracleUpdateStatement="\n\$sql=\"UPDATE `".strtoupper($data[0]['tableName'])."` SET\n ";
 	$i=0;
 	for ($i = 0; $i < $total; $i++) {
-		$i++;
-		if($i !=1 ) { 
+		
+		if($i >= 1) { 
 		if($data[$i]['columnName'] !='isDefault' &&
 		$data[$i]['columnName'] !='isNew' &&
 		$data[$i]['columnName'] !='isDraft'&&
@@ -934,8 +934,8 @@ $oracleUpdateStatementValue=null;
 $oracleUpdateStatement="\n\$sql=\"UPDATE `".strtoupper($data[0]['tableName'])."` SET\n ";
 	$i=0;
 	for ($i = 0; $i < $total; $i++) {
-		$i++;
-		if($i !=1 ) { 
+		
+		if($i >= 1) { 
 		if($data[$i]['columnName'] !='isDefault' &&
 		$data[$i]['columnName'] !='isNew' &&
 		$data[$i]['columnName'] !='isDraft'&&

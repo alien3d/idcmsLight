@@ -733,60 +733,100 @@ STAFF.STAFFNAME
 			if ($this->getVendor() == self::MYSQL) { 
 
 $sql="UPDATE `icore`.`theme` SET 
+ `themeSequence` = '".$this->model->getThemeSequence()."',
+ `themeCode` = '".$this->model->getThemeCode()."',
  `themeNote` = '".$this->model->getThemeNote()."',
+ `themePath` = '".$this->model->getThemePath()."',
  `isDefault` = '".$this->model->getIsDefault('0','single')."',
+ `isNew` = '".$this->model->getIsNew('0','single')."',
  `isDraft` = '".$this->model->getIsDraft('0','single')."',
+ `isUpdate` = '".$this->model->getIsUpdate('0','single')."',
  `isDelete` = '".$this->model->getIsDelete('0','single')."',
+ `isActive` = '".$this->model->getIsActive('0','single')."',
  `isApproved` = '".$this->model->getIsApproved('0','single')."',
+ `isReview` = '".$this->model->getIsReview('0','single')."',
  `isPost` = '".$this->model->getIsPost('0','single')."',
+ `executeBy` = '".$this->model->getExecuteBy('0','single')."',
  `executeTime` = ".$this->model->getExecuteTime()." 
 WHERE `themeId`='".$this->model->getThemeId('0','single')."'";
 
 			 } else if ($this->getVendor() == self::MSSQL) {  
 
 $sql="UPDATE [icore].[theme] SET 
+ [themeSequence] = '".$this->model->getThemeSequence()."',
+ [themeCode] = '".$this->model->getThemeCode()."',
  [themeNote] = '".$this->model->getThemeNote()."',
+ [themePath] = '".$this->model->getThemePath()."',
  [isDefault] = '".$this->model->getIsDefault(0, 'single')."',
+ [isNew] = '".$this->model->getIsNew(0, 'single')."',
  [isDraft] = '".$this->model->getIsDraft(0, 'single')."',
+ [isUpdate] = '".$this->model->getIsUpdate(0, 'single')."',
  [isDelete] = '".$this->model->getIsDelete(0, 'single')."',
+ [isActive] = '".$this->model->getIsActive(0, 'single')."',
  [isApproved] = '".$this->model->getIsApproved(0, 'single')."',
+ [isReview] = '".$this->model->getIsReview(0, 'single')."',
  [isPost] = '".$this->model->getIsPost(0, 'single')."',
+ [executeBy] = '".$this->model->getExecuteBy(0, 'single')."',
  [executeTime] = ".$this->model->getExecuteTime()." 
 WHERE [themeId]='".$this->model->getThemeId('0','single')."'";
 
 			 } else if ($this->getVendor() == self::ORACLE) {  
 
 $sql="UPDATE `THEME` SET
-  THEMENOTE = '".$this->model->getThemeNote()."',
+  THEMEID = '".$this->model->getThemeId()."',
+ THEMECODE = '".$this->model->getThemeCode()."',
+ THEMENOTE = '".$this->model->getThemeNote()."',
+ THEMEPATH = '".$this->model->getThemePath()."',
  ISDEFAULT = '".$this->model->getIsDefault(0, 'single')."',
+ ISNEW = '".$this->model->getIsNew(0, 'single')."',
  ISDRAFT = '".$this->model->getIsDraft(0, 'single')."',
+ ISUPDATE = '".$this->model->getIsUpdate(0, 'single')."',
  ISDELETE = '".$this->model->getIsDelete(0, 'single')."',
+ ISACTIVE = '".$this->model->getIsActive(0, 'single')."',
  ISAPPROVED = '".$this->model->getIsApproved(0, 'single')."',
+ ISREVIEW = '".$this->model->getIsReview(0, 'single')."',
  ISPOST = '".$this->model->getIsPost(0, 'single')."',
+ EXECUTEBY = '".$this->model->getExecuteBy(0, 'single')."',
  EXECUTETIME = ".$this->model->getExecuteTime()." 
 WHERE `THEMEID`='".$this->model->getThemeId('0','single')."'";
 
 			 } else if ($this->getVendor() == self::DB2) {  
 
 $sql="UPDATE `THEME` SET
-  THEMENOTE = '".$this->model->getThemeNote()."',
+  THEMESEQUENCE = '".$this->model->getThemeSequence()."',
+ THEMECODE = '".$this->model->getThemeCode()."',
+ THEMENOTE = '".$this->model->getThemeNote()."',
+ THEMEPATH = '".$this->model->getThemePath()."',
  ISDEFAULT = '".$this->model->getIsDefault(0, 'single')."',
+ ISNEW = '".$this->model->getIsNew(0, 'single')."',
  ISDRAFT = '".$this->model->getIsDraft(0, 'single')."',
+ ISUPDATE = '".$this->model->getIsUpdate(0, 'single')."',
  ISDELETE = '".$this->model->getIsDelete(0, 'single')."',
+ ISACTIVE = '".$this->model->getIsActive(0, 'single')."',
  ISAPPROVED = '".$this->model->getIsApproved(0, 'single')."',
+ ISREVIEW = '".$this->model->getIsReview(0, 'single')."',
  ISPOST = '".$this->model->getIsPost(0, 'single')."',
+ EXECUTEBY = '".$this->model->getExecuteBy(0, 'single')."',
  EXECUTETIME = ".$this->model->getExecuteTime()." 
 WHERE `THEMEID`='".$this->model->getThemeId('0','single')."'";
 
 			} else if ($this->getVendor() == self::POSTGRESS) {  
 
 $sql="UPDATE `THEME` SET
-  THEMENOTE = '".$this->model->getThemeNote()."',
+  THEMESEQUENCE = '".$this->model->getThemeSequence()."',
+ THEMECODE = '".$this->model->getThemeCode()."',
+ THEMENOTE = '".$this->model->getThemeNote()."',
+ THEMEPATH = '".$this->model->getThemePath()."',
  ISDEFAULT = '".$this->model->getIsDefault(0, 'single')."',
+ ISNEW = '".$this->model->getIsNew(0, 'single')."',
  ISDRAFT = '".$this->model->getIsDraft(0, 'single')."',
+ ISUPDATE = '".$this->model->getIsUpdate(0, 'single')."',
  ISDELETE = '".$this->model->getIsDelete(0, 'single')."',
+ ISACTIVE = '".$this->model->getIsActive(0, 'single')."',
  ISAPPROVED = '".$this->model->getIsApproved(0, 'single')."',
+ ISREVIEW = '".$this->model->getIsReview(0, 'single')."',
  ISPOST = '".$this->model->getIsPost(0, 'single')."',
+ EXECUTEBY = '".$this->model->getExecuteBy(0, 'single')."',
  EXECUTETIME = ".$this->model->getExecuteTime()." 
 WHERE `THEMEID`='".$this->model->getThemeId('0','single')."'";
 
@@ -1282,21 +1322,21 @@ WHERE `THEMEID`='".$this->model->getThemeId('0','single')."'";
 		} 
 		if ($this->getVendor() == self::MYSQL) { 
 			$sql = " 
-			SELECT	`referenceNo` 
+			SELECT	`themeCode` 
 			FROM 	`icore`.`theme` 
-			WHERE 	`referenceNo` 	= 	'" . $this->model->getReferenceNo() . "' 
+			WHERE 	`theme` 	= 	'" . $this->model->getThemeCode() . "' 
 			AND		`isActive`				=	1"; 
 		} else if ($this->getVendor() == self::MSSQL) { 
 			$sql = " 
 			SELECT	[referenceNo] 
 			FROM 	[icore].[theme] 
-			WHERE 	[referenceNo] 	= 	'" . $this->model->getReferenceNo() . "' 
+			WHERE 	[theme] 	= 	'" . $this->model->getThemeCode() . "' 
 			AND		[isActive]				=	1"; 
 		} else if ($this->getVendor() == self::ORACLE) { 
 			$sql = " 
 			SELECT	REFERENCENO 
 			FROM 	THEME 
-			WHERE 	REFERENCENO	= 	'" . $this->model->getReferenceNo() . "' 
+			WHERE 	THEME	= 	'" . $this->model->getThemeCode() . "' 
 			AND		ISACTIVE			=	1"; 
 		} 
 		$this->q->read($sql); 
