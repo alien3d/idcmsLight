@@ -1,4 +1,5 @@
- function showGrid(page, securityToken, offset, limit) {
+
+    function showGrid(page, securityToken, offset, limit) {
         $.ajax({
             type	: 	'POST',
             url		: 	page,
@@ -126,13 +127,13 @@
                     }
                 });
     }
-    function showModalDelete(themeId,themeSequence,themeCode,themeNote,themePath,isDefault,isNew,isDraft,isUpdate,isDelete,isActive,isApproved,isReview,isPost) {
+    function showModalDelete(themeId,themeSequence,themeCode,themeNote,themePath) {
         // clear first old record if exist
         $('#themeIdPreview').val('');
         $('#themeIdPreview').val(unescape(themeId));
 
         $('#themeSequencePreview').val('');
-        $('#themeSequencePreview').val(escape(themeSequence));
+        $('#themeSequencePreview').val(unescape(themeSequence));
 
         $('#themeCodePreview').val('');
         $('#themeCodePreview').val(unescape(themeCode));
@@ -143,33 +144,6 @@
         $('#themePathPreview').val('');
         $('#themePathPreview').val(unescape(themePath));
 
-        $('#isDefaultPreview').val('');
-        $('#isDefaultPreview').val(unescape(isDefault));
-
-        $('#isNewPreview').val('');
-        $('#isNewPreview').val(unescape(isNew));
-
-        $('#isDraftPreview').val('');
-        $('#isDraftPreview').val(unescape(isDraft));
-
-        $('#isUpdatePreview').val('');
-        $('#isUpdatePreview').val(unescape(isUpdate));
-
-        $('#isDeletePreview').val('');
-        $('#isDeletePreview').val(unescape(isDelete));
-
-        $('#isActivePreview').val('');
-        $('#isActivePreview').val(unescape(isActive));
-
-        $('#isApprovedPreview').val('');
-        $('#isApprovedPreview').val(unescape(isApproved));
-
-        $('#isReviewPreview').val('');
-        $('#isReviewPreview').val(unescape(isReview));
-
-        $('#isPostPreview').val('');
-        $('#isPostPreview').val(unescape(isPost));
-
         // open modal box
         showMeModal('deletePreview', 1);
     }
@@ -179,6 +153,7 @@
     				url		: 	url,
    				data	:	{
         					method				:	'delete',
+        					output				:	'json',
         					themeId	: 	$('#themeIdPreview').val(),
         					securityToken		: 	securityToken
     				},
@@ -202,24 +177,19 @@
     				}
                 });
         }
-    function auditRecord() {
+    function auditRecord(url, securityToken) {
         var css = $('#auditRecordButton').attr('class');
         if (css.search('disabled') > 0) {
             // access denied  
         }	 else {}
     }
     function newRecord(url, securityToken, type) {
-		alert("running daaa");
         var css = $('#newRecordButton2').attr('class');
         if (css.search('disabled') > 0) {
             // access denied
         } else {
             if (type == 1) {
                 // new record and continue
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeId First</div>');
-                    $('#themeId').addClass('control-group error');
-                    $('#themeId').focus();
-
     if ($('#themeSequence').val().length == 0) {
  				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeSequence First</div>');
                     $('#themeSequence').addClass('control-group error');
@@ -240,51 +210,6 @@
                     $('#themePath').addClass('control-group error');
                     $('#themePath').focus();
 
-    } else if ($('#isDefault').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDefault First</div>');
-                    $('#isDefault').addClass('control-group error');
-                    $('#isDefault').focus();
-
-    } else if ($('#isNew').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isNew First</div>');
-                    $('#isNew').addClass('control-group error');
-                    $('#isNew').focus();
-
-    } else if ($('#isDraft').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDraft First</div>');
-                    $('#isDraft').addClass('control-group error');
-                    $('#isDraft').focus();
-
-    } else if ($('#isUpdate').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isUpdate First</div>');
-                    $('#isUpdate').addClass('control-group error');
-                    $('#isUpdate').focus();
-
-    } else if ($('#isDelete').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDelete First</div>');
-                    $('#isDelete').addClass('control-group error');
-                    $('#isDelete').focus();
-
-    } else if ($('#isActive').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isActive First</div>');
-                    $('#isActive').addClass('control-group error');
-                    $('#isActive').focus();
-
-    } else if ($('#isApproved').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isApproved First</div>');
-                    $('#isApproved').addClass('control-group error');
-                    $('#isApproved').focus();
-
-    } else if ($('#isReview').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isReview First</div>');
-                    $('#isReview').addClass('control-group error');
-                    $('#isReview').focus();
-
-    } else if ($('#isPost').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isPost First</div>');
-                    $('#isPost').addClass('control-group error');
-                    $('#isPost').focus();
-
                 } else {
                     $('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');
                     $.ajax({
@@ -292,20 +217,11 @@
                         url		: 	url,
                         data	:	{
                             method					:	'create',
-                            themeId					: 	$('#themeId').val(),
+                            output					:	'json',
                             themeSequence					: 	$('#themeSequence').val(),
                             themeCode					: 	$('#themeCode').val(),
                             themeNote					: 	$('#themeNote').val(),
                             themePath					: 	$('#themePath').val(),
-                            isDefault					: 	$('#isDefault').val(),
-                            isNew					: 	$('#isNew').val(),
-                            isDraft					: 	$('#isDraft').val(),
-                            isUpdate					: 	$('#isUpdate').val(),
-                            isDelete					: 	$('#isDelete').val(),
-                            isActive					: 	$('#isActive').val(),
-                            isApproved					: 	$('#isApproved').val(),
-                            isReview					: 	$('#isReview').val(),
-                            isPost					: 	$('#isPost').val(),
                             securityToken			: 	securityToken
                         },
                         beforeSend: function () {
@@ -317,20 +233,10 @@
                             if (data.success == true) {
                                 $('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
                                 // reseting field value
-                                $('#themeId').val('');
                                 $('#themeSequence').val('');
                                 $('#themeCode').val('');
                                 $('#themeNote').val('');
                                 $('#themePath').val('');
-                                $('#isDefault').val('');
-                                $('#isNew').val('');
-                                $('#isDraft').val('');
-                                $('#isUpdate').val('');
-                                $('#isDelete').val('');
-                                $('#isActive').val('');
-                                $('#isApproved').val('');
-                                $('#isReview').val('');
-                                $('#isPost').val('');
                             } else if (data.success == false) {
                                 $('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
                             }
@@ -346,10 +252,6 @@
             } else if (type == 2) {
                 // new record and update
                 // new record and continue
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeId First</div>');
-                    $('#themeId').addClass('control-group error');
-                    $('#themeId').focus();
-
     if ($('#themeSequence').val().length == 0) {
  				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeSequence First</div>');
                     $('#themeSequence').addClass('control-group error');
@@ -370,51 +272,6 @@
                     $('#themePath').addClass('control-group error');
                     $('#themePath').focus();
 
-    } else if ($('#isDefault').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDefault First</div>');
-                    $('#isDefault').addClass('control-group error');
-                    $('#isDefault').focus();
-
-    } else if ($('#isNew').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isNew First</div>');
-                    $('#isNew').addClass('control-group error');
-                    $('#isNew').focus();
-
-    } else if ($('#isDraft').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDraft First</div>');
-                    $('#isDraft').addClass('control-group error');
-                    $('#isDraft').focus();
-
-    } else if ($('#isUpdate').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isUpdate First</div>');
-                    $('#isUpdate').addClass('control-group error');
-                    $('#isUpdate').focus();
-
-    } else if ($('#isDelete').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDelete First</div>');
-                    $('#isDelete').addClass('control-group error');
-                    $('#isDelete').focus();
-
-    } else if ($('#isActive').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isActive First</div>');
-                    $('#isActive').addClass('control-group error');
-                    $('#isActive').focus();
-
-    } else if ($('#isApproved').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isApproved First</div>');
-                    $('#isApproved').addClass('control-group error');
-                    $('#isApproved').focus();
-
-    } else if ($('#isReview').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isReview First</div>');
-                    $('#isReview').addClass('control-group error');
-                    $('#isReview').focus();
-
-    } else if ($('#isPost').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isPost First</div>');
-                    $('#isPost').addClass('control-group error');
-                    $('#isPost').focus();
-
                 } else {
                     $('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');
                     $.ajax({
@@ -422,20 +279,11 @@
                         url		: 	url,
                         data	: 	{
                             method					:	'create',
-                            themeIdId					: 	$('#themeIdId').val(),
+                            output					:	'json',
                             themeSequenceId					: 	$('#themeSequenceId').val(),
                             themeCodeId					: 	$('#themeCodeId').val(),
                             themeNoteId					: 	$('#themeNoteId').val(),
                             themePathId					: 	$('#themePathId').val(),
-                            isDefaultId					: 	$('#isDefaultId').val(),
-                            isNewId					: 	$('#isNewId').val(),
-                            isDraftId					: 	$('#isDraftId').val(),
-                            isUpdateId					: 	$('#isUpdateId').val(),
-                            isDeleteId					: 	$('#isDeleteId').val(),
-                            isActiveId					: 	$('#isActiveId').val(),
-                            isApprovedId					: 	$('#isApprovedId').val(),
-                            isReviewId					: 	$('#isReviewId').val(),
-                            isPostId					: 	$('#isPostId').val(),
                             securityToken			:	securityToken
                         },
                         beforeSend: function () {
@@ -446,21 +294,6 @@
                             // successful request; do something with the data
                             if (data.success == true) {
                                 $('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
-                                // reseting field value
-                                $('#themeId').val('');
-                                $('#themeSequence').val('');
-                                $('#themeCode').val('');
-                                $('#themeNote').val('');
-                                $('#themePath').val('');
-                                $('#isDefault').val('');
-                                $('#isNew').val('');
-                                $('#isDraft').val('');
-                                $('#isUpdate').val('');
-                                $('#isDelete').val('');
-                                $('#isActive').val('');
-                                $('#isApproved').val('');
-                                $('#isReview').val('');
-                                $('#isPost').val('');
                             }
                         },
                 		error: function (data) {
@@ -474,10 +307,6 @@
     		} else if (type == 3) {
         		// new record and continue and print/preview(Open modal box)
         		// new record and continue
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeId First</div>');
-                    $('#themeId').addClass('control-group error');
-                    $('#themeId').focus();
-
     if ($('#themeSequence').val().length == 0) {
  				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeSequence First</div>');
                     $('#themeSequence').addClass('control-group error');
@@ -498,51 +327,6 @@
                     $('#themePath').addClass('control-group error');
                     $('#themePath').focus();
 
-    } else if ($('#isDefault').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDefault First</div>');
-                    $('#isDefault').addClass('control-group error');
-                    $('#isDefault').focus();
-
-    } else if ($('#isNew').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isNew First</div>');
-                    $('#isNew').addClass('control-group error');
-                    $('#isNew').focus();
-
-    } else if ($('#isDraft').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDraft First</div>');
-                    $('#isDraft').addClass('control-group error');
-                    $('#isDraft').focus();
-
-    } else if ($('#isUpdate').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isUpdate First</div>');
-                    $('#isUpdate').addClass('control-group error');
-                    $('#isUpdate').focus();
-
-    } else if ($('#isDelete').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDelete First</div>');
-                    $('#isDelete').addClass('control-group error');
-                    $('#isDelete').focus();
-
-    } else if ($('#isActive').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isActive First</div>');
-                    $('#isActive').addClass('control-group error');
-                    $('#isActive').focus();
-
-    } else if ($('#isApproved').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isApproved First</div>');
-                    $('#isApproved').addClass('control-group error');
-                    $('#isApproved').focus();
-
-    } else if ($('#isReview').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isReview First</div>');
-                    $('#isReview').addClass('control-group error');
-                    $('#isReview').focus();
-
-    } else if ($('#isPost').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isPost First</div>');
-                    $('#isPost').addClass('control-group error');
-                    $('#isPost').focus();
-
         		} else {
             		$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');
             			$.ajax({
@@ -550,20 +334,11 @@
                 		url		: 	url,
                 		data	:	{
                     		method					:	'create',
-                					themeId: $('#themeId').val(),
+                            output					:	'json',
                 					themeSequence: $('#themeSequence').val(),
                 					themeCode: $('#themeCode').val(),
                 					themeNote: $('#themeNote').val(),
                 					themePath: $('#themePath').val(),
-                					isDefault: $('#isDefault').val(),
-                					isNew: $('#isNew').val(),
-                					isDraft: $('#isDraft').val(),
-                					isUpdate: $('#isUpdate').val(),
-                					isDelete: $('#isDelete').val(),
-                					isActive: $('#isActive').val(),
-                					isApproved: $('#isApproved').val(),
-                					isReview: $('#isReview').val(),
-                					isPost: $('#isPost').val(),
                     		securityToken			: 	securityToken
                 		},
                 		beforeSend: function () {
@@ -575,20 +350,10 @@
                     		if (data.success == true) {
                         		$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
                         		// reseting field value
-                                $('#themeId').val('');
                                 $('#themeSequence').val('');
                                 $('#themeCode').val('');
                                 $('#themeNote').val('');
                                 $('#themePath').val('');
-                                $('#isDefault').val('');
-                                $('#isNew').val('');
-                                $('#isDraft').val('');
-                                $('#isUpdate').val('');
-                                $('#isDelete').val('');
-                                $('#isActive').val('');
-                                $('#isApproved').val('');
-                                $('#isReview').val('');
-                                $('#isPost').val('');
                     		}
                 		},
                 		error: function (data) {
@@ -602,10 +367,6 @@
     		} else if (type == 4) {
         		// new record and update and  print/preview(open modal box)
         		// new record and continue
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeId First</div>');
-                    $('#themeId').addClass('control-group error');
-                    $('#themeId').focus();
-
     if ($('#themeSequence').val().length == 0) {
  				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeSequence First</div>');
                     $('#themeSequence').addClass('control-group error');
@@ -626,51 +387,6 @@
                     $('#themePath').addClass('control-group error');
                     $('#themePath').focus();
 
-    } else if ($('#isDefault').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDefault First</div>');
-                    $('#isDefault').addClass('control-group error');
-                    $('#isDefault').focus();
-
-    } else if ($('#isNew').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isNew First</div>');
-                    $('#isNew').addClass('control-group error');
-                    $('#isNew').focus();
-
-    } else if ($('#isDraft').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDraft First</div>');
-                    $('#isDraft').addClass('control-group error');
-                    $('#isDraft').focus();
-
-    } else if ($('#isUpdate').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isUpdate First</div>');
-                    $('#isUpdate').addClass('control-group error');
-                    $('#isUpdate').focus();
-
-    } else if ($('#isDelete').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDelete First</div>');
-                    $('#isDelete').addClass('control-group error');
-                    $('#isDelete').focus();
-
-    } else if ($('#isActive').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isActive First</div>');
-                    $('#isActive').addClass('control-group error');
-                    $('#isActive').focus();
-
-    } else if ($('#isApproved').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isApproved First</div>');
-                    $('#isApproved').addClass('control-group error');
-                    $('#isApproved').focus();
-
-    } else if ($('#isReview').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isReview First</div>');
-                    $('#isReview').addClass('control-group error');
-                    $('#isReview').focus();
-
-    } else if ($('#isPost').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isPost First</div>');
-                    $('#isPost').addClass('control-group error');
-                    $('#isPost').focus();
-
         } else {
             $('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');
             $.ajax({
@@ -678,22 +394,11 @@
                 url	: 	url,
                 data	:	{
                 		method					:	'create',
-                					themeId: $('#themeId').val(),
+                            output					:	'json',
                 					themeSequence: $('#themeSequence').val(),
                 					themeCode: $('#themeCode').val(),
                 					themeNote: $('#themeNote').val(),
                 					themePath: $('#themePath').val(),
-                					isDefault: $('#isDefault').val(),
-                					isNew: $('#isNew').val(),
-                					isDraft: $('#isDraft').val(),
-                					isUpdate: $('#isUpdate').val(),
-                					isDelete: $('#isDelete').val(),
-                					isActive: $('#isActive').val(),
-                					isApproved: $('#isApproved').val(),
-                					isReview: $('#isReview').val(),
-                					isPost: $('#isPost').val(),
-                					executeBy: $('#executeBy').val(),
-                					executeTime: $('#executeTime').val(),
                     	securityToken			: 	securityToken
                     },
                     beforeSend: function () {
@@ -704,21 +409,6 @@
                     // successful request; do something with the data
                     if (data.success == true) {
                         $('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
-                        // reseting field value
-                                $('#themeId').val('');
-                                $('#themeSequence').val('');
-                                $('#themeCode').val('');
-                                $('#themeNote').val('');
-                                $('#themePath').val('');
-                                $('#isDefault').val('');
-                                $('#isNew').val('');
-                                $('#isDraft').val('');
-                                $('#isUpdate').val('');
-                                $('#isDelete').val('');
-                                $('#isActive').val('');
-                                $('#isApproved').val('');
-                                $('#isReview').val('');
-                                $('#isPost').val('');
                     }
                 	},
                 	error: function (data) {
@@ -731,10 +421,6 @@
         		}
     		} else if (type == 5) {
         		// new record and listing
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeId First</div>');
-                    $('#themeId').addClass('control-group error');
-                    $('#themeId').focus();
-
     if ($('#themeSequence').val().length == 0) {
  				$('#infoPanel').html('<div class=alert alert-error>Please Choose themeSequence First</div>');
                     $('#themeSequence').addClass('control-group error');
@@ -755,51 +441,6 @@
                     $('#themePath').addClass('control-group error');
                     $('#themePath').focus();
 
-    } else if ($('#isDefault').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDefault First</div>');
-                    $('#isDefault').addClass('control-group error');
-                    $('#isDefault').focus();
-
-    } else if ($('#isNew').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isNew First</div>');
-                    $('#isNew').addClass('control-group error');
-                    $('#isNew').focus();
-
-    } else if ($('#isDraft').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDraft First</div>');
-                    $('#isDraft').addClass('control-group error');
-                    $('#isDraft').focus();
-
-    } else if ($('#isUpdate').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isUpdate First</div>');
-                    $('#isUpdate').addClass('control-group error');
-                    $('#isUpdate').focus();
-
-    } else if ($('#isDelete').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDelete First</div>');
-                    $('#isDelete').addClass('control-group error');
-                    $('#isDelete').focus();
-
-    } else if ($('#isActive').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isActive First</div>');
-                    $('#isActive').addClass('control-group error');
-                    $('#isActive').focus();
-
-    } else if ($('#isApproved').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isApproved First</div>');
-                    $('#isApproved').addClass('control-group error');
-                    $('#isApproved').focus();
-
-    } else if ($('#isReview').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isReview First</div>');
-                    $('#isReview').addClass('control-group error');
-                    $('#isReview').focus();
-
-    } else if ($('#isPost').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isPost First</div>');
-                    $('#isPost').addClass('control-group error');
-                    $('#isPost').focus();
-
         		} else {
             		$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');
             		$.ajax({
@@ -807,20 +448,11 @@
                 		url		: 	url,
                 		data	: 	{
                     		method					:	'create',
-                					themeId: $('#themeId').val(),
+                            output					:	'json',
                 					themeSequence: $('#themeSequence').val(),
                 					themeCode: $('#themeCode').val(),
                 					themeNote: $('#themeNote').val(),
                 					themePath: $('#themePath').val(),
-                					isDefault: $('#isDefault').val(),
-                					isNew: $('#isNew').val(),
-                					isDraft: $('#isDraft').val(),
-                					isUpdate: $('#isUpdate').val(),
-                					isDelete: $('#isDelete').val(),
-                					isActive: $('#isActive').val(),
-                					isApproved: $('#isApproved').val(),
-                					isReview: $('#isReview').val(),
-                					isPost: $('#isPost').val(),
                     		securityToken			: 	securityToken
                 		},
                		beforeSend: function () {
@@ -831,21 +463,6 @@
                     		// successful request; do something with the data
                     		if (data.success == true) {
                         		$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
-                        		// reseting field value
-                                $('#themeId').val('');
-                                $('#themeSequence').val('');
-                                $('#themeCode').val('');
-                                $('#themeNote').val('');
-                                $('#themePath').val('');
-                                $('#isDefault').val('');
-                                $('#isNew').val('');
-                                $('#isDraft').val('');
-                                $('#isUpdate').val('');
-                                $('#isDelete').val('');
-                                $('#isActive').val('');
-                                $('#isApproved').val('');
-                                $('#isReview').val('');
-                                $('#isPost').val('');
                     		}	
                 		},
                 		error: function (data) {
@@ -892,51 +509,6 @@
                     $('#themePath').addClass('control-group error');
                     $('#themePath').focus();
 
-    } else if ($('#isDefault').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDefault First</div>');
-                    $('#isDefault').addClass('control-group error');
-                    $('#isDefault').focus();
-
-    } else if ($('#isNew').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isNew First</div>');
-                    $('#isNew').addClass('control-group error');
-                    $('#isNew').focus();
-
-    } else if ($('#isDraft').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDraft First</div>');
-                    $('#isDraft').addClass('control-group error');
-                    $('#isDraft').focus();
-
-    } else if ($('#isUpdate').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isUpdate First</div>');
-                    $('#isUpdate').addClass('control-group error');
-                    $('#isUpdate').focus();
-
-    } else if ($('#isDelete').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDelete First</div>');
-                    $('#isDelete').addClass('control-group error');
-                    $('#isDelete').focus();
-
-    } else if ($('#isActive').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isActive First</div>');
-                    $('#isActive').addClass('control-group error');
-                    $('#isActive').focus();
-
-    } else if ($('#isApproved').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isApproved First</div>');
-                    $('#isApproved').addClass('control-group error');
-                    $('#isApproved').focus();
-
-    } else if ($('#isReview').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isReview First</div>');
-                    $('#isReview').addClass('control-group error');
-                    $('#isReview').focus();
-
-    } else if ($('#isPost').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isPost First</div>');
-                    $('#isPost').addClass('control-group error');
-                    $('#isPost').focus();
-
        		} else {
           		$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');
           		$.ajax({
@@ -944,6 +516,7 @@
             				url		: 	url,
               			data	: 	{
                  			method: 'save',
+                            output					:	'json',
                 					themeId: $('#themeId').val(),
                 					themeSequence: $('#themeSequence').val(),
                 					themeCode: $('#themeCode').val(),
@@ -976,15 +549,6 @@
                                 $('#themeCode').val('');
                                 $('#themeNote').val('');
                                 $('#themePath').val('');
-                                $('#isDefault').val('');
-                                $('#isNew').val('');
-                                $('#isDraft').val('');
-                                $('#isUpdate').val('');
-                                $('#isDelete').val('');
-                                $('#isActive').val('');
-                                $('#isApproved').val('');
-                                $('#isReview').val('');
-                                $('#isPost').val('');
                				} else if (data.success == false) {
                     				$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
                 				}
@@ -1023,51 +587,6 @@
                     $('#themePath').addClass('control-group error');
                     $('#themePath').focus();
 
-    } else if ($('#isDefault').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDefault First</div>');
-                    $('#isDefault').addClass('control-group error');
-                    $('#isDefault').focus();
-
-    } else if ($('#isNew').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isNew First</div>');
-                    $('#isNew').addClass('control-group error');
-                    $('#isNew').focus();
-
-    } else if ($('#isDraft').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDraft First</div>');
-                    $('#isDraft').addClass('control-group error');
-                    $('#isDraft').focus();
-
-    } else if ($('#isUpdate').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isUpdate First</div>');
-                    $('#isUpdate').addClass('control-group error');
-                    $('#isUpdate').focus();
-
-    } else if ($('#isDelete').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDelete First</div>');
-                    $('#isDelete').addClass('control-group error');
-                    $('#isDelete').focus();
-
-    } else if ($('#isActive').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isActive First</div>');
-                    $('#isActive').addClass('control-group error');
-                    $('#isActive').focus();
-
-    } else if ($('#isApproved').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isApproved First</div>');
-                    $('#isApproved').addClass('control-group error');
-                    $('#isApproved').focus();
-
-    } else if ($('#isReview').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isReview First</div>');
-                    $('#isReview').addClass('control-group error');
-                    $('#isReview').focus();
-
-    } else if ($('#isPost').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isPost First</div>');
-                    $('#isPost').addClass('control-group error');
-                    $('#isPost').focus();
-
     				} else {
         				$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');
         				$.ajax({
@@ -1075,22 +594,12 @@
          					url		: 	url,
                                 data	:	{
                                     method					:	'save',
+                            output					:	'json',
                 					themeId: $('#themeId').val(),
                 					themeSequence: $('#themeSequence').val(),
                 					themeCode: $('#themeCode').val(),
                 					themeNote: $('#themeNote').val(),
                 					themePath: $('#themePath').val(),
-                					isDefault: $('#isDefault').val(),
-                					isNew: $('#isNew').val(),
-                					isDraft: $('#isDraft').val(),
-                					isUpdate: $('#isUpdate').val(),
-                					isDelete: $('#isDelete').val(),
-                					isActive: $('#isActive').val(),
-                					isApproved: $('#isApproved').val(),
-                					isReview: $('#isReview').val(),
-                					isPost: $('#isPost').val(),
-                					executeBy: $('#executeBy').val(),
-                					executeTime: $('#executeTime').val(),
                 					securityToken			: 	securityToken
             					},
             					beforeSend: function () {
@@ -1107,15 +616,6 @@
                                 $('#themeCode').val('');
                                 $('#themeNote').val('');
                                 $('#themePath').val('');
-                                $('#isDefault').val('');
-                                $('#isNew').val('');
-                                $('#isDraft').val('');
-                                $('#isUpdate').val('');
-                                $('#isDelete').val('');
-                                $('#isActive').val('');
-                                $('#isApproved').val('');
-                                $('#isReview').val('');
-                                $('#isPost').val('');
                 					} else if (data.success == false) {
                     					$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
                 					}
@@ -1154,51 +654,6 @@
                     $('#themePath').addClass('control-group error');
                     $('#themePath').focus();
 
-    } else if ($('#isDefault').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDefault First</div>');
-                    $('#isDefault').addClass('control-group error');
-                    $('#isDefault').focus();
-
-    } else if ($('#isNew').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isNew First</div>');
-                    $('#isNew').addClass('control-group error');
-                    $('#isNew').focus();
-
-    } else if ($('#isDraft').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDraft First</div>');
-                    $('#isDraft').addClass('control-group error');
-                    $('#isDraft').focus();
-
-    } else if ($('#isUpdate').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isUpdate First</div>');
-                    $('#isUpdate').addClass('control-group error');
-                    $('#isUpdate').focus();
-
-    } else if ($('#isDelete').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isDelete First</div>');
-                    $('#isDelete').addClass('control-group error');
-                    $('#isDelete').focus();
-
-    } else if ($('#isActive').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isActive First</div>');
-                    $('#isActive').addClass('control-group error');
-                    $('#isActive').focus();
-
-    } else if ($('#isApproved').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isApproved First</div>');
-                    $('#isApproved').addClass('control-group error');
-                    $('#isApproved').focus();
-
-    } else if ($('#isReview').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isReview First</div>');
-                    $('#isReview').addClass('control-group error');
-                    $('#isReview').focus();
-
-    } else if ($('#isPost').val().length == 0) {
- 				$('#infoPanel').html('<div class=alert alert-error>Please Choose isPost First</div>');
-                    $('#isPost').addClass('control-group error');
-                    $('#isPost').focus();
-
     					} else {
        					$('#infoPanel').html('<div class=alert alert-error>Form Complete</div>');
                             $.ajax({
@@ -1206,20 +661,12 @@
             					url: url,
             					data: {
                 					method: 'save',
+                            output					:	'json',
                 					themeId: $('#themeId').val(),
                 					themeSequence: $('#themeSequence').val(),
                 					themeCode: $('#themeCode').val(),
                 					themeNote: $('#themeNote').val(),
                 					themePath: $('#themePath').val(),
-                					isDefault: $('#isDefault').val(),
-                					isNew: $('#isNew').val(),
-                					isDraft: $('#isDraft').val(),
-                					isUpdate: $('#isUpdate').val(),
-                					isDelete: $('#isDelete').val(),
-                					isActive: $('#isActive').val(),
-                					isApproved: $('#isApproved').val(),
-                					isReview: $('#isReview').val(),
-                					isPost: $('#isPost').val(),
                 					dayId: $('#dayId').val(),
                 					securityToken: securityToken
             					},
@@ -1237,15 +684,6 @@
                                 $('#themeCode').val('');
                                 $('#themeNote').val('');
                                 $('#themePath').val('');
-                                $('#isDefault').val('');
-                                $('#isNew').val('');
-                                $('#isDraft').val('');
-                                $('#isUpdate').val('');
-                                $('#isDelete').val('');
-                                $('#isActive').val('');
-                                $('#isApproved').val('');
-                                $('#isReview').val('');
-                                $('#isPost').val('');
                 					} else if (data.success == false) {
                     					$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
                 					}
@@ -1272,7 +710,8 @@
     				url		: 	url,
     				data	: 	{
         				method				:	'delete',
-        				themeId	: 	$('#midnightMarketId').val(),
+                            output					:	'json',
+        				themeId	: 	$('#themeId').val(),
         				securityToken		: 	securityToken
     				},
     				beforeSend: function () {
@@ -1289,15 +728,6 @@
                                 $('#themeCode').val('');
                                 $('#themeNote').val('');
                                 $('#themePath').val('');
-                                $('#isDefault').val('');
-                                $('#isNew').val('');
-                                $('#isDraft').val('');
-                                $('#isUpdate').val('');
-                                $('#isDelete').val('');
-                                $('#isActive').val('');
-                                $('#isApproved').val('');
-                                $('#isReview').val('');
-                                $('#isPost').val('');
         				} else if (data.success == false) {
             				$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
         				}
@@ -1317,15 +747,6 @@
                                 $('#themeCode').val('');
                                 $('#themeNote').val('');
                                 $('#themePath').val('');
-                                $('#isDefault').val('');
-                                $('#isNew').val('');
-                                $('#isDraft').val('');
-                                $('#isUpdate').val('');
-                                $('#isDelete').val('');
-                                $('#isActive').val('');
-                                $('#isApproved').val('');
-                                $('#isReview').val('');
-                                $('#isPost').val('');
     }
     function postRecord() {
         var css = $('#postRecordButton').attr('class');
@@ -1379,15 +800,6 @@
         $('#themeCode').val(data.data.themeCode);
         $('#themeNote').val(data.data.themeNote);
         $('#themePath').val(data.data.themePath);
-        $('#isDefault').val(data.data.isDefault);
-        $('#isNew').val(data.data.isNew);
-        $('#isDraft').val(data.data.isDraft);
-        $('#isUpdate').val(data.data.isUpdate);
-        $('#isDelete').val(data.data.isDelete);
-        $('#isActive').val(data.data.isActive);
-        $('#isApproved').val(data.data.isApproved);
-        $('#isReview').val(data.data.isReview);
-        $('#isPost').val(data.data.isPost);
                         			if (data.nextRecord > 0) {
                             			$('#previousRecordButton').removeClass();
                             			$('#previousRecordButton').addClass('btn btn-info  disabled');
@@ -1464,15 +876,6 @@
         $('#themeCode').val(data.data.themeCode);
         $('#themeNote').val(data.data.themeNote);
         $('#themePath').val(data.data.themePath);
-        $('#isDefault').val(data.data.isDefault);
-        $('#isNew').val(data.data.isNew);
-        $('#isDraft').val(data.data.isDraft);
-        $('#isUpdate').val(data.data.isUpdate);
-        $('#isDelete').val(data.data.isDelete);
-        $('#isActive').val(data.data.isActive);
-        $('#isApproved').val(data.data.isApproved);
-        $('#isReview').val(data.data.isReview);
-        $('#isPost').val(data.data.isPost);
                             		if (data.lastRecord != 0) {
                                		$('#previousRecordButton').removeClass();
                                 		$('#previousRecordButton').addClass('btn btn-info');
@@ -1537,15 +940,6 @@
         $('#themeCode').val(data.data.themeCode);
         $('#themeNote').val(data.data.themeNote);
         $('#themePath').val(data.data.themePath);
-        $('#isDefault').val(data.data.isDefault);
-        $('#isNew').val(data.data.isNew);
-        $('#isDraft').val(data.data.isDraft);
-        $('#isUpdate').val(data.data.isUpdate);
-        $('#isDelete').val(data.data.isDelete);
-        $('#isActive').val(data.data.isActive);
-        $('#isApproved').val(data.data.isApproved);
-        $('#isReview').val(data.data.isReview);
-        $('#isPost').val(data.data.isPost);
                 				$('#firstRecord').val(data.firstRecord);
                   			$('#previousRecord').val(data.previousRecord);
                 				$('#nextRecord').val(data.nextRecord);
@@ -1607,15 +1001,6 @@
         $('#themeCode').val(data.data.themeCode);
         $('#themeNote').val(data.data.themeNote);
         $('#themePath').val(data.data.themePath);
-        $('#isDefault').val(data.data.isDefault);
-        $('#isNew').val(data.data.isNew);
-        $('#isDraft').val(data.data.isDraft);
-        $('#isUpdate').val(data.data.isUpdate);
-        $('#isDelete').val(data.data.isDelete);
-        $('#isActive').val(data.data.isActive);
-        $('#isApproved').val(data.data.isApproved);
-        $('#isReview').val(data.data.isReview);
-        $('#isPost').val(data.data.isPost);
                     		$('#firstRecord').val(data.firstRecord);
                     		$('#previousRecord').val(data.previousRecord);
                     		$('#nextRecord').val(data.nextRecord);

@@ -185,6 +185,7 @@
 		$str.="    				url		: 	url,\n";
 		$str.="   				data	:	{\n";
 		$str.="        					method				:	'delete',\n";
+		$str.="        					output				:	'json',\n";
 		$str.="        					" . $data[0]['tableName'] . "Id	: 	\$('#" . $data[0]['tableName'] . "IdPreview').val(),\n";
 		$str.="        					securityToken		: 	securityToken\n";
 		$str.="    				},\n";
@@ -267,6 +268,7 @@
 		$str.="						url		: 	url,\n";
 		$str.="						data	:	{\n";
 		$str.="							method					:	'create',\n";
+		$str.="							output					:	'json',\n";
 		for ($i = 0; $i < $total; $i++) {
 				// filter unnessary field to create a new record
 			if ($data[$i]['columnName'] != 'executeBy' &&
@@ -377,6 +379,7 @@
 		$str.="						url		: 	url,\n";
 		$str.="						data	: 	{\n";
 		$str.="							method					:	'create',\n";
+		$str.="							output					:	'json',\n";
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
@@ -466,6 +469,7 @@
 		$str.="                		url		: 	url,\n";
 		$str.="                		data	:	{\n";
 		$str.="                    		method					:	'create',\n";
+		$str.="							output					:	'json',\n";
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
@@ -574,6 +578,7 @@
 		$str.="                url	: 	url,\n";
 		$str.="                data	:	{\n";
 		$str.="                		method					:	'create',\n";
+		$str.="							output					:	'json',\n";
 		for ($i = 0; $i < $total; $i++) {
 			if ($data[$i]['columnName'] != 'executeBy' &&
 				$data[$i]['columnName'] != 'executeTime'&&
@@ -661,6 +666,7 @@
 		$str.="                		url		: 	url,\n";
 		$str.="                		data	: 	{\n";
 		$str.="                    		method					:	'create',\n";
+		$str.="							output					:	'json',\n";
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
@@ -756,6 +762,7 @@
 		$str.="            				url		: 	url,\n";
 		$str.="              			data	: 	{\n";
 		$str.="                 			method: 'save',\n";
+		$str.="							output					:	'json',\n";
 		for ($i = 0; $i < $total; $i++) {
 			$str.="                					".$data[$i]['columnName'].": \$('#".$data[$i]['columnName']."').val(),\n";
 		}
@@ -845,6 +852,7 @@
         $str.="         					url		: 	url,\n";
 		$str.="								data	:	{\n";
 		$str.="									method					:	'save',\n";
+		$str.="							output					:	'json',\n";
         for ($i = 0; $i < $total; $i++) {
 					if ($data[$i]['columnName'] != 'executeBy' &&
 				$data[$i]['columnName'] != 'executeTime'&&
@@ -950,6 +958,7 @@
         $str.="            					url: url,\n";
         $str.="            					data: {\n";
         $str.="                					method: 'save',\n";
+		$str.="							output					:	'json',\n";
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
@@ -1029,7 +1038,8 @@
         $str.="    				url		: 	url,\n";
         $str.="    				data	: 	{\n";
         $str.="        				method				:	'delete',\n";
-        $str.="        				" . $data[0]['tableName'] . "Id	: 	\$('#midnightMarketId').val(),\n";
+		$str.="							output					:	'json',\n";
+        $str.="        				" . $data[0]['tableName'] . "Id	: 	\$('#" . $data[0]['tableName'] . "Id').val(),\n";
         $str.="        				securityToken		: 	securityToken\n";
         $str.="    				},\n";
         $str.="    				beforeSend: function () {\n";

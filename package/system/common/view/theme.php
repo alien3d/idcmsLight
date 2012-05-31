@@ -132,21 +132,6 @@ define("LIMIT",14);
                                 <div class='controls  input-prepend'>
                                     <input type='text' name='themePathPreview' id='themePathPreview' placeholder='Field Of themePath' class='span3'>
                                 </div>
-                            </div><div class='control-group' id='isDefaultDiv'>
-                                <label class='control-label'><?php echo $leafTranslation['isDefaultLabel'];  ?></label>
-                                <div class='controls  input-prepend'>
-                                    <input type='text' name='isDefaultPreview' id='isDefaultPreview' placeholder='Field Of isDefault' class='span3'>
-                                </div>
-                            </div><div class='control-group' id='isApprovedDiv'>
-                                <label class='control-label'><?php echo $leafTranslation['isApprovedLabel'];  ?></label>
-                                <div class='controls  input-prepend'>
-                                    <input type='text' name='isApprovedPreview' id='isApprovedPreview' placeholder='Field Of isApproved' class='span3'>
-                                </div>
-                            </div><div class='control-group' id='isPostDiv'>
-                                <label class='control-label'><?php echo $leafTranslation['isPostLabel'];  ?></label>
-                                <div class='controls  input-prepend'>
-                                    <input type='text' name='isPostPreview' id='isPostPreview' placeholder='Field Of isPost' class='span3'>
-                                </div>
                             </div>        </div> 
         <div class='modal-footer'> 
             <a href=javascript:void(0) class='btn btn-danger' onClick=deleteGridRecord()>Delete</a> 
@@ -165,71 +150,16 @@ define("LIMIT",14);
 <table class='table table-striped table-bordered table-condensed' name='tableData' id='tableData'> 
         <thead> 
             <tr> 
- <th>Action</th> 
 <?php  
+ echo "<th>Action</th>"; 
  echo "<th>Sequence</th>"; 
-?>
-<?php  
  echo "<th>Code</th>"; 
-?>
-<?php  
  echo "<th>Note</th>"; 
-?>
-<?php  
  echo "<th>Path</th>"; 
-?>
-<?php  
-if($_SESSION ['isAdmin'] ==1) {
-  echo "<th>Default</th>"; 
-}
-  ?>
-<?php  
-if($_SESSION ['isAdmin'] ==1) {
-  echo "<th>New</th>"; 
-}
-  ?>
-<?php  
-if($_SESSION ['isAdmin'] ==1) {
-  echo "<th>Draft</th>"; 
-}
-  ?>
-<?php  
-if($_SESSION ['isAdmin'] ==1) {
-  echo "<th>Update</th>"; 
-}
-  ?>
-<?php  
-if($_SESSION ['isAdmin'] ==1) {
-  echo "<th>Delete</th>"; 
-}
-  ?>
-<?php  
-if($_SESSION ['isAdmin'] ==1) {
-  echo "<th>Active</th>"; 
-}
-  ?>
-<?php  
-if($_SESSION ['isAdmin'] ==1) {
-  echo "<th>Approved</th>"; 
-}
-  ?>
-<?php  
-if($_SESSION ['isAdmin'] ==1) {
-  echo "<th>Review</th>"; 
-}
-  ?>
-<?php  
-if($_SESSION ['isAdmin'] ==1) {
-  echo "<th>Post</th>"; 
-}
-  ?>
-<?php  
 if($_SESSION ['isAdmin'] ==1) {
   echo "<th>By</th>"; 
 }
-  ?>
-<?php  
-if($_SESSION ['isAdmin'] ==1) {
+  if($_SESSION ['isAdmin'] ==1) {
   echo "<th>Time</th>"; 
 }
   ?>
@@ -241,147 +171,59 @@ if($_SESSION ['isAdmin'] ==1) {
                 $totalRecord = 0; 
                 $totalRecord = count($themeArray); 
                 if ($totalRecord > 0) { 
-                    for ($i = 0; $i < $totalRecord; $i++) { ?> 
-                        <tr> 
- <td><a class='btn-warning btn-mini' onClick=showFormUpdate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo intval($themeArray [$i]['themeId']); ?>')><i class='icon-edit icon-white'></i>Update</a>  
-                    <a class='btn-danger btn-mini' onClick=showModalDelete('<?php echo rawurlencode($themeArray [$i]['themeId']); ?>','<?php echo rawurlencode($themeArray [$i]['themeSequence']); ?>','<?php echo rawurlencode($themeArray [$i]['themeCode']); ?>','<?php echo rawurlencode($themeArray [$i]['themeNote']); ?>','<?php echo rawurlencode($themeArray [$i]['themePath']); ?>','<?php echo rawurlencode($themeArray [$i]['isDefault']); ?>','<?php echo rawurlencode($themeArray [$i]['isNew']); ?>','<?php echo rawurlencode($themeArray [$i]['isDraft']); ?>','<?php echo rawurlencode($themeArray [$i]['isUpdate']); ?>','<?php echo rawurlencode($themeArray [$i]['isDelete']); ?>','<?php echo rawurlencode($themeArray [$i]['isActive']); ?>','<?php echo rawurlencode($themeArray [$i]['isApproved']); ?>','<?php echo rawurlencode($themeArray [$i]['isReview']); ?>','<?php echo rawurlencode($themeArray [$i]['isPost']); ?>','<?php echo rawurlencode($themeArray [$i]['executeBy']); ?>','<?php echo rawurlencode($themeArray [$i]['executeTime']); ?>')><i class='icon-trash  icon-white'></i> Delete</a></td> 
-<?php  
-if(isset($themeArray[$i]['themeSequence'])) { 
-
-                                        echo "<td>".$themeArray[$i]['themeSequence']."</td>"; 
+                    for ($i = 0; $i < $totalRecord; $i++) { 
+                    echo "<tr>"; 
+ echo  "<td>
+        <a class='btn-warning btn-mini' onClick=showFormUpdate('".$theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo intval($themeArray [$i]['themeId'])."')><i class='icon-edit icon-white'></i>Update</a>  
+                    <a class='btn-danger btn-mini' onClick=showModalDelete('".rawurlencode($themeArray [$i]['themeId'])."','".rawurlencode($themeArray [$i]['themeSequence'])."','".rawurlencode($themeArray [$i]['themeCode'])."','".rawurlencode($themeArray [$i]['themeNote'])."','".rawurlencode($themeArray [$i]['themePath'])."','".rawurlencode($themeArray [$i]['isDefault'])."','".rawurlencode($themeArray [$i]['isNew'])."','".rawurlencode($themeArray [$i]['isDraft'])."','".rawurlencode($themeArray [$i]['isUpdate'])."','".rawurlencode($themeArray [$i]['isDelete'])."','".rawurlencode($themeArray [$i]['isActive'])."','".rawurlencode($themeArray [$i]['isApproved'])."','".rawurlencode($themeArray [$i]['isReview'])."','".rawurlencode($themeArray [$i]['isPost'])."','".rawurlencode($themeArray [$i]['executeBy'])."','".rawurlencode($themeArray [$i]['executeTime'])."')><i class='icon-trash  icon-white'></i> Delete</a></td>"; 
+ $value = $themeArray[$i]['themeSequence'];
+if(isset($themeArray[$i]['themeSequence'])) {
+    echo "<td align=right>".$value."</td>"; 
 } else { 
- 
-                                        echo "<td>&nbsp;</td>"; 
-
-                                    } 
-  ?><?php  
-if(isset($themeArray[$i]['themeCode'])) { 
-
-                                        echo "<td>".$themeArray[$i]['themeCode']."</td>"; 
+ 	echo "<td  align=right>&nbsp;</td>"; 
+ }
+ $value = $themeArray[$i]['themeCode'];
+if(isset($themeArray[$i]['themeCode'])) {
+    echo "<td align=center>".$value."</td>"; 
 } else { 
- 
-                                        echo "<td>&nbsp;</td>"; 
-
-                                    } 
-  ?><?php  
-if(isset($themeArray[$i]['themeNote'])) { 
-
-                                        echo "<td>".$themeArray[$i]['themeNote']."</td>"; 
+ 	echo "<td  align=center>&nbsp;</td>"; 
+ }
+ $value = $themeArray[$i]['themeNote'];
+if(isset($themeArray[$i]['themeNote'])) {
+    echo "<td align=left>".$value."</td>"; 
 } else { 
- 
-                                        echo "<td>&nbsp;</td>"; 
-
-                                    } 
-  ?><?php  
-if(isset($themeArray[$i]['themePath'])) { 
-
-                                        echo "<td>".$themeArray[$i]['themePath']."</td>"; 
+ 	echo "<td  align=left>&nbsp;</td>"; 
+ }
+ $value = $themeArray[$i]['themePath'];
+if(isset($themeArray[$i]['themePath'])) {
+    echo "<td align=left>".$value."</td>"; 
 } else { 
- 
-                                        echo "<td>&nbsp;</td>"; 
-
-                                    } 
-  ?><?php  
- if($_SESSION ['isAdmin'] ==1) {
- 		if(isset($themeArray[$i]['isDefault'])) {
-  echo "<td>".$themeArray[$i]['isDefault']."</td>"; 
- } else { 
-            echo "<td>&nbsp;</td>"; 
-        }
-    } 
- ?>
-<?php  
- if($_SESSION ['isAdmin'] ==1) {
- 		if(isset($themeArray[$i]['isNew'])) {
-  echo "<td>".$themeArray[$i]['isNew']."</td>"; 
- } else { 
-            echo "<td>&nbsp;</td>"; 
-        }
-    } 
- ?>
-<?php  
- if($_SESSION ['isAdmin'] ==1) {
- 		if(isset($themeArray[$i]['isDraft'])) {
-  echo "<td>".$themeArray[$i]['isDraft']."</td>"; 
- } else { 
-            echo "<td>&nbsp;</td>"; 
-        }
-    } 
- ?>
-<?php  
- if($_SESSION ['isAdmin'] ==1) {
- 		if(isset($themeArray[$i]['isUpdate'])) {
-  echo "<td>".$themeArray[$i]['isUpdate']."</td>"; 
- } else { 
-            echo "<td>&nbsp;</td>"; 
-        }
-    } 
- ?>
-<?php  
- if($_SESSION ['isAdmin'] ==1) {
- 		if(isset($themeArray[$i]['isDelete'])) {
-  echo "<td>".$themeArray[$i]['isDelete']."</td>"; 
- } else { 
-            echo "<td>&nbsp;</td>"; 
-        }
-    } 
- ?>
-<?php  
- if($_SESSION ['isAdmin'] ==1) {
- 		if(isset($themeArray[$i]['isActive'])) {
-  echo "<td>".$themeArray[$i]['isActive']."</td>"; 
- } else { 
-            echo "<td>&nbsp;</td>"; 
-        }
-    } 
- ?>
-<?php  
- if($_SESSION ['isAdmin'] ==1) {
- 		if(isset($themeArray[$i]['isApproved'])) {
-  echo "<td>".$themeArray[$i]['isApproved']."</td>"; 
- } else { 
-            echo "<td>&nbsp;</td>"; 
-        }
-    } 
- ?>
-<?php  
- if($_SESSION ['isAdmin'] ==1) {
- 		if(isset($themeArray[$i]['isReview'])) {
-  echo "<td>".$themeArray[$i]['isReview']."</td>"; 
- } else { 
-            echo "<td>&nbsp;</td>"; 
-        }
-    } 
- ?>
-<?php  
- if($_SESSION ['isAdmin'] ==1) {
- 		if(isset($themeArray[$i]['isPost'])) {
-  echo "<td>".$themeArray[$i]['isPost']."</td>"; 
- } else { 
-            echo "<td>&nbsp;</td>"; 
-        }
-    } 
- ?>
-<?php  
+ 	echo "<td  align=left>&nbsp;</td>"; 
+ }
 if(isset($themeArray[$i]['executeBy'])) { 
-
-                                        echo "<td>".$themeArray[$i]['executeBy']."</td>"; 
+    echo "<td>".$themeArray[$i]['staffName']."</td>"; 
+} else {
+    echo "<td>&nbsp;</td>";
+    }
+  if(isset($themeArray[$i]['executeTime'])) { 
+ 	$valueArray = $themeArray[$i]['executeTime'];  
+ 	$valueArrayDate 	=	explode(' ',$valueArray);  
+ 	$valueArrayFirst 	= 	$valueArrayDate[0];         
+ 	$valueArraySecond	= 	$valueArrayDate[1];          
+ 	$valueDataFirst 	= 	explode('-',$valueArrayFirst);  
+ 	$year 				=	$valueDataFirst[0];               
+ 	$month 			= 	$valueDataFirst[1];            
+ 	$day	 			= 	$valueDataFirst[2];                
+        $valueDataSecond 	= 	explode(':',$valueArraySecond);  
+ 	$hour 				= 	$valueDataSecond[0];  
+ 	$minute 			= 	$valueDataSecond[1];  
+ 	$second 			= 	$valueDataSecond[2];  
+    $value = date($systemFormat['systemSettingDateFormat'].$systemFormat['systemSettingTimeFormat'],mktime($hour,$minute,$second,$month,$day,$year)); 
+    echo "<td>".$value."</td>"; 
 } else { 
- 
-                                        echo "<td>&nbsp;</td>"; 
-
-                                    } 
-  ?><?php  
-if(isset($themeArray[$i]['executeTime'])) { 
-
-                                        echo "<td>".$themeArray[$i]['executeTime']."</td>"; 
-} else { 
- 
-                                        echo "<td>&nbsp;</td>"; 
-
-                                    } 
-  ?>                        </tr> 
-                        <?php 
+    echo "<td>&nbsp;</td>"; 
+} 
+  	                    echo "</tr>"; 
                   }  } 
                 } else { ?> 
                     <tr> 
@@ -472,7 +314,7 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] =
     class='<?php if($leafAccess['isDraft']==0) { ?>btn btn-warning disabled<?php } else { ?>btn btn-warning<?php } ?>' 
     onClick=<?php if($leafAccess['isDraft']==1) { ?>) { ?>auditRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',)<?php } ?>><i class='icon-warning-sign icon-white'></i><?php echo $buttonTranslation['isAuditLabel']; ?></a> 
         </div>        <div class='btn-group'>            <a  name=newRecordButton1 id=newRecordButton1 href=javascript:void(0) class='<?php if($leafAccess['isNew']==0) { ?>btn btn-success disabled<?php } else { ?>btn btn-success  <?php } ?>'><i class=icon-plus icon-white></i><?php echo $buttonTranslation['isNewLabel'][0]; ?></a> 
-            <a  name=newRecordButton2 id=newRecordButton2 href=javascript:void(0) data-toggle='dropdown' class='btn dropdown-toggle btn-success'><span class=caret></span></a> 
+            <a  name=newRecordButton2 id=newRecordButton2 href=javascript:void(0) data-toggle='dropdown' class='<?php if($leafAccess['isNew']==0) { ?>btn dropdown-toggle btn-success disabled<?php } else { ?>btn dropdown-toggle btn-success<?php } ?>'><span class=caret></span></a> 
             <ul class='dropdown-menu'> 
                 <li><a name=newRecordButton3 id=newRecordButton3 href=javascript:void(0) onClick=<?php if($leafAccess['isNew']==1) { ?>newRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',1) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class=icon-plus></i><?php echo $buttonTranslation['isNewLabel'][1]; ?></a></li> 
                 <li><a name=newRecordButton4 id=newRecordButton4 href=javascript:void(0) onClick=<?php if($leafAccess['isNew']==1) { ?>newRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',2) <?php } ?> class='<?php if($leafAccess['isNew']==0) { ?>disabled<?php } ?>'><i class=icon-edit></i><?php echo $buttonTranslation['isNewLabel'][2]; ?></a></li> 
@@ -483,7 +325,7 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] =
         </div> 
         <div class='btn-group'> 
             <a  name=updateRecordButton1 id=updateRecordButton href=javascript:void(0) class='<?php if($leafAccess['isUpdate']==0) { ?>btn btn-info 	disabled<?php } else { ?>btn btn-info <?php } ?>'><i class=icon-edit icon-white></i><?php echo $buttonTranslation['isUpdateLabel'][0]; ?></a> 
-            <a  name=updateRecordButton2 id=updateRecordButton href=javascript:void(0) data-toggle='dropdown' class='btn dropdown-toggle btn-info'><span class=caret></span></a> 
+            <a  name=updateRecordButton2 id=updateRecordButton href=javascript:void(0) data-toggle='dropdown' class='<?php if($leafAccess['isUpdate']==0) { ?>btn dropdown-toggle btn-info disabled<?php } else { ?>btn dropdown-toggle btn-info <?php } ?>'><span class=caret></span></a> 
             <ul class='dropdown-menu'> 
                 <li><a name=updateRecordButton3 id=updateRecordButton href=javascript:void(0) onClick=<?php if($leafAccess['isUpdate']==1) { ?>updateRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',1)<?php } ?>' class=<?php if($leafAccess['isUpdate']==0) { ?>disabled <?php } ?>><i class=icon-plus></i><?php echo $buttonTranslation['isUpdateLabel'][1]; ?></a></li> 
                 <li><a name=updateRecordButton4 id=updateRecordButton href=javascript:void(0) onClick=<?php if($leafAccess['isUpdate']==1) { ?>updateRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',2)<?php } ?>' class=<?php if($leafAccess['isUpdate']==0) { ?>disabled <?php } ?>><i class=icon-print></i><?php echo $buttonTranslation['isUpdateLabel'][2]; ?></a></li> 

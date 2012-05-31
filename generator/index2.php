@@ -883,7 +883,7 @@ if (isset($_GET['targetModule']) && strlen($_GET['targetModule']) > 0) {
 <?php $generator->execute(); ?>
 </code>
                 </pre></div>
-
+<textarea><?php $generator->execute(); ?></textarea>
             <footer>
                 <p>© IDCMS 2012</p>
             </footer>

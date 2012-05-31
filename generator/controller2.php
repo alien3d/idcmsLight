@@ -2,7 +2,7 @@
 $total = 0;
 $total = count($data);
 $str.="<?php namespace Core\\" . ucwords($data[0]['package']) . "\\" . ucwords($data[0]['module']) . "\\" . ucwords($data[0]['tableName']) . "\Controller; \n";
-$str.="if (!isset($_SESSION)) { \n";
+$str.="if (!isset(\$_SESSION)) { \n";
 $str.="    session_start(); \n";
 $str.="} \n";
 $str.="require_once (\"../../../../library/class/classAbstract.php\"); \n";
@@ -153,36 +153,22 @@ $mysqlInsertStatementInsideValue=null;
 $mysqlInsertStatementValue=null;
 $mysqlInsertStatement.=" \$sql=\"INSERT INTO `".$data[0]['database']."`.`" . $data[0]['tableName'] . "` ( \n";
 	for ($i = 0; $i < $total; $i++) {
-		$mysqlInsertStatementAField.="	`".$data[$i]['columnName'] . "`,\n";
+		if($i >= 1){
+			$mysqlInsertStatementAField.="	`".$data[$i]['columnName'] . "`,\n";
+		}
 	}
-	$mysqlInsertStatementField.= (substr($mysqlInsertStatementAField,0,-2));
-	$mysqlInsertStatement.=$mysqlInsertStatementField;
+
+	$mysqlInsertStatement.=(substr($mysqlInsertStatementAField,0,-2));
 	$mysqlInsertStatement.="\n) VALUES ( \n";
 	$i=0;
 	for ($i = 0; $i < $total; $i++) {
-		$i++;
-		if($i==1){
-			$mysqlInsertStatementInsideValue.="null,\n";
-		}else if ($data[$i]['columnName']=='executeTime'){
-			$mysqlInsertStatementInsideValue.=" \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
-		}else if($data[$i]['columnName'] !='isDefault' &&
-		$data[$i]['columnName'] !='isNew' &&
-		$data[$i]['columnName'] !='isDraft'&&
-		$data[$i]['columnName'] !='isUpdate'&&
-		$data[$i]['columnName'] !='isDelete'&&
-		$data[$i]['columnName'] !='isActive'&&
-		$data[$i]['columnName'] !='isApproved'&&
-		$data[$i]['columnName'] !='isReview'&&
-		$data[$i]['columnName'] !='isPost'&&
-		$data[$i]['columnName'] !='isSeperated'&&
-		$data[$i]['columnName'] !='isConsolidation') {
+		if($i >=1) { 
 			$mysqlInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
-		}  else {
-			$mysqlInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
 		}
 	}
-	$mysqlInsertStatementValue.=(substr($mysqlInsertStatementInsideValue,0,-2));
-	$mysqlInsertStatement.=$mysqlInsertStatementValue;
+
+	$mysqlInsertStatement.=(substr($mysqlInsertStatementInsideValue,0,-2));
+
 	$mysqlInsertStatement.="\n );\";\n";
 	$str.=$mysqlInsertStatement;
 $str.="		 } else if (\$this->getVendor() == self::MSSQL) {  \n";
@@ -193,8 +179,11 @@ $mssqlInsertStatementInsideValue=null;
 $mssqlInsertStatementValue=null;
 $mssqlInsertStatement.="
 		\$sql=\"INSERT INTO [".$data[0]['database']."].[" . $data[0]['tableName'] . "] (\n";
+	$i=0;
 	for ($i = 0; $i < $total; $i++) {
-		$mssqlInsertStatementAField.="	[".$data[$i]['columnName'] . "],\n";
+		if($i >=0 ) { 
+			$mssqlInsertStatementAField.="	[".$data[$i]['columnName'] . "],\n";
+		}
 	}
 	$mssqlInsertStatementField.= (substr($mssqlInsertStatementAField,0,-2));
 	$mssqlInsertStatement.=$mssqlInsertStatementField;
@@ -202,23 +191,7 @@ $mssqlInsertStatement.="
 	$i=0;
 	for ($i = 0; $i < $total; $i++) {
 		$i++;
-		if($i==1){
-			$mssqlInsertStatementInsideValue.="null,\n";
-		}else if ($data[$i]['columnName']=='executeTime'){
-			$mssqlInsertStatementInsideValue.=" \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
-		}else if($data[$i]['columnName'] !='isDefault' &&
-		$data[$i]['columnName'] !='isNew' &&
-		$data[$i]['columnName'] !='isDraft'&&
-		$data[$i]['columnName'] !='isUpdate'&&
-		$data[$i]['columnName'] !='isDelete'&&
-		$data[$i]['columnName'] !='isActive'&&
-		$data[$i]['columnName'] !='isApproved'&&
-		$data[$i]['columnName'] !='isReview'&&
-		$data[$i]['columnName'] !='isPost'&&
-		$data[$i]['columnName'] !='isSeperated'&&
-		$data[$i]['columnName'] !='isConsolidation') {
-			$mssqlInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
-		}  else {
+		if($i >= 1){
 			$mssqlInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
 		}
 	}
@@ -235,33 +208,18 @@ $oracleInsertStatementValue=null;
 $oracleInsertStatement.="
 		\$sql=\"INSERT INTO 	".strtoupper($data[0]['tableName'])." ( \n";
 	for ($i = 0; $i < $total; $i++) {
-		$oracleInsertStatementAField.="	".strtoupper($data[$i]['columnName']).",\n";
+		if($i >= 1){
+			$oracleInsertStatementAField.="	".strtoupper($data[$i]['columnName']).",\n";
+		}
 	}
 	$oracleInsertStatementField.= (substr($oracleInsertStatementAField,0,-2));
 	$oracleInsertStatement.=$oracleInsertStatementField;
 	$oracleInsertStatement.="\n) VALUES ( \n";
 	$i=0;
 	for ($i = 0; $i < $total; $i++) {
-		$i++;
-		if($i==1){
-			$oracleInsertStatementInsideValue.="null,\n";
-		}else if ($data[$i]['columnName']=='executeTime'){
-			$oracleInsertStatementInsideValue.=" \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
-		}else if($data[$i]['columnName'] !='isDefault' &&
-		$data[$i]['columnName'] !='isNew' &&
-		$data[$i]['columnName'] !='isDraft'&&
-		$data[$i]['columnName'] !='isUpdate'&&
-		$data[$i]['columnName'] !='isDelete'&&
-		$data[$i]['columnName'] !='isActive'&&
-		$data[$i]['columnName'] !='isApproved'&&
-		$data[$i]['columnName'] !='isReview'&&
-		$data[$i]['columnName'] !='isPost'&&
-		$data[$i]['columnName'] !='isSeperated'&&
-		$data[$i]['columnName'] !='isConsolidation') {
+		if($i >= 1){
 			$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
-		}  else {
-			$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
-		}
+		} 
 	}
 	$oracleInsertStatementValue.=(substr($oracleInsertStatementInsideValue,0,-2));
 	$oracleInsertStatement.=$oracleInsertStatementValue;
@@ -276,33 +234,18 @@ $oracleInsertStatementValue=null;
 $oracleInsertStatement.="
 		\$sql=\"INSERT INTO 	".strtoupper($data[0]['tableName'])." ( \n";
 	for ($i = 0; $i < $total; $i++) {
-		$oracleInsertStatementAField.="	".strtoupper($data[$i]['columnName']).",\n";
+		if($i >= 1){
+			$oracleInsertStatementAField.="	".strtoupper($data[$i]['columnName']).",\n";
+		}
 	}
 	$oracleInsertStatementField.= (substr($oracleInsertStatementAField,0,-2));
 	$oracleInsertStatement.=$oracleInsertStatementField;
 	$oracleInsertStatement.="\n) VALUES ( \n";
 	$i=0;
 	for ($i = 0; $i < $total; $i++) {
-		$i++;
-		if($i==1){
-			$oracleInsertStatementInsideValue.="null,\n";
-		}else if ($data[$i]['columnName']=='executeTime'){
-			$oracleInsertStatementInsideValue.=" \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
-		}else if($data[$i]['columnName'] !='isDefault' &&
-		$data[$i]['columnName'] !='isNew' &&
-		$data[$i]['columnName'] !='isDraft'&&
-		$data[$i]['columnName'] !='isUpdate'&&
-		$data[$i]['columnName'] !='isDelete'&&
-		$data[$i]['columnName'] !='isActive'&&
-		$data[$i]['columnName'] !='isApproved'&&
-		$data[$i]['columnName'] !='isReview'&&
-		$data[$i]['columnName'] !='isPost'&&
-		$data[$i]['columnName'] !='isSeperated'&&
-		$data[$i]['columnName'] !='isConsolidation') {
+		if($i >= 1){
 			$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
-		}  else {
-			$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
-		}
+		} 
 	}
 	$oracleInsertStatementValue.=(substr($oracleInsertStatementInsideValue,0,-2));
 	$oracleInsertStatement.=$oracleInsertStatementValue;
@@ -318,33 +261,18 @@ $oracleInsertStatementValue=null;
 $oracleInsertStatement.="
 		\$sql=\"INSERT INTO 	".strtoupper($data[0]['tableName'])." ( \n";
 	for ($i = 0; $i < $total; $i++) {
-		$oracleInsertStatementAField.="	".strtoupper($data[$i]['columnName']).",\n";
+		if($i >= 1){
+			$oracleInsertStatementAField.="	".strtoupper($data[$i]['columnName']).",\n";
+		}
 	}
 	$oracleInsertStatementField.= (substr($oracleInsertStatementAField,0,-2));
 	$oracleInsertStatement.=$oracleInsertStatementField;
 	$oracleInsertStatement.="\n) VALUES ( \n";
 	$i=0;
 	for ($i = 0; $i < $total; $i++) {
-		$i++;
-		if($i==1){
-			$oracleInsertStatementInsideValue.="null,\n";
-		}else if ($data[$i]['columnName']=='executeTime'){
-			$oracleInsertStatementInsideValue.=" \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
-		}else if($data[$i]['columnName'] !='isDefault' &&
-		$data[$i]['columnName'] !='isNew' &&
-		$data[$i]['columnName'] !='isDraft'&&
-		$data[$i]['columnName'] !='isUpdate'&&
-		$data[$i]['columnName'] !='isDelete'&&
-		$data[$i]['columnName'] !='isActive'&&
-		$data[$i]['columnName'] !='isApproved'&&
-		$data[$i]['columnName'] !='isReview'&&
-		$data[$i]['columnName'] !='isPost'&&
-		$data[$i]['columnName'] !='isSeperated'&&
-		$data[$i]['columnName'] !='isConsolidation') {
+		if($i >= 1){
 			$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
-		}  else {
-			$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
-		}
+		} 
 	}
 	$oracleInsertStatementValue.=(substr($oracleInsertStatementInsideValue,0,-2));
 	$oracleInsertStatement.=$oracleInsertStatementValue;
@@ -529,7 +457,7 @@ $str.="		/** \n";
 $str.="		 * Extjs filtering mode \n";
 $str.="		 */ \n";
 $str.="		if (\$this->getGridQuery()) { \n";
-$str.="			\$this->q->setFieldQuery($this->getFieldQuery()); \n";
+$str.="			\$this->q->setFieldQuery(\$this->getFieldQuery()); \n";
 $str.="			if (\$this->getVendor() == self::MYSQL) { \n";
 $str.="				\$sql .= \$this->q->searching(); \n";
 $str.="			} else if (\$this->getVendor() == self::MSSQL) { \n";
@@ -1665,7 +1593,7 @@ $str.="	} \n";
 $str.="	if (isset(\$_POST ['sortField'])) { \n";
 $str.="		\$" . $data[0]['tableName'] . "Object->setSortField(\$_POST ['sortField']); \n";
 $str.="	} \n";
-	
+$str.="    if(isset(\$_POST['output'])) {  \n";
 $str.="	/* \n";
 $str.="	 *  Load the dynamic value \n";
 $str.="	 */ \n";
@@ -1692,7 +1620,7 @@ $str.="	} \n";
 $str.="	if (\$_POST ['method'] == 'reverse') { \n";
 $str.="	//	\$" . $data[0]['tableName'] . "Object->delete(); \n";
 $str.="	} \n";
-$str.="} \n";
+$str.="} } \n";
 $str.="if (isset(\$_GET ['method'])) {\n";
 $str.="	/* \n";
 $str.="	 *  Initilize Value before load in the loader\n";
