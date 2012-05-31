@@ -1464,21 +1464,21 @@ $str.="			\$this->q->fast(\$sql); \n";
 $str.="		} \n";
 $str.="		if (\$this->getVendor() == self::MYSQL) { \n";
 $str.="			\$sql = \" \n";
-$str.="			SELECT	`referenceNo` \n";
+$str.="			SELECT	`" . $data[0]['tableName'] . "Code` \n";
 $str.="			FROM 	`" . $data[0]['database'] . "`.`" . $data[0]['tableName'] . "` \n";
-$str.="			WHERE 	`referenceNo` 	= 	'\" . \$this->model->getReferenceNo() . \"' \n";
+$str.="			WHERE 	`".$data[0]['tableName']."` 	= 	'\" . \$this->model->get" . ucfirst($data[0]['tableName']) . "Code() . \"' \n";
 $str.="			AND		`isActive`				=	1\"; \n";
 $str.="		} else if (\$this->getVendor() == self::MSSQL) { \n";
 $str.="			\$sql = \" \n";
 $str.="			SELECT	[referenceNo] \n";
 $str.="			FROM 	[" . $data[0]['database'] . "].[" . $data[0]['tableName'] . "] \n";
-$str.="			WHERE 	[referenceNo] 	= 	'\" . \$this->model->getReferenceNo() . \"' \n";
+$str.="			WHERE 	[".$data[0]['tableName']."] 	= 	'\" . \$this->model->get" . ucfirst($data[0]['tableName']) . "Code() . \"' \n";
 $str.="			AND		[isActive]				=	1\"; \n";
 $str.="		} else if (\$this->getVendor() == self::ORACLE) { \n";
 $str.="			\$sql = \" \n";
 $str.="			SELECT	".strtoupper('referenceNo')." \n";
 $str.="			FROM 	".strtoupper($data[0]['tableName'])." \n";
-$str.="			WHERE 	".strtoupper('referenceNo')."	= 	'\" . \$this->model->getReferenceNo() . \"' \n";
+$str.="			WHERE 	".strtoupper($data[0]['tableName'])."	= 	'\" . \$this->model->get" . ucfirst($data[0]['tableName']) . "Code() . \"' \n";
 $str.="			AND		ISACTIVE			=	1\"; \n";
 $str.="		} \n";
 $str.="		\$this->q->read(\$sql); \n";
@@ -1512,19 +1512,19 @@ $str.="		} \n";
 $str.="	} \n";
 
 $str.="	function firstRecord(\$value) { \n";
-$str.="		\$this->recordSet->firstRecord(\$value); \n";
+$str.="		return \$this->recordSet->firstRecord(\$value); \n";
 $str.="	} \n";
 
 $str.="	function nextRecord(\$value, \$primaryKeyValue) { \n";
-$str.="		\$this->recordSet->nextRecord(\$value, \$primaryKeyValue); \n";
+$str.="		return \$this->recordSet->nextRecord(\$value, \$primaryKeyValue); \n";
 $str.="	} \n";
 
 $str.="	function previousRecord(\$value, \$primaryKeyValue) { \n";
-$str.="		\$this->recordSet->previousRecord(\$value, \$primaryKeyValue); \n";
+$str.="		return \$this->recordSet->previousRecord(\$value, \$primaryKeyValue); \n";
 $str.="	} \n";
 
 $str.="	function lastRecord(\$value) { \n";
-$str.="		\$this->recordSet->lastRecord(\$value); \n";
+$str.="		return \$this->recordSet->lastRecord(\$value); \n";
 $str.="	} \n";
 
 $str.="	/* (non-PHPdoc) \n";

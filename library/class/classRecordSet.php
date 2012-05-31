@@ -148,7 +148,7 @@ class RecordSet extends \Core\ConfigClass {
             $this->exceptionMessage($this->q->response);
         }
         if ($value == 'value') {
-
+			
             return intval($firstRecord);
         } else {
             echo $json_encode = json_encode(array('success' => TRUE, 'total' => $total, 'firstRecord' => $firstRecord));

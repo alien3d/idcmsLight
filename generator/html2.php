@@ -179,7 +179,7 @@ $str.="        </div> \n";
 $str.="    </div> \n";
 $str.="    <div  class='modal hide fade' id='deletePreview'> \n";
 $str.="        <div class='modal-header'> \n";
-$str.="            <a class='close' data-dismiss='modal1'>�</a> \n";
+$str.="            <a class='close' data-dismiss='modal1'>x</a> \n";
 $str.="            <h3>Are you sure want to delete this record ?</h3> \n";
 $str.="        </div> \n";
 $str.="        <div class='modal-body'> \n";
