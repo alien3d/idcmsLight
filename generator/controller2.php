@@ -121,8 +121,8 @@ $str.="        \$this->systemString->setVendor(\$this->getVendor()); \n";
 $str.="        \$this->systemString->setLeafId(\$this->getLeafId()); \n";
 $str.="        \$this->systemString->execute(); \n";
 $str.="        \$this->recordSet = new \Core\Recordset\RecordSet(); \n";
-$str.="        \$this->recordSet->setRequestDatabase(\$this->q->getCoreDatabase()); \n";
-$str.="        \$this->recordSet->setTableName(\$this->model->getTableName()); \n";
+$str.="        \$this->recordSet->setCurrentDatabase(\$this->q->getCoreDatabase()); \n";
+$str.="        \$this->recordSet->setCurrentTable(\$this->model->getTableName()); \n";
 $str.="        \$this->recordSet->setPrimaryKeyName(\$this->model->getPrimaryKeyName()); \n";
 $str.="        \$this->recordSet->execute(); \n";
 $str.="        //    \$this->documentTrail = new \Core\Document\Trail; \n";
@@ -163,7 +163,23 @@ $mysqlInsertStatement.=" \$sql=\"INSERT INTO `".$data[0]['database']."`.`" . $da
 	$i=0;
 	for ($i = 0; $i < $total; $i++) {
 		if($i >=1) { 
-			$mysqlInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
+			 if ($data[$i]['columnName']=='executeTime'){
+			$mysqlInsertStatementInsideValue.=" \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
+			}	else if($data[$i]['columnName'] !='isDefault' &&
+			$data[$i]['columnName'] !='isNew' &&
+			$data[$i]['columnName'] !='isDraft'&&
+			$data[$i]['columnName'] !='isUpdate'&&
+			$data[$i]['columnName'] !='isDelete'&&
+			$data[$i]['columnName'] !='isActive'&&
+			$data[$i]['columnName']!='isApproved'&&
+			$data[$i]['columnName'] !='isReview'&&
+			$data[$i]['columnName'] !='isPost'&&
+			$data[$i]['columnName'] !='isSeperated'&&
+			$data[$i]['columnName'] !='isConsolidation') {
+				$mysqlInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
+			}  else {
+				$mysqlInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
+			}
 		}
 	}
 
@@ -190,9 +206,26 @@ $mssqlInsertStatement.="
 	$mssqlInsertStatement.="\n) VALUES ( \n";
 	$i=0;
 	for ($i = 0; $i < $total; $i++) {
-		$i++;
+		
 		if($i >= 1){
-			$mssqlInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
+			if ($data[$i]['columnName']=='executeTime'){
+			$mssqlInsertStatementInsideValue.=" \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
+			}	elseif($data[$i]['columnName'] !='isDefault' &&
+			$data[$i]['columnName'] !='isNew' &&
+			$data[$i]['columnName'] !='isDraft'&&
+			$data[$i]['columnName'] !='isUpdate'&&
+			$data[$i]['columnName'] !='isDelete'&&
+			$data[$i]['columnName'] !='isActive'&&
+			$data[$i]['columnName']!='isApproved'&&
+			$data[$i]['columnName'] !='isReview'&&
+			$data[$i]['columnName'] !='isPost'&&
+			$data[$i]['columnName'] !='isSeperated'&&
+			$data[$i]['columnName'] !='isConsolidation') {
+				$mssqlInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
+			}  else {
+				$mssqlInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
+			}
+			
 		}
 	}
 	$mssqlInsertStatementValue.=(substr($mssqlInsertStatementInsideValue,0,-2));
@@ -218,7 +251,23 @@ $oracleInsertStatement.="
 	$i=0;
 	for ($i = 0; $i < $total; $i++) {
 		if($i >= 1){
-			$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
+			if ($data[$i]['columnName']=='executeTime'){
+			$oracleInsertStatementInsideValue.=" \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
+			}	else if($data[$i]['columnName'] !='isDefault' &&
+			$data[$i]['columnName'] !='isNew' &&
+			$data[$i]['columnName'] !='isDraft'&&
+			$data[$i]['columnName'] !='isUpdate'&&
+			$data[$i]['columnName'] !='isDelete'&&
+			$data[$i]['columnName'] !='isActive'&&
+			$data[$i]['columnName']!='isApproved'&&
+			$data[$i]['columnName'] !='isReview'&&
+			$data[$i]['columnName'] !='isPost'&&
+			$data[$i]['columnName'] !='isSeperated'&&
+			$data[$i]['columnName'] !='isConsolidation') {
+				$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
+			}  else {
+				$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
+			}
 		} 
 	}
 	$oracleInsertStatementValue.=(substr($oracleInsertStatementInsideValue,0,-2));
@@ -244,7 +293,23 @@ $oracleInsertStatement.="
 	$i=0;
 	for ($i = 0; $i < $total; $i++) {
 		if($i >= 1){
-			$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
+			if ($data[$i]['columnName']=='executeTime'){
+			$oracleInsertStatementInsideValue.=" \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
+			} else if($data[$i]['columnName'] !='isDefault' &&
+			$data[$i]['columnName'] !='isNew' &&
+			$data[$i]['columnName'] !='isDraft'&&
+			$data[$i]['columnName'] !='isUpdate'&&
+			$data[$i]['columnName'] !='isDelete'&&
+			$data[$i]['columnName'] !='isActive'&&
+			$data[$i]['columnName']!='isApproved'&&
+			$data[$i]['columnName'] !='isReview'&&
+			$data[$i]['columnName'] !='isPost'&&
+			$data[$i]['columnName'] !='isSeperated'&&
+			$data[$i]['columnName'] !='isConsolidation') {
+				$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
+			}  else {
+				$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
+			}
 		} 
 	}
 	$oracleInsertStatementValue.=(substr($oracleInsertStatementInsideValue,0,-2));
@@ -271,7 +336,23 @@ $oracleInsertStatement.="
 	$i=0;
 	for ($i = 0; $i < $total; $i++) {
 		if($i >= 1){
-			$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
+		if ($data[$i]['columnName']=='executeTime'){
+			$oracleInsertStatementInsideValue.=" \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
+			} else if($data[$i]['columnName'] !='isDefault' &&
+			$data[$i]['columnName'] !='isNew' &&
+			$data[$i]['columnName'] !='isDraft'&&
+			$data[$i]['columnName'] !='isUpdate'&&
+			$data[$i]['columnName'] !='isDelete'&&
+			$data[$i]['columnName'] !='isActive'&&
+			$data[$i]['columnName']!='isApproved'&&
+			$data[$i]['columnName'] !='isReview'&&
+			$data[$i]['columnName'] !='isPost'&&
+			$data[$i]['columnName'] !='isSeperated'&&
+			$data[$i]['columnName'] !='isConsolidation') {
+				$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
+			}  else {
+				$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
+			}
 		} 
 	}
 	$oracleInsertStatementValue.=(substr($oracleInsertStatementInsideValue,0,-2));

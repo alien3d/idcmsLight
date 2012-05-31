@@ -1,6 +1,6 @@
-<?php namespace Core\System\Common\Theme\Controller;
-if (!isset($_SESSION)) {
-    session_start();
+<?php namespace Core\System\Common\Theme\Controller; 
+if (!isset($_SESSION)) { 
+    session_start(); 
 } 
 require_once ("../../../../library/class/classAbstract.php"); 
 require_once ("../../../../library/class/classRecordSet.php"); 
@@ -75,11 +75,6 @@ class ThemeClass extends \Core\ConfigClass {
      * @var bool
      */ 
     public $duplicateTest; 
-	function __construct() {
-		$this->setViewPath("./package/system/common/view/theme.php");
-        $this->setControllerPath("./package/system/common/controller/themeController.php");
-        //$this->setServicePath("./package/system/common/service/themeService.php");
-	}
     /** 
      * Class Loader 
      */ 
@@ -87,10 +82,9 @@ class ThemeClass extends \Core\ConfigClass {
         parent::__construct(); 
         $this->audit = 0; 
        $this->log = 1; 
-        $this->model = new \Core\System\Common\Theme\Model\ThemeModel();
-		    $this->model->setVendor($this->getVendor()); 
+        $this->model  = new \Core\System\Common\Theme\Model\ThemeModel(); 
+        $this->model->setVendor($this->getVendor()); 
         $this->model->execute(); 
-     
        if ($this->getVendor() == self::MYSQL) { 
            $this->q = new \Core\Database\Mysql\Vendor(); 
        } else if ($this->getVendor() == self::MSSQL) { 
@@ -102,7 +96,6 @@ class ThemeClass extends \Core\ConfigClass {
        } else if ($this->getVendor() == self ::DB2) { 
           $this->q = new \Core\Database\Db2\Vendor(); 
         } 
-       
         $this->q->vendor = $this->getVendor(); 
         $this->q->setRequestDatabase($this->q->getCoreDatabase()); 
         $this->q->connect($this->getConnection(), $this->getUsername(), $this->getDatabase(), $this->getPassword()); 
@@ -113,7 +106,7 @@ class ThemeClass extends \Core\ConfigClass {
         $this->recordSet = new \Core\Recordset\RecordSet(); 
         $this->recordSet->setCurrentDatabase($this->q->getCoreDatabase()); 
         $this->recordSet->setCurrentTable($this->model->getTableName()); 
-        $this->recordSet->setPrimaryKeyName($this->model->getPrimaryKeyName());
+        $this->recordSet->setPrimaryKeyName($this->model->getPrimaryKeyName()); 
         $this->recordSet->execute(); 
         //    $this->documentTrail = new \Core\Document\Trail; 
         //    $this->documentTrail->setVendor($this->getVendor()); 
@@ -136,7 +129,6 @@ class ThemeClass extends \Core\ConfigClass {
         $this->model->create();  
         if ($this->getVendor() == self::MYSQL) {  
  $sql="INSERT INTO `icore`.`theme` ( 
-    `themeId`,
     `themeSequence`,
     `themeCode`,
     `themeNote`,
@@ -153,13 +145,20 @@ class ThemeClass extends \Core\ConfigClass {
     `executeBy`,
     `executeTime`
 ) VALUES ( 
-null,
+ '".$this->model->getThemeSequence()."',
+ '".$this->model->getThemeCode()."',
  '".$this->model->getThemeNote()."',
+ '".$this->model->getThemePath()."',
  '".$this->model->getIsDefault(0, 'single')."',
+ '".$this->model->getIsNew(0, 'single')."',
  '".$this->model->getIsDraft(0, 'single')."',
+ '".$this->model->getIsUpdate(0, 'single')."',
  '".$this->model->getIsDelete(0, 'single')."',
+ '".$this->model->getIsActive(0, 'single')."',
  '".$this->model->getIsApproved(0, 'single')."',
+ '".$this->model->getIsReview(0, 'single')."',
  '".$this->model->getIsPost(0, 'single')."',
+ '".$this->model->getExecuteBy()."',
  ".$this->model->getExecuteTime()."
  );";
          } else if ($this->getVendor() == self::MSSQL) {  
@@ -182,19 +181,25 @@ null,
     [executeBy],
     [executeTime]
 ) VALUES ( 
-null,
+ '".$this->model->getThemeSequence()."',
+ '".$this->model->getThemeCode()."',
  '".$this->model->getThemeNote()."',
+ '".$this->model->getThemePath()."',
  '".$this->model->getIsDefault(0, 'single')."',
+ '".$this->model->getIsNew(0, 'single')."',
  '".$this->model->getIsDraft(0, 'single')."',
+ '".$this->model->getIsUpdate(0, 'single')."',
  '".$this->model->getIsDelete(0, 'single')."',
+ '".$this->model->getIsActive(0, 'single')."',
  '".$this->model->getIsApproved(0, 'single')."',
+ '".$this->model->getIsReview(0, 'single')."',
  '".$this->model->getIsPost(0, 'single')."',
- ".$this->model->getExecuteTime()."
+ '".$this->model->getExecuteBy()."',
+ '".$this->model->getExecuteTime()."'
  );";
          } else if ($this->getVendor() == self::ORACLE) {  
 
         $sql="INSERT INTO 	THEME ( 
-    THEMEID,
     THEMESEQUENCE,
     THEMECODE,
     THEMENOTE,
@@ -211,19 +216,25 @@ null,
     EXECUTEBY,
     EXECUTETIME
 ) VALUES ( 
-null,
+ '".$this->model->getThemeSequence()."',
+ '".$this->model->getThemeCode()."',
  '".$this->model->getThemeNote()."',
+ '".$this->model->getThemePath()."',
  '".$this->model->getIsDefault(0, 'single')."',
+ '".$this->model->getIsNew(0, 'single')."',
  '".$this->model->getIsDraft(0, 'single')."',
+ '".$this->model->getIsUpdate(0, 'single')."',
  '".$this->model->getIsDelete(0, 'single')."',
+ '".$this->model->getIsActive(0, 'single')."',
  '".$this->model->getIsApproved(0, 'single')."',
+ '".$this->model->getIsReview(0, 'single')."',
  '".$this->model->getIsPost(0, 'single')."',
- ".$this->model->getExecuteTime()."
+ '".$this->model->getExecuteBy()."',
+ '".$this->model->getExecuteTime()."'
  );";
          } else if ($this->getVendor() == self::DB2) {  
 
         $sql="INSERT INTO 	THEME ( 
-    THEMEID,
     THEMESEQUENCE,
     THEMECODE,
     THEMENOTE,
@@ -240,19 +251,25 @@ null,
     EXECUTEBY,
     EXECUTETIME
 ) VALUES ( 
-null,
+ '".$this->model->getThemeSequence()."',
+ '".$this->model->getThemeCode()."',
  '".$this->model->getThemeNote()."',
+ '".$this->model->getThemePath()."',
  '".$this->model->getIsDefault(0, 'single')."',
+ '".$this->model->getIsNew(0, 'single')."',
  '".$this->model->getIsDraft(0, 'single')."',
+ '".$this->model->getIsUpdate(0, 'single')."',
  '".$this->model->getIsDelete(0, 'single')."',
+ '".$this->model->getIsActive(0, 'single')."',
  '".$this->model->getIsApproved(0, 'single')."',
+ '".$this->model->getIsReview(0, 'single')."',
  '".$this->model->getIsPost(0, 'single')."',
- ".$this->model->getExecuteTime()."
+ '".$this->model->getExecuteBy()."',
+ '".$this->model->getExecuteTime()."'
  );";
          } else if ($this->getVendor() == self::POSTGRESS) { 
 
         $sql="INSERT INTO 	THEME ( 
-    THEMEID,
     THEMESEQUENCE,
     THEMECODE,
     THEMENOTE,
@@ -269,14 +286,21 @@ null,
     EXECUTEBY,
     EXECUTETIME
 ) VALUES ( 
-null,
+ '".$this->model->getThemeSequence()."',
+ '".$this->model->getThemeCode()."',
  '".$this->model->getThemeNote()."',
+ '".$this->model->getThemePath()."',
  '".$this->model->getIsDefault(0, 'single')."',
+ '".$this->model->getIsNew(0, 'single')."',
  '".$this->model->getIsDraft(0, 'single')."',
+ '".$this->model->getIsUpdate(0, 'single')."',
  '".$this->model->getIsDelete(0, 'single')."',
+ '".$this->model->getIsActive(0, 'single')."',
  '".$this->model->getIsApproved(0, 'single')."',
+ '".$this->model->getIsReview(0, 'single')."',
  '".$this->model->getIsPost(0, 'single')."',
- ".$this->model->getExecuteTime()."
+ '".$this->model->getExecuteBy()."',
+ '".$this->model->getExecuteTime()."'
  );";
  } 
          $this->q->create($sql); 
@@ -454,8 +478,7 @@ STAFF.STAFFNAME
          */ 
         $tableArray = null; 
         $tableArray = array('theme'); 
-        if ($this->getFieldQuery()) {
-			$this->q->setFieldQuery($this->getFieldQuery());	
+        if ($this->getFieldQuery()) { 
             if ($this->getVendor() == self::MYSQL) { 
                 $sql .= $this->q->quickSearch($tableArray, $filterArray); 
             } else if ($this->getVendor() == self::MSSQL) { 
@@ -466,11 +489,11 @@ STAFF.STAFFNAME
                 $sql .= $tempSql; 
             } 
         } 
-		
         /** 
          * Extjs filtering mode 
          */ 
         if ($this->getGridQuery()) { 
+            $this->q->setFieldQuery($this->getFieldQuery()); 
             if ($this->getVendor() == self::MYSQL) { 
                 $sql .= $this->q->searching(); 
             } else if ($this->getVendor() == self::MSSQL) { 
@@ -1460,36 +1483,34 @@ if (isset($_POST ['method'])) {
     if (isset($_POST ['sortField'])) { 
         $themeObject->setSortField($_POST ['sortField']); 
     } 
-    if(isset($_POST['output'])) { 
-		/* 
-		 *  Load the dynamic value 
-		 */ 
-		$themeObject ->setPageOutput('json');
-		$themeObject->execute(); 
-		/* 
-		 *  Crud Operation (Create Read Update Delete/Destory) 
-		 */ 
-	 
-		if ($_POST ['method'] == 'create') { 
-			$themeObject->create(); 
-		} 
-		if ($_POST ['method'] == 'save') { 
-			$themeObject->update(); 
-		} 
-		if ($_POST ['method'] == 'read') { 
-			$themeObject->read(); 
-		} 
-		if ($_POST ['method'] == 'delete') { 
-			$themeObject->delete(); 
-		} 
-		if ($_POST ['method'] == 'posting') { 
-		//	$themeObject->posting(); 
-		} 
-		if ($_POST ['method'] == 'reverse') { 
-		//	$themeObject->delete(); 
-		} 
-	}
-} 
+    if(isset($_POST['output'])) {  
+    /* 
+     *  Load the dynamic value 
+     */ 
+    $themeObject ->setPageOutput('json');  
+    $themeObject->execute(); 
+    /* 
+     *  Crud Operation (Create Read Update Delete/Destory) 
+     */ 
+    if ($_POST ['method'] == 'create') { 
+        $themeObject->create(); 
+    } 
+    if ($_POST ['method'] == 'save') { 
+        $themeObject->update(); 
+    } 
+    if ($_POST ['method'] == 'read') { 
+        $themeObject->read(); 
+    } 
+    if ($_POST ['method'] == 'delete') { 
+        $themeObject->delete(); 
+    } 
+    if ($_POST ['method'] == 'posting') { 
+    //	$themeObject->posting(); 
+    } 
+    if ($_POST ['method'] == 'reverse') { 
+    //	$themeObject->delete(); 
+    } 
+} } 
 if (isset($_GET ['method'])) {
     /* 
      *  Initilize Value before load in the loader
@@ -1533,9 +1554,7 @@ if (isset($_GET ['method'])) {
         } 
     } 
     if ($_GET ['method'] == 'dataNavigationRequest') { 
-	
-        if ($_GET ['dataNavigation'] == 'firstRecord') {
-
+        if ($_GET ['dataNavigation'] == 'firstRecord') { 
             $themeObject->firstRecord('json'); 
         } 
         if ($_GET ['dataNavigation'] == 'previousRecord') { 
