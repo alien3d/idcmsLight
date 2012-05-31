@@ -88,7 +88,11 @@ $str.="	 * Duplicate Testing either the key of table same or have been created. 
 $str.="	 * @var bool\n";
 $str.="	 */ \n";
 $str.="	public \$duplicateTest; \n";
-
+$str.="function __construct() { \n";
+$str.="	\$this->setViewPath(\"./package/" . ucwords($data[0]['package']) . "/" . ucwords($data[0]['module']) . "/view/".$data[0]['tableName'].".php\"); \n";
+$str.=" \$this->setControllerPath(\"./package/" . ucwords($data[0]['package']) . "/" . ucwords($data[0]['module']) . "/controller/".$data[0]['tableName']."Controller.php\");\n";
+$str.=" //\$this->setServicePath(\"./package/" . ucwords($data[0]['package']) . "/" . ucwords($data[0]['module']) . "/service/".$data[0]['tableName']."Service.php\"); \n";
+$str.="	} \n";
 $str.="	/** \n";
 $str.="	 * Class Loader \n";
 $str.="	 */ \n";

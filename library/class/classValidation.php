@@ -114,7 +114,7 @@ abstract class ValidationClass
             } elseif ($this->value) {
                 return 0;
             }
-        } elseif ($this->type == 'string' || $this->type == 's') {
+        } elseif ($this->type == 'string' || $this->type == 's' || $this->type == 'text') {
             if (empty($this->value) && (strlen($this->value) == 0)) {
                 $this->value = null;
                 return ($this->value);
@@ -159,7 +159,7 @@ abstract class ValidationClass
                 // this is easy for vb/access developer
                 $this->value = addslashes($this->value);
                 return (htmlspecialchars($this->value));
-            } elseif ($this->type == 'currency') {
+            } elseif ($this->type == 'currency' || $this->type=='double') {
                 // make easier for vb.net programmer to understand float value
                 $this->value = str_replace("$", "", 
                 $this->value); // filter for extjs if exist
