@@ -630,6 +630,7 @@ STAFF.STAFFNAME
 		} 
 		$items = array(); 
         $i = 1; 
+        
 		while (($row = $this->q->fetchAssoc()) == TRUE) { 
 			$row['total'] = $total; // small overide 
             $row['counter'] = $this->getStart() + 16; 

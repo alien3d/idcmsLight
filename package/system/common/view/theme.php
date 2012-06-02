@@ -219,7 +219,7 @@ if(isset($themeArray[$i]['executeBy'])) {
     $hour               =   $valueDataSecond[0];  
     $minute             =   $valueDataSecond[1];  
     $second             =   $valueDataSecond[2];  
-    $value = date($systemFormat['systemSettingDateFormat'].$systemFormat['systemSettingTimeFormat'],mktime($hour,$minute,$second,$month,$day,$year)); 
+    $value = date($systemFormat['systemSettingDateFormat']." ".$systemFormat['systemSettingTimeFormat'],mktime($hour,$minute,$second,$month,$day,$year)); 
     echo "<td>".$value."</td>"; 
 } else { 
     echo "<td>&nbsp;</td>"; 
@@ -258,16 +258,19 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] =
     <?php }  
            if ((isset($_POST['method']) == 'new' || isset($_POST['method']) == 'read') && $_POST['type'] == 'form') { ?> 
     <div id='infoPanel'></div> 
-    <input type='hidden' name='themeId' id='themeId' value='<?php if (isset($_POST['themeId'])) { $_POST['themeId'];    } ?>'> 
+    <input type='hidden' name='themeId' id='themeId' 
+value='<?php if (isset($_POST['themeId'])) { 
+                echo $_POST['themeId'];    
+            }  ?>'> 
 <div class='control-group' id='themeSequenceForm' >
 
                                 <label class='control-label'><?php echo $leafTranslation['themeSequenceLabel']; ?></label>
 
                                 <div class='controls  input-prepend'>
 
-                                    <input type='text' name='themeSequence' id='themeSequence' placeholder='Numeric Only' class='span3'>
+                                    <input type='text' name='themeSequence' id='themeSequence' placeholder='Numeric Only' class='span3' value='<?php echo $themeArray[0]['themeSequence']; ?>'>
 
-                                    <span name='numericHelpMe' id='themeSequenceHelpMe' class='help-inline'></span>
+                                    <span name='numericHelpMe' id='themeSequenceHelpMe' class='help-inline' ></span>
 
                                 </div>
 
@@ -275,17 +278,20 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] =
 <div class='control-group' id='themeCodeForm'>
                                 <label class='control-label'><?php echo $leafTranslation['themeCodeLabel']; ?></label>
                                 <div class='controls  input-prepend'>
-                                    <input type='text' name='themeCode' id='themeCode' placeholder='Field Of themeCode' class='span3'>
+                                    <input type='text' name='themeCode' id='themeCode' placeholder='Field Of themeCode' class='span3' 
+                                    value='<?php echo $themeArray[0]['themeCode']; ?>'>
                                 </div>
                             </div><div class='control-group' id='themeNoteForm'>
                                 <label class='control-label'><?php echo $leafTranslation['themeNoteLabel']; ?></label>
                                 <div class='controls  input-prepend'>
-                                    <input type='text' name='themeNote' id='themeNote' placeholder='Field Of themeNote' class='span3'>
+                                    <input type='text' name='themeNote' id='themeNote' placeholder='Field Of themeNote' class='span3' 
+                                    value='<?php echo $themeArray[0]['themeNote']; ?>'>
                                 </div>
                             </div><div class='control-group' id='themePathForm'>
                                 <label class='control-label'><?php echo $leafTranslation['themePathLabel']; ?></label>
                                 <div class='controls  input-prepend'>
-                                    <input type='text' name='themePath' id='themePath' placeholder='Field Of themePath' class='span3'>
+                                    <input type='text' name='themePath' id='themePath' placeholder='Field Of themePath' class='span3' 
+                                    value='<?php echo $themeArray[0]['themePath']; ?>'>
                                 </div>
                             </div><div class='control-group' id='executeByForm' >
 
@@ -293,20 +299,33 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] =
 
                                 <div class='controls  input-prepend'>
 
-                                    <input type='text' name='executeBy' id='executeBy' placeholder='Numeric Only' class='span3'>
+                                    <input type='text' name='executeBy' id='executeBy' placeholder='String Only' class='span3' value='<?php echo $themeArray[0]['staffName']; ?>' readOnly>
 
-                                    <span name='numericHelpMe' id='executeByHelpMe' class='help-inline'></span>
+                                    <span name='numericHelpMe' id='executeByHelpMe' class='help-inline' ></span>
 
                                 </div>
 
                             </div>
-<div class='control-group' id='executeTimeForm'>
+<?php      $valueArray = $themeArray[0]['executeTime'];  
+     $valueArrayDate    =   explode(' ',$valueArray);
+     $valueArrayFirst   =   $valueArrayDate[0];
+     $valueArraySecond  =   $valueArrayDate[1];
+     $valueDataFirst    =   explode('-',$valueArrayFirst);
+     $year              =   $valueDataFirst[0];
+     $month             =   $valueDataFirst[1];
+     $day               =   $valueDataFirst[2];
+ $valueDataSecond   =   explode(':',$valueArraySecond);
+     $hour              =   $valueDataSecond[0];
+     $minute            =   $valueDataSecond[1];
+     $second            =   $valueDataSecond[2];
+ $value = date($systemFormat['systemSettingDateFormat']." ".$systemFormat['systemSettingTimeFormat'],mktime($hour,$minute,$second,$month,$day,$year)); 
+ ?><div class='control-group' id='executeTimeForm'>
                                 <label class='control-label'><?php echo $leafTranslation['executeTimeLabel']; ?></label>
                                 <div class='controls input-prepend'>
                                     <span class='add-on'>
                                         <i class='icon-calendar'></i>
                                     </span>    
-                                    <input type='date' name='executeTime' id='executeTime' placeholder='Date Validation' class='span3'>
+                                    <input type='date' name='executeTime' id='executeTime' placeholder='Date Validation' class='span3' value='<?php echo $value; ?>' readOnly>
                                     <span name='executeTimeHelpMe' id='executeTimeHelpMe' class='help-inline'></span>
                                 </div>
                             </div>    <div class='btn-toolbar'> 
@@ -334,25 +353,25 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] =
             </ul> 
         </div> 
         <div class='btn-group'> 
-            <a name='deleteRecordButton' id='deleteRecordButton' href='javascript:void(0)'   <?php if($leafAccess['isDelete']==1) { ?>onClick=deleteRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',)<?php } ?> class='<?php if($leafAccess['isDelete']==0) { ?>btn btn-danger disabled<?php } else { ?>btn btn-danger<?php } ?>'><i class='icon-trash icon-white'></i><?php echo $buttonTranslation['isDeleteLabel']; ?></a> 
+            <a name='deleteRecordButton' id='deleteRecordButton' href='javascript:void(0)'   <?php if($leafAccess['isDelete']==1) { ?>onClick=deleteRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>')<?php } ?> class='<?php if($leafAccess['isDelete']==0) { ?>btn btn-danger disabled<?php } else { ?>btn btn-danger<?php } ?>'><i class='icon-trash icon-white'></i><?php echo $buttonTranslation['isDeleteLabel']; ?></a> 
         </div> 
-        <div class='btn-group'>            <a name=resetRecordButton id=resetRecordButton href=javascript:void(0) class='btn btn-info' onClick=resetRecord()><i class=icon-refresh icon-white></i><?php echo $buttonTranslation['isResetLabel']; ?></a> 
+        <div class='btn-group'>            <a name='resetRecordButton' id='resetRecordButton' href=javascript:void(0) class='btn btn-info' onClick=resetRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>')><i class=icon-refresh icon-white></i><?php echo $buttonTranslation['isResetLabel']; ?></a> 
         </div> 
-        <div class='btn-group'>            <a name=postRecordButton id=postRecordButton href=javascript:void(0) class='<?php if($leafAccess['isPost']==0) { ?>btn btn-warning  disabled<?php } else { ?>btn btn-warning<?php } ?>' <?php if($leafAccess['isPost']==1) { ?>onClick=postRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',)<?php } ?>><i class=icon-cog icon-white></i><?php echo $buttonTranslation['isPostLabel']; ?></a> 
+        <div class='btn-group'>            <a name='postRecordButton' id='postRecordButton' href=javascript:void(0) class='<?php if($leafAccess['isPost']==0) { ?>btn btn-warning  disabled<?php } else { ?>btn btn-warning<?php } ?>' <?php if($leafAccess['isPost']==1) { ?>onClick=postRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>')<?php } ?>><i class=icon-cog icon-white></i><?php echo $buttonTranslation['isPostLabel']; ?></a> 
         </div> 
-        <div class='btn-group'>            <a name=listRecordButton id=listRecordButton href=javascript:void(0) class='btn btn-info' onClick=showGrid('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>',0,<?php echo LIMIT; ?>)><i class=icon-list icon-white></i>Listing</a> 
-        </div> 
-        <div class='btn-group'> 
-            <a name=firstRecordButton id=firstRecordButton href=javascript:void(0) class='btn btn-info' onClick=firstRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>')><i class=icon-fast-backward icon-white></i><?php echo $defaultTranslation['firstButtonLabel']; ?></a> 
+        <div class='btn-group'>            <a name='listRecordButton' id='listRecordButton' href=javascript:void(0) class='btn btn-info' onClick=showGrid('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>',0,<?php echo LIMIT; ?>)><i class=icon-list icon-white></i>Listing</a> 
         </div> 
         <div class='btn-group'> 
-            <a name=previousRecordButton id=previousRecordButton href=javascript:void(0) class='btn btn-info disabled' onClick=previousRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>')><i class=icon-backward icon-white></i><?php echo $defaultTranslation['previousButtonLabel']; ?></a> 
+            <a name='firstRecordButton' id='firstRecordButton' href=javascript:void(0) class='btn btn-info' onClick=firstRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>')><i class=icon-fast-backward icon-white></i><?php echo $defaultTranslation['firstButtonLabel']; ?></a> 
         </div> 
         <div class='btn-group'> 
-            <a name=nextRecordButton id=nextRecordButton href=javascript:void(0) class='btn btn-info disabled' onClick=nextRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>')><i class=icon-forward icon-white></i><?php echo $defaultTranslation['nextButtonLabel']; ?></a> 
+            <a name='previousRecordButton' id='previousRecordButton' href=javascript:void(0) class='btn btn-info disabled' onClick=previousRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>')><i class=icon-backward icon-white></i><?php echo $defaultTranslation['previousButtonLabel']; ?></a> 
         </div> 
         <div class='btn-group'> 
-            <a name=lastRecordButton id=lastRecordButton href=javascript:void(0) class='btn btn-info' onClick=lastRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>')><i class=icon-fast-forward icon-white></i><?php echo $defaultTranslation['endButtonLabel']; ?></a> 
+            <a name='nextRecordButton' id='nextRecordButton' href=javascript:void(0) class='btn btn-info disabled' onClick=nextRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>')><i class=icon-forward icon-white></i><?php echo $defaultTranslation['nextButtonLabel']; ?></a> 
+        </div> 
+        <div class='btn-group'> 
+            <a name='lastRecordButton' id='lastRecordButton' href=javascript:void(0) class='btn btn-info' onClick=lastRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>')><i class=icon-fast-forward icon-white></i><?php echo $defaultTranslation['endButtonLabel']; ?></a> 
        </div> 
     </div> 
     <input type='hidden' name='x' id='x'> 
@@ -363,14 +382,14 @@ if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] =
     <input type='hidden' name='endRecord' id='endRecord' value='<?php if(isset($endRecord)) { echo $endRecord; } ?>'> 
     <script language='javascript' type='text/javascript'> 
          $(document).ready(function(){  
-validateMeNumeric('<?php if(isset($data[0]['columnName'])) { echo $data[0]['columnName']; } ?>') 
-validateMeNumeric('<?php if(isset($data[1]['columnName'])) { echo $data[1]['columnName']; } ?>') 
-validateMeAlphaNumeric('<?php if(isset($data[2]['columnName'])) { echo $data[2]['columnName']; } ?>') 
-validateMeAlphaNumeric('<?php if(isset($data[3]['columnName'])) { echo $data[3]['columnName']; } ?>') 
-validateMeAlphaNumeric('<?php if(isset($data[4]['columnName'])) { echo $data[4]['columnName']; } ?>') 
-validateMeNumeric('<?php if(isset($data[14]['columnName'])) { echo $data[14]['columnName']; } ?>') 
- $('#<?php if(isset($data[15]['columnName'])) { echo $data[15]['columnName']; } ?>').dateinput({ 
-    format :'dd mmm yyyy'
+validateMeNumeric('themeId') 
+validateMeNumeric('themeSequence') 
+validateMeAlphaNumeric('themeCode') 
+validateMeAlphaNumeric('themeNote') 
+validateMeAlphaNumeric('themePath') 
+validateMeNumeric('executeBy') 
+ $('executeTime').dateinput({ 
+    format :'<?php echo $systemFormat['systemSettingDateFormat'].$systemFormat['systemSettingTimeFormat']; ?>'
    });  
             <?php if(isset($_POST['query'])) { ?> 
                     $('#clearSearch').removeCss(); 
@@ -385,7 +404,52 @@ validateMeNumeric('<?php if(isset($data[14]['columnName'])) { echo $data[14]['co
             $('#firstRecordButton').addClass('btn btn-info');  
             $('#lastRecordButton').removeClass(); 
             $('#lastRecordButton').addClass('btn btn-info'); 
-            <?php } else { ?> 
+            <?php } else  if ($_POST['themeId']) { ?> 
+ $('#newRecordButton1').removeClass(); 
+ $('#newRecordButton2').removeClass(); 
+ $('#newRecordButton3').removeClass(); 
+ $('#newRecordButton4').removeClass(); 
+ $('#newRecordButton5').removeClass(); 
+ $('#newRecordButton6').removeClass(); 
+ $('#newRecordButton7').removeClass(); 
+ $('#newRecordButton1').addClass('btn btn-success disabled'); 
+ $('#newRecordButton2').addClass('btn  dropdown-toggle btn-success disabled'); 
+ $('#newRecordButton1').attr('onClick', ''); 
+ $('#newRecordButton2').attr('onClick', ''); 
+ $('#newRecordButton3').attr('onClick', ''); 
+ $('#newRecordButton4').attr('onClick', ''); 
+ $('#newRecordButton5').attr('onClick', ''); 
+ $('#newRecordButton6').attr('onClick', ''); 
+ $('#newRecordButton7').attr('onClick', ''); 
+ $('#updateRecordButton1').removeClass(); 
+ $('#updateRecordButton2').removeClass(); 
+ $('#updateRecordButton3').removeClass(); 
+ $('#updateRecordButton4').removeClass(); 
+ $('#updateRecordButton5').removeClass(); 
+<?php if($leafAccess['isUpdate']==1) { ?> 
+ $('#updateRecordButton1').addClass('btn btn-info'); 
+ $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info'); 
+ $('#updateRecordButton3').attr('onClick', "updateRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',1)"); 
+ $('#updateRecordButton4').attr('onClick', "updateRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',2)"); 
+ $('#updateRecordButton5').attr('onClick', "updateRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>',3)"); 
+<?php }  else { ?> 
+ $('#updateRecordButton1').addClass('btn btn-info disabled'); 
+ $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
+ $('#updateRecordButton1').attr('onClick', ''); 
+ $('#updateRecordButton2').attr('onClick', ''); 
+ $('#updateRecordButton3').attr('onClick', ''); 
+ $('#updateRecordButton4').attr('onClick', ''); 
+ $('#updateRecordButton5').attr('onClick', ''); 
+<?php } ?> 
+<?php if($leafAccess['isDelete']==1) { ?> 
+ $('#deleteRecordButton').removeClass();
+ $('#deleteRecordButton').addClass('btn btn-danger'); 
+ $('#deleteRecordButton').attr('onClick', "deleteRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>')"); 
+<?php }  else { ?> 
+ $('#deleteRecordButton').removeClass();
+ $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
+ $('#deleterecordButton').attr('onClick', ''); 
+            <?php } ?>  
             <?php } ?>  
          }); 
     </script> 

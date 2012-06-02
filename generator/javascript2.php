@@ -1143,7 +1143,7 @@
 		$str.="			}\n";
 		$str.="		}\n";
 		$str.="	}\n";
-		$str.="	function resetRecord() {\n";
+		$str.="	function resetRecord(url,securityToken) {\n";
 		for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
 			if ($data[$i]['columnName'] != 'executeBy' &&
@@ -1163,18 +1163,72 @@
 				$data[$i]['columnName'] != 'isConsolidation') {
 				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
 			}
-			// start button segment
-				// disable all button new
-				// disable all button update
-				// disable all button delete
-				// disable all button reset
-			// end button segment
+			// new button segment
+		// remove classes
+		$str.="	\$('#newRecordButton1').removeClass(); \n";
+		$str.="	\$('#newRecordButton2').removeClass(); \n"; 
+		// add disabled class
+		$str.="	\$('#newRecordButton1').addClass('btn btn-success'); \n";
+		$str.="	\$('#newRecordButton2').addClass('btn  dropdown-toggle'); \n";
 
+		// empty the  onClick field.
+		$str.="	\$('#newRecordButton1').attr('onClick', ''); \n";
+		$str.="	\$('#newRecordButton2').attr('onClick', ''); \n";
+		$str.="	\$('#newRecordButton3').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
+		$str.="	\$('#newRecordButton4').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
+		$str.="	\$('#newRecordButton5').attr('onClick', \"newecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
+		$str.="	\$('#newRecordButton6').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
+		$str.="	\$('#newRecordButton7').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
+		// end new button segment
+		// update button segment
+		$str.="	\$('#updateRecordButton1').removeClass(); \n";
+		$str.="	\$('#updateRecordButton2').removeClass(); \n"; 
+		$str.="	\$('#updateRecordButton3').removeClass(); \n";
+		$str.="	\$('#updateRecordButton4').removeClass(); \n";
+		$str.="	\$('#updateRecordButton5').removeClass(); \n";
+		// add disabled class
+		$str.="	\$('#updateRecordButton1').addClass('btn btn-info disabled'); \n";
+		// toggle button
+		$str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); \n";
+		// drop down don't have  css class.blank empty
+		//$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
+		//$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
+		//$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
+		// put back the  onClick field
+		//@todo.. what if the client have no access to update..
+		$str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
+		$str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
+		$str.="	\$('#updateRecordButton3').attr('onClick', ''); \n";
+		$str.="	\$('#updateRecordButton4').attr('onClick', ''); \n";
+		$str.="	\$('#updateRecordButton5').attr('onClick', ''); \n";
+		
+
+		// delete button segment
+		$str.="	\$('#deleteRecordButton').removeClass(); \n";
+		$str.="	\$('#deleteRecordButton').addClass('btn btn-danger disabled'); \n";
+		$str.="	\$('#deleteRecordButton').attr('onClick',''); \n";
+		// end delete button segment
+		// post button segment
+		$str.="	\$('#postRecordButton').removeClass(); \n";
+		$str.="	\$('#postRecordButton').addClass('btn btn-info'); \n";
+		$str.="	\$('#postRecordButton').attr('onClick',''); \n";
+		// end post button segment
+		// end button segment
 			// navigation segment
 				// disable move next
+				$str.="	\$('firstFirst').removeClass(); \n";
+				$str.="	\$('firstFirst').addClass(); \n";
+				$str.="	\$('firstFirst').attr('onClick', \"firstRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
 				// disable move previous
-				// enable the first record
+				$str.="	\$("#movePrevious").removeClass();
+				$str.="	\$("#movePrevious").attr('onClick','');
+				// enable the next record
+				$str.="	\$('moveNext').removeClass(); \n";
+				$str.="	\$('movePrevious').attr('onClick',''); \n";
 				// enable the last record
+				$str.="	\$('lastRecord').removeClass(); \n";
+				$str.="	\$('lastRecord').addClass(); \n";
+				$str.="	\$('lastRecord').attr('onClick',\"lastRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";	
 			// end navigation segment
 
 		}

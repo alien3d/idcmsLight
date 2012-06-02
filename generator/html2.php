@@ -338,7 +338,7 @@ $str.="?>\n";
 								$str.=" 	\$minute 			= 	\$valueDataSecond[1];  \n";
 								$str.=" 	\$second 			= 	\$valueDataSecond[2];  \n";
 								
-								$str.="	\$value = date(\$systemFormat['systemSettingDateFormat'].\$systemFormat['systemSettingTimeFormat'],mktime(\$hour,\$minute,\$second,\$month,\$day,\$year)); \n";
+								$str.="	\$value = date(\$systemFormat['systemSettingDateFormat'].\" \".\$systemFormat['systemSettingTimeFormat'],mktime(\$hour,\$minute,\$second,\$month,\$day,\$year)); \n";
 								$str.="	echo \"<td>\".\$value.\"</td>\"; \n";
 								$str.="} else { \n";
 								$str.="	echo \"<td>&nbsp;</td>\"; \n";
@@ -381,7 +381,7 @@ $str.="?>\n";
 								$str.=" 	\$minute 			= 	\$valueDataSecond[1];\n";
 								$str.=" 	\$second 			= 	\$valueDataSecond[2];\n";
 								
-								$str.=" \$value = date(\$systemFormat['systemSettingDateFormat'].\$systemFormat['systemSettingTimeFormat'],mktime(\$hour,\$minute,\$second,\$month,\$day,\$year)); \n";
+								$str.=" \$value = date(\$systemFormat['systemSettingDateFormat'].\" \".\$systemFormat['systemSettingTimeFormat'],mktime(\$hour,\$minute,\$second,\$month,\$day,\$year)); \n";
 								$str.="  echo \"<td align=".$align.">\".\$value.\"</td>\";\n";
 							} else {
 								$str.=" \$value = \$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];\n";
@@ -431,7 +431,10 @@ $str.="      </script> \n";
 $str.="    <?php }  \n";
 $str.="           if ((isset(\$_POST['method']) == 'new' || isset(\$_POST['method']) == 'read') && \$_POST['type'] == 'form') { ?> \n";
 $str.="    <div id='infoPanel'></div> \n";
-$str.="    <input type='hidden' name='" . $data[0]['tableName'] . "Id' id='" . $data[0]['tableName'] . "Id' value='<?php if (isset(\$_POST['" . $data[0]['tableName'] . "Id'])) { \$_POST['" . $data[0]['tableName'] . "Id'];    } ?>'> \n";
+$str.="    <input type='hidden' name='" . $data[0]['tableName'] . "Id' id='" . $data[0]['tableName'] . "Id' 
+value='<?php if (isset(\$_POST['" . $data[0]['tableName'] . "Id'])) { 
+                echo \$_POST['" . $data[0]['tableName'] . "Id'];    
+            }  ?>'> \n";
 // start loop field
 //$str.=print_r($data);
 $total = 0;
@@ -444,7 +447,8 @@ for ($i = 0; $i < $total; $i++) {
             $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form'>
                                 <label class='control-label'><?php echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; ?></label>
                                 <div class='controls  input-prepend'>
-                                    <input type='text' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='Field Of " . $data[$i]['columnName'] . "' class='span3'>
+                                    <input type='text' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='Field Of " . $data[$i]['columnName'] . "' class='span3' 
+                                    value='<?php echo \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "']; ?>'>
                                 </div>
                             </div>";
             break;
@@ -461,20 +465,31 @@ for ($i = 0; $i < $total; $i++) {
                                     \$totalRecord = 0;
                                     \$totalRecord = count(\$" . $data[$i]['columnName'] . "Array);
                                     for (\$i = 0; \$i < \$totalRecord; \$i++) { ?>
-                                        <option value='<?php echo \$" . $data[$i]['columnName'] . "Array[\$i]['" . $data[$i]['columnName'] . "Id']; ?>'><?php echo \$" . $data[$i]['columnName'] . "Array[\$i]['" . $data[$i]['columnName'] . "Desc']; ?></option>                                       
+                                        <option value='<?php echo \$" . $data[$i]['columnName'] . "Array[0][\$i]['" . $data[$i]['columnName'] . "']; ?>'><?php echo \$" . $data[$i]['columnName'] . "Array[\$i]['" . $data[$i]['columnName'] . "Desc']; ?></option>                                       
                                     }\n
                                 }\n                                
                             </select>\n
                             </div>\n
                           </div>\n";
                     } else  if($data[$i]['Key'] == ''){
-                        $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form' >\n
+                        if($data[$i]['columnName']=='executeBy')  {
+
+                              $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form' >\n
                                 <label class='control-label'><?php echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; ?></label>\n
                                 <div class='controls  input-prepend'>\n
-                                    <input type='text' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='Numeric Only' class='span3'>\n
-                                    <span name='numericHelpMe' id='" . $data[$i]['columnName'] . "HelpMe' class='help-inline'></span>\n
+                                    <input type='text' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='String Only' class='span3' value='<?php echo \$" . $data[0]['tableName'] . "Array[0]['staffName']; ?>' readOnly>\n
+                                    <span name='numericHelpMe' id='" . $data[$i]['columnName'] . "HelpMe' class='help-inline' ></span>\n
+                                </div>\n
+                            </div>\n";   
+                        } else { 
+                            $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form' >\n
+                                <label class='control-label'><?php echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; ?></label>\n
+                                <div class='controls  input-prepend'>\n
+                                    <input type='text' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='Numeric Only' class='span3' value='<?php echo \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "']; ?>'>\n
+                                    <span name='numericHelpMe' id='" . $data[$i]['columnName'] . "HelpMe' class='help-inline' ></span>\n
                                 </div>\n
                             </div>\n";
+                        }    
                     }
             break;
         case 'tiny':
@@ -483,17 +498,61 @@ for ($i = 0; $i < $total; $i++) {
 
         case 'date':
         case 'datetime':
-            $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form'>
+            //must check data type if date .. convert output to master setting date
+            
+                            if($data[$i]['formType']=='date') {
+                               $str.="<?php ";
+                                $str.="     \$valueArray        =   \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "']; \n";
+                                $str.="     \$valueData         =   explode('-',\$valueArray);  \n";
+                                $str.="     \$year              =   \$valueData[0];  \n";
+                                $str.="     \$month             =   \$valueData[1];   \n";
+                                $str.="     \$day               =   \$valueData[2];  \n";
+                                $str.="     \$value             =   date(\$systemFormat['systemSettingDateFormat'],mktime(0,0,0,\$month,\$day,\$year));  \n";
+                                $str.=" ?>";
+                            } else if($data[$i]['formType']=='datetime') {
+                                $str.="<?php ";
+                                $str.="     \$valueArray = \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "'];  \n";
+                                
+                                $str.="     \$valueArrayDate    =   explode(' ',\$valueArray);\n";
+                                $str.="     \$valueArrayFirst   =   \$valueArrayDate[0];\n";
+                                $str.="     \$valueArraySecond  =   \$valueArrayDate[1];\n";    
+                                
+                                $str.="     \$valueDataFirst    =   explode('-',\$valueArrayFirst);\n";
+                                $str.="     \$year              =   \$valueDataFirst[0];\n";
+                                $str.="     \$month             =   \$valueDataFirst[1];\n";
+                                $str.="     \$day               =   \$valueDataFirst[2];\n";
+                                
+                                $str.=" \$valueDataSecond   =   explode(':',\$valueArraySecond);\n";
+                                $str.="     \$hour              =   \$valueDataSecond[0];\n";
+                                $str.="     \$minute            =   \$valueDataSecond[1];\n";
+                                $str.="     \$second            =   \$valueDataSecond[2];\n";
+                                
+                                $str.=" \$value = date(\$systemFormat['systemSettingDateFormat'].\" \".\$systemFormat['systemSettingTimeFormat'],mktime(\$hour,\$minute,\$second,\$month,\$day,\$year)); \n";
+                                $str.=" ?>";
+                            } 
+            if($data[$i]['columnName']=='executeTime') {
+                      $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form'>
                                 <label class='control-label'><?php echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; ?></label>
                                 <div class='controls input-prepend'>
                                     <span class='add-on'>
                                         <i class='icon-calendar'></i>
                                     </span>    
-                                    <input type='date' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='Date Validation' class='span3'>
+                                    <input type='date' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='Date Validation' class='span3' value='<?php echo \$value; ?>' readOnly>
                                     <span name='" . $data[$i]['columnName'] . "HelpMe' id='" . $data[$i]['columnName'] . "HelpMe' class='help-inline'></span>
                                 </div>
                             </div>";
-
+            } else { 
+                $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form'>
+                                <label class='control-label'><?php echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; ?></label>
+                                <div class='controls input-prepend'>
+                                    <span class='add-on'>
+                                        <i class='icon-calendar'></i>
+                                    </span>    
+                                    <input type='date' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='Date Validation' class='span3' value='<?php echo \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "']; ?>'>
+                                    <span name='" . $data[$i]['columnName'] . "HelpMe' id='" . $data[$i]['columnName'] . "HelpMe' class='help-inline'></span>
+                                </div>
+                            </div>";
+            }                
 
             break;
         default :
@@ -528,28 +587,28 @@ $str.="                <li><a name='updateRecordButton5' id='updateRecordButton5
 $str.="            </ul> \n";
 $str.="        </div> \n";
 $str.="        <div class='btn-group'> \n";
-$str.="            <a name='deleteRecordButton' id='deleteRecordButton' href='javascript:void(0)'   <?php if(\$leafAccess['isDelete']==1) { ?>onClick=deleteRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>',)<?php } ?> class='<?php if(\$leafAccess['isDelete']==0) { ?>btn btn-danger disabled<?php } else { ?>btn btn-danger<?php } ?>'><i class='icon-trash icon-white'></i><?php echo \$buttonTranslation['isDeleteLabel']; ?></a> \n";
+$str.="            <a name='deleteRecordButton' id='deleteRecordButton' href='javascript:void(0)'   <?php if(\$leafAccess['isDelete']==1) { ?>onClick=deleteRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>')<?php } ?> class='<?php if(\$leafAccess['isDelete']==0) { ?>btn btn-danger disabled<?php } else { ?>btn btn-danger<?php } ?>'><i class='icon-trash icon-white'></i><?php echo \$buttonTranslation['isDeleteLabel']; ?></a> \n";
 $str.="        </div> \n";
 $str.="        <div class='btn-group'>";
-$str.="            <a name=resetRecordButton id=resetRecordButton href=javascript:void(0) class='btn btn-info' onClick=resetRecord()><i class=icon-refresh icon-white></i><?php echo \$buttonTranslation['isResetLabel']; ?></a> \n";
+$str.="            <a name='resetRecordButton' id='resetRecordButton' href=javascript:void(0) class='btn btn-info' onClick=resetRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-refresh icon-white></i><?php echo \$buttonTranslation['isResetLabel']; ?></a> \n";
 $str.="        </div> \n";
 $str.="        <div class='btn-group'>";
-$str.="            <a name=postRecordButton id=postRecordButton href=javascript:void(0) class='<?php if(\$leafAccess['isPost']==0) { ?>btn btn-warning  disabled<?php } else { ?>btn btn-warning<?php } ?>' <?php if(\$leafAccess['isPost']==1) { ?>onClick=postRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>',)<?php } ?>><i class=icon-cog icon-white></i><?php echo \$buttonTranslation['isPostLabel']; ?></a> \n";
+$str.="            <a name='postRecordButton' id='postRecordButton' href=javascript:void(0) class='<?php if(\$leafAccess['isPost']==0) { ?>btn btn-warning  disabled<?php } else { ?>btn btn-warning<?php } ?>' <?php if(\$leafAccess['isPost']==1) { ?>onClick=postRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>')<?php } ?>><i class=icon-cog icon-white></i><?php echo \$buttonTranslation['isPostLabel']; ?></a> \n";
 $str.="        </div> \n";
 $str.="        <div class='btn-group'>";
-$str.="            <a name=listRecordButton id=listRecordButton href=javascript:void(0) class='btn btn-info' onClick=showGrid('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>',0,<?php echo LIMIT; ?>)><i class=icon-list icon-white></i>Listing</a> \n";
+$str.="            <a name='listRecordButton' id='listRecordButton' href=javascript:void(0) class='btn btn-info' onClick=showGrid('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>',0,<?php echo LIMIT; ?>)><i class=icon-list icon-white></i>Listing</a> \n";
 $str.="        </div> \n";
 $str.="        <div class='btn-group'> \n";
-$str.="            <a name=firstRecordButton id=firstRecordButton href=javascript:void(0) class='btn btn-info' onClick=firstRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-fast-backward icon-white></i><?php echo \$defaultTranslation['firstButtonLabel']; ?></a> \n";
+$str.="            <a name='firstRecordButton' id='firstRecordButton' href=javascript:void(0) class='btn btn-info' onClick=firstRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-fast-backward icon-white></i><?php echo \$defaultTranslation['firstButtonLabel']; ?></a> \n";
 $str.="        </div> \n";
 $str.="        <div class='btn-group'> \n";
-$str.="            <a name=previousRecordButton id=previousRecordButton href=javascript:void(0) class='btn btn-info disabled' onClick=previousRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-backward icon-white></i><?php echo \$defaultTranslation['previousButtonLabel']; ?></a> \n";
+$str.="            <a name='previousRecordButton' id='previousRecordButton' href=javascript:void(0) class='btn btn-info disabled' onClick=previousRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-backward icon-white></i><?php echo \$defaultTranslation['previousButtonLabel']; ?></a> \n";
 $str.="        </div> \n";
 $str.="        <div class='btn-group'> \n";
-$str.="            <a name=nextRecordButton id=nextRecordButton href=javascript:void(0) class='btn btn-info disabled' onClick=nextRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-forward icon-white></i><?php echo \$defaultTranslation['nextButtonLabel']; ?></a> \n";
+$str.="            <a name='nextRecordButton' id='nextRecordButton' href=javascript:void(0) class='btn btn-info disabled' onClick=nextRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-forward icon-white></i><?php echo \$defaultTranslation['nextButtonLabel']; ?></a> \n";
 $str.="        </div> \n";
 $str.="        <div class='btn-group'> \n";
-$str.="            <a name=lastRecordButton id=lastRecordButton href=javascript:void(0) class='btn btn-info' onClick=lastRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-fast-forward icon-white></i><?php echo \$defaultTranslation['endButtonLabel']; ?></a> \n";
+$str.="            <a name='lastRecordButton' id='lastRecordButton' href=javascript:void(0) class='btn btn-info' onClick=lastRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-fast-forward icon-white></i><?php echo \$defaultTranslation['endButtonLabel']; ?></a> \n";
 $str.="       </div> \n";
 $str.="    </div> \n";
 $str.="    <input type='hidden' name='x' id='x'> \n";
@@ -564,18 +623,22 @@ for ($i = 0; $i < $total; $i++) {
     switch ($data[$i]['formType']) {
         case 'varchar':
         case 'text':
-            $str.="validateMeAlphaNumeric('<?php if(isset(\$data[$i]['columnName'])) { echo \$data[$i]['columnName']; } ?>') \n";
+            $str.="validateMeAlphaNumeric('".$data[$i]['columnName']."') \n";
             break;
         case 'double':
-            $str.="validateMeAlphaCurrency('<?php if(isset(\$data[$i]['columnName'])) { echo \$data[$i]['columnName']; } ?>') \n";
+            $str.="validateMeAlphaCurrency('".$data[$i]['columnName']."') \n";
             break;
         case 'int':
-            $str.="validateMeNumeric('<?php if(isset(\$data[$i]['columnName'])) { echo \$data[$i]['columnName']; } ?>') \n";
+            $str.="validateMeNumeric('".$data[$i]['columnName']."') \n";
             break;
         case 'date':
+            $str.=" \$('".$data[$i]['columnName']."').dateinput({ \n";
+            $str.="    format :'<?php echo  \$systemFormat['systemSettingDateFormat']; ?>\n";                
+            $str.="   });  \n";
+            break;
         case 'datetime':
-            $str.=" \$('#<?php if(isset(\$data[$i]['columnName'])) { echo \$data[$i]['columnName']; } ?>').dateinput({ \n";
-            $str.="    format :'dd mmm yyyy'\n";
+            $str.=" \$('".$data[$i]['columnName']."').dateinput({ \n";
+            $str.="    format :'<?php echo \$systemFormat['systemSettingDateFormat'].\$systemFormat['systemSettingTimeFormat']; ?>'\n";                
             $str.="   });  \n";
             break;
     }
@@ -593,7 +656,66 @@ $str.="            \$('#firstRecordButton').removeClass(); \n";
 $str.="            \$('#firstRecordButton').addClass('btn btn-info');  \n";
 $str.="            \$('#lastRecordButton').removeClass(); \n";
 $str.="            \$('#lastRecordButton').addClass('btn btn-info'); \n";
-$str.="            <?php } else { ?> \n";
+$str.="            <?php } else  if (\$_POST['".$data[0]['tableName']."Id']) { ?> \n";
+// new button segment
+// remove classes
+$str.=" \$('#newRecordButton1').removeClass(); \n";
+$str.=" \$('#newRecordButton2').removeClass(); \n"; 
+$str.=" \$('#newRecordButton3').removeClass(); \n";
+$str.=" \$('#newRecordButton4').removeClass(); \n";
+$str.=" \$('#newRecordButton5').removeClass(); \n";
+$str.=" \$('#newRecordButton6').removeClass(); \n";
+$str.=" \$('#newRecordButton7').removeClass(); \n";
+// add disabled class
+$str.=" \$('#newRecordButton1').addClass('btn btn-success disabled'); \n";
+$str.=" \$('#newRecordButton2').addClass('btn  dropdown-toggle btn-success disabled'); \n";
+
+// empty the  onClick field.
+
+$str.=" \$('#newRecordButton1').attr('onClick', ''); \n";
+$str.=" \$('#newRecordButton2').attr('onClick', ''); \n";
+$str.=" \$('#newRecordButton3').attr('onClick', ''); \n";
+$str.=" \$('#newRecordButton4').attr('onClick', ''); \n";
+$str.=" \$('#newRecordButton5').attr('onClick', ''); \n";
+$str.=" \$('#newRecordButton6').attr('onClick', ''); \n";
+$str.=" \$('#newRecordButton7').attr('onClick', ''); \n";
+
+// end new button segment
+// update button segment
+$str.=" \$('#updateRecordButton1').removeClass(); \n";
+$str.=" \$('#updateRecordButton2').removeClass(); \n"; 
+$str.=" \$('#updateRecordButton3').removeClass(); \n";
+$str.=" \$('#updateRecordButton4').removeClass(); \n";
+$str.=" \$('#updateRecordButton5').removeClass(); \n";
+
+$str.="<?php if(\$leafAccess['isUpdate']==1) { ?> \n";
+$str.=" \$('#updateRecordButton1').addClass('btn btn-info'); \n";
+// toggle button
+$str.=" \$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info'); \n";
+$str.=" \$('#updateRecordButton3').attr('onClick', \"updateRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>',1)\"); \n";
+$str.=" \$('#updateRecordButton4').attr('onClick', \"updateRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>',2)\"); \n";
+$str.=" \$('#updateRecordButton5').attr('onClick', \"updateRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>',3)\"); \n";
+$str.="<?php }  else { ?> \n";
+$str.=" \$('#updateRecordButton1').addClass('btn btn-info disabled'); \n";
+// toggle button
+$str.=" \$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); \n";
+$str.=" \$('#updateRecordButton1').attr('onClick', ''); \n";
+$str.=" \$('#updateRecordButton2').attr('onClick', ''); \n";
+$str.=" \$('#updateRecordButton3').attr('onClick', ''); \n";
+$str.=" \$('#updateRecordButton4').attr('onClick', ''); \n";
+$str.=" \$('#updateRecordButton5').attr('onClick', ''); \n";
+$str.="<?php } ?> \n";
+
+$str.="<?php if(\$leafAccess['isDelete']==1) { ?> \n";
+$str.=" \$('#deleteRecordButton').removeClass();\n";
+$str.=" \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
+$str.=" \$('#deleteRecordButton').attr('onClick', \"deleteRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>')\"); \n";
+
+$str.="<?php }  else { ?> \n";
+$str.=" \$('#deleteRecordButton').removeClass();\n";
+$str.=" \$('#deleteRecordButton').addClass('btn btn-danger disabled'); \n";
+$str.=" \$('#deleterecordButton').attr('onClick', ''); \n";
+$str.="            <?php } ?>  \n";
 $str.="            <?php } ?>  \n";
 $str.="         }); \n";
 $str.="    </script> \n";
