@@ -877,7 +877,7 @@
 		//  enable the delete button
 		// enable the delete button
         $str.="\$('#deleteRecordButton').removeClass(); \n";
-        $str.="\$('#deleteRecordButton').addClass("btn btn-danger"); \n";
+        $str.="\$('#deleteRecordButton').addClass('btn btn-danger'); \n";
         $str.="\$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
 
 		$str.="               				} else if (data.success == false) {\n";
@@ -969,7 +969,7 @@
         // enable the delete button
         // enable the delete button
         $str.="\$('#deleteRecordButton').removeClass(); \n";
-        $str.="\$('#deleteRecordButton').addClass("btn btn-danger"); \n";
+        $str.="\$('#deleteRecordButton').addClass('btn btn-danger'); \n";
         $str.="\$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
 
         $str.="                					} else if (data.success == false) {\n";
@@ -1062,7 +1062,7 @@
         $str.="                    					\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
         // enable the delete button
         $str.="\$('#deleteRecordButton').removeClass(); \n";
-        $str.="\$('#deleteRecordButton').addClass("btn btn-danger"); \n";
+        $str.="\$('#deleteRecordButton').addClass('btn btn-danger'); \n";
         $str.="\$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
 
         $str.="                					} else if (data.success == false) {\n";
@@ -1111,9 +1111,7 @@
         $str.="            				// reseting field value\n";
         for ($i = 0; $i < $total; $i++) {
 				// this field is auto update by session
-			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime'&&
-				$data[$i]['columnName'] != 'isDefault' &&
+			if ($data[$i]['columnName'] != 'isDefault' &&
 				$data[$i]['columnName'] != 'isApproved' &&
 				$data[$i]['columnName'] != 'isPost' &&
 				$data[$i]['columnName'] != 'isDelete' &&
@@ -1129,47 +1127,13 @@
 				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
 			}
 		}
-        $str.="        				} else if (data.success == false) {\n";
-        $str.="            				\$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
-        $str.="        				}\n";
-        $str.="    				},\n";
-        $str.="    				error: function (data) {\n";
-        $str.="        				// failed request; give feedback to user\n";
-        $str.="       		 		if (data.success == false) {\n";
-        $str.="            				\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
-        $str.="        				}\n";
-        $str.="    				}\n";
-        $str.="				});\n";
-		$str.="			}\n";
-		$str.="		}\n";
-		$str.="	}\n";
-		$str.="	function resetRecord(url,securityToken) {\n";
-		for ($i = 0; $i < $total; $i++) {
-				// this field is auto update by session
-			if ($data[$i]['columnName'] != 'executeBy' &&
-				$data[$i]['columnName'] != 'executeTime'&&
-				$data[$i]['columnName'] != 'isDefault' &&
-				$data[$i]['columnName'] != 'isApproved' &&
-				$data[$i]['columnName'] != 'isPost' &&
-				$data[$i]['columnName'] != 'isDelete' &&
-				$data[$i]['columnName'] != 'isNew' &&
-				$data[$i]['columnName'] != 'isDraft' &&
-				$data[$i]['columnName'] != 'isUpdate' &&
-				$data[$i]['columnName'] != 'isDelete' &&
-				$data[$i]['columnName'] != 'isActive' &&
-				$data[$i]['columnName'] != 'isSeperated' &&
-				$data[$i]['columnName'] != 'isSingle' &&
-				$data[$i]['columnName'] != 'isReview' &&
-				$data[$i]['columnName'] != 'isConsolidation') {
-				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
-			}
 			// new button segment
 		// remove classes
 		$str.="	\$('#newRecordButton1').removeClass(); \n";
 		$str.="	\$('#newRecordButton2').removeClass(); \n"; 
 		// add disabled class
 		$str.="	\$('#newRecordButton1').addClass('btn btn-success'); \n";
-		$str.="	\$('#newRecordButton2').addClass('btn  dropdown-toggle'); \n";
+		$str.="	\$('#newRecordButton2').addClass('btn btn-success dropdown-toggle'); \n";
 
 		// empty the  onClick field.
 		$str.="	\$('#newRecordButton1').attr('onClick', ''); \n";
@@ -1220,8 +1184,107 @@
 				$str.="	\$('firstFirst').addClass(); \n";
 				$str.="	\$('firstFirst').attr('onClick', \"firstRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
 				// disable move previous
-				$str.="	\$("#movePrevious").removeClass();
-				$str.="	\$("#movePrevious").attr('onClick','');
+				$str.="	\$('#movePrevious').removeClass(); \n";
+				$str.="	\$('#movePrevious').attr('onClick',''); \n";
+				// enable the next record
+				$str.="	\$('moveNext').removeClass(); \n";
+				$str.="	\$('movePrevious').attr('onClick',''); \n";
+				// enable the last record
+				$str.="	\$('lastRecord').removeClass(); \n";
+				$str.="	\$('lastRecord').addClass(); \n";
+				$str.="	\$('lastRecord').attr('onClick',\"lastRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";	
+			// end navigation segment
+        $str.="        				} else if (data.success == false) {\n";
+        $str.="            				\$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
+        $str.="        				}\n";
+        $str.="    				},\n";
+        $str.="    				error: function (data) {\n";
+        $str.="        				// failed request; give feedback to user\n";
+        $str.="       		 		if (data.success == false) {\n";
+        $str.="            				\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
+        $str.="        				}\n";
+        $str.="    				}\n";
+        $str.="				});\n";
+		$str.="			}\n";
+		$str.="		}\n";
+		$str.="	}\n";
+		$str.="	function resetRecord(url,securityToken) {\n";
+		for ($i = 0; $i < $total; $i++) {
+				// this field is auto update by session
+			if ($data[$i]['columnName'] != 'isDefault' &&
+				$data[$i]['columnName'] != 'isApproved' &&
+				$data[$i]['columnName'] != 'isPost' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isNew' &&
+				$data[$i]['columnName'] != 'isDraft' &&
+				$data[$i]['columnName'] != 'isUpdate' &&
+				$data[$i]['columnName'] != 'isDelete' &&
+				$data[$i]['columnName'] != 'isActive' &&
+				$data[$i]['columnName'] != 'isSeperated' &&
+				$data[$i]['columnName'] != 'isSingle' &&
+				$data[$i]['columnName'] != 'isReview' &&
+				$data[$i]['columnName'] != 'isConsolidation') {
+				$str.="								\$('#".$data[$i]['columnName']."').val('');\n";
+			}
+			// new button segment
+		// remove classes
+		$str.="	\$('#newRecordButton1').removeClass(); \n";
+		$str.="	\$('#newRecordButton2').removeClass(); \n"; 
+		// add disabled class
+		$str.="	\$('#newRecordButton1').addClass('btn btn-success'); \n";
+		$str.="	\$('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); \n";
+
+		// empty the  onClick field.
+		$str.="	\$('#newRecordButton1').attr('onClick', ''); \n";
+		$str.="	\$('#newRecordButton2').attr('onClick', ''); \n";
+		$str.="	\$('#newRecordButton3').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
+		$str.="	\$('#newRecordButton4').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
+		$str.="	\$('#newRecordButton5').attr('onClick', \"newecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
+		$str.="	\$('#newRecordButton6').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
+		$str.="	\$('#newRecordButton7').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
+		// end new button segment
+		// update button segment
+		$str.="	\$('#updateRecordButton1').removeClass(); \n";
+		$str.="	\$('#updateRecordButton2').removeClass(); \n"; 
+		$str.="	\$('#updateRecordButton3').removeClass(); \n";
+		$str.="	\$('#updateRecordButton4').removeClass(); \n";
+		$str.="	\$('#updateRecordButton5').removeClass(); \n";
+		// add disabled class
+		$str.="	\$('#updateRecordButton1').addClass('btn btn-info disabled'); \n";
+		// toggle button
+		$str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); \n";
+		// drop down don't have  css class.blank empty
+		//$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
+		//$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
+		//$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
+		// put back the  onClick field
+		//@todo.. what if the client have no access to update..
+		$str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
+		$str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
+		$str.="	\$('#updateRecordButton3').attr('onClick', ''); \n";
+		$str.="	\$('#updateRecordButton4').attr('onClick', ''); \n";
+		$str.="	\$('#updateRecordButton5').attr('onClick', ''); \n";
+		
+
+		// delete button segment
+		$str.="	\$('#deleteRecordButton').removeClass(); \n";
+		$str.="	\$('#deleteRecordButton').addClass('btn btn-danger disabled'); \n";
+		$str.="	\$('#deleteRecordButton').attr('onClick',''); \n";
+		// end delete button segment
+		// post button segment
+		$str.="	\$('#postRecordButton').removeClass(); \n";
+		$str.="	\$('#postRecordButton').addClass('btn btn-info'); \n";
+		$str.="	\$('#postRecordButton').attr('onClick',''); \n";
+		// end post button segment
+		// end button segment
+			// navigation segment
+				// disable move next
+				$str.="	\$('firstFirst').removeClass(); \n";
+				$str.="	\$('firstFirst').addClass(); \n";
+				$str.="	\$('firstFirst').attr('onClick', \"firstRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
+				// disable move previous
+				$str.="	\$('#movePrevious').removeClass(); \n";
+				$str.="	\$('#movePrevious').attr('onClick',''); \n";
 				// enable the next record
 				$str.="	\$('moveNext').removeClass(); \n";
 				$str.="	\$('movePrevious').attr('onClick',''); \n";

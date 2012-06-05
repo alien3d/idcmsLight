@@ -42,6 +42,8 @@ $title = "Peringkat Testing";
         </style>
         <link  id="cssTwitter1" rel="stylesheet" href="./library/twitter2/docs/assets/css/bootstrap.css">
         <link  id="cssTwitter2" rel="stylesheet" href="./library/twitter2/docs/assets/css/bootstrap-responsive.css">            
+        <link  id="cssTwitter2" rel="stylesheet" href="./library/twitter2/datepicker/css/datepicker.css">            
+
         <link   rel="stylesheet" href="./library/pretty/prettify.css">            
 
 
@@ -258,7 +260,8 @@ $title = "Peringkat Testing";
         <script src="./library/twitter2/js/bootstrap-tooltip.js"></script>
         <script src="./library/twitter2/js/bootstrap-transition.js"></script>
         <script src="./library/twitter2/js/bootstrap-typeahead.js"></script>
-        <script src="./library/jquerytools/jquery.tools.min.js"></script>
+         <script src="./library/twitter2/js/bootstrap-popover.js"></script>
+        <script src="./library/twitter2/datepicker/js/bootstrap-datepicker.js"></script>
 
         <script language="javascript">
             // sent ajax request to login

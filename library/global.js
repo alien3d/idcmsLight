@@ -1,21 +1,6 @@
  // onload load the first 10 record first
     $(document).ready(function(){
-        // ajaxQuery('dummy.php','new',0,'');
-        // testingValidation
-        // testing alphanumeric
-        validateMeAlphaNumeric('alphaNumeric');
-        // testing numeric
-        validateMeNumeric('numeric');
-        // testing currency
-        validateMeCurrency('currency');
-        // testing email
-        validateMeEmail('email'); 
-        // testing password
-        validateMePassword('password');
-        // date
-        $("#date").dateinput({
-            format :'dd mmm yyyy'
-        });
+            
     });
     
     function toggleChecked(status) {
@@ -180,7 +165,7 @@
             
             var reEmail = /^[A-Za-z0-9][a-zA-Z0-9._-][A-Za-z0-9]+@([a-zA-Z0-9.-]+\.)+[a-zA-Z0-9.-]{2,4}$/;
             if (email == '') {
-               
+             
                 validateMeColor(id,1,'warning','Field cannot be empty');
             }else if(email.length > 60){
                 

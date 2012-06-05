@@ -126,45 +126,45 @@ class DefaultClass extends \Core\ConfigClass {
          * */
         if ($this->getVendor() == self::MYSQL) {
             $sql = "
-			SELECT	`iManagement`.`staff`.`staffId`,
-				`iManagement`.`staff`.`staffNo`,
-				`iManagement`.`staff`.`staffName`,
-				`iManagement`.`staff`.`languageId`,
-				`iManagement`.`team`.`teamId`,
-				`iManagement`.`team`.`teamDesc`,
-				`iManagement`.`team`.`isAdmin`,
-                                `iManagement`.`department`.`departmentId`,
-                                `iManagement`.`department`.`departmentDesc`					
+			SELECT	`staff`.`staffId`,
+				`staff`.`staffNo`,
+				`staff`.`staffName`,
+				`staff`.`languageId`,
+				`role`.`roleId`,
+				`role`.`roleDesc`,
+                                `role`.`isAdmin`,
+                                `department`.`departmentId`,
+                                `department`.`departmentDesc`					
 			FROM 	`iManagement`.`staff`
-			JOIN	`iManagement`.`team`
-			USING	(`teamId`)
+			JOIN	`iManagement`.`role`
+			USING	(`roleId`)
 			JOIN	`iManagement`.`department`
 			USING	(`departmentId`)
-			WHERE   `iManagement`.`staff`.`staffName`			=	'" . $this->model->getStaffName() . "'
-			AND     `iManagement`.`staff`.`staffPassword`		=	'" . md5($this->model->getStaffPassword()) . "'
-			AND	`iManagement`.`staff`.`isActive`			=	1
-			AND	`iManagement`.`team`.`isActive`			=	1
-			AND	`iManagement`.`department`.`isActive`		=	1";
+			WHERE   `staff`.`staffName`	=   '" . $this->model->getStaffName() . "'
+			AND     `staff`.`staffPassword`	=   '" . md5($this->model->getStaffPassword()) . "'
+			AND	`staff`.`isActive`	=   1
+			AND	`role`.`isActive`	=   1
+			AND	`department`.`isActive` =   1";
         } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
 			SELECT	[iManagement].[staff].[staffId],
 					[iManagement].[staff].[staffNo],
 					[iManagement].[staff].[staffName],
 					[iManagement].[staff].[languageId],
-					[iManagement].[team].[teamId],
-					[iManagement].[team].[teamDesc],
-					[iManagement].[team].[isAdmin],
+					[iManagement].[role].[roleId],
+					[iManagement].[role].[roleDesc],
+					[iManagement].[role].[isAdmin],
 					[iManagement].[department].[departmentId]	
 					[iManagement].[department].[departmentDesc]	
 			FROM 	[iManagement].[staff]
-			JOIN	[iManagement].[team]	
-			ON		[iManagement].[staff].[teamId]  			= 	[team].[teamId]
+			JOIN	[iManagement].[role]	
+			ON		[iManagement].[staff].[roleId]  			= 	[role].[roleId]
 			JOIN	[iManagement].[department]
 			ON		[iManagement].[department].[departmentId] = 	[staff].[departmentId]
 			WHERE 	[iManagement].[staff].[staffName]			=	'" . $this->model->getStaffName() . "'
 			AND		[iManagement].[staff].[staffPassword]		=	'" . md5($this->model->getStaffPassword()) . "'
 			AND		[iManagement].[staff].[isActive]			=	1
-			AND		[iManagement].[team].[isActive]			=	1
+			AND		[iManagement].[role].[isActive]			=	1
 			AND		[iManagement].[department].[isActive]		=	1";
         } else if ($this->getVendor() == self::ORACLE) {
             $sql = "
@@ -172,19 +172,19 @@ class DefaultClass extends \Core\ConfigClass {
 					IMANAGEMENT.STAFF.STAFFNO 				AS 	\"staffNo\",
 					IMANAGEMENT.STAFF.STAFFNAME 			AS 	\"staffName\",
 					IMANAGEMENT.STAFF.LANGUAGEID 			AS 	\"languageId\",
-					IMANAGEMENT.TEAM.TEAMID 				AS  \"teamId\",
-					IMANAGEMENT.TEAM.TEAMDESC 				AS  \"teamDesc\",
+					IMANAGEMENT.ROLE.ROLEID 				AS  \"roleId\",
+					IMANAGEMENT.ROLE.ROLEDESC 				AS  \"roleDesc\",
 					IMANAGEMENT.DEPARTMENT.DEPARTMENTID 	AS 	\"departmentId\",
 					IMANAGEMENT.DEPARTMENT.DEPARTMENTDESC	AS 	\"departmentDesc\"	
 			FROM 	IMANAGEMENT.STAFF
-			JOIN	IMANAGEMENT.TEAM
-			ON		IMANAGEMENT.TEAM.TEAMID			= 	STAFF.TEAMID
+			JOIN	IMANAGEMENT.ROLE
+			ON		IMANAGEMENT.ROLE.ROLEID			= 	STAFF.ROLEID
 			JOIN	IMANAGEMENT.DEPARTMENT
 			ON		IMANAGEMENT.DEPARTMENT.DEPARTMENTID	= 	STAFF.DEPARTMENTID
 			WHERE 	IMANAGEMENT.STAFF.STAFFNAME			=	'" . $this->model->getStaffName() . "'
 			AND		IMANAGEMENT.STAFF.STAFFPASSWORD		=	'" . md5($this->model->getStaffPassword()) . "'
 			AND		IMANAGEMENT.STAFF.ISACTIVE			=  1
-			AND		IMANAGEMENT.TEAM.ISACTIVE 			=  1
+			AND		IMANAGEMENT.ROLE.ISACTIVE 			=  1
 			AND		IMANAGEMENT.DEPARTMENT.ISACTIVE	 	=  1";
         } else if ($this->getVendor() == self::DB2) {
             $sql = "
@@ -192,18 +192,18 @@ class DefaultClass extends \Core\ConfigClass {
 			STAFF.STAFFNO 			AS 	\"staffNo\",
 			STAFF.STAFFNAME 		AS 	\"staffName\",
 			STAFF.LANGUAGEID 		AS 	\"languageId\",
-			TEAM.TEAMID 			AS  \"teamId\",
+			ROLE.ROLEID 			AS  \"roleId\",
 			DEPARTMENT.DEPARTMENTID AS 	\"departmentId\"
 			
 			FROM 	STAFF
-			JOIN	TEAM
-			ON		TEAM.TEAMID			= 	STAFF.TEAMID
+			JOIN	ROLE
+			ON		ROLE.ROLEID			= 	STAFF.ROLEID
 			JOIN	DEPARTMENT
 			ON		DEPARTMENT.DEPARTMENTID	= 	STAFF.DEPARTMENTID
 			WHERE 	STAFF.STAFFNAME			=	'" . $this->model->getStaffName() . "'
 			AND		STAFF.STAFFPASSWORD		=	'" . md5($this->model->getStaffPassword()) . "'
 			AND		STAFF.ISACTIVE			=  1
-			AND		TEAM.ISACTIVE 		=  1
+			AND		ROLE.ISACTIVE 		=  1
 			AND		DEPARTMENT.ISACTIVE	 	=  1";
         } else if ($this->getVendor() == self::POSTGRESS) {
             $sql = "
@@ -211,18 +211,18 @@ class DefaultClass extends \Core\ConfigClass {
 			STAFF.STAFFNO 			AS 	\"staffNo\",
 			STAFF.STAFFNAME 		AS 	\"staffName\",
 			STAFF.LANGUAGEID 		AS 	\"languageId\",
-			TEAM.TEAMID 			AS  \"teamId\",
+			ROLE.ROLEID 			AS  \"roleId\",
 			DEPARTMENT.DEPARTMENTID AS 	\"departmentId\"
 			
 			FROM 	STAFF
-			JOIN	TEAM
-			ON		TEAM.TEAMID			= 	STAFF.TEAMID
+			JOIN	ROLE
+			ON		ROLE.ROLEID			= 	STAFF.ROLEID
 			JOIN	DEPARTMENT
 			ON		DEPARTMENT.DEPARTMENTID	= 	STAFF.DEPARTMENTID
 			WHERE 	STAFF.STAFFNAME			=	'" . $this->model->getStaffName() . "'
 			AND		STAFF.STAFFPASSWORD		=	'" . md5($this->model->getStaffPassword()) . "'
 			AND		STAFF.ISACTIVE			=  1
-			AND		TEAM.ISACTIVE 			=  1
+			AND		ROLE.ISACTIVE 			=  1
 			AND		DEPARTMENT.ISACTIVE	 	=  1";
         } else {
             echo json_encode(array("success" => false, "message" => "cannot identify vendor db[" . $this->getVendor() . "]"));
@@ -243,8 +243,8 @@ class DefaultClass extends \Core\ConfigClass {
             $_SESSION ['staffNo'] = $row ['staffNo'];
             $_SESSION ['staffName'] = $row ['staffName'];
             $_SESSION ['languageId'] = $row ['languageId'];
-            $_SESSION ['teamId'] = $row ['teamId'];
-            $_SESSION ['teamDesc'] = $row ['teamDesc'];
+            $_SESSION ['roleId'] = $row ['roleId'];
+            $_SESSION ['roleDesc'] = $row ['roleDesc'];
             $_SESSION ['isAdmin'] = $row ['isAdmin'];
 
             $_SESSION ['departmentId'] = $row ['departmentId'];
@@ -356,13 +356,13 @@ class MenuNavigatonClass extends \Core\ConfigClass {
     public $leafId;
     /*
      * Default identification for portal user
-     * var $teamId
+     * var $roleId
      */
-    private $teamId;
+    private $roleId;
 
     function __construct() {
         // default for portal visitor
-        $this->teamId = 7; 
+        $this->roleId = 7; 
         $this->staffId=9; 
     }
 
@@ -384,8 +384,8 @@ class MenuNavigatonClass extends \Core\ConfigClass {
         $this->systemString->setLeafId($this->getLeafId());
         $this->systemString->execute();
         
-         if (isset($_SESSION['teamId'])) {
-            $this->teamId = $_SESSION['teamId'];
+         if (isset($_SESSION['roleId'])) {
+            $this->roleId = $_SESSION['roleId'];
         }
         if (isset($_SESSION['staffId'])) {
             $this->staffId = $_SESSION['staffId'];
@@ -434,7 +434,7 @@ class MenuNavigatonClass extends \Core\ConfigClass {
                     FROM    `application`
                     JOIN    `applicationAccess`
                     USING   (`applicationId`)
-                    WHERE   `applicationAccess`.`teamId`    =   '" . $this->teamId . "'
+                    WHERE   `applicationAccess`.`roleId`    =   '" . $this->roleId . "'
                     AND     `applicationId`                 =   '".$pageId."'
                     AND     `application`.`isActive`    =    1       ";
                 }
@@ -447,7 +447,7 @@ class MenuNavigatonClass extends \Core\ConfigClass {
                     FROM    `module`
                     JOIN    `moduleAccess`
                     USING   (`moduleId`)
-                    WHERE   `moduleAccess`.`teamId` =   '" . $this->teamId . "'
+                    WHERE   `moduleAccess`.`roleId` =   '" . $this->roleId . "'
                     AND     `moduleId`              =   '".$pageId."'
                     AND     `module`.`isActive`     =    1       ";
                 }
@@ -461,7 +461,7 @@ class MenuNavigatonClass extends \Core\ConfigClass {
                     FROM    `folder`
                     JOIN    `folderAccess`
                     USING   (`folderId`)
-                    WHERE   `folderAccess`.`teamId` =   '" . $this->teamId . "'
+                    WHERE   `folderAccess`.`roleId` =   '" . $this->roleId . "'
                     AND     `folderId`              =   '".$pageId."'
                     AND     `folder`.`isActive`     =    1      ";
                 }
@@ -509,8 +509,8 @@ class MenuNavigatonClass extends \Core\ConfigClass {
 
     public function application() {
         $data = array();
-        if (isset($_SESSION['teamId'])) {
-            $this->teamId = $_SESSION['teamId'];
+        if (isset($_SESSION['roleId'])) {
+            $this->roleId = $_SESSION['roleId'];
         }
         if ($this->getVendor() == self::MYSQL) {
             $sql = "
@@ -524,7 +524,7 @@ class MenuNavigatonClass extends \Core\ConfigClass {
             USING   (`applicationId`)
             WHERE   1
             AND     `applicationAccess`.`applicationAccessValue`    =   1
-            AND     `applicationAccess`.`teamId` =   '" . $this->teamId . "'
+            AND     `applicationAccess`.`roleId` =   '" . $this->roleId . "'
             AND     `application`.`isActive`=1
             ORDER BY `application`.`applicationSequence`";
         }
@@ -548,8 +548,8 @@ class MenuNavigatonClass extends \Core\ConfigClass {
      */
     public function applicationAndModule($applicationId) {
         $detail = array();
-        if (isset($_SESSION['teamId'])) {
-            $this->teamId = $_SESSION['teamId'];
+        if (isset($_SESSION['roleId'])) {
+            $this->roleId = $_SESSION['roleId'];
         }
         if ($this->getVendor() == self::MYSQL) {
            $sql = "
@@ -565,8 +565,8 @@ class MenuNavigatonClass extends \Core\ConfigClass {
         USING	(`applicationId`)
         JOIN     `" . $this->q->getCoreDatabase() . "`.`applicationAccess`
         USING   (`applicationId`)
-        WHERE   `moduleAccess`.`teamId`                         =   '" . $this->teamId . "'
-        AND     `applicationAccess`.`teamId`                     =   '" . $this->teamId . "'
+        WHERE   `moduleAccess`.`roleId`                         =   '" . $this->roleId . "'
+        AND     `applicationAccess`.`roleId`                     =   '" . $this->roleId . "'
         AND     `moduleAccess`.`moduleAccessValue`              =   1
         AND     `applicationAccess`.`applicationAccessValue`    =   1
         AND     `application`.`applicationId`                   =   '" . $applicationId . "'
@@ -580,14 +580,14 @@ class MenuNavigatonClass extends \Core\ConfigClass {
         FROM    `application` 
         JOIN    `applicationAccess`
         USING   (`applicationId`)
-        WHERE   `teamId`='" . $_SESSION['teamId'] . "'";
+        WHERE   `roleId`='" . $_SESSION['roleId'] . "'";
         } else if ($this->getVendor() == self::ORACLE) {
             $sql = "
         SELECT  * 
         FROM    `application` 
         JOIN    `applicationAccess`
         USING   (`applicationId`)
-        WHERE   `teamId`='" . $_SESSION['teamId'] . "'";
+        WHERE   `roleId`='" . $_SESSION['roleId'] . "'";
         } else if ($this->getVendor() == self::POSTGRESS) {
             
         } else if ($this->getVendor() == self::DB2) {
@@ -609,8 +609,8 @@ class MenuNavigatonClass extends \Core\ConfigClass {
     
 
         $data = array();
-        if (isset($_SESSION['teamId'])) {
-            $this->teamId = $_SESSION['teamId'];
+        if (isset($_SESSION['roleId'])) {
+            $this->roleId = $_SESSION['roleId'];
         }
         if ($this->getVendor() == self::MYSQL) {
            $sql = "
@@ -632,7 +632,7 @@ class MenuNavigatonClass extends \Core\ConfigClass {
         WHERE   `folderAccess`.`folderAccessValue`  =   1
         AND     `folder`.`applicationId`            =   '".$applicationId."'
         AND     `folder`.`moduleId`                 =   '".$moduleId."'
-        AND     `folderAccess`.`teamId`             =   '" . $this->teamId . "'
+        AND     `folderAccess`.`roleId`             =   '" . $this->roleId . "'
         AND     `folder`.`isActive`=1
         ORDER BY `folder`.`folderSequence`";
         }
@@ -664,8 +664,8 @@ class MenuNavigatonClass extends \Core\ConfigClass {
         $this->applicationId = $applicationId;
         $this->moduleId = $moduleId;
         $this->folderId = $folderId;
-        if (isset($_SESSION['teamId'])) {
-            $this->teamId = $_SESSION['teamId'];
+        if (isset($_SESSION['roleId'])) {
+            $this->roleId = $_SESSION['roleId'];
         }
 
         if ($this->getVendor() == self::MYSQL) {
@@ -689,14 +689,14 @@ class MenuNavigatonClass extends \Core\ConfigClass {
         FROM    `application` 
         JOIN    `applicationAccess`
         USING   (`applicationId`)
-        WHERE   `teamId`='" . $_SESSION['teamId'] . "'";
+        WHERE   `roleId`='" . $_SESSION['roleId'] . "'";
         } else if ($this->getVendor() == self::ORACLE) {
             $sql = "
         SELECT  * 
         FROM    `application` 
         JOIN    `applicationAccess`
         USING   (`applicationId`)
-        WHERE   `teamId`='" . $_SESSION['teamId'] . "'";
+        WHERE   `roleId`='" . $_SESSION['roleId'] . "'";
         } else if ($this->getVendor() == self::POSTGRESS) {
             
         } else if ($this->getVendor() == self::DB2) {
