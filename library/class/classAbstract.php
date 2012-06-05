@@ -83,6 +83,11 @@ abstract class ConfigClass
 	 * @var string
 	 */
 	private $dateRangeTypeQuery;
+        /**
+	 * Previous or Next Day,Week,Month,Year
+	 * @var string
+	 */
+	private $dateRangeExtraTypeQuery;
 	/**
 	 * Start Day
 	 * @var string
@@ -1047,9 +1052,27 @@ abstract class ConfigClass
 	 *
 	 * @param $DateRangeTypeQuery
 	 */
-	public function setDateRangeTypeQuery($dateRangeTypeQuery)
+	public function setDateRangeTypeQuery($value)
 	{
-		$this->dateRangeTypeQuery = $dateRangeTypeQuery;
+		$this->dateRangeTypeQuery = $value;
+	}
+        
+        /**
+	 *
+	 * @return
+	 */
+	public function getDateRangeExtraTypeQuery()
+	{
+		return $this->dateRangeExtraTypeQuery;
+	}
+
+	/**
+	 *
+	 * @param $DateRangeTypeQuery
+	 */
+	public function setDateRangeExtraTypeQuery($value)
+	{
+		$this->dateRangeExtraTypeQuery = $value;
 	}
 
 	/**

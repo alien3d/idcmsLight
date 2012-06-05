@@ -110,6 +110,7 @@
 		$('#clearSearch').removeClass();
 		$('#clearSearch').addClass('btn');
 		// unlimited for searching because  lazy paging.
+                alert('aaa'+dateRangeStart)
 		$.ajax({
              type    : 	'POST',
              url     :	url,
@@ -123,7 +124,7 @@
 					params		:   { },
 					securityToken	:   securityToken,
                                  dateRangeStart	:   dateRangeStart,
-                                 dateRangeStart	:   dateRangeEnd,
+                                 dateRangeEnd	:   dateRangeEnd,
                                  dateRangeType	:   dateRangeType,
                                  dateRangeExtraType	:   dateRangeExtraType
 				},

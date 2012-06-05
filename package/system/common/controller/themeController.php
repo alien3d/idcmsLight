@@ -471,8 +471,9 @@ STAFF.STAFFNAME
 		 * Example Day,Week,Month,Year 
 		 */ 
 		if($this->getDateRangeStartQuery()){ 
-			$sql.=$this->q->dateFilter($sql, $this->model->getTableName(),$this->model->getFilterDate(),$this->getDateRangeStartQuery(),$this->getDateRangeEndQuery(),$this->getDateRangeTypeQuery()); 
-		} 
+			$sql.=$this->q->dateFilter( $this->model->getTableName(),$this->model->getFilterDate(),$this->getDateRangeStartQuery(),$this->getDateRangeEndQuery(),$this->getDateRangeTypeQuery(),$this->getDateRangeExtraTypeQuery(),1); 
+                        
+                } 
 		/** 
 		 * filter column don't want to filter.Example may contain  sensetive information or unwanted to be search. 
 		 * E.g  $filterArray=array('`leaf`.`leafId`'); 
@@ -652,7 +653,8 @@ STAFF.STAFFNAME
             $i++; 
 		}  
 		if ($this->getPageOutput() == 'html') { 
-            return $items; 
+           $this->exceptionMessage($sql);
+                    return $items; 
         } else if ($this->getPageOutput() == 'json') { 
 			if ($this->model->getThemeId(0, 'single')) { 
 				$end = microtime(true); 
@@ -1470,6 +1472,8 @@ $themeObject = new ThemeClass ();
  * crud -create,read,update,delete 
 * */ 
 if (isset($_POST ['method'])) { 
+	
+    if(isset($_POST['output'])) {  
 	/* 
 	 *  Initilize Value before load in the loader 
 	 */ 
@@ -1538,8 +1542,7 @@ if (isset($_POST ['method'])) {
 	if (isset($_POST ['sortField'])) { 
 		$themeObject->setSortField($_POST ['sortField']); 
 	} 
-    if(isset($_POST['output'])) {  
-	/* 
+        /* 
 	 *  Load the dynamic value 
 	 */ 
 	$themeObject ->setPageOutput('json');  

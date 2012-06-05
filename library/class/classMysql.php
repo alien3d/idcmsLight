@@ -1068,51 +1068,56 @@ class Vendor {
 
     /**
      * To Filter Date Either it was current,previous and next day,month,week,year
+     * @param string Structure Query Language
      * @param string $tableName
      * @param string $columnName
      * @param date $startDate
      * @param date $endDate
      * @param enum $dateFilterTypeQuery
      * @param enum $dateFilterExtraTypeQuery
-     * @param int $dateFilterExtraStartWeek
+     * @param int $dateFilterExtraStartWeek Default 1 .Monday
      * @return type 
      */
-    function dateFilter($tableName, $columnName, $startDate, $endDate, $dateFilterTypeQuery, $dateFilterStartWeek, $dateFilterExtraTypeQuery = null) {
-        $sql = "";
+    function dateFilter($tableName, $columnName, $startDate, $endDate, $dateFilterTypeQuery,  $dateFilterExtraTypeQuery = null,$dateFilterStartWeek=1) {
+       
         $this->setTableName($tableName);
         $this->setColumnName($columnName);
         $this->setStartDate($startDate);
         $this->setEndDate($endDate);
-
+      
         $this->setDateFilterTypeQuery($dateFilterTypeQuery);
         $this->setDateFilterExtraTypeQuery($dateFilterExtraTypeQuery);
 
-
-        $dayStart = substr($this->getStartDate(), 0, 2);
-        $monthStart = substr($this->getStartDate(), 5, 2);
-        $yearStart = substr($this->getStartDate(), 0, 4);
-
-
+        $dateStartArray=explode('-',$this->getStartDate());
+        $dayStart = $dateStartArray[0];
+        $monthStart = $dateStartArray[1];
+        $yearStart = $dateStartArray[2];
+        $this->setStartDate($yearStart.'-'.$monthStart."-".$dayStart);
+        echo "tarikh".$this->getStartDate();
         if ($this->getEndDate()) {
-            $dayEnd = substr($this->getEndDate(), 8, 2);
-            $monthEnd = substr($this->getEndDate(), 5, 2);
-            $yearEnd = substr($this->getEndDate(), 0, 4);
+              $dateEndArray=explode('-',$this->getEndDate());
+            $dayEnd = $dateEndArray[0];
+            $monthEnd =$dateEndArray[1];
+            $yearEnd = $dateEndArray[2];
+            $this->setEndDate($yearEnd.'-'.$monthEnd."-".$dayEnd);
         }
+  
         if ($this->getDateFilterTypeQuery() == 'day') {
-            if ($this->dateFilterExtraTypeQuery == 'previous') {
+            if ($this->getDateFilterExtraTypeQuery() == 'previous') {
                 $dayPrevious = date("Y-m-d", mktime(0, 0, 0, $monthStart, ($dayStart - 1), $yearStart));
                 $this->setStartDate($dayPrevious);
                 return(" and `" . $this->getTableName() . "`.`" . $this->getColumnName() . "` like '%" . $this->getStartDate() . "%'");
-            } else if ($this->dateFilterExtraTypeQuery == 'next') {
+            } else if ($this->getDateFilterExtraTypeQuery()== 'next') {
                 $dayNext = date("Y-m-d", mktime(0, 0, 0, $monthStart, ($dayStart + 1), $yearStart));
 
                 $this->setStartDate($dayNext);
                 return(" and `" . $this->getTableName() . "`.`" . $this->getColumnName() . "` like '%" . $this->getStartDate() . "%'");
             } else {
+                
                 return(" and `" . $this->getTableName() . "`.`" . $this->getColumnName() . "` like '%" . $this->getStartDate() . "%'");
             }
         } else if ($this->getDateFilterTypeQuery() == 'week') {
-            if ($dateFilterExtraTypeQuery == 'previous') {
+            if ($this->getDateFilterExtraTypeQuery() == 'previous') {
                  $WeekDate = array();
                 $lowEnd = date("w", mktime(0, 0, 0, $monthStart, ($dayStart+7), $yearStart));
                 $lowEnd = - $lowEnd;
@@ -1127,7 +1132,7 @@ class Vendor {
                 return($sql . " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . "' and '" . $this->getEndDate() . "')");
 
                 
-            } else if ($dateFilterExtraTypeQuery == 'next') {
+            } else if ($this->getDateFilterExtraTypeQuery() == 'next') {
                 $WeekDate = array();
                 $lowEnd = date("w", mktime(0, 0, 0, $monthStart, ($dayStart+7), $yearStart));
                 $lowEnd = - $lowEnd;
@@ -1146,16 +1151,16 @@ class Vendor {
                 return($sql . " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . "' and '" . $this->getEndDate() . "')");
             }
         } elseif ($this->getDateFilterTypeQuery() == 'month') {
-            if ($this->dateFilterExtraTypeQuery == 'previous') {
+            if ($this->getDateFilterExtraTypeQuery() == 'previous') {
                 if (($monthStart--) == 0) {
                     $monthStart = 12;
                     $yearStart--;
                 } else {
                     $monthStart--;
                 }
-                $this->setStartDate($weekStartPrevious);
+                
                 return(" and (month(`" . $this->getTableName() . "`.`" . $this->getColumnName() . "`)='" . $monthStart . "')  and (year(`" . $this->getTableName() . "`.`" . $this->getColumnName() . "`)='" . $yearStart . "')");
-            } else if ($this->dateFilterExtraTypeQuery == 'next') {
+            } else if ($this->getDateFilterExtraTypeQuery() == 'next') {
                 if (($monthStart++) == 13) {
                     $monthStart = 1;
                     $yearStart++;

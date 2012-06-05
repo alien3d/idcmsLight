@@ -5,6 +5,17 @@ $strId=null;
 $strId = $data[0]['tableName'] . "Id";
 
 $str.="<?php require_once('/../controller/" . $data[0]['tableName'] . "Controller.php'); \n";
+// initilize dummy value for date
+$str.="\$dateStartRange = null; \n";
+$str.="\$dateEndRange = null;\n";
+$str.="if(isset(\$_POST['dateRangeStart'])){\n";
+$str.="    \$dateRangeStart=\$_POST['dateRangeStart']; \n";
+$str.="} else { \n";
+$str.="    \$dateRangeStart=date('d-m-Y'); \n";
+$str.="} \n";
+$str.="if(isset(\$_POST['dateRangeEnd'])){ \n";
+$str.="    \$dateRangeEnd = \$_POST['dateEndRange'];\n";
+$str.="} \n";
 $str.="require_once ('../../../../library/class/classNavigation.php');  \n";
 $str.="require_once ('../../../../library/class/classShared.php');  \n";
 
@@ -42,7 +53,18 @@ $str.="            \$limit = \$_POST['limit'];  \n";
 $str.="        } else {";
 $str.="            \$limit = LIMIT;  \n";
 $str.="        }\n";
-
+$str.="  /*  \n";
+$str.="	 *  Filtering\n";
+$str.="	 */ \n";
+$str.="	if (isset(\$_POST ['query'])) { \n";
+$str.="		\$" . $data[0]['tableName'] . "->setFieldQuery(\$_POST ['query']); \n";
+$str.="	} \n";
+$str.="	if (isset(\$_POST ['filter'])) { \n";
+$str.="		\$" . $data[0]['tableName'] . "->setGridQuery(\$_POST ['filter']); \n";
+$str.="	}                 \n";
+$str.="	if (isset(\$_POST ['character'])) { \n";            
+$str.="		\$" . $data[0]['tableName'] . "->setCharacterQuery(\$_POST['character']); \n";
+$str.="	} \n";
 $total = 0;
 $total = count($data);
 for ($i = 0; $i < $total; $i++) {
@@ -109,22 +131,41 @@ $str.="                <h3>Search</h3>\n";
 $str.="                <input type='text' name='searchText' id='searchText' class='span2' onClick=ajaxQuerySearchAllDate()>\n";
 $str.="                <hr>\n";
 $str.="                <h4>Date</h4>\n";
-$str.="                <a href=javascript:void(0) onClick=ajaxQuerySearchAllDate()>Any Time</a><br>\n";
-$str.="                <a href=javascript:void(0) rel='tooltip' title='Previous Day' onClick=ajaxQuerySearchAllDate()>&laquo;</a> <a href=''>Today</a> <a href=javascript:void(0) rel='tooltip' title='Next Day' onClick=ajaxQuerySearchAllDate()>&raquo;</a><br>\n";
-$str.="                <a href=javascript:void(0) rel='tooltip' title='Previous Week'  onClick=ajaxQuerySearchAllDate()>&laquo;</a> <a href=''>Week</a> <a href=javascript:void(0) rel='tooltip' title='Next Week' onClick=ajaxQuerySearchAllDate()>&raquo;</a><br>\n";
-$str.="                <a href=javascript:void(0) rel='tooltip' title='Previous Month'  onClick=ajaxQuerySearchAllDate()>&laquo;</a> <a href=''>Month</a> <a href=javascript:void(0) rel='tooltip' title='Next Month' onClick=ajaxQuerySearchAllDate()>&raquo;</a><br>\n";
-$str.="                <a href=javascript:void(0) rel='tooltip' title='Previous Year'  onClick=ajaxQuerySearchAllDate()>&laquo;</a> <a href=''>Year</a> <a href=javascript:void(0) rel='tooltip' title='Next Year' onClick=ajaxQuerySearchAllDate()>&raquo;</a><br>\n";
+$str.="                 <table cellpadding=1 cellspacing=1>\n";
+$str.="                     <tr>\n";
+// starting unix time till this day
+$str.="                         <td colspan3><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','1979-01-01','".date('Y-m-d')."')>Any Time</a></td>\n";
+$str.="                     </tr>\n";
+$str.="                     <tr>\n";
+$str.="                     <tr>\n";
+$str.="                         <td align='right><a href=javascript:void(0) rel='tooltip' title='Previous Day' onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','day','previous')>&laquo;</a></td>\n";
+$str.="                         <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','day','')>Today</a></td>\n"; 
+$str.="                         <td align='left'><a href=javascript:void(0) rel='tooltip' title='Next Day' onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','day','next')>&raquo;</a></td>\n";
+$str.="                     </tr>\n";
+$str.="                     <tr>\n";
+$str.="                         <td align='right><a href=javascript:void(0) rel='tooltip' title='Previous Week'  onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','week','previous')>&laquo;</a> </td>\n";
+$str.="                         <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','week','')>Week</a> </td>\n";
+$str.="                         <td align='left'><a href=javascript:void(0) rel='tooltip' title='Next Week' onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','week','next')>&raquo;</a></td>\n";
+$str.="                     </tr>\n";
+$str.="                     <tr>\n";
+$str.="                         <td align='right><a href=javascript:void(0) rel='tooltip' title='Previous Month'  onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','month','previous')>&laquo;</td> \n";;
+$str.="                         <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','month','')>Month</a> </td>\n";
+$str.="                         <td align='left'><a href=javascript:void(0) rel='tooltip' title='Next Month' onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','month','next')>&raquo;</a></td>\n";
+$str.="                     </tr>\n";
+$str.="                     <tr>\n";
+$str.="                         <td align='right><a href=javascript:void(0) rel='tooltip' title='Previous Year'  onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','year','previous')>&laquo;</a></td> \n";
+ $str.="                        <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','','','year','')>Year</a> </td>\n";
+$str.="                         <td align='left'><a href=javascript:void(0) rel='tooltip' title='Next Year' onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','year','next')>&raquo;</a></td>\n";
+$str.="                         </tr>\n";
+$str.="</table>\n";
 $str.="                Range\n";
 $str.="                <div style='style:none'>\n";
 $str.="                    <input type='date' name='dateRangeStart' id='dateRangeStart' class='span2'><br>\n";
 $str.="                    <input type='date' name='dateRangeId' id='dateRangeEnd' class='span2'><br>\n";
 $str.="                    <input type='button' name='searchDate' id='searchDate' value='Search' class='btn btn-info'>\n";
 $str.="                </div>\n";
-$str.="                <div id='showChoosenDate'>\n";
-$str.="                   here we appear range date choose by user.\n";
-$str.="                   Google  Style + idcms 1 style\n";
-$str.="                </div>\n";
 $str.="                <hr>\n";
+
 $str.="            </div>\n";
 
 $str.="        <div name='rightViewport' id='rightViewport' class='span13'>\n";

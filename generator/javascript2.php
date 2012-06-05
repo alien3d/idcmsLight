@@ -139,7 +139,9 @@ if(isset($data)) {
 		$str.="		\$('#clearSearch').removeClass();\n";
 		$str.="		\$('#clearSearch').addClass('btn');\n";
 		$str.="		// unlimited for searching because  lazy paging.\n";
-		$str.="		\$.ajax({\n";
+                $str.="          if(dateRangeStart.length == 0) {   dateRangeStart = \$('#dateRangeStart').val() } \n";
+		$str.="          if(dateRangeEnd.length == 0) {   dateRangeEnd = \$('#dateRangeEnd').val() } \n";
+                $str.="		\$.ajax({\n";
 		$str.="             type    : 	'POST',\n";
 		$str.="             url     :	url,\n";
 		$str.="             data    :   {\n";
