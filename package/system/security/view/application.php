@@ -2,6 +2,11 @@
     <body>
         <div class="well span2">
             <div>
+                <div id="btnList">
+                <!-- button type only be used on non critical only .. ie9 bugs -->
+                <button type="button" name="menuBack" class="btn btn-inverse btn-small"><i class="icon-arrow-left"></i> Menu </button> <button type="button" value="New Record" name="newRecordButton" id="newRecordButton" class="btn btn-info btn-small"><i class="icon-plus"></i> New Record </button> 
+                </div>
+                <hr>
                 <h3>Search</h3>
                 <input type="text" name="searchText" id="searchText" class="span2">
                 <hr>
@@ -21,8 +26,11 @@
                    here we appear range date choose by user.
                    Google  Style + idcms 1 style
                 </div>
+                <hr>
             </div>
         </div>
+       
+        
     </body>
     <script language="javascript">
         $(document).ready(function(){

@@ -284,28 +284,28 @@ class ApplicationClass extends ConfigClass {
 		// loop the group
 		if ($this->getVendor() == self::MYSQL) {
 			$sql = "
-			SELECT 	`teamId`
-			FROM 	`team`
+			SELECT 	`roleId`
+			FROM 	`".$this->q->getManagementDatabase()."`.`role`
 			WHERE 	`isActive`	=	1 ";
 		} else if ($this->q->vendor == self::MSSQL) {
 			$sql = "
-			SELECT 	[teamId]
-			FROM 	[team]
+			SELECT 	[roleId]
+			FROM 	[role]
 			WHERE 	[isActive]	=	1 ";
 		} else if ($this->q->vendor == self::ORACLE) {
 			$sql = "
-			SELECT 	TEAMID AS \"teamId\"
-			FROM 	TEAM
+			SELECT 	ROLEID AS \"roleId\"
+			FROM 	ROLE
 			WHERE 	ISACTIVE	=	1 ";
 		} else if ($this->q->vendor == self::DB2) {
 			$sql = "
-			SELECT 	TEAMID AS \"teamId\"
-			FROM 	TEAM
+			SELECT 	ROLEID AS \"roleId\"
+			FROM 	ROLE
 			WHERE 	ISACTIVE	=	1 ";
 		} else if ($this->q->vendor == self::POSTGRESS) {
 			$sql = "
-			SELECT 	TEAMID AS \"teamId\"	
-			FROM 	TEAM
+			SELECT 	ROLEID AS \"roleId\"	
+			FROM 	ROLE
 			WHERE 	ISACTIVE	=	1 ";
 		}
 		$this->q->read($sql);
@@ -319,7 +319,7 @@ class ApplicationClass extends ConfigClass {
 
 			$sqlLooping .= "(
 							'" . $lastId . "',
-							 '" . $row ['teamId'] . "',
+							 '" . $row ['roleId'] . "',
 							 '0'
 						),";
 		}
@@ -328,7 +328,7 @@ class ApplicationClass extends ConfigClass {
 				INSERT INTO	`applicationAccess`
 						(
 							`applicationId`,
-							`teamId`,
+							`roleId`,
 							`applicationAccessValue`
 						) VALUES";
 		} else if ($this->getVendor() == self::MSSQL) {
@@ -336,7 +336,7 @@ class ApplicationClass extends ConfigClass {
 				INSERT INTO	[applicationAccess]
 						(
 							[applicationId],
-							[teamId],
+							[roleId],
 							[applicationAccessValue]
 					) VALUES";
 		} else if ($this->getVendor() == self::ORACLE) {
@@ -344,7 +344,7 @@ class ApplicationClass extends ConfigClass {
 				INSERT INTO	APPLICATIONACCESS
 						(
 							APPLICATIONID,
-							TEAMID,
+							ROLEID,
 							APPLICATIONACCESSVALUE
 					) VALUES";
 		} else if ($this->getVendor() == self::DB2) {
@@ -352,7 +352,7 @@ class ApplicationClass extends ConfigClass {
 				INSERT INTO	APPLICATIONACCESS
 						(
 							APPLICATIONID,
-							TEAMID,
+							ROLEID,
 							APPLICATIONACCESSVALUE
 					) VALUES";
 		} else if ($this->getVendor() == self::POSTGRESS) {
@@ -360,7 +360,7 @@ class ApplicationClass extends ConfigClass {
 				INSERT INTO	APPLICATIONACCESS
 						(
 							APPLICATIONID,
-							TEAMID,
+							ROLEID,
 							APPLICATIONACCESSVALUE
 					) VALUES";
 		}

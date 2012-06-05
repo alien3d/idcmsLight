@@ -1,8 +1,8 @@
 /* =========================================================
  * bootstrap-datepicker.js 
- * http://www.eyecon.ro/bootstrap-datepicker
+ * Original Idea: http://www.eyecon.ro/bootstrap-datepicker (Copyright 2012 Stefan Petre)
+ * Updated by AymKdn (http://kodono.info - https://github.com/Aymkdn/Datepicker-for-Bootstrap)
  * =========================================================
- * Copyright 2012 Stefan Petre
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,20 +24,18 @@
 	var Datepicker = function(element, options){
 		this.element = $(element);
 		this.format = DPGlobal.parseFormat(options.format||this.element.data('date-format')||'mm/dd/yyyy');
-		this.picker = $(DPGlobal.template)
-							.appendTo('body')
-							.on({
-								click: $.proxy(this.click, this),
-								mousedown: $.proxy(this.mousedown, this)
-							});
+		this.picker = $(DPGlobal.template).appendTo('body').on('mousedown',$.proxy(this.mousedown, this)).on('click',$.proxy(this.click, this));
+
 		this.isInput = this.element.is('input');
 		this.component = this.element.is('.date') ? this.element.find('.add-on') : false;
 		
 		if (this.isInput) {
 			this.element.on({
 				focus: $.proxy(this.show, this),
+				click: $.proxy(this.show, this),
 				blur: $.proxy(this.hide, this),
-				keyup: $.proxy(this.update, this)
+				keyup: $.proxy(this.update, this),
+				keydown: $.proxy(this.keydown, this)
 			});
 		} else {
 			if (this.component){
@@ -60,11 +58,13 @@
 		constructor: Datepicker,
 		
 		show: function(e) {
+			this.update();
 			this.picker.show();
 			this.height = this.component ? this.component.outerHeight() : this.element.outerHeight();
 			this.place();
 			$(window).on('resize', $.proxy(this.place, this));
-			if (e ) {
+			$('body').on('click', $.proxy(this.hide, this));
+			if (e) {
 				e.stopPropagation();
 				e.preventDefault();
 			}
@@ -73,21 +73,6 @@
 			}
 			this.element.trigger({
 				type: 'show',
-				date: this.date
-			});
-		},
-		
-		hide: function(){
-			this.picker.hide();
-			$(window).off('resize', this.place);
-			this.viewMode = 0;
-			this.showMode();
-			if (!this.isInput) {
-				$(document).off('mousedown', this.hide);
-			}
-			this.setValue();
-			this.element.trigger({
-				type: 'hide',
 				date: this.date
 			});
 		},
@@ -154,7 +139,7 @@
 			var nextMonth = new Date(prevMonth);
 			nextMonth.setDate(nextMonth.getDate() + 42);
 			nextMonth = nextMonth.valueOf();
-			html = [];
+			var html = [];
 			var clsName;
 			while(prevMonth.valueOf() < nextMonth) {
 				if (prevMonth.getDay() == this.weekStart) {
@@ -202,7 +187,24 @@
 			yearCont.html(html);
 		},
 		
-		click: function(e) {
+		blur:function(e) {
+  	},
+		
+		hide: function(e){
+  		this.picker.hide();
+			$(window).off('resize', this.place);
+			this.viewMode = 0;
+			this.showMode();
+			if (!this.isInput) {
+				$(document).off('mousedown', this.hide);
+			}
+			$('body').off('click',$.proxy(this.click, this));
+		},
+		click:function(e) {
+			e.stopPropagation();
+			e.preventDefault();
+		},
+		mousedown: function(e) {
 			e.stopPropagation();
 			e.preventDefault();
 			var target = $(e.target).closest('span, td, th');
@@ -253,17 +255,17 @@
 								type: 'changeDate',
 								date: this.date
 							});
+							this.hide();
 						}
 						break;
 				}
 			}
 		},
-		
-		mousedown: function(e){
-			e.stopPropagation();
-			e.preventDefault();
-		},
-		
+		keydown:function(e) {
+      var keyCode = e.keyCode || e.which; 
+      if (keyCode == 9) this.hide(); // when hiting TAB, for accessibility
+    },
+	
 		showMode: function(dir) {
 			if (dir) {
 				this.viewMode = Math.max(0, Math.min(2, this.viewMode + dir));
@@ -327,8 +329,9 @@
 			return {separator: separator, parts: parts};
 		},
 		parseDate: function(date, format) {
+		  var today=new Date();
 			var parts = date.split(format.separator),
-				date = new Date(1970, 1, 1, 0, 0, 0),
+				date = new Date(today.getFullYear(),today.getMonth(),today.getDate(),0,0,0),
 				val;
 			if (parts.length == format.parts.length) {
 				for (var i=0, cnt = format.parts.length; i < cnt; i++) {
@@ -343,7 +346,9 @@
 							date.setMonth(val - 1);
 							break;
 						case 'yy':
-							date.setFullYear(2000 + val);
+							// when we could use the full year instead of 2 digits
+							if (val < 100) date.setFullYear(2000 + val);
+							else date.setFullYear(val);
 							break;
 						case 'yyyy':
 							date.setFullYear(val);

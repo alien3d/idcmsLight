@@ -396,54 +396,54 @@ class SharedClass extends \Core\ConfigClass {
         $data = array();
         if ($this->q->vendor == self::MYSQL) {
             $sql = "
-                        SELECT	`team`.`isAdmin`
+                        SELECT	`role`.`isAdmin`
                         FROM 	`staff`
-                        JOIN	`team`
-                        USING	(`teamId`)
+                        JOIN	`role`
+                        USING	(`roleId`)
                         WHERE 	`staff`.`staffId`	=	'" . $_SESSION ['staffId'] . "'
-                        AND		`team`.`teamId`		=	'" . $_SESSION ['teamId'] . "'
+                        AND		`role`.`roleId`		=	'" . $_SESSION ['roleId'] . "'
                         AND		`staff`.`isActive`	=	1
-                        AND		`team`.`isActive`	=	1";
+                        AND		`role`.`isActive`	=	1";
         } else if ($this->q->vendor == self::MSSQL) {
             $sql = "
-                        SELECT	[team].[isAdmin]
+                        SELECT	[role].[isAdmin]
                         FROM 	[staff]
-                        JOIN	[team]
-                        ON		[staff].[teamId]  	= 	[team].[teamId]
+                        JOIN	[role]
+                        ON		[staff].[roleId]  	= 	[role].[roleId]
                         WHERE 	[staff].[staffId]	=	'" . $_SESSION ['staffId'] . "'
-                        AND		[team].[teamId]		=	'" . $_SESSION ['teamId'] . "'
+                        AND		[role].[roleId]		=	'" . $_SESSION ['roleId'] . "'
                         AND		[staff].[isActive]	=	1
-                        AND		[team].[isActive]	=	1";
+                        AND		[role].[isActive]	=	1";
         } else if ($this->q->vendor == self::ORACLE) {
             $sql = "
-                        SELECT	TEAM.ISADMIN AS \"isAdmin\"
+                        SELECT	ROLE.ISADMIN AS \"isAdmin\"
                         FROM 	STAFF
-                        JOIN	TEAM
-                        ON		TEAM.teamId		= 	STAFF.teamId
+                        JOIN	ROLE
+                        ON		ROLE.roleId		= 	STAFF.roleId
                         WHERE 	STAFF.STAFFID	=	'" . $_SESSION ['staffId'] . "'
-                        AND		TEAM.teamId		=	'" . $_SESSION ['teamId'] . "'
+                        AND		ROLE.roleId		=	'" . $_SESSION ['roleId'] . "'
                         AND		STAFF.ISACTIVE	=	1
-                        AND		TEAM.ISACTIVE	=	1";
+                        AND		ROLE.ISACTIVE	=	1";
         } else if ($this->q->vendor == self::DB2) {
             $sql = "
-                        SELECT	TEAM.ISADMIN AS \"isAdmin\"
+                        SELECT	ROLE.ISADMIN AS \"isAdmin\"
                         FROM 	STAFF
-                        JOIN	TEAM
-                        ON		TEAM.teamId		= 	STAFF.teamId
+                        JOIN	ROLE
+                        ON		ROLE.roleId		= 	STAFF.roleId
                         WHERE 	STAFF.STAFFID	=	'" . $_SESSION ['staffId'] . "'
-                        AND		TEAM.teamId		=	'" . $_SESSION ['teamId'] . "'
+                        AND		ROLE.roleId		=	'" . $_SESSION ['roleId'] . "'
                         AND		STAFF.ISACTIVE	=	1
-                        AND		TEAM.ISACTIVE	=	1";
+                        AND		ROLE.ISACTIVE	=	1";
         } else if ($this->q->vendor == self::POSTGRESS) {
             $sql = "
-                        SELECT	TEAM.ISADMIN AS \"isAdmin\"
+                        SELECT	ROLE.ISADMIN AS \"isAdmin\"
                         FROM 	STAFF
-                        JOIN	TEAM
-                        ON		TEAM.teamId		= 	STAFF.teamId
+                        JOIN	ROLE
+                        ON		ROLE.roleId		= 	STAFF.roleId
                         WHERE 	STAFF.STAFFID	=	'" . $_SESSION ['staffId'] . "'
-                        AND		TEAM.teamId		=	'" . $_SESSION ['teamId'] . "'
+                        AND		ROLE.roleId		=	'" . $_SESSION ['roleId'] . "'
                         AND		STAFF.ISACTIVE	=	1
-                        AND		TEAM.ISACTIVE	=	1";
+                        AND		ROLE.ISACTIVE	=	1";
         } else {
             echo json_encode(array("success" => false, "message" => "cannot identify vendor db[" . $this->q->vendor . "]"));
             exit();
