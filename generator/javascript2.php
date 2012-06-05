@@ -1,4 +1,7 @@
+
 <?php	// calculate total field to loop
+
+if(isset($data)) {
 		$total = count($data);
 		// initilize dummy value
 		$fieldName='';
@@ -73,6 +76,85 @@
 		$str.="						query			: 	\$('#query').val(),\n";
 		$str.="						params			: 	{ },\n";
 		$str.="						securityToken	:	securityToken\n";
+		$str.="				},\n";
+		$str.="				beforeSend: function () {\n";
+		$str.="					// this is where we append a loading image\n";
+		$str.="					\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
+		$str.="				},\n";
+		$str.="				success: function (data) {\n";
+		$str.="					// successful request; do something with the data\n";
+		$str.="					\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
+		$str.="					\$('#centerViewport').html('');\n";
+		$str.="					\$('#centerViewport').empty();\n";
+		$str.="					\$('#centerViewport').removeClass();\n";
+		$str.="					\$('#centerViewport').addClass('container-fluid');\n";
+		$str.="					\$('#centerViewport').append(data);\n";
+		$str.="				},\n";
+		$str.="				error: function () {\n";
+		$str.="					// failed request; give feedback to user\n";
+		$str.="					\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
+		$str.="				}\n";
+		$str.="		});\n";
+		$str.="	}\n";
+                $str.="	function ajaxQuerySearchAllCharacter(url, securityToken,character) {\n";
+		$str.="		// unhide button search\n";
+		$str.="		\$('#clearSearch').removeClass();\n";
+		$str.="		\$('#clearSearch').addClass('btn');\n";
+		$str.="		// unlimited for searching because  lazy paging.\n";
+		$str.="		\$.ajax({\n";
+		$str.="             type    : 	'POST',\n";
+		$str.="             url     :	url,\n";
+		$str.="             data    :   {\n";
+		$str.="        				offset		:   0,\n";
+		$str.="        				limit		:   99999,\n";
+		$str.="					method		:   'read',\n";
+		$str.="					type		:   'list',\n";
+		$str.="					detail		:   'body',\n";
+		$str.="					query		:   \$('#query').val(),\n";
+		$str.="					params		:   { },\n";
+		$str.="					securityToken	:   securityToken\n";
+                $str.="					character	:   character\n";
+		$str.="				},\n";
+		$str.="				beforeSend: function () {\n";
+		$str.="					// this is where we append a loading image\n";
+		$str.="					\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
+		$str.="				},\n";
+		$str.="				success: function (data) {\n";
+		$str.="					// successful request; do something with the data\n";
+		$str.="					\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
+		$str.="					\$('#centerViewport').html('');\n";
+		$str.="					\$('#centerViewport').empty();\n";
+		$str.="					\$('#centerViewport').removeClass();\n";
+		$str.="					\$('#centerViewport').addClass('container-fluid');\n";
+		$str.="					\$('#centerViewport').append(data);\n";
+		$str.="				},\n";
+		$str.="				error: function () {\n";
+		$str.="					// failed request; give feedback to user\n";
+		$str.="					\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
+		$str.="				}\n";
+		$str.="		});\n";
+		$str.="	}\n";
+                $str.="	function ajaxQuerySearchAllDate(url, securityToken,dateRangeStart,dateRangeEnd,dateRangeType,dateRangeExtraType) {\n";
+		$str.="		// unhide button search\n";
+		$str.="		\$('#clearSearch').removeClass();\n";
+		$str.="		\$('#clearSearch').addClass('btn');\n";
+		$str.="		// unlimited for searching because  lazy paging.\n";
+		$str.="		\$.ajax({\n";
+		$str.="             type    : 	'POST',\n";
+		$str.="             url     :	url,\n";
+		$str.="             data    :   {\n";
+		$str.="                                 offset		:   0,\n";
+		$str.="        				limit		:   99999,\n";
+		$str.="					method		:   'read',\n";
+		$str.="					type		:   'list',\n";
+		$str.="					detail		:   'body',\n";
+		$str.="					query		:   \$('#query').val(),\n";
+		$str.="					params		:   { },\n";
+		$str.="					securityToken	:   securityToken\n";
+                $str.="                                 dateRangeStart	:   dateRangeStart\n";
+                $str.="                                 dateRangeStart	:   dateRangeEnd\n";
+                $str.="                                 dateRangeType	:   dateRangeType\n";
+                $str.="                                 dateRangeExtraType	:   dateRangeExtraType\n";
 		$str.="				},\n";
 		$str.="				beforeSend: function () {\n";
 		$str.="					// this is where we append a loading image\n";
@@ -1637,4 +1719,5 @@
 		$str.="       	}\n";
 		$str.="    }\n";
 		$str.="	}\n";
-?>
+}
+                ?>

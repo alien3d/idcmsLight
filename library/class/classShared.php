@@ -480,6 +480,31 @@ class SharedClass extends \Core\ConfigClass {
             return $data;
         }
     }
+    public function getFileInfo($filename) {
+        if($this->q->getVendor==self::MYSQL){
+        $sql="
+        SELECT  `applicationId`,
+                `moduleId` 
+        FROM    `leaf` 
+        WHERE   `leafFilename`='".$filename."'";
+    } else if ($this->q->getVendor==self::MSSQL){
+         $sql="
+        SELECT  [applicationId],
+                [moduleId] 
+        FROM    [leaf] 
+        WHERE   [leafFilename]='".$filename."'";
+    } else if ($this->q->getVendor==self::ORACLE){
+         $sql="
+        SELECT  APPLICATIONID,
+                MODULEID 
+        FROM    LEAF
+        WHERE   LEAFFILENAME='".$filename."'";
+    }
+        $result = $this->q->fast($sql);
+        if($result){
+            return $this->q->fetchArray($result);
+        }
+    }
 
 }
 

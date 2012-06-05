@@ -22,7 +22,9 @@ $str.="\$leafAccess             =   \$translator->getLeafAccess(); \n";
 $str.="   \n";
 $str.="\$salt=\"chak\"; \n";
 $str.="\$securityToken= md5(\"You have been cheated\").\$salt;\n";
-
+$str.=" \$arrayInfo = \$translator->getFileInfo(basename(\$_SERVER['PHP_SELF'])); \n";
+$str.=" \$applicationId=\$arrayInfo['applicationId']; \n";
+$str.=" \$moduleId=\$arrayInfo['moduleId']; \n";
 $str.="if (isset(\$_POST)) {  \n";
 $str.="    if (isset(\$_POST['method'])) {  \n";
 $str.="        \$" . $data[0]['tableName'] . " = new \Core\\" . ucwords($data[0]['package']) . "\\" . ucwords($data[0]['module']) . "\\" . ucwords($data[0]['tableName']) . "\Controller\\";
@@ -40,6 +42,7 @@ $str.="            \$limit = \$_POST['limit'];  \n";
 $str.="        } else {";
 $str.="            \$limit = LIMIT;  \n";
 $str.="        }\n";
+
 $total = 0;
 $total = count($data);
 for ($i = 0; $i < $total; $i++) {
@@ -52,6 +55,28 @@ for ($i = 0; $i < $total; $i++) {
     }
 }
 $str.="        if (\$_POST['method'] == 'read') {  \n";
+$str.="	if (isset(\$_POST ['dateRangeStart'])) { \n";
+$str.="		\$" . $data[0]['tableName'] . "Object->setDateRangeStartQuery(\$_POST['dateRangeStart']); \n";
+$str.="		//explode the data to get day,month,year \n";
+$str.="		\$start=explode(\"-\",\$_POST ['dateRangeStart']); \n";
+$str.="		\$" . $data[0]['tableName'] . "Object->setStartDay(\$start[2]); \n";
+$str.="		\$" . $data[0]['tableName'] . "Object->setStartMonth(\$start[1]); \n";
+$str.="		\$" . $data[0]['tableName'] . "Object->setStartYear(\$start[0]); \n";
+$str.="	} \n";
+$str.="	if (isset(\$_POST ['dateRangeEnd'])) { \n";
+$str.="		\$" . $data[0]['tableName'] . "Object->setDateRangeEndQuery(\$_POST['dateRangeEnd']); \n";
+$str.="		//explode the data to get day,month,year \n";
+$str.="		\$start=explode(\"-\",\$_POST ['dateRangeEnd']); \n";
+$str.="		\$" . $data[0]['tableName'] . "Object->setEndDay(\$start[2]); \n";
+$str.="		\$" . $data[0]['tableName'] . "Object->setEndMonth(\$start[1]); \n";
+$str.="		\$" . $data[0]['tableName'] . "Object->setEndYear(\$start[0]); \n";
+$str.="	} \n";
+$str.="	if (isset(\$_POST ['dateRangeType'])) { \n";
+$str.="		\$" . $data[0]['tableName'] . "Object->setDateRangeTypeQuery(\$_POST['dateRangeType']); \n";
+$str.="	} \n";
+$str.="	if (isset(\$_POST ['dateRangeExtraType'])) { \n";
+$str.="		\$" . $data[0]['tableName'] . "Object->setDateRangeExtraTypeQuery(\$_POST['dateRangeExtraType']); \n";
+$str.="	} \n";
 $str.="            if (isset(\$_POST ['query'])) {  \n";
 $str.="                \$" . $data[0]['tableName'] . "->setFieldQuery(\$_POST ['query']);  \n";
 $str.="            }  \n";
@@ -87,8 +112,38 @@ $str.="            \$navigation->setTotalRecord(\$total);  \n";
 $str.="        }  \n";
 $str.="    }  \n";
 $str.=" }  \n";
-
+$
 $str.=" if (\$_POST['method'] == 'read' && \$_POST['type'] == 'list') { ?>  \n";
+$str.="   <div  id='leftViewportDetail' class='row-fluid hide'> \n";
+$str.="<div class='well span2'> \n";
+$str.="            <div> \n";
+$str.="                <div id='btnList'>\n";
+$str.="                <!-- button type only be used on non critical only .. ie9 bugs -->\n";
+$str.="                <button type='button' name='menuBack' class='btn btn-inverse btn-small' onClick=loadSidebar(<?php echo $applicationId; ?>,'<?php echo $moduleId; ?>')><i class='icon-arrow-left'></i> Menu </button> <button type='button' value='New Record' name='newRecordButton' id='newRecordButton' class='btn btn-info btn-small'><i class='icon-plus'></i> New Record </button> \n";
+$str.="                </div>\n";
+$str.="                <hr>\n";
+$str.="                <h3>Search</h3>\n";
+$str.="                <input type='text' name='searchText' id='searchText' class='span2' onClick=ajaxQuerySearchAllDate()>\n";
+$str.="                <hr>\n";
+$str.="                <h4>Date</h4>\n";
+$str.="                <a href=javascript:void(0) onClick=ajaxQuerySearchAllDate()>Any Time</a><br>\n";
+$str.="                <a href=javascript:void(0) rel='tooltip' title='Previous Day' onClick=ajaxQuerySearchAllDate()>&laquo;</a> <a href=''>Today</a> <a href=javascript:void(0) rel='tooltip' title='Next Day' onClick=ajaxQuerySearchAllDate()>&raquo;</a><br>\n";
+$str.="                <a href=javascript:void(0) rel='tooltip' title='Previous Week'  onClick=ajaxQuerySearchAllDate()>&laquo;</a> <a href=''>Week</a> <a href=javascript:void(0) rel='tooltip' title='Next Week' onClick=ajaxQuerySearchAllDate()>&raquo;</a><br>\n";
+$str.="                <a href=javascript:void(0) rel='tooltip' title='Previous Month'  onClick=ajaxQuerySearchAllDate()>&laquo;</a> <a href=''>Month</a> <a href=javascript:void(0) rel='tooltip' title='Next Month' onClick=ajaxQuerySearchAllDate()>&raquo;</a><br>\n";
+$str.="                <a href=javascript:void(0) rel='tooltip' title='Previous Year'  onClick=ajaxQuerySearchAllDate()>&laquo;</a> <a href=''>Year</a> <a href=javascript:void(0) rel='tooltip' title='Next Year' onClick=ajaxQuerySearchAllDate()>&raquo;</a><br>\n";
+$str.="                Range\n";
+$str.="                <div style='style:none'>\n";
+$str.="                    <input type='date' name='range1' id='range1' class='span2'><br>\n";
+$str.="                    <input type='date' name='range2' id='range2' class='span2'><br>\n";
+$str.="                    <input type='button' name='searchDate' id='searchDate' value='Search' class='btn btn-info'>\n";
+$str.="                </div>\n";
+$str.="                <div id='showChoosenDate'>\n";
+$str.="                   here we appear range date choose by user.\n";
+$str.="                   Google  Style + idcms 1 style\n";
+$str.="                </div>\n";
+$str.="                <hr>\n";
+$str.="            </div>\n";
+$str.="        </div>\n";
 $str.="    <div id='infoPanel'></div>  \n";
 $str.="    <div  class='modal hide fade' id='filterGridAdvance'>  \n";
 $str.="        <div class='modal-header'>  \n";
@@ -218,7 +273,15 @@ $str.="            <a href=javascript:void(0) class='btn btn-danger' onClick=del
 $str.="            <a href=javascript:void(0) onclick=showMeModal('deletePreview',0) class='btn'>Close</a> \n";
 $str.="        </div> \n";
 $str.="   </div> \n";
+// old type button.now moved to sidebar.Thinking optional first
 $str.="<div align='right'> \n";
+//initilize dummy value
+$characterArray=null;
+$characterArray =range('A','Z');
+foreach($characterArray as $character){
+    $str.="        <a title='".$character."' href=javascript:void(0) class='btn btn-small' onClick=ajaxQuerySearchAllCharacter('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','".$character."')><i class=icon-zoom-in></i> Search </a> \n";
+}
+$str.="<br>";
 $str.="        <input type='text' class='input-large search-query' name='query' id='query'> \n";
 $str.="        <a href=javascript:void(0) class=btn onClick=ajaxQuerySearchAll('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-zoom-in></i> Search </a> \n";
 $str.="        <a href=javascript:void(0) class=btn onclick=showMeModal('filterGridAdvance',1)><i class=icon-zoom-in></i> Advance Search </a> \n";
@@ -226,6 +289,7 @@ $str.="        <a href=javascript:void(0) class=btn hide onclick=hideButton();sh
 $str.="        <a href=javascript:void(0) class=btn onClick=showForm('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-plus></i> New </a> \n";
 $str.="        <a href=javascript:void(0) class=btn><i class='icon-file'></i> Report </a> \n";
 $str.="    </div> \n";
+// old type button.now moved to sidebar
 $str.="    <br> \n";
 $str.="<table class='table table-striped table-bordered table-condensed' name='tableData' id='tableData'> \n";
 $str.="        <thead> \n";
@@ -722,4 +786,7 @@ $str.="    </script> \n";
 $str.="<?php } ?> \n";
 $str.="<script language='javascript' type='text/javascript' src='./package/".$data[0]['package']."/".$data[0]['module']."/javascript/" . $data[0]['tableName'] . ".js'></script> \n";
 }
+// input type hidden
+
 ?>  
+
