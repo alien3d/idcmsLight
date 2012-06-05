@@ -109,6 +109,7 @@ function __construct() {
         $this->systemString->setLeafId($this->getLeafId()); 
         $this->systemString->execute(); 
         $this->recordSet = new \Core\Recordset\RecordSet(); 
+        $this->recordSet->setVendor($this->getVendor());
         $this->recordSet->setCurrentDatabase($this->q->getCoreDatabase()); 
         $this->recordSet->setCurrentTable($this->model->getTableName()); 
         $this->recordSet->setPrimaryKeyName($this->model->getPrimaryKeyName()); 
@@ -450,6 +451,7 @@ STAFF.STAFFNAME
 		/** 
 		 * filter column based on first character 
 		 */ 
+                
 		if($this->getCharacterQuery()){ 
 			if($this->q->vendor==self::MYSQL){ 
 				$sql.=" AND `".$this->model->getTableName()."`.`".$this->model->getFilterCharacter()."` like '".$this->getCharacterQuery()."%'"; 
@@ -463,6 +465,7 @@ STAFF.STAFFNAME
 				$sql.=" AND ".strtoupper($this->model->getTableName()).".".strtoupper($this->model->getFilterCharacter())." = '".$this->getCharacterQuery()."'"; 
 			} 
 		} 
+            
 		/** 
 		 * filter column based on Range Of Date 
 		 * Example Day,Week,Month,Year 
@@ -484,6 +487,8 @@ STAFF.STAFFNAME
 		$tableArray = null; 
 		$tableArray = array('theme'); 
 		if ($this->getFieldQuery()) { 
+                        			$this->q->setFieldQuery($this->getFieldQuery()); 
+
 			if ($this->getVendor() == self::MYSQL) { 
 				$sql .= $this->q->quickSearch($tableArray, $filterArray); 
 			} else if ($this->getVendor() == self::MSSQL) { 
@@ -498,7 +503,7 @@ STAFF.STAFFNAME
 		 * Extjs filtering mode 
 		 */ 
 		if ($this->getGridQuery()) { 
-			$this->q->setFieldQuery($this->getFieldQuery()); 
+			$this->q->setGridQuery($this->getGridQuery()); 
 			if ($this->getVendor() == self::MYSQL) { 
 				$sql .= $this->q->searching(); 
 			} else if ($this->getVendor() == self::MSSQL) { 
@@ -538,10 +543,11 @@ STAFF.STAFFNAME
 		$_SESSION ['sql'] = $sql; // push to session so can make report via excel and pdf 
 		$_SESSION ['start'] = $this->getStart(); 
 		$_SESSION ['limit'] = $this->getLimit(); 
-		if ($this->getStart() && $this->getLimit()) { 
+              
+		if ($this->getLimit()) { 
 			// only mysql have limit 
 			if ($this->getVendor() == self::MYSQL) { 
-				$sql .= " LIMIT  " . $this->getStart() . "," . $this->getLimit() . " "; 
+				 $sql .= " LIMIT  " . $this->getStart() . "," . $this->getLimit() . " "; 
 			} else if ($this->getVendor() == self::MSSQL) { 
 				/** 
 				 * Sql Server and Oracle used row_number 
@@ -617,7 +623,9 @@ STAFF.STAFFNAME
 				echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase())); 
 				exit(); 
 			} 
-		} 
+		} else {
+                    echo "bengong pagin";
+                }
 		/* 
 		 *  Only Execute One Query 
 		 */ 
@@ -1497,8 +1505,9 @@ if (isset($_POST ['method'])) {
 	} 
 	if (isset($_POST ['filter'])) { 
 		$themeObject->setGridQuery($_POST ['filter']); 
-	} 
+	}                 
 	if (isset($_POST ['character'])) { 
+            
 		$themeObject->setCharacterQuery($_POST['character']); 
 	} 
 	if (isset($_POST ['dateRangeStart'])) { 

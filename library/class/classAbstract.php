@@ -984,16 +984,16 @@ abstract class ConfigClass
 	 */
 	public function getCharacterQuery()
 	{
-		return $this->characterQuery;
+                return $this->characterQuery;
 	}
 
 	/**
 	 *
 	 * @param $characterQuery
 	 */
-	public function setCharacterQuery($characterQuery)
+	public function setCharacterQuery($value)
 	{
-		$this->characterQuery = $characterQuery;
+		$this->characterQuery = $value;
 	}
 
 

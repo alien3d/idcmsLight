@@ -421,7 +421,7 @@ $title = "Peringkat Testing";
                 var url = './package/portal/main/controller/portalController.php';
                 //    $('#infoPanel').html('<div class="progress"><img src="./images/loading.gif" alt="Loading..." /></div>');
             
-                $("#centerViewport").load(url,{ method:'read',type:'list',detail:'body',leafId:leafId,pageType:'leaf',securityToken:securityToken }, function(response, status, xhr) {
+                $("#centerViewport").load(url,{ start:0,limit:10,method:'read',type:'list',detail:'body',leafId:leafId,pageType:'leaf',securityToken:securityToken }, function(response, status, xhr) {
 				
                     if (status == "error") {
                 

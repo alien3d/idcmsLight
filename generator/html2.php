@@ -1,6 +1,6 @@
 <?php
 
-if(isset($data))  { 
+
 $strId=null;
 $strId = $data[0]['tableName'] . "Id";
 
@@ -55,27 +55,12 @@ for ($i = 0; $i < $total; $i++) {
     }
 }
 $str.="        if (\$_POST['method'] == 'read') {  \n";
-$str.="	if (isset(\$_POST ['dateRangeStart'])) { \n";
-$str.="		\$" . $data[0]['tableName'] . "Object->setDateRangeStartQuery(\$_POST['dateRangeStart']); \n";
-$str.="		//explode the data to get day,month,year \n";
-$str.="		\$start=explode(\"-\",\$_POST ['dateRangeStart']); \n";
-$str.="		\$" . $data[0]['tableName'] . "Object->setStartDay(\$start[2]); \n";
-$str.="		\$" . $data[0]['tableName'] . "Object->setStartMonth(\$start[1]); \n";
-$str.="		\$" . $data[0]['tableName'] . "Object->setStartYear(\$start[0]); \n";
-$str.="	} \n";
-$str.="	if (isset(\$_POST ['dateRangeEnd'])) { \n";
-$str.="		\$" . $data[0]['tableName'] . "Object->setDateRangeEndQuery(\$_POST['dateRangeEnd']); \n";
-$str.="		//explode the data to get day,month,year \n";
-$str.="		\$start=explode(\"-\",\$_POST ['dateRangeEnd']); \n";
-$str.="		\$" . $data[0]['tableName'] . "Object->setEndDay(\$start[2]); \n";
-$str.="		\$" . $data[0]['tableName'] . "Object->setEndMonth(\$start[1]); \n";
-$str.="		\$" . $data[0]['tableName'] . "Object->setEndYear(\$start[0]); \n";
-$str.="	} \n";
+
 $str.="	if (isset(\$_POST ['dateRangeType'])) { \n";
-$str.="		\$" . $data[0]['tableName'] . "Object->setDateRangeTypeQuery(\$_POST['dateRangeType']); \n";
+$str.="		\$" . $data[0]['tableName'] . "->setDateRangeTypeQuery(\$_POST['dateRangeType']); \n";
 $str.="	} \n";
 $str.="	if (isset(\$_POST ['dateRangeExtraType'])) { \n";
-$str.="		\$" . $data[0]['tableName'] . "Object->setDateRangeExtraTypeQuery(\$_POST['dateRangeExtraType']); \n";
+$str.="		\$" . $data[0]['tableName'] . "->setDateRangeExtraTypeQuery(\$_POST['dateRangeExtraType']); \n";
 $str.="	} \n";
 $str.="            if (isset(\$_POST ['query'])) {  \n";
 $str.="                \$" . $data[0]['tableName'] . "->setFieldQuery(\$_POST ['query']);  \n";
@@ -112,14 +97,12 @@ $str.="            \$navigation->setTotalRecord(\$total);  \n";
 $str.="        }  \n";
 $str.="    }  \n";
 $str.=" }  \n";
-$
+
 $str.=" if (\$_POST['method'] == 'read' && \$_POST['type'] == 'list') { ?>  \n";
-$str.="   <div  id='leftViewportDetail' class='row-fluid hide'> \n";
-$str.="<div class='well span2'> \n";
-$str.="            <div> \n";
+$str.="   <div  id='leftViewportDetail' class='well span2'> \n";
 $str.="                <div id='btnList'>\n";
 $str.="                <!-- button type only be used on non critical only .. ie9 bugs -->\n";
-$str.="                <button type='button' name='menuBack' class='btn btn-inverse btn-small' onClick=loadSidebar(<?php echo $applicationId; ?>,'<?php echo $moduleId; ?>')><i class='icon-arrow-left'></i> Menu </button> <button type='button' value='New Record' name='newRecordButton' id='newRecordButton' class='btn btn-info btn-small'><i class='icon-plus'></i> New Record </button> \n";
+$str.="                <button type='button' name='menuBack' class='btn btn-inverse btn-small' onClick=loadSidebar(<?php echo \$applicationId; ?>,'<?php echo \$moduleId; ?>')><i class='icon-arrow-left'></i> Menu </button> <button type='button' value='New Record' name='newRecordButton' id='newRecordButton' class='btn btn-info btn-small'><i class='icon-plus'></i> New Record </button> \n";
 $str.="                </div>\n";
 $str.="                <hr>\n";
 $str.="                <h3>Search</h3>\n";
@@ -133,8 +116,8 @@ $str.="                <a href=javascript:void(0) rel='tooltip' title='Previous 
 $str.="                <a href=javascript:void(0) rel='tooltip' title='Previous Year'  onClick=ajaxQuerySearchAllDate()>&laquo;</a> <a href=''>Year</a> <a href=javascript:void(0) rel='tooltip' title='Next Year' onClick=ajaxQuerySearchAllDate()>&raquo;</a><br>\n";
 $str.="                Range\n";
 $str.="                <div style='style:none'>\n";
-$str.="                    <input type='date' name='range1' id='range1' class='span2'><br>\n";
-$str.="                    <input type='date' name='range2' id='range2' class='span2'><br>\n";
+$str.="                    <input type='date' name='dateRangeStart' id='dateRangeStart' class='span2'><br>\n";
+$str.="                    <input type='date' name='dateRangeId' id='dateRangeEnd' class='span2'><br>\n";
 $str.="                    <input type='button' name='searchDate' id='searchDate' value='Search' class='btn btn-info'>\n";
 $str.="                </div>\n";
 $str.="                <div id='showChoosenDate'>\n";
@@ -143,7 +126,8 @@ $str.="                   Google  Style + idcms 1 style\n";
 $str.="                </div>\n";
 $str.="                <hr>\n";
 $str.="            </div>\n";
-$str.="        </div>\n";
+
+$str.="        <div name='rightViewport' id='rightViewport' class='span13'>\n";
 $str.="    <div id='infoPanel'></div>  \n";
 $str.="    <div  class='modal hide fade' id='filterGridAdvance'>  \n";
 $str.="        <div class='modal-header'>  \n";
@@ -273,15 +257,19 @@ $str.="            <a href=javascript:void(0) class='btn btn-danger' onClick=del
 $str.="            <a href=javascript:void(0) onclick=showMeModal('deletePreview',0) class='btn'>Close</a> \n";
 $str.="        </div> \n";
 $str.="   </div> \n";
+$str.="<div align='left'> \n";
 // old type button.now moved to sidebar.Thinking optional first
-$str.="<div align='right'> \n";
 //initilize dummy value
 $characterArray=null;
 $characterArray =range('A','Z');
 foreach($characterArray as $character){
-    $str.="        <a title='".$character."' href=javascript:void(0) class='btn btn-small' onClick=ajaxQuerySearchAllCharacter('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','".$character."')><i class=icon-zoom-in></i> Search </a> \n";
+    $str.="        <a title='".$character."' href=javascript:void(0) class='btn btn-small' onClick=ajaxQuerySearchAllCharacter('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','".$character."')>".$character."</a> \n";
 }
-$str.="<br>";
+
+$str.="</div>";
+$str.="<br><br>";
+$str.="<div align='right'> \n";
+
 $str.="        <input type='text' class='input-large search-query' name='query' id='query'> \n";
 $str.="        <a href=javascript:void(0) class=btn onClick=ajaxQuerySearchAll('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-zoom-in></i> Search </a> \n";
 $str.="        <a href=javascript:void(0) class=btn onclick=showMeModal('filterGridAdvance',1)><i class=icon-zoom-in></i> Advance Search </a> \n";
@@ -341,7 +329,7 @@ $str.="                    echo \"<tr>\"; \n";
 // initlize dummy value
 $strInside=null;
 $align=null;
-$value=null;
+
 for ($i = 0; $i < $total; $i++) {
     if ($data[$i]['Key'] == 'PRI') {
         $str.=" echo  \"<td>
@@ -489,9 +477,16 @@ $str.="            <?php if(isset(\$_POST['query'])) { ?> \n";
 $str.="                    \$('#clearSearch').removeClass(); \n";
 $str.="                    \$('#clearSearch').addClass('btn'); \n";
 $str.="            <?php } ?>  \n";
+$str.=" $('#dateRangeStart').datepicker({  \n";
+$str.="                 format :'d-m-yyyy'  \n";
+$str.="             });  \n";
+$str.="             $('#dateRangeEnd').datepicker({  \n";
+$str.="                 format :'d-m-yyyy'  \n";
+$str.="             });   \n";
 
 $str.="         }); \n";
 $str.="      </script> \n";
+$str.="</div>";
 $str.="    <?php }  \n";
 $str.="           if ((isset(\$_POST['method']) == 'new' || isset(\$_POST['method']) == 'read') && \$_POST['type'] == 'form') { ?> \n";
 $str.="    <div id='infoPanel'></div> \n";
@@ -785,7 +780,7 @@ $str.="         }); \n";
 $str.="    </script> \n";
 $str.="<?php } ?> \n";
 $str.="<script language='javascript' type='text/javascript' src='./package/".$data[0]['package']."/".$data[0]['module']."/javascript/" . $data[0]['tableName'] . ".js'></script> \n";
-}
+
 // input type hidden
 
 ?>  

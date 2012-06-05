@@ -1003,7 +1003,7 @@ class Vendor {
      * @return string filter
      */
     public function searching() {
-        $filter = $this->gridQuery;
+        $filter = $this->getGridQuery();
         if (is_array($filter)) {
             for ($i = 0; $i < count($filter); $i++) {
                 switch ($filter [$i] ['data'] ['type']) {
@@ -1406,6 +1406,21 @@ class Vendor {
      *
      * @param string $value 
      */
+    public function setGridQuery($value) {
+        $this->gridQuery = $value;
+    }
+    /**
+     *
+     * @return string 
+     */
+    public function getGridQuery() {
+        return $this->gridQuery;
+    }
+
+    /**
+     *
+     * @param string $value 
+     */
     public function setFieldQuery($value) {
         $this->fieldQuery = $value;
     }
@@ -1504,6 +1519,7 @@ class Vendor {
      */
     public function setResponse($value) {
         $this->responce = $value;
+        
     }
 
 }

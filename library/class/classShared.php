@@ -73,7 +73,7 @@ class SharedClass extends \Core\ConfigClass {
      * @return array
      */
     function getSystemFormat() {
-        if ($this->q->vendor == self::MYSQL) {
+        if ($this->getVendor() == self::MYSQL) {
             /*             * *
              * set global output UTF8
              */
@@ -83,7 +83,7 @@ class SharedClass extends \Core\ConfigClass {
         /**
          *  Basic System Information ,Date and  Currency Format
          */
-        if ($this->q->vendor == self::MYSQL) {
+        if ($this->getVendor() == self::MYSQL) {
             $sql = "
 	SELECT `systemSettingDateFormat`,
 		   `systemSettingTimeFormat`,
@@ -91,7 +91,7 @@ class SharedClass extends \Core\ConfigClass {
 		   `countryId`,
 		   `systemSettingCurrencyFormat`
 	FROM   `systemSetting`	";
-        } else if ($this->q->vendor == self::MSSQL) {
+        } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
 	SELECT [systemSettingDateFormat],
 		   [systemSettingTimeFormat],
@@ -99,7 +99,7 @@ class SharedClass extends \Core\ConfigClass {
 		   [countryId],
 		   [systemSettingCurrencyFormat]
 	FROM   [systemSetting]	";
-        } else if ($this->q->vendor == self::ORACLE) {
+        } else if ($this->getVendor() == self::ORACLE) {
             $sql = "
 	SELECT SYSTEMSETTINGDATEFORMAT,
 		   SYSTEMSETTINGTIMEFORMAT,
@@ -107,7 +107,7 @@ class SharedClass extends \Core\ConfigClass {
 		   COUNTRYID,
 		   SYSTEMSETTINGCURRENCYFORMAT
 	FROM   SYSTEMSETTING	";
-        } else if ($this->q->vendor == self::DB2) {
+        } else if ($this->getVendor() == self::DB2) {
             $sql = "
 	SELECT SYSTEMSETTINGDATEFORMAT,
 		   SYSTEMSETTINGTIMEFORMAT,
@@ -115,7 +115,7 @@ class SharedClass extends \Core\ConfigClass {
 		   COUNTRYID,
 		   SYSTEMSETTINGCURRENCYFORMAT
 	FROM   SYSTEMSETTING	";
-        } else if ($this->q->vendor == self::POSTGRESS) {
+        } else if ($this->getVendor() == self::POSTGRESS) {
             $sql = "
 	SELECT SYSTEMSETTINGDATEFORMAT,
 		   SYSTEMSETTINGTIMEFORMAT,
@@ -139,7 +139,7 @@ class SharedClass extends \Core\ConfigClass {
     function getLeafTranslation() {
 //dummy initilization
         $data = array();
-        if ($this->q->vendor == self::MYSQL) {
+        if ($this->getVendor() == self::MYSQL) {
 // future
 				$sql = "
                 SELECT 			`tableMapping`.`tableMappingColumnName`,
@@ -150,7 +150,7 @@ class SharedClass extends \Core\ConfigClass {
                 WHERE 			`tableMappingTranslate`.`languageId`	=	'" . $_SESSION ['languageId'] . "'
 				AND				`tableMappingName`						= 	'".$this->getCurrentTable()."'
 				AND				`databaseName`							= 	'".$this->getCurrentDatabase()."'";
-        } else if ($this->q->vendor == self::MSSQL) {
+        } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
                 SELECT 			[tableMapping].[tableMappingColumnName],
                                 [tableMappingTranslate].[tableMappingNative]
@@ -160,7 +160,7 @@ class SharedClass extends \Core\ConfigClass {
                 WHERE 			[tableMapping].[languageId]		=	'" . $_SESSION ['languageId'] . "'
 				AND				[tableMappingName]				= 	'".$this->getCurrentTable()."'
 				AND				[databaseName]					= 	'".$this->getCurrentDatabase()."'";
-        } else if ($this->q->vendor == self::ORACLE) {
+        } else if ($this->getVendor() == self::ORACLE) {
             $sql = "
                 SELECT DISTINCT TABLEMAPPING.TABLEMAPPINGCOLUMNNAME 			AS 	\"tableMappingColumnName\",
                                 TABLEMAPPINGTRANSLATE.TABLEMAPPINGNATIVELABEL	AS	\"tableMappingNative\"
@@ -170,7 +170,7 @@ class SharedClass extends \Core\ConfigClass {
                 WHERE 			TABLEMAPPING.LANGUAGEID	=	'" . $_SESSION ['languageId'] . "'
 				AND				TABLEMAPPINGNAME		= '".$this->getCurrentTable()."'
 				AND				DATABASENAME			= '".$this->getCurrentDatabase()."'";
-        } else if ($this->q->vendor == self::DB2) {
+        } else if ($this->getVendor() == self::DB2) {
             $sql = "
                 SELECT DISTINCT TABLEMAPPING.TABLEMAPPINGCOLUMNNAME 			AS 	\"tableMappingColumnName\",
                                 TABLEMAPPINGTRANSLATE.TABLEMAPPINGNATIVELABEL	AS	\"tableMappingNative\"
@@ -180,7 +180,7 @@ class SharedClass extends \Core\ConfigClass {
                 WHERE 			TABLEMAPPING.LANGUAGEID	=	'" . $_SESSION ['languageId'] . "'
 				AND				TABLEMAPPINGNAME		= 	'".$this->getCurrentTable()."'
 				AND				DATABASENAME			= 	'".$this->getCurrentDatabase()."'";
-        } else if ($this->q->vendor == self::POSTGRESS) {
+        } else if ($this->getVendor() == self::POSTGRESS) {
             $sql = "
                 SELECT DISTINCT TABLEMAPPING.TABLEMAPPINGCOLUMNNAME 			AS 	\"tableMappingColumnName\",
                                 TABLEMAPPINGTRANSLATE.TABLEMAPPINGNATIVELABEL	AS	\"tableMappingNative\"
@@ -211,7 +211,7 @@ class SharedClass extends \Core\ConfigClass {
         $data = array();
 
 
-        if ($this->q->vendor == self::MYSQL) {
+        if ($this->getVendor() == self::MYSQL) {
 // future
             $sql = "
                 SELECT 			`tableMappingForeignKey`.`tableMappingForeignKeyName`,
@@ -220,7 +220,7 @@ class SharedClass extends \Core\ConfigClass {
                 JOIN			`tableMappingForeignKeyTranslate`
                 USING			(`tableMappingForeignKeyId`)
                 WHERE 			`tableMappingForeignKeyTranslate`.`languageId`='" . $_SESSION ['languageId'] . "'";
-        } else if ($this->q->vendor == self::MSSQL) {
+        } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
                 SELECT 			[tableMapping].[tableMappingColumnName],
                                 [tableMappingTranslate].[tableMappingNative]
@@ -228,7 +228,7 @@ class SharedClass extends \Core\ConfigClass {
                 JOIN			[tableMappingTranslate]
                 USING			[tableMapping].[tableMappingId]=[tableMappingTranslate].[tableMappingId]
                 WHERE 			[tableMapping].[languageId]='" . $_SESSION ['languageId'] . "'";
-        } else if ($this->q->vendor == self::ORACLE) {
+        } else if ($this->getVendor() == self::ORACLE) {
             $sql = "
                 SELECT DISTINCT TABLEMAPPING.TABLEMAPPINGCOLUMNNAME 			AS 	\"tableMappingColumnName\",
                                 TABLEMAPPINGTRANSLATE.TABLEMAPPINGNATIVELABEL	AS	\"tableMappingNative\"
@@ -236,9 +236,9 @@ class SharedClass extends \Core\ConfigClass {
                 JOIN			TABLEMAPPINGTRANSLATE
                 USING			(TABLEMAPPINGID)
                 WHERE 			TABLEMAPPING.LANGUAGEID='" . $_SESSION ['languageId'] . "'";
-        } else if ($this->q->vendor == self::DB2) {
+        } else if ($this->getVendor() == self::DB2) {
             
-        } else if ($this->q->vendor == self::POSTGRESS) {
+        } else if ($this->getVendor() == self::POSTGRESS) {
             
         }
 
@@ -258,21 +258,21 @@ class SharedClass extends \Core\ConfigClass {
      */
     function getDefaultTranslation() {
         $data = array();
-        if ($this->q->vendor == self::MYSQL) {
+        if ($this->getVendor() == self::MYSQL) {
             $sql = "
                 SELECT	*
                 FROM 	`defaultLabel`
                 JOIN 	`defaultLabelTranslate`
                 USING 	(`defaultLabelId`)
                 WHERE 	`defaultLabelTranslate`.`languageId`	=	'" . $_SESSION ['languageId'] . "'";
-        } else if ($this->q->vendor == self::MSSQL) {
+        } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
                 SELECT	*
                 FROM 	[defaultLabel]
                 JOIN 	[defaultLabelTranslate]
                 ON      [defaultLabel] .[defaultLabelId]=  [defaultLabelTranslate] .[defaultLabelId]
                 WHERE 	[defaultLabelTranslate].[languageId]	=	'" . $_SESSION ['languageId'] . "'";
-        } else if ($this->q->vendor == self::ORACLE) {
+        } else if ($this->getVendor() == self::ORACLE) {
             $sql = "
                 SELECT	DEFAULTLABEL.DEFAULTLABEL 				AS \"defaultLabel\",
                         DEFAULTLABELTRANSLATE.DEFAULTLABELTEXT 	AS \"defaultLabelText\"
@@ -280,9 +280,9 @@ class SharedClass extends \Core\ConfigClass {
                 JOIN 	DEFAULTLABELTRANSLATE
                 ON		DEFAULTLABEL.DEFAULTLABELID 			= 	DEFAULTLABELTRANSLATE.DEFAULTLABELID
                 WHERE 	DEFAULTLABELTRANSLATE.LANGUAGEID		=	'" . $_SESSION ['languageId'] . "'";
-        } else if ($this->q->vendor == self::DB2) {
+        } else if ($this->getVendor() == self::DB2) {
             
-        } else if ($this->q->vendor == self::POSTGRESS) {
+        } else if ($this->getVendor() == self::POSTGRESS) {
             
         }
         $result = $this->q->fast($sql);
@@ -323,7 +323,7 @@ class SharedClass extends \Core\ConfigClass {
 
     public function getLeafAccess() {
 
-        if ($this->q->vendor == self::MYSQL) {
+        if ($this->getVendor() == self::MYSQL) {
             $sql = "	SELECT	*
         FROM	`leaf`
         JOIN	`leafAccess`
@@ -333,7 +333,7 @@ class SharedClass extends \Core\ConfigClass {
         WHERE  	`leaf`.`leafFilename`			=	'" . basename($_SERVER ['PHP_SELF']) . "'
         AND  	`leafAccess`.`staffId`			=	'" . $_SESSION ['staffId'] . "'
         AND		`leafTranslate`.`languageId`	=	'" . $_SESSION ['languageId'] . "'";
-        } else if ($this->q->vendor == self::MSSQL) {
+        } else if ($this->getVendor() == self::MSSQL) {
             $sql = "	
         SELECT	*
         FROM	[leaf]
@@ -345,7 +345,7 @@ class SharedClass extends \Core\ConfigClass {
         WHERE  	[leaf].[leafFilename]			=	'" . basename($_SERVER ['PHP_SELF']) . "'
         AND  	[leafAccess].[staffId]			=	'" . $_SESSION ['staffId'] . "'
         AND		[leafTranslate].[languageId]	=	'" . $_SESSION ['languageId'] . "'";
-        } else if ($this->q->vendor == self::ORACLE) {
+        } else if ($this->getVendor() == self::ORACLE) {
 
             $sql = "	SELECT	LEAF.LEAFID 						AS  \"leafId\",
                         LEAFTRANSLATE.LEAFNATIVE 		AS	\"leafNative\"
@@ -357,7 +357,7 @@ class SharedClass extends \Core\ConfigClass {
         WHERE  	LEAF.LEAFFILENAME			=	'" . basename($_SERVER ['PHP_SELF']) . "'
         AND  	LEAFACCESS.STAFFID			=	'" . $_SESSION ['staffId'] . "'
         AND		LEAFTRANSLATE.LANGUAGEID	=	'" . $_SESSION ['languageId'] . "'";
-        } else if ($this->q->vendor == self::DB2) {
+        } else if ($this->getVendor() == self::DB2) {
             $sql = "	SELECT	LEAF.LEAFID 						AS  \"leafId\",
                         LEAFTRANSLATE.LEAFNATIVE 		AS	\"leafNative\"
         FROM	LEAF
@@ -368,7 +368,7 @@ class SharedClass extends \Core\ConfigClass {
         WHERE  	LEAF.LEAFFILENAME			=	'" . basename($_SERVER ['PHP_SELF']) . "'
         AND  	LEAFACCESS.STAFFID			=	'" . $_SESSION ['staffId'] . "'
         AND		LEAFTRANSLATE.LANGUAGEID	=	'" . $_SESSION ['languageId'] . "'";
-        } else if ($this->q->vendor == self::POSTGRESS) {
+        } else if ($this->getVendor() == self::POSTGRESS) {
             $sql = "	SELECT	LEAF.LEAFID 						AS  \"leafId\",
                         LEAFTRANSLATE.LEAFNATIVE 		AS	\"leafNative\"
         FROM	LEAF
@@ -394,7 +394,7 @@ class SharedClass extends \Core\ConfigClass {
      */
     public function getAdminAccess() {
         $data = array();
-        if ($this->q->vendor == self::MYSQL) {
+        if ($this->getVendor() == self::MYSQL) {
             $sql = "
                         SELECT	`role`.`isAdmin`
                         FROM 	`staff`
@@ -404,7 +404,7 @@ class SharedClass extends \Core\ConfigClass {
                         AND		`role`.`roleId`		=	'" . $_SESSION ['roleId'] . "'
                         AND		`staff`.`isActive`	=	1
                         AND		`role`.`isActive`	=	1";
-        } else if ($this->q->vendor == self::MSSQL) {
+        } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
                         SELECT	[role].[isAdmin]
                         FROM 	[staff]
@@ -414,7 +414,7 @@ class SharedClass extends \Core\ConfigClass {
                         AND		[role].[roleId]		=	'" . $_SESSION ['roleId'] . "'
                         AND		[staff].[isActive]	=	1
                         AND		[role].[isActive]	=	1";
-        } else if ($this->q->vendor == self::ORACLE) {
+        } else if ($this->getVendor() == self::ORACLE) {
             $sql = "
                         SELECT	ROLE.ISADMIN AS \"isAdmin\"
                         FROM 	STAFF
@@ -424,7 +424,7 @@ class SharedClass extends \Core\ConfigClass {
                         AND		ROLE.roleId		=	'" . $_SESSION ['roleId'] . "'
                         AND		STAFF.ISACTIVE	=	1
                         AND		ROLE.ISACTIVE	=	1";
-        } else if ($this->q->vendor == self::DB2) {
+        } else if ($this->getVendor() == self::DB2) {
             $sql = "
                         SELECT	ROLE.ISADMIN AS \"isAdmin\"
                         FROM 	STAFF
@@ -434,7 +434,7 @@ class SharedClass extends \Core\ConfigClass {
                         AND		ROLE.roleId		=	'" . $_SESSION ['roleId'] . "'
                         AND		STAFF.ISACTIVE	=	1
                         AND		ROLE.ISACTIVE	=	1";
-        } else if ($this->q->vendor == self::POSTGRESS) {
+        } else if ($this->getVendor() == self::POSTGRESS) {
             $sql = "
                         SELECT	ROLE.ISADMIN AS \"isAdmin\"
                         FROM 	STAFF
@@ -445,7 +445,7 @@ class SharedClass extends \Core\ConfigClass {
                         AND		STAFF.ISACTIVE	=	1
                         AND		ROLE.ISACTIVE	=	1";
         } else {
-            echo json_encode(array("success" => false, "message" => "cannot identify vendor db[" . $this->q->vendor . "]"));
+            echo json_encode(array("success" => false, "message" => "cannot identify vendor db[" . $this->getVendor() . "]"));
             exit();
         }
 
@@ -454,7 +454,7 @@ class SharedClass extends \Core\ConfigClass {
 
         if ($this->q->numberRows($resultAdmin) > 0) {
             $rowAdmin = $this->q->fetchAssoc($resultAdmin);
-            if ($row['isAdmin'] == 1) {
+            if ($rowAdmin['isAdmin'] == 1) {
                 $data['isDefaultHidden'] = false;
                 $data['isNewHidden'] = false;
                 $data['isDraftHidden'] = false;
@@ -481,19 +481,19 @@ class SharedClass extends \Core\ConfigClass {
         }
     }
     public function getFileInfo($filename) {
-        if($this->q->getVendor==self::MYSQL){
+        if($this->getVendor()==self::MYSQL){
         $sql="
         SELECT  `applicationId`,
                 `moduleId` 
         FROM    `leaf` 
         WHERE   `leafFilename`='".$filename."'";
-    } else if ($this->q->getVendor==self::MSSQL){
+    } else if ($this->getVendor()==self::MSSQL){
          $sql="
         SELECT  [applicationId],
                 [moduleId] 
         FROM    [leaf] 
         WHERE   [leafFilename]='".$filename."'";
-    } else if ($this->q->getVendor==self::ORACLE){
+    } else if ($this->getVendor()==self::ORACLE){
          $sql="
         SELECT  APPLICATIONID,
                 MODULEID 

@@ -72,8 +72,8 @@ class ThemeModel extends \Core\Validation\ValidationClass {
         $this->setTableName('theme');
         $this->setPrimaryKeyName('themeId');
         $this->setMasterForeignKeyName('themeId');
-        //$this->setFilterCharacter('themeDesc');
-        $this->setFilterDate('themeDate');
+        $this->setFilterCharacter('themeNote');
+        $this->setFilterDate('executeBy');
         /**
          * All the Array enviroment.
          */ 
