@@ -1126,7 +1126,7 @@ class Vendor {
                 }
                 $this->setStartDate($WeekDate[0]);
                 $this->setEndDate($WeekDate[$highEnd]);
-                return( " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . " 00:00:00' and '" . $this->getEndDate() . " 00:00:00')");
+                return( " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . " 00:00:00' and '" . $this->getEndDate() . " 23:59:59')");
             } else if ($this->getDateFilterExtraTypeQuery() == 'next') {
                 $WeekDate = array();
                 $lowEnd = date("w", mktime(0, 0, 0, $monthStart, ($dayStart + 7), $yearStart));
@@ -1139,7 +1139,7 @@ class Vendor {
                 }
                 $this->setStartDate($WeekDate[0]);
                 $this->setEndDate($WeekDate[$highEnd]);
-                return( " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . " 00:00:00' and '" . $this->getEndDate() . " 00:00:00')");
+                return( " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . " 00:00:00' and '" . $this->getEndDate() . " 23:59:59')");
             } else {
                 $WeekDate = array();
                 $lowEnd = date("w", mktime(0, 0, 0, $monthStart, ($dayStart), $yearStart));
@@ -1152,7 +1152,7 @@ class Vendor {
                 }
                 $this->setStartDate($WeekDate[0]);
                 $this->setEndDate($WeekDate[6]);
-                return( " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . " 00:00:00' and '" . $this->getEndDate() . " 00:00:00')");
+                return( " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . " 00:00:00' and '" . $this->getEndDate() . " 23:59:59')");
             }
         } elseif ($this->getDateFilterTypeQuery() == 'month') {
             if ($this->getDateFilterExtraTypeQuery() == 'previous') {
@@ -1186,7 +1186,7 @@ class Vendor {
                 return(" and (year(`" . $this->getTableName() . "`.`" . $this->getColumnName() . "`)='" . $yearStart . "')");
             }
         } elseif ($this->getDateFilterTypeQuery() == 'between') {
-            return( " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . " 00:00:00' and '" . $this->getEndDate() . " 00:00:00')");
+            return( " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . " 00:00:00' and '" . $this->getEndDate() . " 23:59:59')");
         }
     }
 

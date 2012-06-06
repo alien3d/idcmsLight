@@ -653,7 +653,9 @@ STAFF.STAFFNAME
             $i++; 
 		}  
 		if ($this->getPageOutput() == 'html') { 
-           $this->exceptionMessage($sql);
+                    if($_SESSION['isAdmin']) {
+                        //$this->exceptionMessage($sql);
+                    }
                     return $items; 
         } else if ($this->getPageOutput() == 'json') { 
 			if ($this->model->getThemeId(0, 'single')) { 

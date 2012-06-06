@@ -33,7 +33,7 @@ $str.="\$leafAccess             =   \$translator->getLeafAccess(); \n";
 $str.="   \n";
 $str.="\$salt=\"chak\"; \n";
 $str.="\$securityToken= md5(\"You have been cheated\").\$salt;\n";
-$str.=" \$arrayInfo = \$translator->getFileInfo(basename(\$_SERVER['PHP_SELF'])); \n";
+$str.=" \$arrayInfo = \$translator->getFileInfo('".$data[0]['tableName'].".php'); \n";
 $str.=" \$applicationId=\$arrayInfo['applicationId']; \n";
 $str.=" \$moduleId=\$arrayInfo['moduleId']; \n";
 $str.="if (isset(\$_POST)) {  \n";
@@ -136,11 +136,13 @@ $str.=" if (\$_POST['method'] == 'read' && \$_POST['type'] == 'list') { ?>  \n";
 $str.="   <div  id='leftViewportDetail' class='well span2'> \n";
 $str.="                <div id='btnList'>\n";
 $str.="                <!-- button type only be used on non critical only .. ie9 bugs -->\n";
-$str.="                <button type='button' name='menuBack' class='btn btn-inverse btn-small' onClick=loadSidebar(<?php echo \$applicationId; ?>,'<?php echo \$moduleId; ?>')><i class='icon-arrow-left'></i> Menu </button> <button type='button' value='New Record' name='newRecordButton' id='newRecordButton' class='btn btn-info btn-small'><i class='icon-plus'></i> New Record </button> \n";
+$str.="                <button type='button' name='menuBack' class='btn btn-inverse btn-small' onClick=loadSidebar(<?php echo \$applicationId; ?>,'<?php echo \$moduleId; ?>')><i class='icon-arrow-left'></i> Menu </button> <button type='button' value='New Record' name='newRecordButton' id='newRecordButton' class='btn btn-info btn-small' onClick=showForm('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>')><i class='icon-plus'></i> New Record </button> \n";
 $str.="                </div>\n";
 $str.="                <hr>\n";
 $str.="                <h3>Search</h3>\n";
-$str.="                <input type='text' name='searchText' id='searchText' class='span2' onClick=ajaxQuerySearchAllDate()>\n";
+$str.="                <input type='text' name='queryWidget' id='queryWidget' class='span2' value='<?php if(isset(\$_POST['query'])) {  echo \$_POST['query']; } ?>'>\n<br>";
+$str.="                    <input type='button' name='searchString' id='searchString' value='Search' class='btn btn-info' onClick=ajaxQuerySearchAll('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>')>\n";
+$str.="                    <input type='button' name='clearSearchString' id='clearSearchString' value='Clear' class='btn' onClick=showGrid('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>',0,<?php echo LIMIT; ?>)>\n";
 $str.="                <hr>\n";
 $str.="                <h4>Date</h4>\n";
 $str.="                 <table cellpadding=1 cellspacing=1>\n";
@@ -172,9 +174,11 @@ $str.="                         </tr>\n";
 $str.="</table>\n";
 $str.="                Range\n";
 $str.="                <div style='style:none'>\n";
-$str.="                    <input type='date' name='dateRangeStart' id='dateRangeStart' class='span2'><br>\n";
-$str.="                    <input type='date' name='dateRangeEnd' id='dateRangeEnd' class='span2'><br>\n";
+$str.="                    <input type='date' name='dateRangeStart' id='dateRangeStart' class='span2' value='<?php if(isset(\$_POST['dateRangeStart'])) { echo \$_POST['dateRangeStart']; } ?>'><br>\n";
+$str.="                    <input type='date' name='dateRangeEnd' id='dateRangeEnd' class='span2' value='<?php if(isset(\$_POST['dateRangeEnd'])) { echo \$_POST['dateRangeEnd']; } ?>'><br>\n";
 $str.="                    <input type='button' name='searchDate' id='searchDate' value='Search' class='btn btn-info' onClick=ajaxQuerySearchAllDateRange('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>')>\n";
+$str.="                    <input type='button' name='clearSearchDate' id='clearSearchDate' value='Clear' class='btn' onClick=showGrid('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>',0,<?php echo LIMIT; ?>)>\n";
+
 $str.="                </div>\n";
 $str.="                <hr>\n";
 $str.="             <h4>Filter Date Information</h4>\n";
@@ -187,7 +191,7 @@ $str.="</tr>\n";
 $str.="<tr>\n";
 $str.="    <td>Filter Date</td>\n";
 $str.="     <td>:</td>\n";
-$str.="     <td><?php if(isset(\$_POST['dateRangeStart'])) { echo \$_POST['dateRangeStart']; } ?></td>\n";
+$str.="     <td><?php if(isset(\$_POST['dateRangeStart'])) { echo \$_POST['dateRangeStart']; } ?> <?php if(isset(\$_POST['dateRangeEnd']) && (strlen(\$_POST['dateRangeEnd'])> 0)) { echo 'till  '.\$_POST['dateRangeEnd']; } ?> </td>\n";
 $str.="</tr>\n";
 $str.="<tr>\n";
 $str.="    <td>Filter Method </td>\n";
@@ -343,17 +347,20 @@ foreach($characterArray as $character){
 
 $str.="</div>";
 $str.="<br><br>";
-$str.="<div align='right'> \n";
+/**
+//$str.="<div align='right'> \n";
 
-$str.="        <input type='text' class='input-large search-query' name='query' id='query'> \n";
-$str.="        <a href=javascript:void(0) class=btn onClick=ajaxQuerySearchAll('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-zoom-in></i> Search </a> \n";
-$str.="        <a href=javascript:void(0) class=btn onclick=showMeModal('filterGridAdvance',1)><i class=icon-zoom-in></i> Advance Search </a> \n";
-$str.="        <a href=javascript:void(0) class=btn hide onclick=hideButton();showGrid('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>',0,<?php echo LIMIT; ?>) name=clearSearch id=clearSearch><i class=icon-refresh></i>Clear Search </a> \n";
-$str.="        <a href=javascript:void(0) class=btn onClick=showForm('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-plus></i> New </a> \n";
-$str.="        <a href=javascript:void(0) class=btn><i class='icon-file'></i> Report </a> \n";
-$str.="    </div> \n";
+//$str.="        <input type='text' class='input-large search-query' name='query' id='query'> \n";
+//$str.="        <a href=javascript:void(0) class=btn onClick=ajaxQuerySearchAll('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-zoom-in></i> Search </a> \n";
+//$str.="        <a href=javascript:void(0) class=btn onclick=showMeModal('filterGridAdvance',1)><i class=icon-zoom-in></i> Advance Search </a> \n";
+//$str.="        <a href=javascript:void(0) class=btn hide onclick=hideButton();showGrid('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>',0,<?php echo LIMIT; ?>) name=clearSearch id=clearSearch><i class=icon-refresh></i>Clear Search </a> \n";
+//$str.="        <a href=javascript:void(0) class=btn onClick=showForm('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-plus></i> New </a> \n";
+//$str.="        <a href=javascript:void(0) class=btn><i class='icon-file'></i> Report </a> \n";
+//$str.="    </div> \n";
 // old type button.now moved to sidebar
 $str.="    <br> \n";
+ * 
+ */
 $str.="<table class='table table-striped table-bordered table-condensed' name='tableData' id='tableData'> \n";
 $str.="        <thead> \n";
 $str.="            <tr> \n";

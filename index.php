@@ -142,7 +142,7 @@ $title = "Peringkat Testing";
             </div>
         </div>
 
-        <div id="centerViewport" class="container">
+        <div id="centerViewport" class="container-fluid">
             <div  id="leftViewportDetail" class="row-fluid hide">
                 <div class="span2" >
 <?php if (isset($avatar)) { ?>   
