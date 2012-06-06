@@ -1,7 +1,6 @@
 <?php
 
-
-$strId=null;
+$strId = null;
 $strId = $data[0]['tableName'] . "Id";
 
 $str.="<?php require_once('/../controller/" . $data[0]['tableName'] . "Controller.php'); \n";
@@ -20,8 +19,8 @@ $str.="require_once ('../../../../library/class/classNavigation.php');  \n";
 $str.="require_once ('../../../../library/class/classShared.php');  \n";
 
 $str.="\$translator = new \Core\shared\SharedClass();  \n";
-$str.="\$translator->setCurrentDatabase('".$data[0]['database']."'); \n";
-$str.="\$translator->setCurrentTable('".$data[0]['tableName']."');  \n";
+$str.="\$translator->setCurrentDatabase('" . $data[0]['database'] . "'); \n";
+$str.="\$translator->setCurrentTable('" . $data[0]['tableName'] . "');  \n";
 $str.="\$translator->execute();  \n";
 $str.="\$systemFormat           =   \$translator->getSystemFormat();  \n";
 $str.="\$defaultTranslation     =   \$translator->getDefaultTranslation();  \n";
@@ -33,7 +32,7 @@ $str.="\$leafAccess             =   \$translator->getLeafAccess(); \n";
 $str.="   \n";
 $str.="\$salt=\"chak\"; \n";
 $str.="\$securityToken= md5(\"You have been cheated\").\$salt;\n";
-$str.=" \$arrayInfo = \$translator->getFileInfo('".$data[0]['tableName'].".php'); \n";
+$str.=" \$arrayInfo = \$translator->getFileInfo('" . $data[0]['tableName'] . ".php'); \n";
 $str.=" \$applicationId=\$arrayInfo['applicationId']; \n";
 $str.=" \$moduleId=\$arrayInfo['moduleId']; \n";
 $str.="if (isset(\$_POST)) {  \n";
@@ -74,7 +73,7 @@ $str.="     } \n";
 $str.="     if (isset(\$_POST ['filter'])) { \n";
 $str.="         \$" . $data[0]['tableName'] . "->setGridQuery(\$_POST ['filter']); \n";
 $str.="     }                 \n";
-$str.="     if (isset(\$_POST ['character'])) { \n";            
+$str.="     if (isset(\$_POST ['character'])) { \n";
 $str.="		\$" . $data[0]['tableName'] . "->setCharacterQuery(\$_POST['character']); \n";
 $str.="     } \n";
 $str.="     if (isset(\$_POST ['dateRangeStart'])) { \n";
@@ -148,12 +147,12 @@ $str.="                <h4>Date</h4>\n";
 $str.="                 <table cellpadding=1 cellspacing=1>\n";
 $str.="                     <tr>\n";
 // starting unix time till this day
-$str.="                         <td colspan='3'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','1979-01-01','".date('Y-m-d')."')>Any Time</a></td>\n";
+$str.="                         <td colspan='3'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','1979-01-01','" . date('Y-m-d') . "')>Any Time</a></td>\n";
 $str.="                     </tr>\n";
 $str.="                     <tr>\n";
 $str.="                     <tr>\n";
 $str.="                         <td align='right'><a href=javascript:void(0) rel='tooltip' title='Previous Day' onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','day','previous')>&laquo;</a></td>\n";
-$str.="                         <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','day','')>Today</a></td>\n"; 
+$str.="                         <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','day','')>Today</a></td>\n";
 $str.="                         <td align='left'><a href=javascript:void(0) rel='tooltip' title='Next Day' onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','day','next')>&raquo;</a></td>\n";
 $str.="                     </tr>\n";
 $str.="                     <tr>\n";
@@ -162,13 +161,14 @@ $str.="                         <td align='center'><a href=javascript:void(0) on
 $str.="                         <td align='left'><a href=javascript:void(0) rel='tooltip' title='Next Week' onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','week','next')>&raquo;</a></td>\n";
 $str.="                     </tr>\n";
 $str.="                     <tr>\n";
-$str.="                         <td align='right'><a href=javascript:void(0) rel='tooltip' title='Previous Month'  onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','month','previous')>&laquo;</td> \n";;
+$str.="                         <td align='right'><a href=javascript:void(0) rel='tooltip' title='Previous Month'  onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','month','previous')>&laquo;</td> \n";
+;
 $str.="                         <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','month','')>Month</a> </td>\n";
 $str.="                         <td align='left'><a href=javascript:void(0) rel='tooltip' title='Next Month' onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','month','next')>&raquo;</a></td>\n";
 $str.="                     </tr>\n";
 $str.="                     <tr>\n";
 $str.="                         <td align='right'><a href=javascript:void(0) rel='tooltip' title='Previous Year'  onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','year','previous')>&laquo;</a></td> \n";
- $str.="                        <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','year','')>Year</a> </td>\n";
+$str.="                        <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','year','')>Year</a> </td>\n";
 $str.="                         <td align='left'><a href=javascript:void(0) rel='tooltip' title='Next Year' onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','year','next')>&raquo;</a></td>\n";
 $str.="                         </tr>\n";
 $str.="</table>\n";
@@ -233,7 +233,6 @@ for ($i = 0; $i < $total; $i++) {
             if ($data[$i]['columnName'] != 'executeBy') {
                 if (trim($data[$i]['columnName']) == trim($strId)) {
                     // we don't search primary key   
-                    
                 } else {
                     if ($data[$i]['foreignKey'] == 1 && $data[$i]['Key'] == 'MUL') {
                         $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Div'>
@@ -250,7 +249,7 @@ for ($i = 0; $i < $total; $i++) {
                             </select>\n
                             </div>\n
                           </div>\n";
-                    } else  if($data[$i]['Key'] == ''){
+                    } else if ($data[$i]['Key'] == '') {
                         $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Div' >\n
                                 <label class='control-label'><?php if(isset(\$" . $data[$i]['columnName'] . ")) {  echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; } ?></label>\n
                                 <div class='controls  input-prepend'>\n
@@ -308,9 +307,9 @@ $str.="            <input type='hidden' name='" . $data[0]['tableName'] . "IdPre
 for ($i = 0; $i < $total; $i++) {
     if ($data[$i]['columnName'] != 'executeBy' &&
             $data[$i]['columnName'] != 'executeTime' &&
-			$data[$i]['columnName'] != 'isDefault' &&
-			$data[$i]['columnName'] != 'isApproved' &&
-			$data[$i]['columnName'] != 'isPost' &&
+            $data[$i]['columnName'] != 'isDefault' &&
+            $data[$i]['columnName'] != 'isApproved' &&
+            $data[$i]['columnName'] != 'isPost' &&
             $data[$i]['columnName'] != 'isDelete' &&
             $data[$i]['columnName'] != 'isNew' &&
             $data[$i]['columnName'] != 'isDraft' &&
@@ -339,65 +338,70 @@ $str.="   </div> \n";
 $str.="<div align='left'> \n";
 // old type button.now moved to sidebar.Thinking optional first
 //initilize dummy value
-$characterArray=null;
-$characterArray =range('A','Z');
-foreach($characterArray as $character){
-    $str.="        <a title='".$character."' href=javascript:void(0) class='btn btn-small' onClick=ajaxQuerySearchAllCharacter('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','".$character."')>".$character."</a> \n";
+$characterArray = null;
+$characterArray = range('A', 'Z');
+foreach ($characterArray as $character) {
+    $str.="        <a title='" . $character . "' href=javascript:void(0) class='btn btn-small' onClick=ajaxQuerySearchAllCharacter('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','" . $character . "')>" . $character . "</a> \n";
 }
 
 $str.="</div>";
 $str.="<br><br>";
 /**
-//$str.="<div align='right'> \n";
+  //$str.="<div align='right'> \n";
 
-//$str.="        <input type='text' class='input-large search-query' name='query' id='query'> \n";
-//$str.="        <a href=javascript:void(0) class=btn onClick=ajaxQuerySearchAll('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-zoom-in></i> Search </a> \n";
-//$str.="        <a href=javascript:void(0) class=btn onclick=showMeModal('filterGridAdvance',1)><i class=icon-zoom-in></i> Advance Search </a> \n";
-//$str.="        <a href=javascript:void(0) class=btn hide onclick=hideButton();showGrid('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>',0,<?php echo LIMIT; ?>) name=clearSearch id=clearSearch><i class=icon-refresh></i>Clear Search </a> \n";
-//$str.="        <a href=javascript:void(0) class=btn onClick=showForm('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-plus></i> New </a> \n";
-//$str.="        <a href=javascript:void(0) class=btn><i class='icon-file'></i> Report </a> \n";
-//$str.="    </div> \n";
-// old type button.now moved to sidebar
-$str.="    <br> \n";
+  //$str.="        <input type='text' class='input-large search-query' name='query' id='query'> \n";
+  //$str.="        <a href=javascript:void(0) class=btn onClick=ajaxQuerySearchAll('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-zoom-in></i> Search </a> \n";
+  //$str.="        <a href=javascript:void(0) class=btn onclick=showMeModal('filterGridAdvance',1)><i class=icon-zoom-in></i> Advance Search </a> \n";
+  //$str.="        <a href=javascript:void(0) class=btn hide onclick=hideButton();showGrid('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>',0,<?php echo LIMIT; ?>) name=clearSearch id=clearSearch><i class=icon-refresh></i>Clear Search </a> \n";
+  //$str.="        <a href=javascript:void(0) class=btn onClick=showForm('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-plus></i> New </a> \n";
+  //$str.="        <a href=javascript:void(0) class=btn><i class='icon-file'></i> Report </a> \n";
+  //$str.="    </div> \n";
+  // old type button.now moved to sidebar
+  $str.="    <br> \n";
  * 
  */
 $str.="<table class='table table-striped table-bordered table-condensed' name='tableData' id='tableData'> \n";
 $str.="        <thead> \n";
 $str.="            <tr> \n";
-      $str.="<?php  \n";
+$str.="                 <th>#</th>";
+$str.="<?php  \n";
 // only output one record only.
 for ($i = 0; $i < $total; $i++) {
     if ($data[$i]['Key'] == 'PRI') {
         $str.=" echo \"<th>Action</th>\"; \n";
     } else {
 
-		switch($data[$i]['columnName']) { 
-				case 'isDefault':
-                case 'isNew':
-                case 'isDraft':
-                case 'isUpdate':
-                case 'isDelete':
-                case 'isActive':
-                case 'isApproved':
-                case 'isReview':
-                case 'isPost':
-				/**
-				// hidden for temporaly purpose.customer request then open it
-				**/
-				break;
-				case 'executeBy':
-                case 'executeTime':
-                    $str.="if(\$_SESSION ['isAdmin'] ==1) {\n ";
-								$str.=" echo \"<th>".str_replace(array('is','execute'),array('',''),$data[$i]['columnName'])."</th>\"; \n";
-					$str.="}\n  ";  
+        switch ($data[$i]['columnName']) {
+            case 'isDefault':
+            case 'isNew':
+            case 'isDraft':
+            case 'isUpdate':
+            case 'isDelete':
+            case 'isActive':
+            case 'isApproved':
+            case 'isReview':
+            case 'isPost':
+               // both consider optional
+            case $data[0]['tableName'].'Sequence':
+            case $data[0]['tableName'].'Code':
+                /**
+                  // hidden for temporaly purpose.customer request then open it
+                 * */
                 break;
-                default:
-								$str.=" echo \"<th>".str_replace($data[0]['tableName'],'',$data[$i]['columnName'])."</th>\"; \n";
-		} 
-	
-	}
+            case 'executeBy':
+            case 'executeTime':
+                $str.="if(\$_SESSION ['isAdmin'] ==1) {\n ";
+                $str.=" echo \"<th>" . str_replace(array('is', 'execute'), array('', ''), $data[$i]['columnName']) . "</th>\"; \n";
+                $str.="}\n  ";
+                break;
+            default:
+                $str.=" echo \"<th>" . str_replace($data[0]['tableName'], '', $data[$i]['columnName']) . "</th>\"; \n";
+        }
+    }
 }
-	$str.="?>\n";
+$str.="?>\n";
+$str.="       <th><input  class='check_all' type='checkbox' name='check_all' id='check_all' alt='Check Record' onclick=toggleChecked(this.checked)></th>
+";
 $str.="            </tr> \n";
 $str.="        </thead> \n";
 $str.="        <tbody id=tableBody> \n";
@@ -406,130 +410,140 @@ $str.="              if (is_array(\$" . $data[0]['tableName'] . "Array)) { \n";
 $str.="                \$totalRecord = 0; \n";
 $str.="                \$totalRecord = count(\$" . $data[0]['tableName'] . "Array); \n";
 $str.="                if (\$totalRecord > 0) { \n";
+$str.="                      \$counter=0; \n"; 
 $str.="                    for (\$i = 0; \$i < \$totalRecord; \$i++) { \n";
-$str.="                    echo \"<tr>\"; \n";
+$str.="                     \$counter++;\n";
+$str.="                     echo \"<tr>\"; \n";
+$str.="                     echo \"<td>\".(\$counter+\$offset).\"</td>\"; \n";
 // initlize dummy value
-$strInside=null;
-$align=null;
+$strInside = null;
+$align = null;
 
 for ($i = 0; $i < $total; $i++) {
     if ($data[$i]['Key'] == 'PRI') {
-        $str.=" echo  \"<td>
-		<a class='btn-warning btn-mini' onClick=showFormUpdate('\".\$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo intval(\$" . $data[0]['tableName'] . "Array [\$i]['" . $data[0]['tableName'] . "Id']).\"')><i class='icon-edit icon-white'></i>Update</a>  
-                    <a class='btn-danger btn-mini' onClick=showModalDelete(";
+        $str.=" echo  \"<td><div class='btn-group'>
+		<a rel='tooltip' class='tooltip-top btn btn-warning' data-original-title='Edit' onClick=showFormUpdate('\".\$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo intval(\$" . $data[0]['tableName'] . "Array [\$i]['" . $data[0]['tableName'] . "Id']).\"')><i class='icon-edit icon-white'></i></a>  
+                    <a rel='tooltip' class='tooltip-top btn btn-danger' data-original-title='Delete' onClick=showModalDelete(";
         for ($d = 0; $d < $total; $d++) {
-			// encode first to prevent bugs on javascript parsing
+            // encode first to prevent bugs on javascript parsing
             $strInside.="'\".rawurlencode(\$" . $data[0]['tableName'] . "Array [\$i]['" . $data[$d]['columnName'] . "']).\"',";
         }
-		$str.=substr($strInside,0,-1);
-        $str.=")><i class='icon-trash  icon-white'></i> Delete</a></td>\"; \n";
+        $str.=substr($strInside, 0, -1);
+        $str.=")><i class='icon-trash  icon-white'></i></a></td>\"; \n";
     } else {
-		
-		switch($data[$i]['columnName']) {
-				case 'isDefault':
-                case 'isNew':
-                case 'isDraft':
-                case 'isUpdate':
-                case 'isDelete':
-                case 'isActive':
-                case 'isApproved':
-                case 'isReview':
-                case 'isPost':
-                /**
-				// hidden for temporaly purpose.customer request then open it
-					$str.=" if(\$_SESSION ['isAdmin'] ==1) {\n ";
-					$str.="		if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) {\n ";
-									$str.=" echo \"<td>\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'].\"</td>\"; \n";
-								$str.=" } else { \n";
-								$str.="			echo \"<td>&nbsp;</td>\"; \n";
-								$str.="		}\n";
-						$str.="	} \n ";
-$str.="?>\n";		
-				**/		
-                break;
-				case 'executeBy':
-							$str.="if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) { \n";
-							$str.="	echo \"<td>\".\$" . $data[0]['tableName'] . "Array[\$i]['staffName'].\"</td>\"; \n";
-							$str.="} else {\n"; 
-							$str.="	echo \"<td>&nbsp;</td>\";\n";
-							$str.="	}\n  ";
-				break;
-				case 'executeTime':
-					$str.="if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) { \n";
-								$str.=" 	\$valueArray = \$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];  \n";
-								
-								$str.=" 	\$valueArrayDate 	=	explode(' ',\$valueArray);  \n";
-								$str.=" 	\$valueArrayFirst 	= 	\$valueArrayDate[0];         \n";
-								$str.=" 	\$valueArraySecond	= 	\$valueArrayDate[1];          \n";    
-								
-								$str.=" 	\$valueDataFirst 	= 	explode('-',\$valueArrayFirst);  \n";
-								$str.=" 	\$year 				=	\$valueDataFirst[0];               \n";
-								$str.=" 	\$month 			= 	\$valueDataFirst[1];            \n";
-								$str.=" 	\$day	 			= 	\$valueDataFirst[2];                \n";
-								
-								$str.="		\$valueDataSecond 	= 	explode(':',\$valueArraySecond);  \n";
-								$str.=" 	\$hour 				= 	\$valueDataSecond[0];  \n";
-								$str.=" 	\$minute 			= 	\$valueDataSecond[1];  \n";
-								$str.=" 	\$second 			= 	\$valueDataSecond[2];  \n";
-								
-								$str.="	\$value = date(\$systemFormat['systemSettingDateFormat'].\" \".\$systemFormat['systemSettingTimeFormat'],mktime(\$hour,\$minute,\$second,\$month,\$day,\$year)); \n";
-								$str.="	echo \"<td>\".\$value.\"</td>\"; \n";
-								$str.="} else { \n";
-								$str.="	echo \"<td>&nbsp;</td>\"; \n";
-								$str.="} \n  	";
-				break;
-                default:
-							// if the type are decimel or float. align right
-							// if the length is 4 align  center
-							// if  normal align  left.For easy reading
-						
-							if($data[$i]['formType']=='double' || $data[$i]['formType']=='int') { 
-								$align='right';
-							} else if ($data[$i]['length']==4) {
-								$align='center';
-							} else {
-								$align='left';
-							}
-							//must check data type if date .. convert output to master setting date
-							if($data[$i]['formType']=='date') {
-								$str.=" 	\$valueArray 		= 	\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "']; \n";
-								$str.=" 	\$valueData 		= 	explode('-',\$valueArray);  \n";
-								$str.=" 	\$year 				= 	\$valueData[0];  \n";
-								$str.=" 	\$month 			= 	\$valueData[1];   \n";
-								$str.=" 	\$day 				= 	\$valueData[2];  \n";
-								$str.=" 	\$value				=	date(\$systemFormat['systemSettingDateFormat'],mktime(0,0,0,\$month,\$day,\$year));  \n";
-							} else if($data[$i]['formType']=='datetime') {
-								$str.=" 	\$valueArray = \$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];  \n";
-								
-								$str.=" 	\$valueArrayDate 	=	explode(' ',\$valueArray);\n";
-								$str.=" 	\$valueArrayFirst 	= 	\$valueArrayDate[0];\n";
-								$str.=" 	\$valueArraySecond	= 	\$valueArrayDate[1];\n";    
-								
-								$str.=" 	\$valueDataFirst 	= 	explode('-',\$valueArrayFirst);\n";
-								$str.=" 	\$year 				=	\$valueDataFirst[0];\n";
-								$str.=" 	\$month 			= 	\$valueDataFirst[1];\n";
-								$str.=" 	\$day	 			= 	\$valueDataFirst[2];\n";
-								
-								$str.="	\$valueDataSecond 	= 	explode(':',\$valueArraySecond);\n";
-								$str.=" 	\$hour 				= 	\$valueDataSecond[0];\n";
-								$str.=" 	\$minute 			= 	\$valueDataSecond[1];\n";
-								$str.=" 	\$second 			= 	\$valueDataSecond[2];\n";
-								
-								$str.=" \$value = date(\$systemFormat['systemSettingDateFormat'].\" \".\$systemFormat['systemSettingTimeFormat'],mktime(\$hour,\$minute,\$second,\$month,\$day,\$year)); \n";
-								$str.="  echo \"<td align=".$align.">\".\$value.\"</td>\";\n";
-							} else {
-								$str.=" \$value = \$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];\n";
-							}
-							$str.="if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) {\n";
-							$str.="	echo \"<td align=".$align.">\".\$value.\"</td>\"; \n";
-							$str.="} else { \n ";
-							$str.="	echo \"<td  align=".$align.">&nbsp;</td>\"; \n ";
-							$str.="}\n";
-		}							
 
-        
+        switch ($data[$i]['columnName']) {
+            case 'isDefault':
+            case 'isNew':
+            case 'isDraft':
+            case 'isUpdate':
+            case 'isDelete':
+            case 'isActive':
+            case 'isApproved':
+            case 'isReview':
+            case 'isPost':
+            // both consider optional
+            case $data[0]['tableName'].'Sequence':
+            case $data[0]['tableName'].'Code':
+             
+                /**
+                  // hidden for temporaly purpose.customer request then open it
+                  $str.=" if(\$_SESSION ['isAdmin'] ==1) {\n ";
+                  $str.="		if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) {\n ";
+                  $str.=" echo \"<td>\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'].\"</td>\"; \n";
+                  $str.=" } else { \n";
+                  $str.="			echo \"<td>&nbsp;</td>\"; \n";
+                  $str.="		}\n";
+                  $str.="	} \n ";
+                  $str.="?>\n";
+                 * */
+                break;
+            case 'executeBy':
+                $str.="if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) { \n";
+                $str.="	echo \"<td>\".\$" . $data[0]['tableName'] . "Array[\$i]['staffName'].\"</td>\"; \n";
+                $str.="} else {\n";
+                $str.="	echo \"<td>&nbsp;</td>\";\n";
+                $str.="	}\n  ";
+                break;
+            case 'executeTime':
+                $str.="if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) { \n";
+                $str.=" 	\$valueArray = \$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];  \n";
+
+                $str.=" 	\$valueArrayDate 	=	explode(' ',\$valueArray);  \n";
+                $str.=" 	\$valueArrayFirst 	= 	\$valueArrayDate[0];         \n";
+                $str.=" 	\$valueArraySecond	= 	\$valueArrayDate[1];          \n";
+
+                $str.=" 	\$valueDataFirst 	= 	explode('-',\$valueArrayFirst);  \n";
+                $str.=" 	\$year 				=	\$valueDataFirst[0];               \n";
+                $str.=" 	\$month 			= 	\$valueDataFirst[1];            \n";
+                $str.=" 	\$day	 			= 	\$valueDataFirst[2];                \n";
+
+                $str.="		\$valueDataSecond 	= 	explode(':',\$valueArraySecond);  \n";
+                $str.=" 	\$hour 				= 	\$valueDataSecond[0];  \n";
+                $str.=" 	\$minute 			= 	\$valueDataSecond[1];  \n";
+                $str.=" 	\$second 			= 	\$valueDataSecond[2];  \n";
+
+                $str.="	\$value = date(\$systemFormat['systemSettingDateFormat'].\" \".\$systemFormat['systemSettingTimeFormat'],mktime(\$hour,\$minute,\$second,\$month,\$day,\$year)); \n";
+                $str.="	echo \"<td>\".\$value.\"</td>\"; \n";
+                $str.="} else { \n";
+                $str.="	echo \"<td>&nbsp;</td>\"; \n";
+                $str.="} \n  	";
+                break;
+            default:
+                // if the type are decimel or float. align right
+                // if the length is 4 align  center
+                // if  normal align  left.For easy reading
+
+                if ($data[$i]['formType'] == 'double' || $data[$i]['formType'] == 'int') {
+                    $align = 'right';
+                } else if ($data[$i]['length'] == 4) {
+                    $align = 'center';
+                } else {
+                    $align = 'left';
+                }
+                //must check data type if date .. convert output to master setting date
+                                $str.="if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) { \n";
+
+                if ($data[$i]['formType'] == 'date') {
+                    $str.=" 	\$valueArray 		= 	\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "']; \n";
+                    $str.=" 	\$valueData 		= 	explode('-',\$valueArray);  \n";
+                    $str.=" 	\$year 				= 	\$valueData[0];  \n";
+                    $str.=" 	\$month 			= 	\$valueData[1];   \n";
+                    $str.=" 	\$day 				= 	\$valueData[2];  \n";
+                    $str.=" 	\$value				=	date(\$systemFormat['systemSettingDateFormat'],mktime(0,0,0,\$month,\$day,\$year));  \n";
+                } else if ($data[$i]['formType'] == 'datetime') {
+                    $str.=" 	\$valueArray = \$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];  \n";
+
+                    $str.=" 	\$valueArrayDate 	=	explode(' ',\$valueArray);\n";
+                    $str.=" 	\$valueArrayFirst 	= 	\$valueArrayDate[0];\n";
+                    $str.=" 	\$valueArraySecond	= 	\$valueArrayDate[1];\n";
+
+                    $str.=" 	\$valueDataFirst 	= 	explode('-',\$valueArrayFirst);\n";
+                    $str.=" 	\$year 				=	\$valueDataFirst[0];\n";
+                    $str.=" 	\$month 			= 	\$valueDataFirst[1];\n";
+                    $str.=" 	\$day	 			= 	\$valueDataFirst[2];\n";
+
+                    $str.="	\$valueDataSecond 	= 	explode(':',\$valueArraySecond);\n";
+                    $str.=" 	\$hour 				= 	\$valueDataSecond[0];\n";
+                    $str.=" 	\$minute 			= 	\$valueDataSecond[1];\n";
+                    $str.=" 	\$second 			= 	\$valueDataSecond[2];\n";
+
+                    $str.=" \$value = date(\$systemFormat['systemSettingDateFormat'].\" \".\$systemFormat['systemSettingTimeFormat'],mktime(\$hour,\$minute,\$second,\$month,\$day,\$year)); \n";
+                } else {
+                    
+                    $str.=" \$value = \$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];\n";
+                }
+                $str.=" } \n";
+                $str.="if(isset(\$value) && (strlen(\$value) > 0 )) {\n";
+                $str.="	echo \"<td align=" . $align . ">\".\$value.\"</td>\"; \n";
+                $str.="} else { \n ";
+                $str.="	echo \"<td  align=" . $align . ">&nbsp;</td>\"; \n ";
+                $str.="}\n";
+        }
     }
 }
+// new experiment delete function back.. give more focus to user.. 
+$str.="                         echo \"<td><input type='checkbox' name=a[] id='a' value='\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[0]['tableName']  . "Id'].\"'></td>\";\n";
 $str.="                    echo \"</tr>\"; \n";
 $str.="                  }  } \n";
 $str.="                } else { ?> \n";
@@ -551,6 +565,12 @@ $str.="    </table> \n";
 $str.="   <?php \n";
 $str.="} \n";
 $str.="if (\$_POST['method'] == 'read' && \$_POST['type'] == 'list' && \$_POST['detail'] == 'body') { ?> \n";
+$str.="<div class='pull-right'> \n";
+$str.="<button class='delete btn btn-warning' type='button'> \n";
+$str.="<i class='icon-white icon-trash'></i> \n";
+$str.="Delete Checked Box \n";
+$str.="</button> \n";
+$str.="</div> \n";
 $str.="    <div class='pagination' id='pagingHtml' name='pagingHtml'><?php \$navigation->pagenationv4(\$offset); ?></div> \n";
 $str.="     <script language='javascript' type='text/javascript'> \n";
 $str.="         \$(document).ready(function(){ \n";
@@ -565,8 +585,12 @@ $str.="             });  \n";
 $str.="             $('#dateRangeEnd').datepicker({  \n";
 $str.="                 format :'d-m-yyyy'  \n";
 $str.="             });   \n";
-
+$str.="                     \$('a[rel=tooltip]').tooltip();    \n";
 $str.="         }); \n";
+$str.="   function toggleChecked(status) {\n";
+$str.=" $('input:checkbox').each( function() {\n";
+$str.=" $(this).attr('checked',status);\n";
+$str.=" }); } \n";
 $str.="      </script> \n";
 $str.="</div>";
 $str.="    <?php }  \n";
@@ -594,11 +618,10 @@ for ($i = 0; $i < $total; $i++) {
                             </div>";
             break;
         case 'int':
-            if($data[$i]['Key'] == 'PRI') { 
+            if ($data[$i]['Key'] == 'PRI') {
                 // don't do anything for primary key. input hidden allready cater for it
-                
             } else if ($data[$i]['foreignKey'] == 1 && $data[$i]['Key'] == 'MUL') {
-                        $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form'>
+                $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form'>
                                 <label class='control-label'><?php echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; ?></label>
                                 <div class='controls  input-prepend'><select name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "'>\n
                                 <?php
@@ -612,26 +635,26 @@ for ($i = 0; $i < $total; $i++) {
                             </select>\n
                             </div>\n
                           </div>\n";
-                    } else  if($data[$i]['Key'] == ''){
-                        if($data[$i]['columnName']=='executeBy')  {
+            } else if ($data[$i]['Key'] == '') {
+                if ($data[$i]['columnName'] == 'executeBy') {
 
-                              $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form' >\n
+                    $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form' >\n
                                 <label class='control-label'><?php echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; ?></label>\n
                                 <div class='controls  input-prepend'>\n
                                     <input type='text' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='String Only' class='span3' value='<?php if(isset($" . $data[0]['tableName'] . "Array) && is_array($" . $data[0]['tableName'] . "Array)) { echo \$" . $data[0]['tableName'] . "Array[0]['staffName']; } ?>' readOnly>\n
                                     <span name='numericHelpMe' id='" . $data[$i]['columnName'] . "HelpMe' class='help-inline' ></span>\n
                                 </div>\n
-                            </div>\n";   
-                        } else { 
-                            $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form' >\n
+                            </div>\n";
+                } else {
+                    $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form' >\n
                                 <label class='control-label'><?php echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; ?></label>\n
                                 <div class='controls  input-prepend'>\n
                                     <input type='text' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='Numeric Only' class='span3' value='<?php if(isset($" . $data[0]['tableName'] . "Array) && is_array($" . $data[0]['tableName'] . "Array)) { echo \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "']; } ?>'>\n
                                     <span name='numericHelpMe' id='" . $data[$i]['columnName'] . "HelpMe' class='help-inline' ></span>\n
                                 </div>\n
                             </div>\n";
-                        }    
-                    }
+                }
+            }
             break;
         case 'tiny':
             // by default preview tiny is not available
@@ -640,41 +663,41 @@ for ($i = 0; $i < $total; $i++) {
         case 'date':
         case 'datetime':
             //must check data type if date .. convert output to master setting date
-            
-                            if($data[$i]['formType']=='date') {
-                               $str.="<?php ";
-                                $str.="if(isset($" . $data[0]['tableName'] . "Array) && is_array($" . $data[0]['tableName'] . "Array)) { \n";                                
-                                $str.="     \$valueArray        =   \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "']; \n";
-                                $str.="     \$valueData         =   explode('-',\$valueArray);  \n";
-                                $str.="     \$year              =   \$valueData[0];  \n";
-                                $str.="     \$month             =   \$valueData[1];   \n";
-                                $str.="     \$day               =   \$valueData[2];  \n";
-                                $str.="     \$value             =   date(\$systemFormat['systemSettingDateFormat'],mktime(0,0,0,\$month,\$day,\$year));  \n";
-                                $str.=" } ?>";
-                            } else if($data[$i]['formType']=='datetime') {
-                                $str.="<?php \n";
-                                $str.="if(isset($" . $data[0]['tableName'] . "Array) && is_array($" . $data[0]['tableName'] . "Array)) { \n";                                
-                                $str.="     \$valueArray = \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "'];  \n";
-                                
-                                $str.="     \$valueArrayDate    =   explode(' ',\$valueArray);\n";
-                                $str.="     \$valueArrayFirst   =   \$valueArrayDate[0];\n";
-                                $str.="     \$valueArraySecond  =   \$valueArrayDate[1];\n";    
-                                
-                                $str.="     \$valueDataFirst    =   explode('-',\$valueArrayFirst);\n";
-                                $str.="     \$year              =   \$valueDataFirst[0];\n";
-                                $str.="     \$month             =   \$valueDataFirst[1];\n";
-                                $str.="     \$day               =   \$valueDataFirst[2];\n";
-                                
-                                $str.=" \$valueDataSecond   =   explode(':',\$valueArraySecond);\n";
-                                $str.="     \$hour              =   \$valueDataSecond[0];\n";
-                                $str.="     \$minute            =   \$valueDataSecond[1];\n";
-                                $str.="     \$second            =   \$valueDataSecond[2];\n";
-                                
-                                $str.=" \$value = date(\$systemFormat['systemSettingDateFormat'].\" \".\$systemFormat['systemSettingTimeFormat'],mktime(\$hour,\$minute,\$second,\$month,\$day,\$year)); \n";
-                                $str.=" }\n ?>";
-                            } 
-            if($data[$i]['columnName']=='executeTime') {
-                      $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form'>
+
+            if ($data[$i]['formType'] == 'date') {
+                $str.="<?php ";
+                $str.="if(isset($" . $data[0]['tableName'] . "Array) && is_array($" . $data[0]['tableName'] . "Array)) { \n";
+                $str.="     \$valueArray        =   \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "']; \n";
+                $str.="     \$valueData         =   explode('-',\$valueArray);  \n";
+                $str.="     \$year              =   \$valueData[0];  \n";
+                $str.="     \$month             =   \$valueData[1];   \n";
+                $str.="     \$day               =   \$valueData[2];  \n";
+                $str.="     \$value             =   date(\$systemFormat['systemSettingDateFormat'],mktime(0,0,0,\$month,\$day,\$year));  \n";
+                $str.=" } ?>";
+            } else if ($data[$i]['formType'] == 'datetime') {
+                $str.="<?php \n";
+                $str.="if(isset($" . $data[0]['tableName'] . "Array) && is_array($" . $data[0]['tableName'] . "Array)) { \n";
+                $str.="     \$valueArray = \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "'];  \n";
+
+                $str.="     \$valueArrayDate    =   explode(' ',\$valueArray);\n";
+                $str.="     \$valueArrayFirst   =   \$valueArrayDate[0];\n";
+                $str.="     \$valueArraySecond  =   \$valueArrayDate[1];\n";
+
+                $str.="     \$valueDataFirst    =   explode('-',\$valueArrayFirst);\n";
+                $str.="     \$year              =   \$valueDataFirst[0];\n";
+                $str.="     \$month             =   \$valueDataFirst[1];\n";
+                $str.="     \$day               =   \$valueDataFirst[2];\n";
+
+                $str.=" \$valueDataSecond   =   explode(':',\$valueArraySecond);\n";
+                $str.="     \$hour              =   \$valueDataSecond[0];\n";
+                $str.="     \$minute            =   \$valueDataSecond[1];\n";
+                $str.="     \$second            =   \$valueDataSecond[2];\n";
+
+                $str.=" \$value = date(\$systemFormat['systemSettingDateFormat'].\" \".\$systemFormat['systemSettingTimeFormat'],mktime(\$hour,\$minute,\$second,\$month,\$day,\$year)); \n";
+                $str.=" }\n ?>";
+            }
+            if ($data[$i]['columnName'] == 'executeTime') {
+                $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form'>
                                 <label class='control-label'><?php echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; ?></label>
                                 <div class='controls input-prepend'>
                                     <span class='add-on'>
@@ -684,7 +707,7 @@ for ($i = 0; $i < $total; $i++) {
                                     <span name='" . $data[$i]['columnName'] . "HelpMe' id='" . $data[$i]['columnName'] . "HelpMe' class='help-inline'></span>
                                 </div>
                             </div>";
-            } else { 
+            } else {
                 $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form'>
                                 <label class='control-label'><?php echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; ?></label>
                                 <div class='controls input-prepend'>
@@ -695,7 +718,7 @@ for ($i = 0; $i < $total; $i++) {
                                     <span name='" . $data[$i]['columnName'] . "HelpMe' id='" . $data[$i]['columnName'] . "HelpMe' class='help-inline'></span>
                                 </div>
                             </div>";
-            }                
+            }
 
             break;
         default :
@@ -766,22 +789,22 @@ for ($i = 0; $i < $total; $i++) {
     switch ($data[$i]['formType']) {
         case 'varchar':
         case 'text':
-            $str.="validateMeAlphaNumeric('".$data[$i]['columnName']."') \n";
+            $str.="validateMeAlphaNumeric('" . $data[$i]['columnName'] . "') \n";
             break;
         case 'double':
-            $str.="validateMeAlphaCurrency('".$data[$i]['columnName']."') \n";
+            $str.="validateMeAlphaCurrency('" . $data[$i]['columnName'] . "') \n";
             break;
         case 'int':
-            $str.="validateMeNumeric('".$data[$i]['columnName']."') \n";
+            $str.="validateMeNumeric('" . $data[$i]['columnName'] . "') \n";
             break;
         case 'date':
-            $str.=" \$('".$data[$i]['columnName']."').datepicker({ \n";
-            $str.="    format :'<?php echo  \$systemFormat['systemSettingDateFormat']; ?>\n";                
+            $str.=" \$('" . $data[$i]['columnName'] . "').datepicker({ \n";
+            $str.="    format :'<?php echo  \$systemFormat['systemSettingDateFormat']; ?>\n";
             $str.="   });  \n";
             break;
         case 'datetime':
-            $str.=" \$('".$data[$i]['columnName']."').datepicker({ \n";
-            $str.="    format :'<?php echo \$systemFormat['systemSettingDateFormat'].\$systemFormat['systemSettingTimeFormat']; ?>'\n";                
+            $str.=" \$('" . $data[$i]['columnName'] . "').datepicker({ \n";
+            $str.="    format :'<?php echo \$systemFormat['systemSettingDateFormat'].\$systemFormat['systemSettingTimeFormat']; ?>'\n";
             $str.="   });  \n";
             break;
     }
@@ -799,11 +822,11 @@ $str.="            \$('#firstRecordButton').removeClass(); \n";
 $str.="            \$('#firstRecordButton').addClass('btn btn-info');  \n";
 $str.="            \$('#lastRecordButton').removeClass(); \n";
 $str.="            \$('#lastRecordButton').addClass('btn btn-info'); \n";
-$str.="            <?php } else  if (\$_POST['".$data[0]['tableName']."Id']) { ?> \n";
+$str.="            <?php } else  if (\$_POST['" . $data[0]['tableName'] . "Id']) { ?> \n";
 // new button segment
 // remove classes
 $str.=" \$('#newRecordButton1').removeClass(); \n";
-$str.=" \$('#newRecordButton2').removeClass(); \n"; 
+$str.=" \$('#newRecordButton2').removeClass(); \n";
 $str.=" \$('#newRecordButton3').removeClass(); \n";
 $str.=" \$('#newRecordButton4').removeClass(); \n";
 $str.=" \$('#newRecordButton5').removeClass(); \n";
@@ -826,7 +849,7 @@ $str.=" \$('#newRecordButton7').attr('onClick', ''); \n";
 // end new button segment
 // update button segment
 $str.=" \$('#updateRecordButton1').removeClass(); \n";
-$str.=" \$('#updateRecordButton2').removeClass(); \n"; 
+$str.=" \$('#updateRecordButton2').removeClass(); \n";
 $str.=" \$('#updateRecordButton3').removeClass(); \n";
 $str.=" \$('#updateRecordButton4').removeClass(); \n";
 $str.=" \$('#updateRecordButton5').removeClass(); \n";
@@ -863,9 +886,8 @@ $str.="            <?php } ?>  \n";
 $str.="         }); \n";
 $str.="    </script> \n";
 $str.="<?php } ?> \n";
-$str.="<script language='javascript' type='text/javascript' src='./package/".$data[0]['package']."/".$data[0]['module']."/javascript/" . $data[0]['tableName'] . ".js'></script> \n";
+$str.="<script language='javascript' type='text/javascript' src='./package/" . $data[0]['package'] . "/" . $data[0]['module'] . "/javascript/" . $data[0]['tableName'] . ".js'></script> \n";
 
 // input type hidden
-
 ?>  
 

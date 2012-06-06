@@ -27,7 +27,8 @@ $leafAccess             =   $translator->getLeafAccess();
    
 $salt="chak"; 
 $securityToken= md5("You have been cheated").$salt;
- $arrayInfo = $translator->getFileInfo('theme.php'); 
+ 
+$arrayInfo = $translator->getFileInfo('theme.php'); 
  $applicationId=$arrayInfo['applicationId']; 
  $moduleId=$arrayInfo['moduleId']; 
 if (isset($_POST)) {  
@@ -110,7 +111,7 @@ define("LIMIT",14);
    <div  id='leftViewportDetail' class='well span2'> 
                 <div id='btnList'>
                 <!-- button type only be used on non critical only .. ie9 bugs -->
-                <button type='button' name='menuBack' class='btn btn-inverse btn-small' onClick=loadSidebar(<?php echo $applicationId; ?>,'<?php echo $moduleId; ?>')><i class='icon-arrow-left'></i> Menu </button> <button type='button' value='New Record' name='newRecordButton' id='newRecordButton' class='btn btn-info btn-small' onClick=showForm('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>')><i class='icon-plus'></i> New Record </button> 
+                <button type='button' name='menuBack' class='btn btn-inverse btn-small' onClick=loadSidebar(<?php echo $applicationId; ?>,'<?php echo $moduleId; ?>')><i class='icon-arrow-left'></i> Menu </button> <button type='button' value='New Record' name='newRecordButton' id='newRecordButton' class='btn btn-info btn-small' onClick=showForm('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>')><i class='icon-plus'></i> New</button> 
                 </div>
                 <hr>
                 <h3>Search</h3>
@@ -176,7 +177,7 @@ define("LIMIT",14);
      <td><?php if(isset($_POST['dateRangeExtraType'])) { echo $_POST['dateRangeExtraType']; } ?></td>
 </tr>
 </table>            </div>
-        <div name='rightViewport' id='rightViewport' class='span13'>
+        <div name='rightViewport' id='rightViewport' class='span9'>
     <div id='infoPanel'></div>  
     <div  class='modal hide fade' id='filterGridAdvance'>  
         <div class='modal-header'>  
@@ -278,11 +279,17 @@ define("LIMIT",14);
         <a title='X' href=javascript:void(0) class='btn btn-small' onClick=ajaxQuerySearchAllCharacter('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','X')>X</a> 
         <a title='Y' href=javascript:void(0) class='btn btn-small' onClick=ajaxQuerySearchAllCharacter('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','Y')>Y</a> 
         <a title='Z' href=javascript:void(0) class='btn btn-small' onClick=ajaxQuerySearchAllCharacter('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','Z')>Z</a> 
-</div><br><br><table class='table table-striped table-bordered table-condensed' name='tableData' id='tableData'> 
+</div>
+    <br>
+
+<table class='table table-striped table-bordered table-condensed' name='tableData' id='tableData'> 
         <thead> 
-            <tr> 
-                 <th>#</th><?php  
- echo "<th>Action</th>"; 
+            <tr>    
+                
+<th>#</th>
+                    <?php  
+ 
+ echo "<th wordwrap>Action</th>";
  echo "<th>Note</th>"; 
  echo "<th>Path</th>"; 
 if($_SESSION ['isAdmin'] ==1) {
@@ -292,7 +299,8 @@ if($_SESSION ['isAdmin'] ==1) {
   echo "<th>Time</th>"; 
 }
   ?>
-       <th><input  class='check_all' type='checkbox' name='check_all' id='check_all' alt='Check Record' onclick=toggleChecked(this.checked)></th>
+                <th><input  class="check_all" type="checkbox" name="check_all" id="check_all" alt="Check Record" onclick="toggleChecked(this.checked)"></th>
+
             </tr> 
         </thead> 
         <tbody id=tableBody> 
@@ -301,26 +309,26 @@ if($_SESSION ['isAdmin'] ==1) {
                 $totalRecord = 0; 
                 $totalRecord = count($themeArray); 
                 if ($totalRecord > 0) { 
-                      $counter=0; 
-                    for ($i = 0; $i < $totalRecord; $i++) { 
-                     $counter++;
-                     echo "<tr>"; 
-                     echo "<td>".($counter+$offset)."</td>"; 
- echo  "<td><div class='btn-group'>
-		<a rel='tooltip' class='tooltip-top btn btn-warning' data-original-title='Edit' onClick=showFormUpdate('".$theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo intval($themeArray [$i]['themeId'])."')><i class='icon-edit icon-white'></i></a>  
-                    <a rel='tooltip' class='tooltip-top btn btn-danger' data-original-title='Delete' onClick=showModalDelete('".rawurlencode($themeArray [$i]['themeId'])."','".rawurlencode($themeArray [$i]['themeSequence'])."','".rawurlencode($themeArray [$i]['themeCode'])."','".rawurlencode($themeArray [$i]['themeNote'])."','".rawurlencode($themeArray [$i]['themePath'])."','".rawurlencode($themeArray [$i]['isDefault'])."','".rawurlencode($themeArray [$i]['isNew'])."','".rawurlencode($themeArray [$i]['isDraft'])."','".rawurlencode($themeArray [$i]['isUpdate'])."','".rawurlencode($themeArray [$i]['isDelete'])."','".rawurlencode($themeArray [$i]['isActive'])."','".rawurlencode($themeArray [$i]['isApproved'])."','".rawurlencode($themeArray [$i]['isReview'])."','".rawurlencode($themeArray [$i]['isPost'])."','".rawurlencode($themeArray [$i]['executeBy'])."','".rawurlencode($themeArray [$i]['executeTime'])."')><i class='icon-trash  icon-white'></i></a></td>"; 
-if(isset($themeArray[$i]['themeNote'])) { 
+                    $counter=0;
+                    for ($i = 0; $i < $totalRecord; $i++) {
+                        $counter++;
+                    echo "<tr>";
+                    echo "<td>".($counter+$offset)."</td>";
+ echo  "<td>
+<div class='btn-group'>
+    
+<a rel='tooltip' class='tooltip-top btn btn-warning' data-original-title='Edit' onClick=showFormUpdate('".$theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo intval($themeArray [$i]['themeId'])."')><i class='icon-edit icon-white'></i></a>  
+<a rel='tooltip' class='tooltip-top btn btn-danger' data-original-title='Delete' onClick=showModalDelete('".rawurlencode($themeArray [$i]['themeId'])."','".rawurlencode($themeArray [$i]['themeSequence'])."','".rawurlencode($themeArray [$i]['themeCode'])."','".rawurlencode($themeArray [$i]['themeNote'])."','".rawurlencode($themeArray [$i]['themePath'])."','".rawurlencode($themeArray [$i]['isDefault'])."','".rawurlencode($themeArray [$i]['isNew'])."','".rawurlencode($themeArray [$i]['isDraft'])."','".rawurlencode($themeArray [$i]['isUpdate'])."','".rawurlencode($themeArray [$i]['isDelete'])."','".rawurlencode($themeArray [$i]['isActive'])."','".rawurlencode($themeArray [$i]['isApproved'])."','".rawurlencode($themeArray [$i]['isReview'])."','".rawurlencode($themeArray [$i]['isPost'])."','".rawurlencode($themeArray [$i]['executeBy'])."','".rawurlencode($themeArray [$i]['executeTime'])."')><i class='icon-trash  icon-white'></i></a></div></td>"; 
+
+
  $value = $themeArray[$i]['themeNote'];
- } 
-if(isset($value) && (strlen($value) > 0 )) {
+if(isset($themeArray[$i]['themeNote'])) {
 	echo "<td align=left>".$value."</td>"; 
 } else { 
  	echo "<td  align=left>&nbsp;</td>"; 
  }
-if(isset($themeArray[$i]['themePath'])) { 
  $value = $themeArray[$i]['themePath'];
- } 
-if(isset($value) && (strlen($value) > 0 )) {
+if(isset($themeArray[$i]['themePath'])) {
 	echo "<td align=left>".$value."</td>"; 
 } else { 
  	echo "<td  align=left>&nbsp;</td>"; 
@@ -348,8 +356,9 @@ if(isset($themeArray[$i]['executeBy'])) {
 } else { 
 	echo "<td>&nbsp;</td>"; 
 } 
-  	                         echo "<td><input type='checkbox' name=a[] id='a' value='".$themeArray[$i]['themeId']."'></td>";
-                    echo "</tr>"; 
+                    echo "<td><input type='checkbox' name=a[] id='a'></td>\n";
+
+  	                    echo "</tr>"; 
                   }  } 
                 } else { ?> 
                     <tr> 
@@ -370,13 +379,13 @@ if(isset($themeArray[$i]['executeBy'])) {
    <?php 
 } 
 if ($_POST['method'] == 'read' && $_POST['type'] == 'list' && $_POST['detail'] == 'body') { ?> 
-<div class='pull-right'> 
-<button class='delete btn btn-warning' type='button'> 
-<i class='icon-white icon-trash'></i> 
-Delete Checked Box 
-</button> 
+   <div class="pull-right">
+<button class="delete btn btn-warning" type="button">
+<i class="icon-white icon-trash"></i>
+Delete Checked Box
+</button>
 </div> 
-    <div class='pagination' id='pagingHtml' name='pagingHtml'><?php $navigation->pagenationv4($offset); ?></div> 
+<div  class='pagination' id='pagingHtml' name='pagingHtml'><?php $navigation->pagenationv4($offset); ?></div> 
      <script language='javascript' type='text/javascript'> 
          $(document).ready(function(){ 
             // load the system cell if session  and token exist;  
@@ -390,13 +399,14 @@ Delete Checked Box
              $('#dateRangeEnd').datepicker({  
                  format :'d-m-yyyy'  
              });   
-                     $('a[rel=tooltip]').tooltip();    
+              $('a[rel=tooltip]').tooltip();
+              
          }); 
-   function toggleChecked(status) {
- $('input:checkbox').each( function() {
- $(this).attr('checked',status);
- })
-   }
+         function toggleChecked(status) {
+$("input:checkbox").each( function() {
+$(this).attr("checked",status);
+})
+}
       </script> 
 </div>    <?php }  
            if ((isset($_POST['method']) == 'new' || isset($_POST['method']) == 'read') && $_POST['type'] == 'form') { ?> 
