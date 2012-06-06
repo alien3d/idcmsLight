@@ -111,7 +111,7 @@ if(isset($data)) {
 		$str.="					type		:   'list',\n";
 		$str.="					detail		:   'body',\n";
 		$str.="					params		:   { },\n";
-		$str.="					securityToken	:   securityToken\n";
+		$str.="					securityToken	:   securityToken,\n";
                 $str.="					character	:   character\n";
 		$str.="				},\n";
 		$str.="				beforeSend: function () {\n";
@@ -151,10 +151,10 @@ if(isset($data)) {
 		$str.="					detail		:   'body',\n";
 		$str.="					query		:   \$('#query').val(),\n";
 		$str.="					params		:   { },\n";
-		$str.="					securityToken	:   securityToken\n";
-                $str.="                                 dateRangeStart	:   dateRangeStart\n";
-                $str.="                                 dateRangeEnd	:   dateRangeEnd\n";
-                $str.="                                 dateRangeType	:   dateRangeType\n";
+		$str.="					securityToken	:   securityToken,\n";
+                $str.="                                 dateRangeStart	:   dateRangeStart,\n";
+                $str.="                                 dateRangeEnd	:   dateRangeEnd,\n";
+                $str.="                                 dateRangeType	:   dateRangeType,\n";
                 $str.="                                 dateRangeExtraType	:   dateRangeExtraType\n";
 		$str.="				},\n";
 		$str.="				beforeSend: function () {\n";
@@ -175,6 +175,9 @@ if(isset($data)) {
 		$str.="					\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
 		$str.="				}\n";
 		$str.="		});\n";
+		$str.="	}\n";
+                $str.="	function ajaxQuerySearchAllDateRange(url, securityToken) {\n";
+		$str.="        ajaxQuerySearchAllDate(url, securityToken,$('#dateRangeStart').val(),$('#dateRangeEnd').val(),'between',''); \n";
 		$str.="	}\n";
 		$str.="	function showForm(url, securityToken) {\n";
 		$str.="		// unlimited for searching because  lazy paging.\n";

@@ -174,7 +174,7 @@ $str.="                Range\n";
 $str.="                <div style='style:none'>\n";
 $str.="                    <input type='date' name='dateRangeStart' id='dateRangeStart' class='span2'><br>\n";
 $str.="                    <input type='date' name='dateRangeEnd' id='dateRangeEnd' class='span2'><br>\n";
-$str.="                    <input type='button' name='searchDate' id='searchDate' value='Search' class='btn btn-info'>\n";
+$str.="                    <input type='button' name='searchDate' id='searchDate' value='Search' class='btn btn-info' onClick=ajaxQuerySearchAllDateRange('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>')>\n";
 $str.="                </div>\n";
 $str.="                <hr>\n";
 $str.="             <h4>Filter Date Information</h4>\n";

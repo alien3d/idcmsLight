@@ -454,7 +454,7 @@ class Vendor {
      * @return sql statement
      * @depreciated
      */
-    public function delete($sql) {
+    public function delete() {
         
     }
 
@@ -464,10 +464,12 @@ class Vendor {
      * @return sql statement
      */
     public function create($sql) {
+        //initlize dummy value
         $this->sql = NULL;
         $this->sql = $sql;
         $text = NULL;
         $fieldValue = array();
+        $previous = array();
         if (strlen($sql) > 0) {
             if ($this->module('leafAccessCreateValue') == 1) {
                 $this->query($this->sql);
@@ -670,11 +672,7 @@ class Vendor {
          * @var string sql
          */
         $this->sql = $sql;
-        /**
-         * initilize dummy value for database column access value.
-         * @var string type
-         */
-        $type = NULL;
+
         /*
          *  Test string of sql statement.If forgot or not
          */
@@ -1078,47 +1076,47 @@ class Vendor {
      * @param int $dateFilterExtraStartWeek Default 1 .Monday
      * @return type 
      */
-    function dateFilter($tableName, $columnName, $startDate, $endDate, $dateFilterTypeQuery,  $dateFilterExtraTypeQuery = null,$dateFilterStartWeek=1) {
-       
+    function dateFilter($tableName, $columnName, $startDate, $endDate, $dateFilterTypeQuery, $dateFilterExtraTypeQuery = null, $dateFilterStartWeek = 1) {
+
         $this->setTableName($tableName);
         $this->setColumnName($columnName);
         $this->setStartDate($startDate);
         $this->setEndDate($endDate);
-      
+
         $this->setDateFilterTypeQuery($dateFilterTypeQuery);
         $this->setDateFilterExtraTypeQuery($dateFilterExtraTypeQuery);
 
-        $dateStartArray=explode('-',$this->getStartDate());
+        $dateStartArray = explode('-', $this->getStartDate());
         $dayStart = $dateStartArray[0];
         $monthStart = $dateStartArray[1];
         $yearStart = $dateStartArray[2];
-        $this->setStartDate($yearStart.'-'.$monthStart."-".$dayStart);
+        $this->setStartDate($yearStart . '-' . $monthStart . "-" . $dayStart);
         if ($this->getEndDate()) {
-              $dateEndArray=explode('-',$this->getEndDate());
+            $dateEndArray = explode('-', $this->getEndDate());
             $dayEnd = $dateEndArray[0];
-            $monthEnd =$dateEndArray[1];
+            $monthEnd = $dateEndArray[1];
             $yearEnd = $dateEndArray[2];
-            $this->setEndDate($yearEnd.'-'.$monthEnd."-".$dayEnd);
+            $this->setEndDate($yearEnd . '-' . $monthEnd . "-" . $dayEnd);
         }
-  
+
         if ($this->getDateFilterTypeQuery() == 'day') {
             if ($this->getDateFilterExtraTypeQuery() == 'previous') {
                 $dayPrevious = date("Y-m-d", mktime(0, 0, 0, $monthStart, ($dayStart - 1), $yearStart));
                 $this->setStartDate($dayPrevious);
                 return(" and `" . $this->getTableName() . "`.`" . $this->getColumnName() . "` like '%" . $this->getStartDate() . "%'");
-            } else if ($this->getDateFilterExtraTypeQuery()== 'next') {
+            } else if ($this->getDateFilterExtraTypeQuery() == 'next') {
                 $dayNext = date("Y-m-d", mktime(0, 0, 0, $monthStart, ($dayStart + 1), $yearStart));
 
                 $this->setStartDate($dayNext);
                 return(" and `" . $this->getTableName() . "`.`" . $this->getColumnName() . "` like '%" . $this->getStartDate() . "%'");
             } else {
-              
+
                 return(" and `" . $this->getTableName() . "`.`" . $this->getColumnName() . "` like '%" . $this->getStartDate() . "%'");
             }
         } else if ($this->getDateFilterTypeQuery() == 'week') {
             if ($this->getDateFilterExtraTypeQuery() == 'previous') {
-                 $WeekDate = array();
-                $lowEnd = date("w", mktime(0, 0, 0, $monthStart, ($dayStart+7), $yearStart));
+                $WeekDate = array();
+                $lowEnd = date("w", mktime(0, 0, 0, $monthStart, ($dayStart + 7), $yearStart));
                 $lowEnd = - $lowEnd;
                 $highEnd = $lowEnd + 6;
                 $weekday = 0;
@@ -1128,12 +1126,10 @@ class Vendor {
                 }
                 $this->setStartDate($WeekDate[0]);
                 $this->setEndDate($WeekDate[$highEnd]);
-                return($sql . " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . "' and '" . $this->getEndDate() . "')");
-
-                
+                return( " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . " 00:00:00' and '" . $this->getEndDate() . " 00:00:00')");
             } else if ($this->getDateFilterExtraTypeQuery() == 'next') {
                 $WeekDate = array();
-                $lowEnd = date("w", mktime(0, 0, 0, $monthStart, ($dayStart+7), $yearStart));
+                $lowEnd = date("w", mktime(0, 0, 0, $monthStart, ($dayStart + 7), $yearStart));
                 $lowEnd = - $lowEnd;
                 $highEnd = $lowEnd + 6;
                 $weekday = 0;
@@ -1143,11 +1139,20 @@ class Vendor {
                 }
                 $this->setStartDate($WeekDate[0]);
                 $this->setEndDate($WeekDate[$highEnd]);
-                return($sql . " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . "' and '" . $this->getEndDate() . "')");
-
+                return( " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . " 00:00:00' and '" . $this->getEndDate() . " 00:00:00')");
             } else {
-                // kinda same as range
-                return($sql . " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . "' and '" . $this->getEndDate() . "')");
+                $WeekDate = array();
+                $lowEnd = date("w", mktime(0, 0, 0, $monthStart, ($dayStart), $yearStart));
+                $lowEnd = - $lowEnd;
+                $highEnd = $lowEnd + 6;
+                $weekday = 0;
+                for ($i = $lowEnd; $i <= $highEnd; $i++) {
+                    $WeekDate[$weekday] = date("Y-m-d", mktime(0, 0, 0, date("m", mktime(0, 0, 0, $monthStart, $dayStart, $yearStart)), date("d", mktime(0, 0, 0, $monthStart, $dayStart, $yearStart)) + $i + 1, date("Y", mktime(0, 0, 0, $monthStart, $dayStart, $yearStart))));
+                    $weekday++;
+                }
+                $this->setStartDate($WeekDate[0]);
+                $this->setEndDate($WeekDate[6]);
+                return( " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . " 00:00:00' and '" . $this->getEndDate() . " 00:00:00')");
             }
         } elseif ($this->getDateFilterTypeQuery() == 'month') {
             if ($this->getDateFilterExtraTypeQuery() == 'previous') {
@@ -1157,7 +1162,7 @@ class Vendor {
                 } else {
                     $monthStart--;
                 }
-                
+
                 return(" and (month(`" . $this->getTableName() . "`.`" . $this->getColumnName() . "`)='" . $monthStart . "')  and (year(`" . $this->getTableName() . "`.`" . $this->getColumnName() . "`)='" . $yearStart . "')");
             } else if ($this->getDateFilterExtraTypeQuery() == 'next') {
                 if (($monthStart++) == 13) {
@@ -1181,7 +1186,7 @@ class Vendor {
                 return(" and (year(`" . $this->getTableName() . "`.`" . $this->getColumnName() . "`)='" . $yearStart . "')");
             }
         } elseif ($this->getDateFilterTypeQuery() == 'between') {
-            return($sql . " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . "' and '" . $this->getEndDate() . "')");
+            return( " and (`" . $this->getTableName() . "`.`" . $this->getColumnName() . "` between '" . $this->getStartDate() . " 00:00:00' and '" . $this->getEndDate() . " 00:00:00')");
         }
     }
 
@@ -1413,6 +1418,7 @@ class Vendor {
     public function setGridQuery($value) {
         $this->gridQuery = $value;
     }
+
     /**
      *
      * @return string 
@@ -1523,7 +1529,6 @@ class Vendor {
      */
     public function setResponse($value) {
         $this->responce = $value;
-        
     }
 
 }

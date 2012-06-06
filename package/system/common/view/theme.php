@@ -147,7 +147,7 @@ define("LIMIT",14);
                 <div style='style:none'>
                     <input type='date' name='dateRangeStart' id='dateRangeStart' class='span2'><br>
                     <input type='date' name='dateRangeEnd' id='dateRangeEnd' class='span2'><br>
-                    <input type='button' name='searchDate' id='searchDate' value='Search' class='btn btn-info'>
+                    <input type='button' name='searchDate' id='searchDate' value='Search' class='btn btn-info' onClick=ajaxQuerySearchAllDateRange('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>')>
                 </div>
                 <hr>
              <h4>Filter Date Information</h4>
@@ -533,7 +533,7 @@ validateMeAlphaNumeric('themeCode')
 validateMeAlphaNumeric('themeNote') 
 validateMeAlphaNumeric('themePath') 
 validateMeNumeric('executeBy') 
- $('executeTime').dateinput({ 
+ $('executeTime').datepicker({ 
     format :'<?php echo $systemFormat['systemSettingDateFormat'].$systemFormat['systemSettingTimeFormat']; ?>'
    });  
             <?php if(isset($_POST['query'])) { ?> 

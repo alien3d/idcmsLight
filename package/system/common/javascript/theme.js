@@ -81,7 +81,6 @@
 					method		:   'read',
 					type		:   'list',
 					detail		:   'body',
-					query		:   $('#query').val(),
 					params		:   { },
 					securityToken	:   securityToken,
 					character	:   character
@@ -110,7 +109,8 @@
 		$('#clearSearch').removeClass();
 		$('#clearSearch').addClass('btn');
 		// unlimited for searching because  lazy paging.
-                alert('aaa'+dateRangeStart)
+          if(dateRangeStart.length == 0) {   dateRangeStart = $('#dateRangeStart').val() } 
+          if(dateRangeEnd.length == 0) {   dateRangeEnd = $('#dateRangeEnd').val() } 
 		$.ajax({
              type    : 	'POST',
              url     :	url,
@@ -146,6 +146,9 @@
 					$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
 				}
 		});
+	}
+	function ajaxQuerySearchAllDateRange(url, securityToken) {
+        ajaxQuerySearchAllDate(url, securityToken,$('#dateRangeStart').val(),$('#dateRangeEnd').val(),'between',''); 
 	}
 	function showForm(url, securityToken) {
 		// unlimited for searching because  lazy paging.
