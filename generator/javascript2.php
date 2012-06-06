@@ -1176,17 +1176,16 @@ if (isset($data)) {
     $str.="	function deleteRecord(url, securityToken) {\n";
     $str.="		var css = \$('#deleteRecordButton').attr('class');\n";
     $str.="		if (css.search('disabled') > 0) {\n";
-    $str.="	                    if(confirm('Are you sure delete the selected item ?')) { \n";
-
-    $str.="			// access denied \n";
-    $str.="		} else {\n";
+    $str.="                 // access denied \n";
+    $str.="             } else {\n";
+    $str.="                 if(confirm('Are you sure delete the selected item ?')) { \n";
     $str.="			\n";
-    $str.="var \value=\$('#" . $data[0]['tableName'] . "Id').val(); \n";
-    $str.="if(!value) {\n";
+    $str.="                     var value=\$('#" . $data[0]['tableName'] . "Id').val(); \n";
+    $str.="                     if(!value) {\n";
     // alert something wrong with the record and cannot be deleted.	
-    $str.="\$('#infoPanel').html('<div class=alert alert-info>Please Contact Administrator</div>');\n";
-    $str.="} else { \n";
-    $str.="			\$.ajax({\n";
+    $str.="                         \$('#infoPanel').html('<div class=alert alert-info>Please Contact Administrator</div>');\n";
+    $str.="                     } else { \n";
+    $str.="                         \$.ajax({\n";
     $str.="    				type	:	'POST',\n";
     $str.="    				url		: 	url,\n";
     $str.="    				data	: 	{\n";
@@ -1301,7 +1300,7 @@ if (isset($data)) {
     $str.="    				}\n";
     $str.="				});\n";
     $str.="			}\n";
-    $str.="	    } else { \n";
+    $str.="                 } else { \n";
     $str.="		return false; \n";
     $str.="		} \n";
     $str.="		}\n";

@@ -35,7 +35,6 @@ function ajaxQuerySearchAll(url, securityToken) {
     $('#clearSearch').removeClass();
     $('#clearSearch').addClass('btn');
     // unlimited for searching because  lazy paging.
-    var queryText =null;
     var queryGrid =$('#query').val();
     var queryWidget =$('#queryWidget').val();
     if(queryGrid.length > 0 ) { 
@@ -857,87 +856,91 @@ function deleteRecord(url, securityToken) {
     if (css.search('disabled') > 0) {
     // access denied 
     } else {
+        if(confirm('Are you sure delete the selected item ?')) { 
 			
-        var alue=$('#themeId').val(); 
-        if(!value) {
-            $('#infoPanel').html('<div class=alert alert-info>Please Contact Administrator</div>');
+            var value=$('#themeId').val(); 
+            if(!value) {
+                $('#infoPanel').html('<div class=alert alert-info>Please Contact Administrator</div>');
+            } else { 
+                $.ajax({
+                    type	:	'POST',
+                    url		: 	url,
+                    data	: 	{
+                        method				:	'delete',
+                        output					:	'json',
+                        themeId	: 	$('#themeId').val(),
+                        securityToken		: 	securityToken
+                    },
+                    beforeSend: function () {
+                        // this is where we append a loading image
+                        $('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
+                    },
+                    success: function (data) {
+                        // successful request; do something with the data
+                        if (data.success == true) {
+                            $('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
+                            // reseting field value
+                            $('#themeId').val('');
+                            $('#themeSequence').val('');
+                            $('#themeCode').val('');
+                            $('#themeNote').val('');
+                            $('#themePath').val('');
+                            $('#executeBy').val('');
+                            $('#executeTime').val('');
+                            $('#newRecordButton1').removeClass(); 
+                            $('#newRecordButton2').removeClass(); 
+                            $('#newRecordButton1').addClass('btn btn-success'); 
+                            $('#newRecordButton2').addClass('btn btn-success dropdown-toggle'); 
+                            $('#newRecordButton1').attr('onClick', ''); 
+                            $('#newRecordButton2').attr('onClick', ''); 
+                            $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
+                            $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
+                            $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
+                            $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
+                            $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
+                            $('#updateRecordButton1').removeClass(); 
+                            $('#updateRecordButton2').removeClass(); 
+                            $('#updateRecordButton3').removeClass(); 
+                            $('#updateRecordButton4').removeClass(); 
+                            $('#updateRecordButton5').removeClass(); 
+                            $('#updateRecordButton1').addClass('btn btn-info disabled'); 
+                            $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
+                            $('#updateRecordButton1').attr('onClick', ''); 
+                            $('#updateRecordButton2').attr('onClick', ''); 
+                            $('#updateRecordButton3').attr('onClick', ''); 
+                            $('#updateRecordButton4').attr('onClick', ''); 
+                            $('#updateRecordButton5').attr('onClick', ''); 
+                            $('#deleteRecordButton').removeClass(); 
+                            $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
+                            $('#deleteRecordButton').attr('onClick',''); 
+                            $('#postRecordButton').removeClass(); 
+                            $('#postRecordButton').addClass('btn btn-info'); 
+                            $('#postRecordButton').attr('onClick',''); 
+                            $('firstFirst').removeClass(); 
+                            $('firstFirst').addClass(); 
+                            $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
+                            $('#movePrevious').removeClass(); 
+                            $('#movePrevious').attr('onClick',''); 
+                            $('moveNext').removeClass(); 
+                            $('movePrevious').attr('onClick',''); 
+                            $('lastRecord').removeClass(); 
+                            $('lastRecord').addClass(); 
+                            $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
+                        } else if (data.success == false) {
+                            $('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
+                        }
+                    },
+                    error: function (data) {
+                        // failed request; give feedback to user
+                        if (data.success == false) {
+                            $('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
+                        }
+                    }
+                });
+            }
         } else { 
-            $.ajax({
-                type	:	'POST',
-                url		: 	url,
-                data	: 	{
-                    method				:	'delete',
-                    output					:	'json',
-                    themeId	: 	$('#themeId').val(),
-                    securityToken		: 	securityToken
-                },
-                beforeSend: function () {
-                    // this is where we append a loading image
-                    $('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
-                },
-                success: function (data) {
-                    // successful request; do something with the data
-                    if (data.success == true) {
-                        $('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
-                        // reseting field value
-                        $('#themeId').val('');
-                        $('#themeSequence').val('');
-                        $('#themeCode').val('');
-                        $('#themeNote').val('');
-                        $('#themePath').val('');
-                        $('#executeBy').val('');
-                        $('#executeTime').val('');
-                        $('#newRecordButton1').removeClass(); 
-                        $('#newRecordButton2').removeClass(); 
-                        $('#newRecordButton1').addClass('btn btn-success'); 
-                        $('#newRecordButton2').addClass('btn btn-success dropdown-toggle'); 
-                        $('#newRecordButton1').attr('onClick', ''); 
-                        $('#newRecordButton2').attr('onClick', ''); 
-                        $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-                        $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-                        $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-                        $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-                        $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-                        $('#updateRecordButton1').removeClass(); 
-                        $('#updateRecordButton2').removeClass(); 
-                        $('#updateRecordButton3').removeClass(); 
-                        $('#updateRecordButton4').removeClass(); 
-                        $('#updateRecordButton5').removeClass(); 
-                        $('#updateRecordButton1').addClass('btn btn-info disabled'); 
-                        $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
-                        $('#updateRecordButton1').attr('onClick', ''); 
-                        $('#updateRecordButton2').attr('onClick', ''); 
-                        $('#updateRecordButton3').attr('onClick', ''); 
-                        $('#updateRecordButton4').attr('onClick', ''); 
-                        $('#updateRecordButton5').attr('onClick', ''); 
-                        $('#deleteRecordButton').removeClass(); 
-                        $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
-                        $('#deleteRecordButton').attr('onClick',''); 
-                        $('#postRecordButton').removeClass(); 
-                        $('#postRecordButton').addClass('btn btn-info'); 
-                        $('#postRecordButton').attr('onClick',''); 
-                        $('firstFirst').removeClass(); 
-                        $('firstFirst').addClass(); 
-                        $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
-                        $('#movePrevious').removeClass(); 
-                        $('#movePrevious').attr('onClick',''); 
-                        $('moveNext').removeClass(); 
-                        $('movePrevious').attr('onClick',''); 
-                        $('lastRecord').removeClass(); 
-                        $('lastRecord').addClass(); 
-                        $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
-                    } else if (data.success == false) {
-                        $('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
-                    }
-                },
-                error: function (data) {
-                    // failed request; give feedback to user
-                    if (data.success == false) {
-                        $('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
-                    }
-                }
-            });
-        }
+            return false; 
+        } 
     }
 }
 function resetRecord(url,securityToken) {
