@@ -73,7 +73,7 @@ class ThemeModel extends \Core\Validation\ValidationClass {
         $this->setPrimaryKeyName('themeId');
         $this->setMasterForeignKeyName('themeId');
         $this->setFilterCharacter('themeNote');
-        $this->setFilterDate('executeBy');
+        $this->setFilterDate('executeTime');
         /**
          * All the Array enviroment.
          */ 

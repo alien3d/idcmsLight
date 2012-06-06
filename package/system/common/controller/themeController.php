@@ -471,7 +471,7 @@ STAFF.STAFFNAME
 		 * Example Day,Week,Month,Year 
 		 */ 
 		if($this->getDateRangeStartQuery()){ 
-			$sql.=$this->q->dateFilter( $this->model->getTableName(),$this->model->getFilterDate(),$this->getDateRangeStartQuery(),$this->getDateRangeEndQuery(),$this->getDateRangeTypeQuery(),$this->getDateRangeExtraTypeQuery(),1); 
+			$sql.=$this->q->dateFilter($this->model->getTableName(),$this->model->getFilterDate(),$this->getDateRangeStartQuery(),$this->getDateRangeEndQuery(),$this->getDateRangeTypeQuery(),$this->getDateRangeExtraTypeQuery(),1); 
                         
                 } 
 		/** 

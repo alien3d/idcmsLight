@@ -351,6 +351,7 @@
 							else date.setFullYear(val);
 							break;
 						case 'yyyy':
+                                                case 'Y':    
 							date.setFullYear(val);
 							break;
 					}

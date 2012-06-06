@@ -1,8 +1,8 @@
   
 
 <?php require_once('/../controller/themeController.php'); 
-$dateRangeStart = null; 
-$dateRangeEnd = null;
+$dateStartRange = null; 
+$dateEndRange = null;
 if(isset($_POST['dateRangeStart'])){
     $dateRangeStart=$_POST['dateRangeStart']; 
 } else { 
@@ -42,55 +42,38 @@ define("LIMIT",14);
             $limit = $_POST['limit'];  
         } else {            $limit = LIMIT;  
         }
-  /*  
-	 *  Filtering
-	 */ 
-	if (isset($_POST ['query'])) { 
-		$theme->setFieldQuery($_POST ['query']); 
-	} 
-	if (isset($_POST ['filter'])) { 
-		$theme->setGridQuery($_POST ['filter']); 
-	}                 
-	if (isset($_POST ['character'])) { 
+ if ($_POST['method'] == 'read') {  
+     if (isset($_POST ['query'])) { 
+         $theme->setFieldQuery($_POST ['query']); 
+     } 
+     if (isset($_POST ['filter'])) { 
+         $theme->setGridQuery($_POST ['filter']); 
+     }                 
+     if (isset($_POST ['character'])) { 
 		$theme->setCharacterQuery($_POST['character']); 
-	} 
-        if ($_POST['method'] == 'read') {  
-	if (isset($_POST ['dateRangeStart'])) { 
+     } 
+     if (isset($_POST ['dateRangeStart'])) { 
 		$theme->setDateRangeStartQuery($_POST['dateRangeStart']); 
 		//explode the data to get day,month,year 
-		$start=explode("-",$_POST ['dateRangeStart']);
-                echo "<pre>";
-                echo print_r($start);
-                echo "</pre>";
-		if(is_array($start)){
-                $theme->setStartDay($start[0]); 
+		$start=explode("-",$_POST ['dateRangeStart']); 
+		$theme->setStartDay($start[2]); 
 		$theme->setStartMonth($start[1]); 
-		$theme->setStartYear($start[2]); 
-                }
-               
-	} 
-	if (isset($_POST ['dateRangeEnd'])) { 
-		if(strlen($_POST['dateRangeEnd'])> 0 ) {
-                $theme->setDateRangeEndQuery($_POST['dateRangeEnd']); 
+		$theme->setStartYear($start[0]); 
+     } 
+     if (isset($_POST ['dateRangeEnd']) && (strlen($_POST['dateRangeEnd'])> 0) ) { 
+		$theme->setDateRangeEndQuery($_POST['dateRangeEnd']); 
 		//explode the data to get day,month,year 
 		$start=explode("-",$_POST ['dateRangeEnd']); 
-		if(is_array($start)){
-                    $theme->setEndDay($start[0]); 
-                    $theme->setEndMonth($start[1]); 
-                    $theme->setEndYear($start[2]);
-                }
-                }
-	}
-            if (isset($_POST ['dateRangeType'])) { 
+		$theme->setEndDay($start[2]); 
+		$theme->setEndMonth($start[1]); 
+		$theme->setEndYear($start[0]); 
+     } 
+     if (isset($_POST ['dateRangeType'])) { 
 		$theme->setDateRangeTypeQuery($_POST['dateRangeType']); 
-	} 
-	if (isset($_POST ['dateRangeExtraType'])) { 
+     } 
+     if (isset($_POST ['dateRangeExtraType'])) { 
 		$theme->setDateRangeExtraTypeQuery($_POST['dateRangeExtraType']); 
-                
-	} 
-            if (isset($_POST ['query'])) {  
-                $theme->setFieldQuery($_POST ['query']);  
-            }  
+     } 
             $theme->setStart($offset);  
             $theme->setLimit($limit); // normal system don't like paging..  
             $theme->execute();  
@@ -136,38 +119,60 @@ define("LIMIT",14);
                 <h4>Date</h4>
                  <table cellpadding=1 cellspacing=1>
                      <tr>
-                         <td colspan3><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','1979-01-01','2012-06-05')>Any Time</a></td>
+                         <td colspan='3'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','1979-01-01','2012-06-06')>Any Time</a></td>
                      </tr>
                      <tr>
                      <tr>
-                         <td><a href=javascript:void(0) rel='tooltip' title='Previous Day' onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','day','previous')>&laquo;</a></td>
-                         <td><a href=javascript:void(0)                                    onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','day','')>Today</a></td>
-                         <td><a href=javascript:void(0) rel='tooltip' title='Next Day'      onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','day','next')>&raquo;</a></td>
+                         <td align='right'><a href=javascript:void(0) rel='tooltip' title='Previous Day' onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','day','previous')>&laquo;</a></td>
+                         <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','day','')>Today</a></td>
+                         <td align='left'><a href=javascript:void(0) rel='tooltip' title='Next Day' onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','day','next')>&raquo;</a></td>
                      </tr>
                      <tr>
-                         <td><a href=javascript:void(0) rel='tooltip' title='Previous Week'  onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','week','previous')>&laquo;</a> </td>
-                         <td><a href=javascript:void(0)                                      onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','week','')>Week</a> </td>
-                         <td><a href=javascript:void(0) rel='tooltip' title='Next Week' onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','week','next')>&raquo;</a></td>
+                         <td align='right'><a href=javascript:void(0) rel='tooltip' title='Previous Week'  onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','week','previous')>&laquo;</a> </td>
+                         <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','week','')>Week</a> </td>
+                         <td align='left'><a href=javascript:void(0) rel='tooltip' title='Next Week' onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','week','next')>&raquo;</a></td>
                      </tr>
                      <tr>
-                         <td><a href=javascript:void(0) rel='tooltip' title='Previous Month'  onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','month','previous')>&laquo;</td> 
-                         <td><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','month','')>Month</a> </td>
-                         <td><a href=javascript:void(0) rel='tooltip' title='Next Month' onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','month','next')>&raquo;</a></td>
+                         <td align='right'><a href=javascript:void(0) rel='tooltip' title='Previous Month'  onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','month','previous')>&laquo;</td> 
+                         <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','month','')>Month</a> </td>
+                         <td align='left'><a href=javascript:void(0) rel='tooltip' title='Next Month' onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','month','next')>&raquo;</a></td>
                      </tr>
                      <tr>
-                         <td><a href=javascript:void(0) rel='tooltip' title='Previous Year'  onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','year','previous')>&laquo;</a></td> 
-                        <td><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','','','year','')>Year</a> </td>
-                         <td><a href=javascript:void(0) rel='tooltip' title='Next Year' onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','year','next')>&raquo;</a></td>
+                         <td align='right'><a href=javascript:void(0) rel='tooltip' title='Previous Year'  onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','year','previous')>&laquo;</a></td> 
+                        <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','year','')>Year</a> </td>
+                         <td align='left'><a href=javascript:void(0) rel='tooltip' title='Next Year' onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','<?php echo $dateRangeStart; ?>','','year','next')>&raquo;</a></td>
                          </tr>
 </table>
                 Range
                 <div style='style:none'>
                     <input type='date' name='dateRangeStart' id='dateRangeStart' class='span2'><br>
-                    <input type='date' name='dateRangeId' id='dateRangeEnd' class='span2'><br>
+                    <input type='date' name='dateRangeEnd' id='dateRangeEnd' class='span2'><br>
                     <input type='button' name='searchDate' id='searchDate' value='Search' class='btn btn-info'>
                 </div>
                 <hr>
-            </div>
+             <h4>Filter Date Information</h4>
+             <table>
+<tr>
+    <td>Current Date</td>
+    <td>:</td>
+    <td><?php echo date('d-m-Y'); ?></td>
+</tr>
+<tr>
+    <td>Filter Date</td>
+     <td>:</td>
+     <td><?php if(isset($_POST['dateRangeStart'])) { echo $_POST['dateRangeStart']; } ?></td>
+</tr>
+<tr>
+    <td>Filter Method </td>
+     <td>:</td>
+     <td><?php if(isset($_POST['dateRangeType'])) { echo $_POST['dateRangeType']; } ?></td>
+</tr>
+<tr>
+    <td>Filter Type </td>
+     <td>:</td>
+     <td><?php if(isset($_POST['dateRangeExtraType'])) { echo $_POST['dateRangeExtraType']; } ?></td>
+</tr>
+</table>            </div>
         <div name='rightViewport' id='rightViewport' class='span13'>
     <div id='infoPanel'></div>  
     <div  class='modal hide fade' id='filterGridAdvance'>  
@@ -405,7 +410,7 @@ value='<?php if (isset($_POST['themeId'])) {
 
                                 <div class='controls  input-prepend'>
 
-                                    <input type='text' name='themeSequence' id='themeSequence' placeholder='Numeric Only' class='span3' value='<?php echo $themeArray[0]['themeSequence']; ?>'>
+                                    <input type='text' name='themeSequence' id='themeSequence' placeholder='Numeric Only' class='span3' value='<?php if(isset($themeArray) && is_array($themeArray)) { echo $themeArray[0]['themeSequence']; } ?>'>
 
                                     <span name='numericHelpMe' id='themeSequenceHelpMe' class='help-inline' ></span>
 
@@ -416,19 +421,19 @@ value='<?php if (isset($_POST['themeId'])) {
                                 <label class='control-label'><?php echo $leafTranslation['themeCodeLabel']; ?></label>
                                 <div class='controls  input-prepend'>
                                     <input type='text' name='themeCode' id='themeCode' placeholder='Field Of themeCode' class='span3' 
-                                    value='<?php echo $themeArray[0]['themeCode']; ?>'>
+                                    value='<?php if(isset($themeArray) && is_array($themeArray)) {  echo $themeArray[0]['themeCode']; } ?>'>
                                 </div>
                             </div><div class='control-group' id='themeNoteForm'>
                                 <label class='control-label'><?php echo $leafTranslation['themeNoteLabel']; ?></label>
                                 <div class='controls  input-prepend'>
                                     <input type='text' name='themeNote' id='themeNote' placeholder='Field Of themeNote' class='span3' 
-                                    value='<?php echo $themeArray[0]['themeNote']; ?>'>
+                                    value='<?php if(isset($themeArray) && is_array($themeArray)) {  echo $themeArray[0]['themeNote']; } ?>'>
                                 </div>
                             </div><div class='control-group' id='themePathForm'>
                                 <label class='control-label'><?php echo $leafTranslation['themePathLabel']; ?></label>
                                 <div class='controls  input-prepend'>
                                     <input type='text' name='themePath' id='themePath' placeholder='Field Of themePath' class='span3' 
-                                    value='<?php echo $themeArray[0]['themePath']; ?>'>
+                                    value='<?php if(isset($themeArray) && is_array($themeArray)) {  echo $themeArray[0]['themePath']; } ?>'>
                                 </div>
                             </div><div class='control-group' id='executeByForm' >
 
@@ -436,14 +441,16 @@ value='<?php if (isset($_POST['themeId'])) {
 
                                 <div class='controls  input-prepend'>
 
-                                    <input type='text' name='executeBy' id='executeBy' placeholder='String Only' class='span3' value='<?php echo $themeArray[0]['staffName']; ?>' readOnly>
+                                    <input type='text' name='executeBy' id='executeBy' placeholder='String Only' class='span3' value='<?php if(isset($themeArray) && is_array($themeArray)) { echo $themeArray[0]['staffName']; } ?>' readOnly>
 
                                     <span name='numericHelpMe' id='executeByHelpMe' class='help-inline' ></span>
 
                                 </div>
 
                             </div>
-<?php      $valueArray = $themeArray[0]['executeTime'];  
+<?php 
+if(isset($themeArray) && is_array($themeArray)) { 
+     $valueArray = $themeArray[0]['executeTime'];  
      $valueArrayDate    =   explode(' ',$valueArray);
      $valueArrayFirst   =   $valueArrayDate[0];
      $valueArraySecond  =   $valueArrayDate[1];
@@ -456,13 +463,14 @@ value='<?php if (isset($_POST['themeId'])) {
      $minute            =   $valueDataSecond[1];
      $second            =   $valueDataSecond[2];
  $value = date($systemFormat['systemSettingDateFormat']." ".$systemFormat['systemSettingTimeFormat'],mktime($hour,$minute,$second,$month,$day,$year)); 
+ }
  ?><div class='control-group' id='executeTimeForm'>
                                 <label class='control-label'><?php echo $leafTranslation['executeTimeLabel']; ?></label>
                                 <div class='controls input-prepend'>
                                     <span class='add-on'>
                                         <i class='icon-calendar'></i>
                                     </span>    
-                                    <input type='date' name='executeTime' id='executeTime' placeholder='Date Validation' class='span3' value='<?php echo $value; ?>' readOnly>
+                                    <input type='date' name='executeTime' id='executeTime' placeholder='Date Validation' class='span3' value='<?php if(isset($value)) { echo $value; } ?>' readOnly>
                                     <span name='executeTimeHelpMe' id='executeTimeHelpMe' class='help-inline'></span>
                                 </div>
                             </div>    <div class='btn-toolbar'> 

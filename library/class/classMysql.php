@@ -1093,7 +1093,6 @@ class Vendor {
         $monthStart = $dateStartArray[1];
         $yearStart = $dateStartArray[2];
         $this->setStartDate($yearStart.'-'.$monthStart."-".$dayStart);
-        echo "tarikh".$this->getStartDate();
         if ($this->getEndDate()) {
               $dateEndArray=explode('-',$this->getEndDate());
             $dayEnd = $dateEndArray[0];
@@ -1113,7 +1112,7 @@ class Vendor {
                 $this->setStartDate($dayNext);
                 return(" and `" . $this->getTableName() . "`.`" . $this->getColumnName() . "` like '%" . $this->getStartDate() . "%'");
             } else {
-                
+              
                 return(" and `" . $this->getTableName() . "`.`" . $this->getColumnName() . "` like '%" . $this->getStartDate() . "%'");
             }
         } else if ($this->getDateFilterTypeQuery() == 'week') {

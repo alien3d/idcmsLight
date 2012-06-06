@@ -14,7 +14,7 @@ $str.="} else { \n";
 $str.="    \$dateRangeStart=date('d-m-Y'); \n";
 $str.="} \n";
 $str.="if(isset(\$_POST['dateRangeEnd'])){ \n";
-$str.="    \$dateRangeEnd = \$_POST['dateEndRange'];\n";
+$str.="    \$dateRangeEnd = \$_POST['dateRangeEnd'];\n";
 $str.="} \n";
 $str.="require_once ('../../../../library/class/classNavigation.php');  \n";
 $str.="require_once ('../../../../library/class/classShared.php');  \n";
@@ -53,18 +53,8 @@ $str.="            \$limit = \$_POST['limit'];  \n";
 $str.="        } else {";
 $str.="            \$limit = LIMIT;  \n";
 $str.="        }\n";
-$str.="  /*  \n";
-$str.="	 *  Filtering\n";
-$str.="	 */ \n";
-$str.="	if (isset(\$_POST ['query'])) { \n";
-$str.="		\$" . $data[0]['tableName'] . "->setFieldQuery(\$_POST ['query']); \n";
-$str.="	} \n";
-$str.="	if (isset(\$_POST ['filter'])) { \n";
-$str.="		\$" . $data[0]['tableName'] . "->setGridQuery(\$_POST ['filter']); \n";
-$str.="	}                 \n";
-$str.="	if (isset(\$_POST ['character'])) { \n";            
-$str.="		\$" . $data[0]['tableName'] . "->setCharacterQuery(\$_POST['character']); \n";
-$str.="	} \n";
+
+
 $total = 0;
 $total = count($data);
 for ($i = 0; $i < $total; $i++) {
@@ -76,17 +66,39 @@ for ($i = 0; $i < $total; $i++) {
         $str.="        \$" . str_replace("Id", "", $data[$i]['columnName']) . "->setPageOutput('html');  \n";
     }
 }
-$str.="        if (\$_POST['method'] == 'read') {  \n";
+$str.=" if (\$_POST['method'] == 'read') {  \n";
 
-$str.="	if (isset(\$_POST ['dateRangeType'])) { \n";
+$str.="     if (isset(\$_POST ['query'])) { \n";
+$str.="         \$" . $data[0]['tableName'] . "->setFieldQuery(\$_POST ['query']); \n";
+$str.="     } \n";
+$str.="     if (isset(\$_POST ['filter'])) { \n";
+$str.="         \$" . $data[0]['tableName'] . "->setGridQuery(\$_POST ['filter']); \n";
+$str.="     }                 \n";
+$str.="     if (isset(\$_POST ['character'])) { \n";            
+$str.="		\$" . $data[0]['tableName'] . "->setCharacterQuery(\$_POST['character']); \n";
+$str.="     } \n";
+$str.="     if (isset(\$_POST ['dateRangeStart'])) { \n";
+$str.="		\$" . $data[0]['tableName'] . "->setDateRangeStartQuery(\$_POST['dateRangeStart']); \n";
+$str.="		//explode the data to get day,month,year \n";
+$str.="		\$start=explode(\"-\",\$_POST ['dateRangeStart']); \n";
+$str.="		\$" . $data[0]['tableName'] . "->setStartDay(\$start[2]); \n";
+$str.="		\$" . $data[0]['tableName'] . "->setStartMonth(\$start[1]); \n";
+$str.="		\$" . $data[0]['tableName'] . "->setStartYear(\$start[0]); \n";
+$str.="     } \n";
+$str.="     if (isset(\$_POST ['dateRangeEnd']) && (strlen(\$_POST['dateRangeEnd'])> 0) ) { \n";
+$str.="		\$" . $data[0]['tableName'] . "->setDateRangeEndQuery(\$_POST['dateRangeEnd']); \n";
+$str.="		//explode the data to get day,month,year \n";
+$str.="		\$start=explode(\"-\",\$_POST ['dateRangeEnd']); \n";
+$str.="		\$" . $data[0]['tableName'] . "->setEndDay(\$start[2]); \n";
+$str.="		\$" . $data[0]['tableName'] . "->setEndMonth(\$start[1]); \n";
+$str.="		\$" . $data[0]['tableName'] . "->setEndYear(\$start[0]); \n";
+$str.="     } \n";
+$str.="     if (isset(\$_POST ['dateRangeType'])) { \n";
 $str.="		\$" . $data[0]['tableName'] . "->setDateRangeTypeQuery(\$_POST['dateRangeType']); \n";
-$str.="	} \n";
-$str.="	if (isset(\$_POST ['dateRangeExtraType'])) { \n";
+$str.="     } \n";
+$str.="     if (isset(\$_POST ['dateRangeExtraType'])) { \n";
 $str.="		\$" . $data[0]['tableName'] . "->setDateRangeExtraTypeQuery(\$_POST['dateRangeExtraType']); \n";
-$str.="	} \n";
-$str.="            if (isset(\$_POST ['query'])) {  \n";
-$str.="                \$" . $data[0]['tableName'] . "->setFieldQuery(\$_POST ['query']);  \n";
-$str.="            }  \n";
+$str.="     } \n";
 $str.="            \$" . $data[0]['tableName'] . "->setStart(\$offset);  \n";
 $str.="            \$" . $data[0]['tableName'] . "->setLimit(\$limit); // normal system don't like paging..  \n";
 $str.="            \$" . $data[0]['tableName'] . "->execute();  \n";
@@ -134,38 +146,60 @@ $str.="                <h4>Date</h4>\n";
 $str.="                 <table cellpadding=1 cellspacing=1>\n";
 $str.="                     <tr>\n";
 // starting unix time till this day
-$str.="                         <td colspan3><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','1979-01-01','".date('Y-m-d')."')>Any Time</a></td>\n";
+$str.="                         <td colspan='3'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','1979-01-01','".date('Y-m-d')."')>Any Time</a></td>\n";
 $str.="                     </tr>\n";
 $str.="                     <tr>\n";
 $str.="                     <tr>\n";
-$str.="                         <td align='right><a href=javascript:void(0) rel='tooltip' title='Previous Day' onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','day','previous')>&laquo;</a></td>\n";
+$str.="                         <td align='right'><a href=javascript:void(0) rel='tooltip' title='Previous Day' onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','day','previous')>&laquo;</a></td>\n";
 $str.="                         <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','day','')>Today</a></td>\n"; 
 $str.="                         <td align='left'><a href=javascript:void(0) rel='tooltip' title='Next Day' onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','day','next')>&raquo;</a></td>\n";
 $str.="                     </tr>\n";
 $str.="                     <tr>\n";
-$str.="                         <td align='right><a href=javascript:void(0) rel='tooltip' title='Previous Week'  onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','week','previous')>&laquo;</a> </td>\n";
+$str.="                         <td align='right'><a href=javascript:void(0) rel='tooltip' title='Previous Week'  onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','week','previous')>&laquo;</a> </td>\n";
 $str.="                         <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','week','')>Week</a> </td>\n";
 $str.="                         <td align='left'><a href=javascript:void(0) rel='tooltip' title='Next Week' onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','week','next')>&raquo;</a></td>\n";
 $str.="                     </tr>\n";
 $str.="                     <tr>\n";
-$str.="                         <td align='right><a href=javascript:void(0) rel='tooltip' title='Previous Month'  onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','month','previous')>&laquo;</td> \n";;
+$str.="                         <td align='right'><a href=javascript:void(0) rel='tooltip' title='Previous Month'  onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','month','previous')>&laquo;</td> \n";;
 $str.="                         <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','month','')>Month</a> </td>\n";
 $str.="                         <td align='left'><a href=javascript:void(0) rel='tooltip' title='Next Month' onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','month','next')>&raquo;</a></td>\n";
 $str.="                     </tr>\n";
 $str.="                     <tr>\n";
-$str.="                         <td align='right><a href=javascript:void(0) rel='tooltip' title='Previous Year'  onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','year','previous')>&laquo;</a></td> \n";
- $str.="                        <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','','','year','')>Year</a> </td>\n";
+$str.="                         <td align='right'><a href=javascript:void(0) rel='tooltip' title='Previous Year'  onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','year','previous')>&laquo;</a></td> \n";
+ $str.="                        <td align='center'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','year','')>Year</a> </td>\n";
 $str.="                         <td align='left'><a href=javascript:void(0) rel='tooltip' title='Next Year' onClick=ajaxQuerySearchAllDate('<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$dateRangeStart; ?>','','year','next')>&raquo;</a></td>\n";
 $str.="                         </tr>\n";
 $str.="</table>\n";
 $str.="                Range\n";
 $str.="                <div style='style:none'>\n";
 $str.="                    <input type='date' name='dateRangeStart' id='dateRangeStart' class='span2'><br>\n";
-$str.="                    <input type='date' name='dateRangeId' id='dateRangeEnd' class='span2'><br>\n";
+$str.="                    <input type='date' name='dateRangeEnd' id='dateRangeEnd' class='span2'><br>\n";
 $str.="                    <input type='button' name='searchDate' id='searchDate' value='Search' class='btn btn-info'>\n";
 $str.="                </div>\n";
 $str.="                <hr>\n";
-
+$str.="             <h4>Filter Date Information</h4>\n";
+$str.="             <table>\n";
+$str.="<tr>\n";
+$str.="    <td>Current Date</td>\n";
+$str.="    <td>:</td>\n";
+$str.="    <td><?php echo date('d-m-Y'); ?></td>\n";
+$str.="</tr>\n";
+$str.="<tr>\n";
+$str.="    <td>Filter Date</td>\n";
+$str.="     <td>:</td>\n";
+$str.="     <td><?php if(isset(\$_POST['dateRangeStart'])) { echo \$_POST['dateRangeStart']; } ?></td>\n";
+$str.="</tr>\n";
+$str.="<tr>\n";
+$str.="    <td>Filter Method </td>\n";
+$str.="     <td>:</td>\n";
+$str.="     <td><?php if(isset(\$_POST['dateRangeType'])) { echo \$_POST['dateRangeType']; } ?></td>\n";
+$str.="</tr>\n";
+$str.="<tr>\n";
+$str.="    <td>Filter Type </td>\n";
+$str.="     <td>:</td>\n";
+$str.="     <td><?php if(isset(\$_POST['dateRangeExtraType'])) { echo \$_POST['dateRangeExtraType']; } ?></td>\n";
+$str.="</tr>\n";
+$str.="</table>";
 $str.="            </div>\n";
 
 $str.="        <div name='rightViewport' id='rightViewport' class='span13'>\n";
@@ -548,7 +582,7 @@ for ($i = 0; $i < $total; $i++) {
                                 <label class='control-label'><?php echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; ?></label>
                                 <div class='controls  input-prepend'>
                                     <input type='text' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='Field Of " . $data[$i]['columnName'] . "' class='span3' 
-                                    value='<?php echo \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "']; ?>'>
+                                    value='<?php if(isset($" . $data[0]['tableName'] . "Array) && is_array($" . $data[0]['tableName'] . "Array)) {  echo \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "']; } ?>'>
                                 </div>
                             </div>";
             break;
@@ -577,7 +611,7 @@ for ($i = 0; $i < $total; $i++) {
                               $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form' >\n
                                 <label class='control-label'><?php echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; ?></label>\n
                                 <div class='controls  input-prepend'>\n
-                                    <input type='text' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='String Only' class='span3' value='<?php echo \$" . $data[0]['tableName'] . "Array[0]['staffName']; ?>' readOnly>\n
+                                    <input type='text' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='String Only' class='span3' value='<?php if(isset($" . $data[0]['tableName'] . "Array) && is_array($" . $data[0]['tableName'] . "Array)) { echo \$" . $data[0]['tableName'] . "Array[0]['staffName']; } ?>' readOnly>\n
                                     <span name='numericHelpMe' id='" . $data[$i]['columnName'] . "HelpMe' class='help-inline' ></span>\n
                                 </div>\n
                             </div>\n";   
@@ -585,7 +619,7 @@ for ($i = 0; $i < $total; $i++) {
                             $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form' >\n
                                 <label class='control-label'><?php echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; ?></label>\n
                                 <div class='controls  input-prepend'>\n
-                                    <input type='text' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='Numeric Only' class='span3' value='<?php echo \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "']; ?>'>\n
+                                    <input type='text' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='Numeric Only' class='span3' value='<?php if(isset($" . $data[0]['tableName'] . "Array) && is_array($" . $data[0]['tableName'] . "Array)) { echo \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "']; } ?>'>\n
                                     <span name='numericHelpMe' id='" . $data[$i]['columnName'] . "HelpMe' class='help-inline' ></span>\n
                                 </div>\n
                             </div>\n";
@@ -602,15 +636,17 @@ for ($i = 0; $i < $total; $i++) {
             
                             if($data[$i]['formType']=='date') {
                                $str.="<?php ";
+                                $str.="if(isset($" . $data[0]['tableName'] . "Array) && is_array($" . $data[0]['tableName'] . "Array)) { \n";                                
                                 $str.="     \$valueArray        =   \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "']; \n";
                                 $str.="     \$valueData         =   explode('-',\$valueArray);  \n";
                                 $str.="     \$year              =   \$valueData[0];  \n";
                                 $str.="     \$month             =   \$valueData[1];   \n";
                                 $str.="     \$day               =   \$valueData[2];  \n";
                                 $str.="     \$value             =   date(\$systemFormat['systemSettingDateFormat'],mktime(0,0,0,\$month,\$day,\$year));  \n";
-                                $str.=" ?>";
+                                $str.=" } ?>";
                             } else if($data[$i]['formType']=='datetime') {
-                                $str.="<?php ";
+                                $str.="<?php \n";
+                                $str.="if(isset($" . $data[0]['tableName'] . "Array) && is_array($" . $data[0]['tableName'] . "Array)) { \n";                                
                                 $str.="     \$valueArray = \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "'];  \n";
                                 
                                 $str.="     \$valueArrayDate    =   explode(' ',\$valueArray);\n";
@@ -628,7 +664,7 @@ for ($i = 0; $i < $total; $i++) {
                                 $str.="     \$second            =   \$valueDataSecond[2];\n";
                                 
                                 $str.=" \$value = date(\$systemFormat['systemSettingDateFormat'].\" \".\$systemFormat['systemSettingTimeFormat'],mktime(\$hour,\$minute,\$second,\$month,\$day,\$year)); \n";
-                                $str.=" ?>";
+                                $str.=" }\n ?>";
                             } 
             if($data[$i]['columnName']=='executeTime') {
                       $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form'>
@@ -637,7 +673,7 @@ for ($i = 0; $i < $total; $i++) {
                                     <span class='add-on'>
                                         <i class='icon-calendar'></i>
                                     </span>    
-                                    <input type='date' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='Date Validation' class='span3' value='<?php echo \$value; ?>' readOnly>
+                                    <input type='date' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='Date Validation' class='span3' value='<?php if(isset(\$value)) { echo \$value; } ?>' readOnly>
                                     <span name='" . $data[$i]['columnName'] . "HelpMe' id='" . $data[$i]['columnName'] . "HelpMe' class='help-inline'></span>
                                 </div>
                             </div>";
@@ -732,12 +768,12 @@ for ($i = 0; $i < $total; $i++) {
             $str.="validateMeNumeric('".$data[$i]['columnName']."') \n";
             break;
         case 'date':
-            $str.=" \$('".$data[$i]['columnName']."').dateinput({ \n";
+            $str.=" \$('".$data[$i]['columnName']."').datepicker({ \n";
             $str.="    format :'<?php echo  \$systemFormat['systemSettingDateFormat']; ?>\n";                
             $str.="   });  \n";
             break;
         case 'datetime':
-            $str.=" \$('".$data[$i]['columnName']."').dateinput({ \n";
+            $str.=" \$('".$data[$i]['columnName']."').datepicker({ \n";
             $str.="    format :'<?php echo \$systemFormat['systemSettingDateFormat'].\$systemFormat['systemSettingTimeFormat']; ?>'\n";                
             $str.="   });  \n";
             break;

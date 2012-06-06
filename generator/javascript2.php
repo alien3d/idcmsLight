@@ -110,7 +110,6 @@ if(isset($data)) {
 		$str.="					method		:   'read',\n";
 		$str.="					type		:   'list',\n";
 		$str.="					detail		:   'body',\n";
-		$str.="					query		:   \$('#query').val(),\n";
 		$str.="					params		:   { },\n";
 		$str.="					securityToken	:   securityToken\n";
                 $str.="					character	:   character\n";
@@ -154,7 +153,7 @@ if(isset($data)) {
 		$str.="					params		:   { },\n";
 		$str.="					securityToken	:   securityToken\n";
                 $str.="                                 dateRangeStart	:   dateRangeStart\n";
-                $str.="                                 dateRangeStart	:   dateRangeEnd\n";
+                $str.="                                 dateRangeEnd	:   dateRangeEnd\n";
                 $str.="                                 dateRangeType	:   dateRangeType\n";
                 $str.="                                 dateRangeExtraType	:   dateRangeExtraType\n";
 		$str.="				},\n";
