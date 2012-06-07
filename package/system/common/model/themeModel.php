@@ -55,9 +55,11 @@ class ThemeModel extends \Core\Validation\ValidationClass {
     /* (non-PHPdoc)
      * @see ValidationClass::execute()
      */
-    public function __construct() { 
+
+    public function __construct() {
         
     }
+
     public function execute() {
         /*
          *  Basic Information Table
@@ -106,52 +108,69 @@ class ThemeModel extends \Core\Validation\ValidationClass {
         if (isset($_GET ['themeId'])) {
             $this->setTotal(count($_GET ['themeId']));
             // testing initlize dummy value
-            if(is_array($_GET['themeId'])){
-                $this->themeId=array();
+            if (is_array($_GET['themeId'])) {
+                $this->themeId = array();
             }
         }
-       
+
         if (isset($_GET ['isDefault'])) {
+            $this->setIsDefaultTotal(count($_GET['isDefault']));
             if (is_array($_GET ['isDefault'])) {
                 $this->isDefault = array();
             }
         }
         if (isset($_GET ['isNew'])) {
+            $this->setIsDefaultTotal(count($_GET['isNew']));
+
             if (is_array($_GET ['isNew'])) {
                 $this->isNew = array();
             }
         }
         if (isset($_GET ['isDraft'])) {
+            $this->setIsDefaultTotal(count($_GET['isDraft']));
+
             if (is_array($_GET ['isDraft'])) {
                 $this->isDraft = array();
             }
         }
         if (isset($_GET ['isUpdate'])) {
+            $this->setIsUpdateTotal(count($_GET['isUpdate']));
+
             if (is_array($_GET ['isUpdate'])) {
                 $this->isUpdate = array();
             }
         }
         if (isset($_GET ['isDelete'])) {
+            
+            $this->setIsDeleteTotal(count($_GET['isDelete']));
             if (is_array($_GET ['isDelete'])) {
                 $this->isDelete = array();
             }
         }
         if (isset($_GET ['isActive'])) {
+            $this->setIsActiveTotal(count($_GET['isActive']));
+
             if (is_array($_GET ['isActive'])) {
                 $this->isActive = array();
             }
         }
         if (isset($_GET ['isApproved'])) {
+            $this->setIsApprovedTotal(count($_GET['isApproved']));
+
             if (is_array($_GET ['isApproved'])) {
                 $this->isApproved = array();
             }
         }
         if (isset($_GET ['isReview'])) {
+            $this->setIsReviewTotal(count($_GET['isReview']));
+
             if (is_array($_GET ['isReview'])) {
                 $this->isReview = array();
             }
         }
         if (isset($_GET ['isPost'])) {
+            $this->setIsPostTotal(count($_GET['isPost']));
+
             if (is_array($_GET ['isPost'])) {
                 $this->isPost = array();
             }
@@ -159,8 +178,8 @@ class ThemeModel extends \Core\Validation\ValidationClass {
         $primaryKeyAll = '';
         for ($i = 0; $i < $this->getTotal(); $i++) {
             if (isset($_GET ['themeId'])) {
-                
-                $this->setThemeId($this->strict($_GET ['themeId'] [$i], 'numeric'), $i, 'array');			 
+
+                $this->setThemeId($this->strict($_GET ['themeId'] [$i], 'numeric'), $i, 'array');
             }
             if (isset($_GET ['isDefault'])) {
                 if ($_GET ['isDefault'] [$i] == 'true') {

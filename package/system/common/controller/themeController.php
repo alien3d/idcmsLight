@@ -676,7 +676,7 @@ STAFF.STAFFNAME
         }
         if ($this->getPageOutput() == 'html') {
             if ($_SESSION['isAdmin']) {
-                //$this->exceptionMessage($sql);
+                $this->exceptionMessage($sql);
             }
             return $items;
         } else if ($this->getPageOutput() == 'json') {
@@ -928,7 +928,7 @@ WHERE `THEMEID`='" . $this->model->getThemeId('0', 'single') . "'";
             exit();
         } else {
             if ($this->getVendor() == self::MYSQL) {
-               $sql = "  	UPDATE 	`icore`.`theme`
+                $sql = "  	UPDATE 	`icore`.`theme`
 
 					SET 	`isDefault`				=	'" . $this->model->getIsDefault(0, 'single') . "',
 							`isNew`					=	'" . $this->model->getIsNew(0, 'single') . "',
@@ -1028,7 +1028,7 @@ WHERE `THEMEID`='" . $this->model->getThemeId('0', 'single') . "'";
     function updateStatus() {
         header('Content-Type:application/json; charset=utf-8');
         // initilize dummy value
-        $sqlLooping=null;
+        $sqlLooping = null;
         $start = microtime(true);
         if ($this->getVendor() == self::MYSQL) {
             $sql = "SET NAMES utf8";
@@ -1060,256 +1060,240 @@ WHERE `THEMEID`='" . $this->model->getThemeId('0', 'single') . "'";
             echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
             exit();
         }
-        /**
-         * System Validation Checking 
-         * @var $access 
-         */
-        $access = array("isDefault", "isNew", "isDraft", "isUpdate", "isDelete", "isActive", "isApproved", "isReview", "isPost");
-        $accessClear = array("isDefault", "isNew", "isDraft", "isUpdate", "isActive", "isApproved", "isReview", "isPost");
-        foreach ($access as $systemCheck) {
-            switch ($systemCheck) {
-                case 'isDefault' :
-                    for ($i = 0; $i < $loop; $i++) {
-                        if (strlen($this->model->getIsDefault($i, 'array')) > 0) {
-                            if ($this->getVendor() == self::MYSQL) {
-                                $sqlLooping .= " `" . $systemCheck . "` = CASE `icore`.`" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
-                            } else if ($this->getVendor() == self::MSSQL) {
-                                $sqlLooping .= "  [" . $systemCheck . "] = CASE [icore].[" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
-                            } else if ($this->getVendor() == self::ORACLE) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::DB2) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::POSTGRESS) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else {
-                                echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
-                                exit();
-                            }
-                            $sqlLooping .= "
-							WHEN '" . $this->model->getThemeId($i, 'array') . "'
-							THEN '" . $this->model->getIsDefault($i, 'array') . "'";
-                            $sqlLooping .= " END,";
-                        }
+
+
+        if (isset($_SESSION['isAdmin'])) {
+            if ($_SESSION['isAdmin'] == 1) {
+                if ($this->model->getIsDraftTotal() > 0) {
+                    if ($this->getVendor() == self::MYSQL) {
+                        $sqlLooping .= " `isDefault` = CASE `icore`.`" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
+                    } else if ($this->getVendor() == self::MSSQL) {
+                        $sqlLooping .= "  [isDefault] = CASE [icore].[" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
+                    } else if ($this->getVendor() == self::ORACLE) {
+                        $sqlLooping .= "    ISEDFAULT = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::DB2) {
+                        $sqlLooping .= "    ISEDFAULT = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::POSTGRESS) {
+                        $sqlLooping .= "    ISEDFAULT = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else {
+                        echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
+                        exit();
                     }
-                    break;
-                case 'isNew' :
                     for ($i = 0; $i < $loop; $i++) {
-                        if (strlen($this->model->getIsNew($i, 'array')) > 0) {
-                            if ($this->getVendor() == self::MYSQL) {
-                                $sqlLooping .= " `" . $systemCheck . "` = CASE `icore`.`" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
-                            } else if ($this->getVendor() == self::MSSQL) {
-                                $sqlLooping .= "  [" . $systemCheck . "] = CASE [icore].[" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
-                            } else if ($this->getVendor() == self::ORACLE) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::DB2) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::POSTGRESS) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else {
-                                echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
-                                exit();
-                            }
-                            $sqlLooping .= " 
-							WHEN '" . $this->model->getThemeId($i, 'array') . "' 
-							THEN '" . $this->model->getIsNew($i, 'array') . "'";
-                            $sqlLooping .= " END,";
-                        }
+                        $sqlLooping .= "
+				WHEN '" . $this->model->getThemeId($i, 'array') . "'
+                                THEN '" . $this->model->getIsDefault($i, 'array') . "'";
                     }
-                    break;
-                case 'isDraft' :
-                    for ($i = 0; $i < $loop; $i++) {
-                        if (strlen($this->model->getIsDraft($i, 'array')) > 0) {
-                            if ($this->getVendor() == self::MYSQL) {
-                                $sqlLooping .= " `" . $systemCheck . "` = CASE `icore`.`" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
-                            } else if ($this->getVendor() == self::MSSQL) {
-                                $sqlLooping .= "  [" . $systemCheck . "] = CASE [icore].[" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
-                            } else if ($this->getVendor() == self::ORACLE) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::DB2) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::POSTGRESS) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else {
-                                echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
-                                exit();
-                            }
-                            $sqlLooping .= "
-							WHEN '" . $this->model->getThemeId($i, 'array') . "'
-							THEN '" . $this->model->getIsDraft($i, 'array') . "'";
-                            $sqlLooping .= " END,";
-                        }
+                    $sqlLooping .= " END,";
+                }
+                if ($this->model->getIsNewTotal() > 0) {
+                    if ($this->getVendor() == self::MYSQL) {
+                        $sqlLooping .= " `isNew` = CASE `icore`.`" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
+                    } else if ($this->getVendor() == self::MSSQL) {
+                        $sqlLooping .= "  [isNew] = CASE [icore].[" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
+                    } else if ($this->getVendor() == self::ORACLE) {
+                        $sqlLooping .= " ISNEW  = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::DB2) {
+                        $sqlLooping .= " ISNEW  = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::POSTGRESS) {
+                        $sqlLooping .= " ISNEW  = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else {
+                        echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
+                        exit();
                     }
-                    break;
-                case 'isUpdate' :
                     for ($i = 0; $i < $loop; $i++) {
-                        if (strlen($this->model->getIsUpdate($i, 'array')) > 0) {
-                            if ($this->getVendor() == self::MYSQL) {
-                                $sqlLooping .= " `" . $systemCheck . "` = CASE `icore`.`" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
-                            } else if ($this->getVendor() == self::MSSQL) {
-                                $sqlLooping .= "  [" . $systemCheck . "] = CASE [icore].[" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
-                            } else if ($this->getVendor() == self::ORACLE) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::DB2) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::POSTGRESS) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else {
-                                echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
-                                exit();
-                            }
-                            $sqlLooping .= "
+                        $sqlLooping .= " 
+				WHEN '" . $this->model->getThemeId($i, 'array') . "' 
+				THEN '" . $this->model->getIsNew($i, 'array') . "'";
+                    }
+                    $sqlLooping .= " END,";
+                }
+                if ($this->model->getIsDraftTotal() > 0) {
+                    if ($this->getVendor() == self::MYSQL) {
+                        $sqlLooping .= " `isDraft` = CASE `icore`.`" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
+                    } else if ($this->getVendor() == self::MSSQL) {
+                        $sqlLooping .= "  [isDraft] = CASE [icore].[" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
+                    } else if ($this->getVendor() == self::ORACLE) {
+                        $sqlLooping .= " ISDRAFT = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::DB2) {
+                        $sqlLooping .= " ISDRAFT  = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::POSTGRESS) {
+                        $sqlLooping .= " ISDRAFT  = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else {
+                        echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
+                        exit();
+                    }
+                    for ($i = 0; $i < $loop; $i++) {
+                        $sqlLooping .= "
+				WHEN '" . $this->model->getThemeId($i, 'array') . "'
+				THEN '" . $this->model->getIsDraft($i, 'array') . "'";
+                    }
+                    $sqlLooping .= " END,";
+                }
+                if ($this->model->getIsUpdateTotal() > 0) {
+                    if ($this->getVendor() == self::MYSQL) {
+                        $sqlLooping .= " `isUpdate` = CASE `icore`.`" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
+                    } else if ($this->getVendor() == self::MSSQL) {
+                        $sqlLooping .= "  [isUpdate] = CASE [icore].[" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
+                    } else if ($this->getVendor() == self::ORACLE) {
+                        $sqlLooping .= " ISUPDATE = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::DB2) {
+                        $sqlLooping .= "   ISUPDATE = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::POSTGRESS) {
+                        $sqlLooping .= "    ISUPDATE = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else {
+                        echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
+                        exit();
+                    }
+                    for ($i = 0; $i < $loop; $i++) {
+                        $sqlLooping .= "
 							WHEN '" . $this->model->getThemeId($i, 'array') . "'
 							THEN '" . $this->model->getIsUpdate($i, 'array') . "'";
-                            $sqlLooping .= " END,";
-                        }
                     }
-                    break;
-                case 'isDelete' :
+                    $sqlLooping .= " END,";
+                }
+                //aa
+                //aa
+                if ($this->model->getIsActiveTotal() > 0) {
+                    if ($this->getVendor() == self::MYSQL) {
+                        $sqlLooping .= " `isActive` = CASE `icore`.`" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
+                    } else if ($this->getVendor() == self::MSSQL) {
+                        $sqlLooping .= "  [isActive] = CASE [icore].[" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
+                    } else if ($this->getVendor() == self::ORACLE) {
+                        $sqlLooping .= "	ISACTIVE = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::DB2) {
+                        $sqlLooping .= "	ISACTIVE = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::POSTGRESS) {
+                        $sqlLooping .= "	ISACTIVE = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else {
+                        echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
+                        exit();
+                    }
                     for ($i = 0; $i < $loop; $i++) {
-                        if (strlen($this->model->getIsDelete($i, 'array')) > 0) {
-                            if ($this->getVendor() == self::MYSQL) {
-                                $sqlLooping .= " `" . $systemCheck . "` = CASE `icore`.`" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
-                            } else if ($this->getVendor() == self::MSSQL) {
-                                $sqlLooping .= "  [" . $systemCheck . "] = CASE [icore].[" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
-                            } else if ($this->getVendor() == self::ORACLE) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::DB2) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::POSTGRESS) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else {
-                                echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
-                                exit();
-                            }
-                            $sqlLooping .= "
+                        $sqlLooping .= "
+				WHEN '" . $this->model->getThemeId($i, 'array') . "'
+				THEN '" . $this->model->getIsActive($i, 'array') . "'";
+                    }
+                    $sqlLooping .= " END,";
+                }
+                if ($this->model->getIsApprovedTotal() > 0) {
+                    if ($this->getVendor() == self::MYSQL) {
+                        $sqlLooping .= " `isApproved` = CASE `icore`.`" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
+                    } else if ($this->getVendor() == self::MSSQL) {
+                        $sqlLooping .= "  [isApproved] = CASE [icore].[" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
+                    } else if ($this->getVendor() == self::ORACLE) {
+                        $sqlLooping .= " ISAPPROVED = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::DB2) {
+                        $sqlLooping .= "    ISAPPROVED  = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::POSTGRESS) {
+                        $sqlLooping .= "    ISAPPROVED  = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else {
+                        echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
+                        exit();
+                    }
+                    for ($i = 0; $i < $loop; $i++) {
+                        $sqlLooping .= "
+				WHEN '" . $this->model->getThemeId($i, 'array') . "'
+				THEN '" . $this->model->getIsApproved($i, 'array') . "'";
+                    }
+                    $sqlLooping .= " END,";
+                }
+                if ($this->model->getIsReviewTotal() > 0) {
+                    if ($this->getVendor() == self::MYSQL) {
+                        $sqlLooping .= " `isReview` = CASE `icore`.`" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
+                    } else if ($this->getVendor() == self::MSSQL) {
+                        $sqlLooping .= "  [isReview] = CASE [icore].[" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
+                    } else if ($this->getVendor() == self::ORACLE) {
+                        $sqlLooping .= " ISREVIEW = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::DB2) {
+                        $sqlLooping .= " ISREVIEW  = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::POSTGRESS) {
+                        $sqlLooping .= " ISREVIEW  = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else {
+                        echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
+                        exit();
+                    }
+                    for ($i = 0; $i < $loop; $i++) {
+                        $sqlLooping .= "
+                                WHEN '" . $this->model->getThemeId($i, 'array') . "'
+                                THEN '" . $this->model->getIsReview($i, 'array') . "'";
+                    }
+                    $sqlLooping .= " END,";
+                }
+                if ($this->model->getIsPostTotal() > 0) {
+                    if ($this->getVendor() == self::MYSQL) {
+                        $sqlLooping .= " `isPost` = CASE `icore`.`" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
+                    } else if ($this->getVendor() == self::MSSQL) {
+                        $sqlLooping .= "  [isPost] = CASE [icore].[" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
+                    } else if ($this->getVendor() == self::ORACLE) {
+                        $sqlLooping .= " ISPOST = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::DB2) {
+                        $sqlLooping .= " ISPOST = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::POSTGRESS) {
+                        $sqlLooping .= " ISPOST = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else {
+                        echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
+                        exit();
+                    }
+                    for ($i = 0; $i < $loop; $i++) {
+                        $sqlLooping .= "
+                                WHEN '" . $this->model->getThemeId($i, 'array') . "'
+                                THEN '" . $this->model->getIsPost($i, 'array') . "'";
+                    }
+                    $sqlLooping .= " END,";
+                }
+                if ($this->model->getIsDeleteTotal() > 0) {
+                    if ($this->getVendor() == self::MYSQL) {
+                        $sqlLooping .= " `isDelete` = CASE `" . $this->model->getPrimaryKeyName() . "`";
+                    } else if ($this->getVendor() == self::MSSQL) {
+                        $sqlLooping .= "  [isDelete] = CASE [" . $this->model->getPrimaryKeyName() . "]";
+                    } else if ($this->getVendor() == self::ORACLE) {
+                        $sqlLooping .= "	ISDELETE = CASE " . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::DB2) {
+                        $sqlLooping .= "	ISDELETE = CASE " . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::POSTGRESS) {
+                        $sqlLooping .= "	ISDELETE = CASE  " . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else {
+                        echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
+                        exit();
+                    }
+                    for ($i = 0; $i < $loop; $i++) {
+                        $sqlLooping .= "
+				WHEN '" . $this->model->getThemeId($i, 'array') . "'
+				THEN '" . $this->model->getIsDelete($i, 'array') . "'";
+                    }
+                    $sqlLooping .= " END,";
+                }
+            } else {
+                // only delete record user only can see..
+
+                if ($this->model->getIsDeleteTotal() > 0) {
+                    if ($this->getVendor() == self::MYSQL) {
+                        $sqlLooping .= " `isDelete` = CASE `" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
+                    } else if ($this->getVendor() == self::MSSQL) {
+                        $sqlLooping .= "  [isDelete] = CASE [" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
+                    } else if ($this->getVendor() == self::ORACLE) {
+                        $sqlLooping .= "	ISDELETE = CASE " . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::DB2) {
+                        $sqlLooping .= "	ISDELETE = CASE " . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else if ($this->getVendor() == self::POSTGRESS) {
+                        $sqlLooping .= "	ISDELETE = CASE " . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
+                    } else {
+                        echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
+                        exit();
+                    }
+                    for ($i = 0; $i < $loop; $i++) {
+                        $sqlLooping .= "
 							WHEN '" . $this->model->getThemeId($i, 'array') . "'
 							THEN '" . $this->model->getIsDelete($i, 'array') . "'";
-                            $sqlLooping .= " END,";
-                            if (!$this->getIsAdmin()) {
-                                foreach ($accessClear as $clear) {
-                                    // update delete status = 1
-                                    if ($this->getVendor() == self::MYSQL) {
-                                        $sqlLooping .= " `" . $clear . "` = CASE `" . $this->model->getPrimaryKeyName() . "`";
-                                    } else if ($this->getVendor() == self::MSSQL) {
-                                        $sqlLooping .= "  [" . $clear . "] = CASE [" . $this->model->getPrimaryKeyName() . "]";
-                                    } else if ($this->getVendor() == self::ORACLE) {
-                                        $sqlLooping .= "	" . $clear . " = CASE " . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                                    } else if ($this->getVendor() == self::DB2) {
-                                        $sqlLooping .= "	" . $clear . " = CASE " . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                                    } else if ($this->getVendor() == self::POSTGRESS) {
-                                        $sqlLooping .= "	" . $clear . " = CASE " . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                                    } else {
-                                        echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
-                                        exit();
-                                    }
-                                    $sqlLooping .= "
-							WHEN '" . $this->model->getThemeId($i, 'array') . "'
-							THEN '0'";
-                                    $sqlLooping .= " END,";
-                                }
-                            }
-                        }
+                        $sqlLooping .= " END,";
                     }
-                    break;
-                case 'isActive' :
-                    for ($i = 0; $i < $loop; $i++) {
-                        if (strlen($this->model->getIsActive($i, 'array')) > 0) {
-                            if ($this->getVendor() == self::MYSQL) {
-                                $sqlLooping .= " `" . $systemCheck . "` = CASE `icore`.`" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
-                            } else if ($this->getVendor() == self::MSSQL) {
-                                $sqlLooping .= "  [" . $systemCheck . "] = CASE [icore].[" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
-                            } else if ($this->getVendor() == self::ORACLE) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::DB2) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::POSTGRESS) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else {
-                                echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
-                                exit();
-                            }
-                            $sqlLooping .= "
-							WHEN '" . $this->model->getThemeId($i, 'array') . "'
-							THEN '" . $this->model->getIsActive($i, 'array') . "'";
-                            $sqlLooping .= " END,";
-                        }
-                    }
-                    break;
-                case 'isApproved' :
-                    for ($i = 0; $i < $loop; $i++) {
-                        if (strlen($this->model->getIsApproved($i, 'array')) > 0) {
-                            if ($this->getVendor() == self::MYSQL) {
-                                $sqlLooping .= " `" . $systemCheck . "` = CASE `icore`.`" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
-                            } else if ($this->getVendor() == self::MSSQL) {
-                                $sqlLooping .= "  [" . $systemCheck . "] = CASE [icore].[" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
-                            } else if ($this->getVendor() == self::ORACLE) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::DB2) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::POSTGRESS) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else {
-                                echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
-                                exit();
-                            }
-                            $sqlLooping .= "
-							WHEN '" . $this->model->getThemeId($i, 'array') . "'
-							THEN '" . $this->model->getIsApproved($i, 'array') . "'";
-                            $sqlLooping .= " END,";
-                        }
-                    }
-                    break;
-                case 'isReview' :
-                    for ($i = 0; $i < $loop; $i++) {
-                        if (strlen($this->model->getIsReview($i, 'array')) > 0) {
-                            if ($this->getVendor() == self::MYSQL) {
-                                $sqlLooping .= " `" . $systemCheck . "` = CASE `icore`.`" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
-                            } else if ($this->getVendor() == self::MSSQL) {
-                                $sqlLooping .= "  [" . $systemCheck . "] = CASE [icore].[" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
-                            } else if ($this->getVendor() == self::ORACLE) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::DB2) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::POSTGRESS) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else {
-                                echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
-                                exit();
-                            }
-                            $sqlLooping .= "
-                            WHEN '" . $this->model->getThemeId($i, 'array') . "'
-                            THEN '" . $this->model->getIsReview($i, 'array') . "'";
-                            $sqlLooping .= " END,";
-                        }
-                    }
-                    break;
-                case 'isPost' :
-                    for ($i = 0; $i < $loop; $i++) {
-                        if (strlen($this->model->getIsPost($i, 'array')) > 0) {
-                            if ($this->getVendor() == self::MYSQL) {
-                                $sqlLooping .= " `" . $systemCheck . "` = CASE `icore`.`" . $this->model->getTableName() . "`.`" . $this->model->getPrimaryKeyName() . "`";
-                            } else if ($this->getVendor() == self::MSSQL) {
-                                $sqlLooping .= "  [" . $systemCheck . "] = CASE [icore].[" . $this->model->getTableName() . "].[" . $this->model->getPrimaryKeyName() . "]";
-                            } else if ($this->getVendor() == self::ORACLE) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::DB2) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else if ($this->getVendor() == self::POSTGRESS) {
-                                $sqlLooping .= "	" . strtoupper($systemCheck) . " = CASE icore." . strtoupper($this->model->getTableName()) . strtoupper($this->model->getPrimaryKeyName()) . " ";
-                            } else {
-                                echo json_encode(array("success" => false, "message" => $this->systemString->getNonSupportedDatabase()));
-                                exit();
-                            }
-                            $sqlLooping .= "
-                               WHEN '" . $this->model->getThemeId($i, 'array') . "'
-                                THEN '" . $this->model->getIsPost($i, 'array') . "'";
-                            $sqlLooping .= " END,";
-                        }
-                    }
-                    break;
+                }
             }
         }
-        $sql .= substr($sqlLooping, 0, - 1);
+
+
+        $sql .=substr($sqlLooping, 0, -1);
         if ($this->getVendor() == self::MYSQL) {
             $sql .= " 
 			WHERE `" . $this->model->getPrimaryKeyName() . "` IN (" . $this->model->getPrimaryKeyAll() . ")";
@@ -1346,7 +1330,7 @@ WHERE `THEMEID`='" . $this->model->getThemeId('0', 'single') . "'";
                 array("success" => true,
                     "message" => $message,
                     "time" => $time,
-                    "sql"=>$sql)
+                    "sql" => $sql)
         );
         exit();
     }
@@ -1598,7 +1582,7 @@ if (isset($_POST ['method'])) {
             $themeObject->read();
         }
         if ($_POST ['method'] == 'delete') {
-            
+
             $themeObject->delete();
         }
         if ($_POST ['method'] == 'posting') {

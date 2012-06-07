@@ -8,30 +8,172 @@ namespace Core\Validation;
 abstract class ValidationClass
 {
     // database property
+    /**
+     * Database Vender
+     * @var string
+     */
     private $vendor;
+    /**
+     * Table Name
+     * @var string 
+     */
     private $tableName;
+    /**
+     * Primary Key Name
+     * @var string 
+     */
     private $primaryKeyName;
+    /**
+     * All Primary key Value
+     * @var array 
+     */
     private $primaryKeyAll;
+    /**
+     * Master Foreign Key Name or identification
+     * @var string 
+     */
     private $masterForeignKeyName;
+    /**
+     * Total Record Of Primary Key
+     * @var int 
+     */
     private $total;
-    // filter field
+    /**
+     * Total Record Default
+     * @var int 
+     */
+    private $isDefaultTotal;
+    /**
+     * Total Record Draft
+     * @var int 
+     */
+    private $isDraftTotal;
+     /**
+     * Total Record New
+     * @var int 
+     */
+    private $isNewTotal;
+     /**
+     * Total Record Update
+     * @var int 
+     */
+    private $isUpdateTotal;
+     /**
+     * Total Record Delete
+     * @var int 
+     */
+    private $isDeleteTotal;
+    /**
+     * Total Record Active
+     * @var int 
+     */
+    private $isActiveTotal;
+    /**
+     * Total Record Review
+     * @var type 
+     */
+    private $isReviewTotal;
+    /**
+     * Total Record Approved 
+     * @var int 
+     */
+    private $isApprovedTotal;
+     /**
+     * Total Record Post
+     * @var int 
+     */
+    private $isPostTotal;
+ 
+    /**
+     * Total Record Reconciled
+     * @var int 
+     */
+    private $isReconciledTotal;
+    /**
+     *
+     * @var int 
+     */
+    private $isSeperationTotal;
+    /**
+     *
+     * @var type 
+     */
     private $filterCharacter;
+    /**
+     *
+     * @var type 
+     */
     private $filterDate;
     // common field value
+    /**
+     *
+     * @var type 
+     */
     private $isDefault;
+    /**
+     *
+     * @var type 
+     */
     private $isNew;
+    /**
+     *
+     * @var type 
+     */
     private $isDraft;
+   /**
+    *
+    * @var type 
+    */
     private $isUpdate;
+    /**
+     *
+     * @var type 
+     */
     private $isActive;
+    /**
+     *
+     * @var type 
+     */
     private $isDelete;
+    /**
+     *
+     * @var type 
+     */
     private $isApproved;
+    /**
+     *
+     * @var type 
+     */
     private $isReview;
+    /**
+     *
+     * @var type 
+     */
     private $isPost;
+    /**
+     *
+     * @var type 
+     */
     private $isReconciled; // special for  accounting module
+    /**
+     *
+     * @var type 
+     */
     private $executeBy;
+    /**
+     *
+     * @var type 
+     */
     private $executeTime;
-    
+    /**
+     *
+     * @var type 
+     */
     private $type;
+    /**
+     *
+     * @var type 
+     */
     private $value;
     /*
 	 * Mysql Database
@@ -719,4 +861,160 @@ abstract class ValidationClass
 	{
 	    $this->isReconciled = $isReconciled;
 	}
+       
+        /**
+         *
+         * @return int 
+         */
+        public function getIsNewTotal() {
+            return $this->isNewTotal;
+        }
+        /**
+         *
+         * @param type $value 
+         */
+        public function setIsNewTotal($value) {
+            $this->isNewTotal= $value;
+        }
+        /**
+         *
+         * @return int 
+         */
+        public function getIsUpdateTotal() {
+            return $this->isUpdateTotal;
+        }
+        /**
+         *
+         * @param type $value 
+         */
+        public function setIsUpdateTotal($value) {
+            $this->isUpdateTotal= $value;
+        }
+        /**
+         *
+         * @return int 
+         */
+        public function getIsDeleteTotal() {
+            return $this->isDeleteTotal;
+        }
+        /**
+         *
+         * @param type $value 
+         */
+        public function setIsDeleteTotal($value) {
+            $this->isDeleteTotal= $value;
+        }
+        /**
+         *
+         * @return int 
+         */
+        public function getIsActiveTotal() {
+            return $this->isActiveTotal;
+        }
+        /**
+         *
+         * @param type $value 
+         */
+        public function setIsActiveTotal($value) {
+            $this->isActiveTotal= $value;
+        }
+        /**
+         *
+         * @return int 
+         */
+        public function getIsReviewTotal() {
+            return $this->isReviewTotal;
+        }
+        /**
+         *
+         * @param type $value 
+         */
+        public function setIsReviewTotal($value) {
+            $this->isReviewTotal= $value;
+        }
+        /**
+         *
+         * @return int 
+         */
+        public function getIsPostTotal() {
+            return $this->isPostTotal;
+        }
+        /**
+         *
+         * @param type $value 
+         */
+        public function setIsPostTotal($value) {
+            $this->isPostTotal= $value;
+        }
+        /**
+         *
+         * @return int 
+         */
+        public function getIsDraftTotal() {
+            return $this->isDraftTotal;
+        }
+        /**
+         *
+         * @param type $value 
+         */
+        public function setIsDraftTotal($value) {
+            $this->isDraftTotal= $value;
+        }
+        /**
+         *
+         * @return int 
+         */
+        public function getIsReconciledTotal() {
+            return $this->isReconciledTotal;
+        }
+        /**
+         *
+         * @param type $value 
+         */
+        public function setIsReconciledTotal($value) {
+            $this->isReconciledTotal= $value;
+        }
+         /**
+         *
+         * @return int 
+         */
+        public function getIsSeperationTotal() {
+            return $this->isSeperationTotal;
+        }
+        /**
+         *
+         * @param type $value 
+         */
+        public function setIsSeperationTotal($value) {
+            $this->isSeperationTotal= $value;
+        }
+         /**
+         *
+         * @return int 
+         */
+        public function getIsDefaultTotal() {
+            return $this->isDefaultTotal;
+        }
+        /**
+         *
+         * @param type $value 
+         */
+        public function setIsDefaultTotal($value) {
+            $this->isDefaultTotal= $value;
+        }
+         /**
+         *
+         * @return int 
+         */
+        public function getIsApprovedTotal() {
+            return $this->isApprovedTotal;
+        }
+        /**
+         *
+         * @param type $value 
+         */
+        public function setIsApprovedTotal($value) {
+            $this->isApprovedTotal= $value;
+        }
+        
 }
