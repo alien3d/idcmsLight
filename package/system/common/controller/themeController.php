@@ -1027,6 +1027,8 @@ WHERE `THEMEID`='" . $this->model->getThemeId('0', 'single') . "'";
      */
     function updateStatus() {
         header('Content-Type:application/json; charset=utf-8');
+        // initilize dummy value
+        $sqlLooping=null;
         $start = microtime(true);
         if ($this->getVendor() == self::MYSQL) {
             $sql = "SET NAMES utf8";
@@ -1343,7 +1345,8 @@ WHERE `THEMEID`='" . $this->model->getThemeId('0', 'single') . "'";
         echo json_encode(
                 array("success" => true,
                     "message" => $message,
-                    "time" => $time)
+                    "time" => $time,
+                    "sql"=>$sql)
         );
         exit();
     }

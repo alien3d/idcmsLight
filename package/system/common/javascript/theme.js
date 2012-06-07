@@ -259,8 +259,8 @@ function deleteGridRecord(url, securityToken,urlList) {
         success: function (data) {
             // successful request; do something with the data
             if (data.success == true) {
-                  showMeModal('deletePreview',0);                          
-                showGrid(urlList,securityToken,0,14,'Record have beend deleted'); 
+                showMeModal('deletePreview',0);                          
+                showGrid(urlList,securityToken,0,14,'Record have been deleted'); 
             } else if (data.success == false) {
                 $('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
             }
@@ -269,6 +269,146 @@ function deleteGridRecord(url, securityToken,urlList) {
             // failed request; give feedback to user
             if (data.success == false) {
                 $('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
+            }
+        }
+    });
+}
+function deleteGridRecordCheckbox(url,securityToken,urlList) { 
+    var stringText='';
+    var counter = 0; 
+    $('input:checkbox[name="themeId[]"]').each( function() {
+        stringText=stringText+"&themeId[]="+$(this).val();        
+    });
+      
+    // $('input:checkbox[name="isDraft[]"]').each( function() { 
+    //     if($(this).val()=='on' || $(this).val()==true || $(this).val()==1) {
+    //         stringText=stringText+"&isDraft[]=1";
+    //     }else {
+    //         stringText=stringText+"&isDraft[]=0";
+    //     }
+    //     if($(this).is(':checked')) {
+    //         counter++;
+    //     }
+    //     });
+     
+    // $('input:checkbox[name="isDefault[]"]').each( function() { 
+    //     if($(this).val()=='on' || $(this).val()==true || $(this).val()==1) {
+    //         stringText=stringText+"&isDefault[]=1";
+    //     }else {
+    //         stringText=stringText+"&isDefault[]=0";
+    //     }
+    //     if($(this).is(':checked')) {
+    //         counter++;
+    //     }
+    //     });
+      
+    // $('input:checkbox[name="isNew[]"]').each( function() { 
+    //     if($(this).val()=='on' || $(this).val()==true || $(this).val()==1) {
+    //         stringText=stringText+"&isNew[]=1";
+    //     }else {
+    //         stringText=stringText+"&isNew[]=0";
+    //     }
+    //     if($(this).is(':checked')) {
+    //         counter++;
+    //     }
+    //     });
+       
+    // $('input:checkbox[name="isUpdate[]"]').each( function() { 
+    //     if($(this).val()=='on' || $(this).val()==true || $(this).val()==1) {
+    //         stringText=stringText+"&isUpdate[]=1";
+    //     }else {
+    //         stringText=stringText+"&isUpdate[]=0";
+    //     }
+    //     if($(this).is(':checked')) {
+    //         counter++;
+    //     }
+    //     });
+    
+    $('input:checkbox[name="isDelete[]"]').each( function() {
+        // to cater old code extjs
+        if($(this).is(':checked')) {
+            stringText=stringText+"&isDelete[]=true";
+        }else {
+            stringText=stringText+"&isDelete[]=false";
+        }
+        if($(this).is(':checked')) {
+            counter++;
+        }
+    });
+       
+    // $('input:checkbox[name="isActive[]"]').each( function() { 
+    //     if($(this).val()=='on' || $(this).val()==true || $(this).val()==1) {
+    //         stringText=stringText+"&isActive[]=1";
+    //     }else {
+    //         stringText=stringText+"&isActive[]=0";
+    //     }
+    //     if($(this).is(':checked')) {
+    //         counter++;
+    //     }
+    //     });
+       
+    // $('input:checkbox[name="isReview[]"]').each( function() { 
+    //     if($(this).val()=='on' || $(this).val()==true || $(this).val()==1) {
+    //         stringText=stringText+"&isReview[]=1";
+    //     }else {
+    //         stringText=stringText+"&isReview[]=0";
+    //     }
+    //     if($(this).is(':checked')) {
+    //         counter++;
+    //     }
+    //     });
+  
+  
+    // $('input:checkbox[name="isPost[]"]').each( function() { 
+    //     if($(this).val()=='on' || $(this).val()==true || $(this).val()==1) {
+    //         stringText=stringText+"&isPost[]=1";
+    //     }else {
+    //         stringText=stringText+"&isPost[]=0";
+    //     }
+    //     if($(this).is(':checked')) {
+    //         counter++;
+    //     }
+    //     });
+
+   
+    if(counter == 0 ) {
+        alert("You must at least check one record for delete record")
+        return false;
+    } else {
+        url = url + "?"+stringText;
+        alert('url :'+url);
+    }
+    
+    $.ajax({
+        type	: 	'GET',
+        url		: 	url,
+        data	:	{
+            method          :   'updateStatus',
+            output          :	'json',
+            securityToken   : 	securityToken
+        },
+        beforeSend: function () {
+            // this is where we append a loading image
+            $('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');
+        },
+        success: function (data) {
+            // successful request; do something with the data
+            if (data.success == true) {
+                showGrid(urlList,securityToken,0,14,'Record have been deleted'); 
+            } else if (data.success == false) {
+                $('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
+            }else {
+                $('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
+
+            }
+        },
+        error: function (data) {
+            // failed request; give feedback to user
+            if (data.success == false) {
+                $('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');
+            } else{
+                $('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
+
             }
         }
     });

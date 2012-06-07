@@ -169,7 +169,7 @@ $str.="		}\n";
 $str.="		\$primaryKeyAll = '';\n";
 $str.="		for (\$i = 0; \$i < \$this->getTotal(); \$i++) {\n";
 $str.="			if (isset(\$_GET ['" . $data[0]['tableName'] . "Id'])) {\n";
-//$str.="				\$this->set".ucfirst(".$data[0]['tableName']."Id)(\$this->strict(\$_GET ['".$data[0]['tableName']."Id'] [\$i], 'numeric'), \$i, 'array');\n";
+$str.="				\$this->set".ucfirst($data[0]['tableName']."Id")."(\$this->strict(\$_GET ['".$data[0]['tableName']."Id'] [\$i], 'numeric'), \$i, 'array');\n";
 $str.="			}\n";
 
 $str.="			if (isset(\$_GET ['isDefault'])) {\n";
