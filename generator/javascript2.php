@@ -28,161 +28,162 @@ if (isset($data)) {
         }
     }
     $fieldName = substr($fieldName, 0, -1);
-    $str.="	function showGrid(page, securityToken, offset, limit) {\n";
-    $str.="		\$.ajax({\n";
-    $str.="			type	: 	'POST',\n";
-    $str.="			url		: 	page,\n";
-    $str.="			data	: 	{\n";
-    $str.="				offset			: 	offset,\n";
-    $str.="				limit			: 	limit,\n";
-    $str.="				method			: 	'read',\n";
-    $str.="				type			: 	'list',\n";
-    $str.="				detail			: 	'body',\n";
-    $str.="				params			: 	{},\n";
-    $str.="				securityToken	:	securityToken\n";
-    $str.="			},\n";
-    $str.="			beforeSend: function () {\n";
-    $str.="				// this is where we append a loading image\n";
-    $str.="				\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
-    $str.="			},\n";
-    $str.="			success: function (data) {\n";
-    $str.="				// successful request; do something with the data\n";
-    $str.="				\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-    $str.="				\$('#centerViewport').html('');\n";
-    $str.="				\$('#centerViewport').empty();\n";
-    $str.="				\$('#centerViewport').removeClass();\n";
-    $str.="				\$('#centerViewport').addClass('container-fluid');\n";
-    $str.="				\$('#centerViewport').append(data);\n";
-    $str.="			},\n";
-    $str.="				error: function () {\n";
-    $str.="				// failed request; give feedback to user\n";
-    $str.="				\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
-    $str.="			}\n";
-    $str.="		});\n";
+    $str.="	function showGrid(page, securityToken, offset, limit,message) {\n";
+    $str.="         \$.ajax({\n";
+    $str.="             type	:   'POST',\n";
+    $str.="		url	:   page,\n";
+    $str.="		data    :   {\n";
+    $str.="                 offset          :   offset,\n";
+    $str.="                 limit           :   limit,\n";
+    $str.="                 method          : 	'read',\n";
+    $str.="                 type            : 	'list',\n";
+    $str.="                 detail          : 	'body',\n";
+    $str.="                 params          : 	{},\n";
+    $str.="                 securityToken   :	securityToken\n,";
+    $str.="                 message         :	message\n";
+    $str.="		},\n";
+    $str.="                 beforeSend: function () {\n";
+    $str.="                 // this is where we append a loading image\n";
+    $str.="                 \$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
+    $str.="		},\n";
+    $str.="		success: function (data) {\n";
+    $str.="                 // successful request; do something with the data\n";
+    $str.="                 \$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
+    $str.="                 \$('#centerViewport').html('');\n";
+    $str.="                 \$('#centerViewport').empty();\n";
+    $str.="                 \$('#centerViewport').removeClass();\n";
+    $str.="                 \$('#centerViewport').addClass('container-fluid');\n";
+    $str.="                 \$('#centerViewport').append(data);\n";
+    $str.="             },\n";
+    $str.="             error: function () {\n";
+    $str.="                 // failed request; give feedback to user\n";
+    $str.="                 \$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
+    $str.="		}\n";
+    $str.="         });\n";
     $str.="	}\n";
-    $str.="	function ajaxQuerySearchAll(url, securityToken) {\n";
-    $str.="		// unhide button search\n";
-    $str.="		\$('#clearSearch').removeClass();\n";
-    $str.="		\$('#clearSearch').addClass('btn');\n";
-    $str.="		// unlimited for searching because  lazy paging.\n";
+    $str.="     function ajaxQuerySearchAll(url, securityToken) {\n";
+    $str.="         // unhide button search\n";
+    $str.="         \$('#clearSearch').removeClass();\n";
+    $str.="         \$('#clearSearch').addClass('btn');\n";
+    $str.="         // unlimited for searching because  lazy paging.\n";
     $str.="         var queryGrid =\$('#query').val();\n";
-    $str.="        var queryWidget =\$('#queryWidget').val();\n";
-    $str.="if(queryGrid.length > 0 ) { \n";
-    $str.="    queryText = queryGrid; \n";
-    $str.="}  else {  \n";
-    $str.="    queryText = queryWidget; \n";
-    $str.="} \n";
-    $str.="		\$.ajax({\n";
-    $str.="    			type	: 	'POST',\n";
-    $str.="    			url		:	url,\n";
-    $str.="    			data	: 	{\n";
-    $str.="        				offset			: 	0,\n";
-    $str.="        				limit			: 	99999,\n";
-    $str.="						method			:	'read',\n";
-    $str.="						type			: 	'list',\n";
-    $str.="						detail			: 	'body',\n";
-    $str.="						query			: 	queryText,\n";
-    $str.="						params			: 	{ },\n";
-    $str.="						securityToken	:	securityToken\n";
-    $str.="				},\n";
-    $str.="				beforeSend: function () {\n";
-    $str.="					// this is where we append a loading image\n";
-    $str.="					\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
-    $str.="				},\n";
-    $str.="				success: function (data) {\n";
-    $str.="					// successful request; do something with the data\n";
-    $str.="					\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-    $str.="					\$('#centerViewport').html('');\n";
-    $str.="					\$('#centerViewport').empty();\n";
-    $str.="					\$('#centerViewport').removeClass();\n";
-    $str.="					\$('#centerViewport').addClass('container-fluid');\n";
-    $str.="					\$('#centerViewport').append(data);\n";
-    $str.="				},\n";
-    $str.="				error: function () {\n";
-    $str.="					// failed request; give feedback to user\n";
-    $str.="					\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
-    $str.="				}\n";
-    $str.="		});\n";
+    $str.="         var queryWidget =\$('#queryWidget').val();\n";
+    $str.="         if(queryGrid.length > 0 ) { \n";
+    $str.="             queryText = queryGrid; \n";
+    $str.="         }  else {  \n";
+    $str.="             queryText = queryWidget; \n";
+    $str.="         } \n";
+    $str.="         \$.ajax({\n";
+    $str.="             type    :   'POST',\n";
+    $str.="             url     :	url,\n";
+    $str.="             data    : 	{\n";
+    $str.="                 offset          :   0,\n";
+    $str.="                 limit           :   99999,\n";
+    $str.="                 method          :   'read',\n";
+    $str.="                 type            :   'list',\n";
+    $str.="                 detail          :   'body',\n";
+    $str.="                 query           :   queryText,\n";
+    $str.="                 params          :   { },\n";
+    $str.="                 securityToken   :   securityToken\n";
+    $str.="             },\n";
+    $str.="             beforeSend: function () {\n";
+    $str.="                 // this is where we append a loading image\n";
+    $str.="                 \$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
+    $str.="             },\n";
+    $str.="		success: function (data) {\n";
+    $str.="                 // successful request; do something with the data\n";
+    $str.="                 \$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
+    $str.="                 \$('#centerViewport').html('');\n";
+    $str.="                 \$('#centerViewport').empty();\n";
+    $str.="                 \$('#centerViewport').removeClass();\n";
+    $str.="                 \$('#centerViewport').addClass('container-fluid');\n";
+    $str.="                 \$('#centerViewport').append(data);\n";
+    $str.="		},\n";
+    $str.="             error: function () {\n";
+    $str.="                 // failed request; give feedback to user\n";
+    $str.="                 \$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
+    $str.="             }\n";
+    $str.="         });\n";
     $str.="	}\n";
     $str.="	function ajaxQuerySearchAllCharacter(url, securityToken,character) {\n";
-    $str.="		// unhide button search\n";
-    $str.="		\$('#clearSearch').removeClass();\n";
-    $str.="		\$('#clearSearch').addClass('btn');\n";
-    $str.="		// unlimited for searching because  lazy paging.\n";
-    $str.="		\$.ajax({\n";
+    $str.="         // unhide button search\n";
+    $str.="         \$('#clearSearch').removeClass();\n";
+    $str.="         \$('#clearSearch').addClass('btn');\n";
+    $str.="         // unlimited for searching because  lazy paging.\n";
+    $str.="         \$.ajax({\n";
     $str.="             type    : 	'POST',\n";
     $str.="             url     :	url,\n";
     $str.="             data    :   {\n";
-    $str.="        				offset		:   0,\n";
-    $str.="        				limit		:   99999,\n";
-    $str.="					method		:   'read',\n";
-    $str.="					type		:   'list',\n";
-    $str.="					detail		:   'body',\n";
-    $str.="					params		:   { },\n";
-    $str.="					securityToken	:   securityToken,\n";
-    $str.="					character	:   character\n";
-    $str.="				},\n";
-    $str.="				beforeSend: function () {\n";
-    $str.="					// this is where we append a loading image\n";
-    $str.="					\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
-    $str.="				},\n";
-    $str.="				success: function (data) {\n";
-    $str.="					// successful request; do something with the data\n";
-    $str.="					\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-    $str.="					\$('#centerViewport').html('');\n";
-    $str.="					\$('#centerViewport').empty();\n";
-    $str.="					\$('#centerViewport').removeClass();\n";
-    $str.="					\$('#centerViewport').addClass('container-fluid');\n";
-    $str.="					\$('#centerViewport').append(data);\n";
-    $str.="				},\n";
-    $str.="				error: function () {\n";
-    $str.="					// failed request; give feedback to user\n";
-    $str.="					\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
-    $str.="				}\n";
-    $str.="		});\n";
+    $str.="                 offset          :   0,\n";
+    $str.="                 limit           :   99999,\n";
+    $str.="                 method          :   'read',\n";
+    $str.="                 type            :   'list',\n";
+    $str.="                 detail          :   'body',\n";
+    $str.="                 params          :   { },\n";
+    $str.="                 securityToken   :   securityToken,\n";
+    $str.="                 character       :   character\n";
+    $str.="             },\n";
+    $str.="             beforeSend: function () {\n";
+    $str.="                 // this is where we append a loading image\n";
+    $str.="                 \$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
+    $str.="             },\n";
+    $str.="		success: function (data) {\n";
+    $str.="                 // successful request; do something with the data\n";
+    $str.="                 \$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
+    $str.="                 \$('#centerViewport').html('');\n";
+    $str.="                 \$('#centerViewport').empty();\n";
+    $str.="                 \$('#centerViewport').removeClass();\n";
+    $str.="                 \$('#centerViewport').addClass('container-fluid');\n";
+    $str.="                 \$('#centerViewport').append(data);\n";
+    $str.="		},\n";
+    $str.="		error: function () {\n";
+    $str.="                 // failed request; give feedback to user\n";
+    $str.="                 \$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
+    $str.="             }\n";
+    $str.="         });\n";
     $str.="	}\n";
     $str.="	function ajaxQuerySearchAllDate(url, securityToken,dateRangeStart,dateRangeEnd,dateRangeType,dateRangeExtraType) {\n";
-    $str.="		// unhide button search\n";
-    $str.="		\$('#clearSearch').removeClass();\n";
-    $str.="		\$('#clearSearch').addClass('btn');\n";
-    $str.="		// unlimited for searching because  lazy paging.\n";
-    $str.="          if(dateRangeStart.length == 0) {   dateRangeStart = \$('#dateRangeStart').val() } \n";
-    $str.="          if(dateRangeEnd.length == 0) {   dateRangeEnd = \$('#dateRangeEnd').val() } \n";
+    $str.="         // unhide button search\n";
+    $str.="         \$('#clearSearch').removeClass();\n";
+    $str.="         \$('#clearSearch').addClass('btn');\n";
+    $str.="         // unlimited for searching because  lazy paging.\n";
+    $str.="         if(dateRangeStart.length == 0)  {   dateRangeStart = \$('#dateRangeStart').val() } \n";
+    $str.="         if(dateRangeEnd.length == 0)    {   dateRangeEnd = \$('#dateRangeEnd').val() } \n";
     $str.="		\$.ajax({\n";
     $str.="             type    : 	'POST',\n";
     $str.="             url     :	url,\n";
     $str.="             data    :   {\n";
-    $str.="                                 offset		:   0,\n";
-    $str.="        				limit		:   99999,\n";
-    $str.="					method		:   'read',\n";
-    $str.="					type		:   'list',\n";
-    $str.="					detail		:   'body',\n";
-    $str.="					query		:   \$('#query').val(),\n";
-    $str.="					params		:   { },\n";
-    $str.="					securityToken	:   securityToken,\n";
-    $str.="                                 dateRangeStart	:   dateRangeStart,\n";
-    $str.="                                 dateRangeEnd	:   dateRangeEnd,\n";
-    $str.="                                 dateRangeType	:   dateRangeType,\n";
-    $str.="                                 dateRangeExtraType	:   dateRangeExtraType\n";
-    $str.="				},\n";
-    $str.="				beforeSend: function () {\n";
-    $str.="					// this is where we append a loading image\n";
-    $str.="					\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
-    $str.="				},\n";
-    $str.="				success: function (data) {\n";
-    $str.="					// successful request; do something with the data\n";
-    $str.="					\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-    $str.="					\$('#centerViewport').html('');\n";
-    $str.="					\$('#centerViewport').empty();\n";
-    $str.="					\$('#centerViewport').removeClass();\n";
-    $str.="					\$('#centerViewport').addClass('container-fluid');\n";
-    $str.="					\$('#centerViewport').append(data);\n";
-    $str.="				},\n";
-    $str.="				error: function () {\n";
-    $str.="					// failed request; give feedback to user\n";
-    $str.="					\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
-    $str.="				}\n";
-    $str.="		});\n";
+    $str.="                 offset		:   0,\n";
+    $str.="                 limit		:   99999,\n";
+    $str.="                 method		:   'read',\n";
+    $str.="                 type		:   'list',\n";
+    $str.="                 detail		:   'body',\n";
+    $str.="                 query		:   \$('#query').val(),\n";
+    $str.="                 params		:   { },\n";
+    $str.="                 securityToken	:   securityToken,\n";
+    $str.="                 dateRangeStart	:   dateRangeStart,\n";
+    $str.="                 dateRangeEnd	:   dateRangeEnd,\n";
+    $str.="                 dateRangeType	:   dateRangeType,\n";
+    $str.="                 dateRangeExtraType	:   dateRangeExtraType\n";
+    $str.="             },\n";
+    $str.="		beforeSend: function () {\n";
+    $str.="                 // this is where we append a loading image\n";
+    $str.="                 \$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
+    $str.="		},\n";
+    $str.="		success: function (data) {\n";
+    $str.="                 // successful request; do something with the data\n";
+    $str.="                 \$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
+    $str.="                 \$('#centerViewport').html('');\n";
+    $str.="                 \$('#centerViewport').empty();\n";
+    $str.="                 \$('#centerViewport').removeClass();\n";
+    $str.="                 \$('#centerViewport').addClass('container-fluid');\n";
+    $str.="                 \$('#centerViewport').append(data);\n";
+    $str.="		},\n";
+    $str.="             error: function () {\n";
+    $str.="                 // failed request; give feedback to user\n";
+    $str.="                 \$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
+    $str.="		}\n";
+    $str.="         });\n";
     $str.="	}\n";
     $str.="	function ajaxQuerySearchAllDateRange(url, securityToken) {\n";
     $str.="        ajaxQuerySearchAllDate(url, securityToken,$('#dateRangeStart').val(),$('#dateRangeEnd').val(),'between',''); \n";
@@ -273,46 +274,47 @@ if (isset($data)) {
     $str.="		// open modal box\n";
     $str.="		showMeModal('deletePreview', 1);\n";
     $str.="	}\n";
-    $str.="	function deleteGridRecord(url, securityToken) {\n";
-    $str.="		\$.ajax({\n";
-    $str.="    				type	: 	'POST',\n";
-    $str.="    				url		: 	url,\n";
-    $str.="   				data	:	{\n";
-    $str.="        					method				:	'delete',\n";
-    $str.="        					output				:	'json',\n";
-    $str.="        					" . $data[0]['tableName'] . "Id	: 	\$('#" . $data[0]['tableName'] . "IdPreview').val(),\n";
-    $str.="        					securityToken		: 	securityToken\n";
-    $str.="    				},\n";
-    $str.="					beforeSend: function () {\n";
-    $str.="        				// this is where we append a loading image\n";
-    $str.="       				\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
-    $str.="    				},\n";
-    $str.="    				success: function (data) {\n";
-    $str.="        				// successful request; do something with the data\n";
-    $str.="        				if (data.success == true) {\n";
-    $str.="            				\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-    $str.="        				} else if (data.success == false) {\n";
-    $str.="            				\$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
-    $str.="        				}\n";
-    $str.="    				},\n";
-    $str.="					error: function (data) {\n";
-    $str.="        				// failed request; give feedback to user\n";
-    $str.="						if (data.success == false) {\n";
-    $str.="            				\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
-    $str.="        				}\n";
-    $str.="    				}\n";
-    $str.="				});\n";
-    $str.="		}\n";
+    $str.="	function deleteGridRecord(url, securityToken,urlList) {\n";
+    $str.="         \$.ajax({\n";
+    $str.="             type    : 	'POST',\n";
+    $str.="             url     : 	url,\n";
+    $str.="             data    :   {\n";
+    $str.="                 method				:   'delete',\n";
+    $str.="                 output				:   'json',\n";
+    $str.="                 " . $data[0]['tableName'] . "Id	:   \$('#" . $data[0]['tableName'] . "IdPreview').val(),\n";
+    $str.="                 securityToken                   :   securityToken\n";
+    $str.="             },\n";
+    $str.="             beforeSend: function () {\n";
+    $str.="                 // this is where we append a loading image\n";
+    $str.="                 \$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
+    $str.="             },\n";
+    $str.="             success: function (data) {\n";
+    $str.="                 // successful request; do something with the data\n";
+    $str.="                 if (data.success == true) {\n";
+    $str.="                     showMeModal('deletePreview',0);\n";
+    $str.="                     showGrid(urlList,securityToken,0,14,'Record have beend deleted'); \n";
+    $str.="                 } else if (data.success == false) {\n";
+    $str.="                     \$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
+    $str.="                 }\n";
+    $str.="             },\n";
+    $str.="             error: function (data) {\n";
+    $str.="                 // failed request; give feedback to user\n";
+    $str.="                 if (data.success == false) {\n";
+    $str.="                  \$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
+    $str.="                 }\n";
+    $str.="             }\n";
+    $str.="         });\n";
+    $str.="     }\n";
     $str.="	function auditRecord(url, securityToken) {\n";
     $str.="		var css = \$('#auditRecordButton').attr('class');\n";
     $str.="		if (css.search('disabled') > 0) {\n";
-    $str.="			// access denied  \n";
-    $str.="		}	 else {}\n";
+    $str.="                 return false;  \n";
+    $str.="		}else { return false; }\n";
     $str.="	}\n";
     $str.="	function newRecord(url, securityToken, type) {\n";
     $str.="		var css = \$('#newRecordButton2').attr('class');\n";
     $str.="		if (css.search('disabled') > 0) {\n";
-    $str.="			// access denied\n";
+    $str.="			return false; \n";
     $str.="		} else {\n";
     $str.="			if (type == 1) {\n";
     $str.="				// new record and continue\n";
@@ -1306,6 +1308,73 @@ if (isset($data)) {
     $str.="		}\n";
     $str.="	}\n";
     $str.="	function resetRecord(url,securityToken) {\n";
+    // new button segment
+    // remove classes
+    $str.="	\$('#newRecordButton1').removeClass(); \n";
+    $str.="	\$('#newRecordButton2').removeClass(); \n";
+    // add disabled class
+    $str.="	\$('#newRecordButton1').addClass('btn btn-success'); \n";
+    $str.="	\$('#newRecordButton2').addClass('btn dropdown-toggle btn-success'); \n";
+
+    // empty the  onClick field.
+    $str.="	\$('#newRecordButton1').attr('onClick', ''); \n";
+    $str.="	\$('#newRecordButton2').attr('onClick', ''); \n";
+    $str.="	\$('#newRecordButton3').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
+    $str.="	\$('#newRecordButton4').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
+    $str.="	\$('#newRecordButton5').attr('onClick', \"newecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
+    $str.="	\$('#newRecordButton6').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
+    $str.="	\$('#newRecordButton7').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
+    // end new button segment
+    // update button segment
+    $str.="	\$('#updateRecordButton1').removeClass(); \n";
+    $str.="	\$('#updateRecordButton2').removeClass(); \n";
+    $str.="	\$('#updateRecordButton3').removeClass(); \n";
+    $str.="	\$('#updateRecordButton4').removeClass(); \n";
+    $str.="	\$('#updateRecordButton5').removeClass(); \n";
+    // add disabled class
+    $str.="	\$('#updateRecordButton1').addClass('btn btn-info disabled'); \n";
+    // toggle button
+    $str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); \n";
+    // drop down don't have  css class.blank empty
+    //$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
+    //$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
+    //$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
+    // put back the  onClick field
+    //@todo.. what if the client have no access to update..
+    $str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton3').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton4').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton5').attr('onClick', ''); \n";
+
+
+    // delete button segment
+    $str.="	\$('#deleteRecordButton').removeClass(); \n";
+    $str.="	\$('#deleteRecordButton').addClass('btn btn-danger disabled'); \n";
+    $str.="	\$('#deleteRecordButton').attr('onClick',''); \n";
+    // end delete button segment
+    // post button segment
+    $str.="	\$('#postRecordButton').removeClass(); \n";
+    $str.="	\$('#postRecordButton').addClass('btn btn-info'); \n";
+    $str.="	\$('#postRecordButton').attr('onClick',''); \n";
+    // end post button segment
+    // end button segment
+    // navigation segment
+    // disable move next
+    $str.="	\$('firstFirst').removeClass(); \n";
+    $str.="	\$('firstFirst').addClass(); \n";
+    $str.="	\$('firstFirst').attr('onClick', \"firstRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
+    // disable move previous
+    $str.="	\$('#movePrevious').removeClass(); \n";
+    $str.="	\$('#movePrevious').attr('onClick',''); \n";
+    // enable the next record
+    $str.="	\$('moveNext').removeClass(); \n";
+    $str.="	\$('movePrevious').attr('onClick',''); \n";
+    // enable the last record
+    $str.="	\$('lastRecord').removeClass(); \n";
+    $str.="	\$('lastRecord').addClass(); \n";
+    $str.="	\$('lastRecord').attr('onClick',\"lastRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
+    // end navigation segment
     for ($i = 0; $i < $total; $i++) {
         // this field is auto update by session
         if ($data[$i]['columnName'] != 'isDefault' &&
@@ -1323,87 +1392,20 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isConsolidation') {
             $str.="								\$('#" . $data[$i]['columnName'] . "').val('');\n";
         }
-        // new button segment
-        // remove classes
-        $str.="	\$('#newRecordButton1').removeClass(); \n";
-        $str.="	\$('#newRecordButton2').removeClass(); \n";
-        // add disabled class
-        $str.="	\$('#newRecordButton1').addClass('btn btn-success'); \n";
-        $str.="	\$('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); \n";
-
-        // empty the  onClick field.
-        $str.="	\$('#newRecordButton1').attr('onClick', ''); \n";
-        $str.="	\$('#newRecordButton2').attr('onClick', ''); \n";
-        $str.="	\$('#newRecordButton3').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
-        $str.="	\$('#newRecordButton4').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
-        $str.="	\$('#newRecordButton5').attr('onClick', \"newecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
-        $str.="	\$('#newRecordButton6').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
-        $str.="	\$('#newRecordButton7').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
-        // end new button segment
-        // update button segment
-        $str.="	\$('#updateRecordButton1').removeClass(); \n";
-        $str.="	\$('#updateRecordButton2').removeClass(); \n";
-        $str.="	\$('#updateRecordButton3').removeClass(); \n";
-        $str.="	\$('#updateRecordButton4').removeClass(); \n";
-        $str.="	\$('#updateRecordButton5').removeClass(); \n";
-        // add disabled class
-        $str.="	\$('#updateRecordButton1').addClass('btn btn-info disabled'); \n";
-        // toggle button
-        $str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); \n";
-        // drop down don't have  css class.blank empty
-        //$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
-        //$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
-        //$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
-        // put back the  onClick field
-        //@todo.. what if the client have no access to update..
-        $str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
-        $str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
-        $str.="	\$('#updateRecordButton3').attr('onClick', ''); \n";
-        $str.="	\$('#updateRecordButton4').attr('onClick', ''); \n";
-        $str.="	\$('#updateRecordButton5').attr('onClick', ''); \n";
-
-
-        // delete button segment
-        $str.="	\$('#deleteRecordButton').removeClass(); \n";
-        $str.="	\$('#deleteRecordButton').addClass('btn btn-danger disabled'); \n";
-        $str.="	\$('#deleteRecordButton').attr('onClick',''); \n";
-        // end delete button segment
-        // post button segment
-        $str.="	\$('#postRecordButton').removeClass(); \n";
-        $str.="	\$('#postRecordButton').addClass('btn btn-info'); \n";
-        $str.="	\$('#postRecordButton').attr('onClick',''); \n";
-        // end post button segment
-        // end button segment
-        // navigation segment
-        // disable move next
-        $str.="	\$('firstFirst').removeClass(); \n";
-        $str.="	\$('firstFirst').addClass(); \n";
-        $str.="	\$('firstFirst').attr('onClick', \"firstRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
-        // disable move previous
-        $str.="	\$('#movePrevious').removeClass(); \n";
-        $str.="	\$('#movePrevious').attr('onClick',''); \n";
-        // enable the next record
-        $str.="	\$('moveNext').removeClass(); \n";
-        $str.="	\$('movePrevious').attr('onClick',''); \n";
-        // enable the last record
-        $str.="	\$('lastRecord').removeClass(); \n";
-        $str.="	\$('lastRecord').addClass(); \n";
-        $str.="	\$('lastRecord').attr('onClick',\"lastRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
-        // end navigation segment
     }
     $str.="	}\n";
     $str.="	function postRecord() {\n";
     $str.="		var css = \$('#postRecordButton').attr('class');\n";
     $str.="		if (css.search('disabled') > 0) {\n";
-    $str.="			// access denied  \n";
+    $str.="                 return false;  \n";
     $str.="		} else {\n";
-    $str.="			// access granted  \n";
+    $str.="                 return false;  \n";
     $str.="		}\n";
     $str.="	}\n";
     $str.="	function firstRecord(url, securityToken) {\n";
     $str.="		var css = \$('#firstRecordButton').attr('class');\n";
     $str.="		if (css.search('disabled') > 0) {\n";
-    $str.="			// access denied  \n";
+    $str.="			return false;  \n";
     $str.="		} else {\n";
     $str.="			\$.ajax({\n";
     $str.="    			type	: 'GET',\n";
@@ -1494,7 +1496,7 @@ if (isset($data)) {
     $str.="	function lastRecord(url, securityToken) {\n";
     $str.="		var css = \$('#lastRecordButton').attr('class');\n";
     $str.="		if (css.search('disabled') > 0) {\n";
-    $str.="   		// access denied\n";
+    $str.="                 return false;\n";
     $str.="		} else {\n";
     $str.="   		\$.ajax({\n";
     $str.="       		type	:	'GET',\n";
@@ -1585,7 +1587,7 @@ if (isset($data)) {
     $str.="	function previousRecord(url, securityToken) {\n";
     $str.=" 	var css = \$('#previousRecordButton').attr('class');\n";
     $str.="   	if (css.search('disabled') > 0) {\n";
-    $str.="     	// access denied\n";
+    $str.="     	return false;\n";
     $str.="   	} else {\n";
     $str.="      	\$('#newButton').removeClass();\n";
     $str.="       	if (\$('#previousRecord').val() == '' || \$('#previousRecord').val() == undefined) {\n";
@@ -1661,7 +1663,7 @@ if (isset($data)) {
     $str.="	function nextRecord(url, securityToken) {\n";
     $str.="		var css = \$('#nextRecordButton').attr('class');\n";
     $str.="		if (css.search('disabled') > 0) {\n";
-    $str.="    		// access denied  \n";
+    $str.="                 return false;  \n";
     $str.="		} else {\n";
     $str.="    		\$('#newButton').removeClass();\n";
     $str.="    		if (\$('#nextRecord').val() == '' || \$('#nextRecord').val() == undefined) {\n";
@@ -1729,9 +1731,9 @@ if (isset($data)) {
     $str.="                  	}\n";
     $str.="              	}\n";
     $str.="           	});\n";
-    $str.="        	} else {\n";
-    $str.="       	}\n";
+    $str.="         } else {\n";
+    $str.="         }\n";
     $str.="    }\n";
-    $str.="	}\n";
+    $str.=" }\n";
 }
 ?>

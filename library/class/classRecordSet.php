@@ -1,4 +1,7 @@
-<?php namespace Core\Recordset;
+<?php
+
+namespace Core\Recordset;
+
 require_once("classAbstract.php");
 
 /**
@@ -36,9 +39,9 @@ class RecordSet extends \Core\ConfigClass {
         }
         $this->q->vendor = $this->getVendor();
         $this->q->connect($this->getConnection(), $this->getUsername(), $this->getDatabase(), $this->getPassword());
-		if(isset($_SESSION['isAdmin'])) { 
-			$this->setIsAdmin($_SESSION['isAdmin']);
-		}
+        if (isset($_SESSION['isAdmin'])) {
+            $this->setIsAdmin($_SESSION['isAdmin']);
+        }
     }
 
     public function create() {
@@ -86,55 +89,64 @@ class RecordSet extends \Core\ConfigClass {
         if ($value == 'json') {
             header('Content-Type:application/json; charset=utf-8');
         }
-		// initilize dummy value
+        // initilize dummy value
         $firstRecord = 0;
-		$total = 0;
+        $total = 0;
 
         if ($this->getVendor() == self::MYSQL) {
             $sql = "
             SELECT  MIN(`" . $this->getPrimaryKeyName() . "`) AS `firstRecord`
             FROM    `" . $this->getCurrentDatabase() . "`.`" . $this->getCurrentTable() . "`
             WHERE   1 ";
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND `isActive` = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND `isActive` = 1 ";
+                }
             }
-		
+            
         } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
             SELECT  MIN([" . $this->getPrimaryKeyName() . "]) AS [firstRecord]
             FROM    [" . $this->getCurrentDatabase() . "].[" . $this->getCurrentTable() . "]
             WHERE   1=1 ";
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND [isActive] = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND [isActive] = 1 ";
+                }
             }
         } else if ($this->getVendor() == self::ORACLE) {
             $sql = "
             SELECT MIN(" . strtoupper($this->getPrimaryKeyName()) . ") AS \"firstRecord\"
             FROM    " . strtoupper($this->getCurrentTable()) . " 
             WHERE   1=1";
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND ISACTIVE = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND ISACTIVE = 1 ";
+                }
             }
         } else if ($this->getVendor() == self::DB2) {
             $sql = "
             SELECT  MIN(" . strtoupper($this->getPrimaryKeyName()) . ") AS \"firstRecord\"
             FROM    " . strtoupper($this->getCurrentTable()) . " 
             WHERE   1=1 ";
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND ISACTIVE = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND ISACTIVE = 1 ";
+                }
             }
         } else if ($this->getVendor() == self::POSTGRESS) {
             $sql = "
             SELECT  MIN(" . strtoupper($this->getPrimaryKeyName()) . ") AS \"firstRecord\"
             FROM    " . strtoupper($this->getCurrentTable()) . " 
             WHERE   1=1";
-
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND ISACTIVE = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND ISACTIVE = 1 ";
+                }
             }
         }
-	
-		
+
+
         $result = $this->q->fast($sql);
         if ($result) {
             $total = $this->q->numberRows($result);
@@ -148,7 +160,7 @@ class RecordSet extends \Core\ConfigClass {
             $this->exceptionMessage($this->q->response);
         }
         if ($value == 'value') {
-			
+
             return intval($firstRecord);
         } else {
             echo $json_encode = json_encode(array('success' => TRUE, 'total' => $total, 'firstRecord' => $firstRecord));
@@ -166,17 +178,19 @@ class RecordSet extends \Core\ConfigClass {
         if ($value == 'json') {
             header('Content-Type:application/json; charset=utf-8');
         }
-		// initilize dummy value
+        // initilize dummy value
         $nextRecord = 0;
-		$total =0;
+        $total = 0;
         if ($this->getVendor() == self::MYSQL) {
             $sql = "
 		SELECT (`" . $this->getPrimaryKeyName() . "`) AS `nextRecord`
 		FROM 	`" . $this->getCurrentDatabase() . "`.`" . $this->getCurrentTable() . "`
 		WHERE 	`" . $this->getPrimaryKeyName() . "` > " . $primaryKeyValue . "
 		";
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND `isActive` = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND `isActive` = 1 ";
+                }
             }
             $sql.=" LIMIT 1 ";
         } else if ($this->getVendor() == self::MSSQL) {
@@ -184,8 +198,10 @@ class RecordSet extends \Core\ConfigClass {
 		SELECT  TOP 1 ([" . $this->getPrimaryKeyName() . "]) AS [nextRecord]
 		FROM 	[" . $this->getCurrentDatabase() . "].[" . $this->getCurrentTable() . "]
 		WHERE 	[" . $this->getPrimaryKeyName() . "] > " . $primaryKeyValue . " ";
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND [isActive] = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND [isActive] = 1 ";
+                }
             }
         } else if ($this->getVendor() == self::ORACLE) {
             $sql = "
@@ -194,12 +210,16 @@ class RecordSet extends \Core\ConfigClass {
             WHERE   " . strtoupper($this->getPrimaryKeyName()) . " > " . $primaryKeyValue . "
             AND     ROWNUM = 1";
 
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND ISACTIVE = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND ISACTIVE = 1 ";
+                }
             }
         } else if ($this->getVendor() == self::DB2) {
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND ISACTIVE = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND ISACTIVE = 1 ";
+                }
             }
         } else if ($this->getVendor() == self::POSTGRESS) {
             $sql = "
@@ -207,8 +227,10 @@ class RecordSet extends \Core\ConfigClass {
 			FROM 	`" . $this->getCurrentTable() . "`
 			WHERE 	`" . $this->getPrimaryKeyName() . "` > " . $primaryKeyValue . "
 			";
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND ISACTIVE = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND ISACTIVE = 1 ";
+                }
             }
             $sql.=" LIMIT 1 ";
         }
@@ -238,16 +260,18 @@ class RecordSet extends \Core\ConfigClass {
         if ($value == 'json') {
             header('Content-Type:application/json; charset=utf-8');
         }
-		//initilize dummy value;
+        //initilize dummy value;
         $previousRecord = 0;
-		$total =0;
+        $total = 0;
         if ($this->getVendor() == self::MYSQL) {
             $sql = "
             SELECT (`" . $this->getPrimaryKeyName() . "`) AS `previousRecord`
             FROM 	`" . $this->getCurrentDatabase() . "`.`" . $this->getCurrentTable() . "`
             WHERE 	`" . $this->getPrimaryKeyName() . "` < " . $primaryKeyValue . " ";
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND `isActive` = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND `isActive` = 1 ";
+                }
             }
             $sql.="
             ORDER BY `" . $this->getPrimaryKeyName() . "` DESC
@@ -257,8 +281,10 @@ class RecordSet extends \Core\ConfigClass {
             SELECT TOP 1 ([" . $this->getPrimaryKeyName() . "]) AS [previousRecord]
             FROM 	[" . $this->getCurrentDatabase() . "].[" . $this->getCurrentTable() . "]
             WHERE 	[" . $this->getPrimaryKeyName() . "] < " . $primaryKeyValue . " ";
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND [isActive] = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND [isActive] = 1 ";
+                }
             }
         } else if ($this->getVendor() == self::ORACLE) {
             $sql = "
@@ -267,12 +293,16 @@ class RecordSet extends \Core\ConfigClass {
             WHERE 	" . strtoupper($this->getPrimaryKeyName()) . " < " . $primaryKeyValue . "
             AND 	ROWNUM  = 1";
 
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND ISACTIVE = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND ISACTIVE = 1 ";
+                }
             }
         } else if ($this->getVendor() == self::DB2) {
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND ISACTIVE = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND ISACTIVE = 1 ";
+                }
             }
         } else if ($this->getVendor() == self::POSTGRESS) {
             $sql = "
@@ -280,8 +310,10 @@ class RecordSet extends \Core\ConfigClass {
             FROM 	`" . $this->getCurrentTable() . "`
             WHERE 	`" . $this->getPrimaryKeyName() . "` < " . $primaryKeyValue . "
             LIMIT 	1";
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND ISACTIVE = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND ISACTIVE = 1 ";
+                }
             }
         }
         $result = $this->q->fast($sql);
@@ -311,46 +343,54 @@ class RecordSet extends \Core\ConfigClass {
         }
         // initilize dummy value
         $lastRecord = 0;
-		$total =0;
+        $total = 0;
         if ($this->getVendor() == self::MYSQL) {
             $sql = "
             SELECT  MAX(`" . $this->getPrimaryKeyName() . "`) AS `lastRecord`
             FROM    `" . $this->getCurrentDatabase() . "`.`" . $this->getCurrentTable() . "`
             WHERE   1=1";
-
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND `isActive` = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND `isActive` = 1 ";
+                }
             }
         } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
             SELECT	MAX([" . $this->getPrimaryKeyName() . "]) AS [lastRecord]
-            FROM 	[" . $this->getCurrentDatabase() . "].[" . $this->getCurrentTable() . "]";
-
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND [isActive] = 1 ";
+            FROM 	[" . $this->getCurrentDatabase() . "].[" . $this->getCurrentTable() . "]
+            WHERE       1=1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND [isActive] = 1 ";
+                }
             }
         } else if ($this->getVendor() == self::ORACLE) {
             $sql = "
             SELECT	MAX(" . strtoupper($this->getPrimaryKeyName()) . ") AS \"lastRecord\"
-            FROM 	" . strtoupper($this->getCurrentTable()) . " ";
-
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND ISACTIVE = 1 ";
+            FROM 	" . strtoupper($this->getCurrentTable()) . " 
+            WHERE       1=1";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND ISACTIVE = 1 ";
+                }
             }
         } else if ($this->getVendor() == self::DB2) {
             $sql = "
             SELECT	MAX(" . strtoupper($this->getPrimaryKeyName()) . ") AS \"lastRecord\"
 	    FROM 	" . strtoupper($this->getCurrentTable()) . " ";
-
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND ISACTIVE = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND ISACTIVE = 1 ";
+                }
             }
         } else if ($this->getVendor() == self::POSTGRESS) {
             $sql = "
             SELECT	MAX(" . strtoupper($this->getPrimaryKeyName()) . ") AS \"lastRecord\"
             FROM 	" . strtoupper($this->getCurrentTable()) . " ";
-            if ($this->getIsAdmin() == 0) {
-                $sql.=" AND ISACTIVE = 1 ";
+            if (isset($_SESSION['isAdmin'])) {
+                if ($_SESSION['isAdmin'] == 0) {
+                    $sql.=" AND ISACTIVE = 1 ";
+                }
             }
         }
         $result = $this->q->fast($sql);
@@ -381,7 +421,7 @@ class RecordSet extends \Core\ConfigClass {
          * initilize dummy value  to 0
          */
         $nextSequence = 0;
-		$total=0;
+        $total = 0;
         if ($this->getVendor() == self::MYSQL) {
 
             $sql = "SET NAMES \"utf8\"";
@@ -449,13 +489,12 @@ class RecordSet extends \Core\ConfigClass {
     public function getPrimaryKeyName() {
         return $this->PrimaryKeyName;
     }
+
     /**
      * @param field_type $PrimaryKeyName
      */
     public function setPrimaryKeyName($PrimaryKeyName) {
         $this->PrimaryKeyName = $PrimaryKeyName;
     }
-
-    
 
 }

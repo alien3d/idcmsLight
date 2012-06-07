@@ -1,15 +1,17 @@
-function showGrid(page, securityToken, offset, limit) {
+function showGrid(page, securityToken, offset, limit,message) {
     $.ajax({
-        type	: 	'POST',
-        url		: 	page,
-        data	: 	{
-            offset			: 	offset,
-            limit			: 	limit,
-            method			: 	'read',
-            type			: 	'list',
-            detail			: 	'body',
-            params			: 	{},
-            securityToken	:	securityToken
+        type	:   'POST',
+        url	:   page,
+        data    :   {
+            offset          :   offset,
+            limit           :   limit,
+            method          : 	'read',
+            type            : 	'list',
+            detail          : 	'body',
+            params          : 	{},
+            securityToken   :	securityToken
+            ,                 
+            message         :	message
         },
         beforeSend: function () {
             // this is where we append a loading image
@@ -43,17 +45,17 @@ function ajaxQuerySearchAll(url, securityToken) {
         queryText = queryWidget; 
     } 
     $.ajax({
-        type	: 	'POST',
-        url		:	url,
-        data	: 	{
-            offset			: 	0,
-            limit			: 	99999,
-            method			:	'read',
-            type			: 	'list',
-            detail			: 	'body',
-            query			: 	queryText,
-            params			: 	{ },
-            securityToken	:	securityToken
+        type    :   'POST',
+        url     :	url,
+        data    : 	{
+            offset          :   0,
+            limit           :   99999,
+            method          :   'read',
+            type            :   'list',
+            detail          :   'body',
+            query           :   queryText,
+            params          :   { },
+            securityToken   :   securityToken
         },
         beforeSend: function () {
             // this is where we append a loading image
@@ -83,14 +85,14 @@ function ajaxQuerySearchAllCharacter(url, securityToken,character) {
         type    : 	'POST',
         url     :	url,
         data    :   {
-            offset		:   0,
-            limit		:   99999,
-            method		:   'read',
-            type		:   'list',
-            detail		:   'body',
-            params		:   { },
-            securityToken	:   securityToken,
-            character	:   character
+            offset          :   0,
+            limit           :   99999,
+            method          :   'read',
+            type            :   'list',
+            detail          :   'body',
+            params          :   { },
+            securityToken   :   securityToken,
+            character       :   character
         },
         beforeSend: function () {
             // this is where we append a loading image
@@ -116,10 +118,10 @@ function ajaxQuerySearchAllDate(url, securityToken,dateRangeStart,dateRangeEnd,d
     $('#clearSearch').removeClass();
     $('#clearSearch').addClass('btn');
     // unlimited for searching because  lazy paging.
-    if(dateRangeStart.length == 0) {
+    if(dateRangeStart.length == 0)  {
         dateRangeStart = $('#dateRangeStart').val()
     } 
-    if(dateRangeEnd.length == 0) {
+    if(dateRangeEnd.length == 0)    {
         dateRangeEnd = $('#dateRangeEnd').val()
     } 
     $.ajax({
@@ -240,7 +242,7 @@ function showModalDelete(themeId,themeSequence,themeCode,themeNote,themePath) {
     // open modal box
     showMeModal('deletePreview', 1);
 }
-function deleteGridRecord(url, securityToken) {
+function deleteGridRecord(url, securityToken,urlList) {
     $.ajax({
         type	: 	'POST',
         url		: 	url,
@@ -257,7 +259,8 @@ function deleteGridRecord(url, securityToken) {
         success: function (data) {
             // successful request; do something with the data
             if (data.success == true) {
-                $('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');
+                  showMeModal('deletePreview',0);                          
+                showGrid(urlList,securityToken,0,14,'Record have beend deleted'); 
             } else if (data.success == false) {
                 $('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');
             }
@@ -858,7 +861,7 @@ function deleteRecord(url, securityToken) {
     } else {
         if(confirm('Are you sure delete the selected item ?')) { 
 			
-            var value=$('#themeId').val(); 
+            var value=$('#themeId').val(); 
             if(!value) {
                 $('#infoPanel').html('<div class=alert alert-info>Please Contact Administrator</div>');
             } else { 
@@ -944,637 +947,52 @@ function deleteRecord(url, securityToken) {
     }
 }
 function resetRecord(url,securityToken) {
+    $('#newRecordButton1').removeClass(); 
+    $('#newRecordButton2').removeClass(); 
+    $('#newRecordButton1').addClass('btn btn-success'); 
+    $('#newRecordButton2').addClass('btn dropdown-toggle btn-success'); 
+    $('#newRecordButton1').attr('onClick', ''); 
+    $('#newRecordButton2').attr('onClick', ''); 
+    $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
+    $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
+    $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
+    $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
+    $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
+    $('#updateRecordButton1').removeClass(); 
+    $('#updateRecordButton2').removeClass(); 
+    $('#updateRecordButton3').removeClass(); 
+    $('#updateRecordButton4').removeClass(); 
+    $('#updateRecordButton5').removeClass(); 
+    $('#updateRecordButton1').addClass('btn btn-info disabled'); 
+    $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
+    $('#updateRecordButton1').attr('onClick', ''); 
+    $('#updateRecordButton2').attr('onClick', ''); 
+    $('#updateRecordButton3').attr('onClick', ''); 
+    $('#updateRecordButton4').attr('onClick', ''); 
+    $('#updateRecordButton5').attr('onClick', ''); 
+    $('#deleteRecordButton').removeClass(); 
+    $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
+    $('#deleteRecordButton').attr('onClick',''); 
+    $('#postRecordButton').removeClass(); 
+    $('#postRecordButton').addClass('btn btn-info'); 
+    $('#postRecordButton').attr('onClick',''); 
+    $('firstFirst').removeClass(); 
+    $('firstFirst').addClass(); 
+    $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
+    $('#movePrevious').removeClass(); 
+    $('#movePrevious').attr('onClick',''); 
+    $('moveNext').removeClass(); 
+    $('movePrevious').attr('onClick',''); 
+    $('lastRecord').removeClass(); 
+    $('lastRecord').addClass(); 
+    $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
     $('#themeId').val('');
-    $('#newRecordButton1').removeClass(); 
-    $('#newRecordButton2').removeClass(); 
-    $('#newRecordButton1').addClass('btn btn-success'); 
-    $('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); 
-    $('#newRecordButton1').attr('onClick', ''); 
-    $('#newRecordButton2').attr('onClick', ''); 
-    $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#updateRecordButton1').removeClass(); 
-    $('#updateRecordButton2').removeClass(); 
-    $('#updateRecordButton3').removeClass(); 
-    $('#updateRecordButton4').removeClass(); 
-    $('#updateRecordButton5').removeClass(); 
-    $('#updateRecordButton1').addClass('btn btn-info disabled'); 
-    $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
-    $('#updateRecordButton1').attr('onClick', ''); 
-    $('#updateRecordButton2').attr('onClick', ''); 
-    $('#updateRecordButton3').attr('onClick', ''); 
-    $('#updateRecordButton4').attr('onClick', ''); 
-    $('#updateRecordButton5').attr('onClick', ''); 
-    $('#deleteRecordButton').removeClass(); 
-    $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
-    $('#deleteRecordButton').attr('onClick',''); 
-    $('#postRecordButton').removeClass(); 
-    $('#postRecordButton').addClass('btn btn-info'); 
-    $('#postRecordButton').attr('onClick',''); 
-    $('firstFirst').removeClass(); 
-    $('firstFirst').addClass(); 
-    $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#movePrevious').removeClass(); 
-    $('#movePrevious').attr('onClick',''); 
-    $('moveNext').removeClass(); 
-    $('movePrevious').attr('onClick',''); 
-    $('lastRecord').removeClass(); 
-    $('lastRecord').addClass(); 
-    $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
     $('#themeSequence').val('');
-    $('#newRecordButton1').removeClass(); 
-    $('#newRecordButton2').removeClass(); 
-    $('#newRecordButton1').addClass('btn btn-success'); 
-    $('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); 
-    $('#newRecordButton1').attr('onClick', ''); 
-    $('#newRecordButton2').attr('onClick', ''); 
-    $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#updateRecordButton1').removeClass(); 
-    $('#updateRecordButton2').removeClass(); 
-    $('#updateRecordButton3').removeClass(); 
-    $('#updateRecordButton4').removeClass(); 
-    $('#updateRecordButton5').removeClass(); 
-    $('#updateRecordButton1').addClass('btn btn-info disabled'); 
-    $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
-    $('#updateRecordButton1').attr('onClick', ''); 
-    $('#updateRecordButton2').attr('onClick', ''); 
-    $('#updateRecordButton3').attr('onClick', ''); 
-    $('#updateRecordButton4').attr('onClick', ''); 
-    $('#updateRecordButton5').attr('onClick', ''); 
-    $('#deleteRecordButton').removeClass(); 
-    $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
-    $('#deleteRecordButton').attr('onClick',''); 
-    $('#postRecordButton').removeClass(); 
-    $('#postRecordButton').addClass('btn btn-info'); 
-    $('#postRecordButton').attr('onClick',''); 
-    $('firstFirst').removeClass(); 
-    $('firstFirst').addClass(); 
-    $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#movePrevious').removeClass(); 
-    $('#movePrevious').attr('onClick',''); 
-    $('moveNext').removeClass(); 
-    $('movePrevious').attr('onClick',''); 
-    $('lastRecord').removeClass(); 
-    $('lastRecord').addClass(); 
-    $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
     $('#themeCode').val('');
-    $('#newRecordButton1').removeClass(); 
-    $('#newRecordButton2').removeClass(); 
-    $('#newRecordButton1').addClass('btn btn-success'); 
-    $('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); 
-    $('#newRecordButton1').attr('onClick', ''); 
-    $('#newRecordButton2').attr('onClick', ''); 
-    $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#updateRecordButton1').removeClass(); 
-    $('#updateRecordButton2').removeClass(); 
-    $('#updateRecordButton3').removeClass(); 
-    $('#updateRecordButton4').removeClass(); 
-    $('#updateRecordButton5').removeClass(); 
-    $('#updateRecordButton1').addClass('btn btn-info disabled'); 
-    $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
-    $('#updateRecordButton1').attr('onClick', ''); 
-    $('#updateRecordButton2').attr('onClick', ''); 
-    $('#updateRecordButton3').attr('onClick', ''); 
-    $('#updateRecordButton4').attr('onClick', ''); 
-    $('#updateRecordButton5').attr('onClick', ''); 
-    $('#deleteRecordButton').removeClass(); 
-    $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
-    $('#deleteRecordButton').attr('onClick',''); 
-    $('#postRecordButton').removeClass(); 
-    $('#postRecordButton').addClass('btn btn-info'); 
-    $('#postRecordButton').attr('onClick',''); 
-    $('firstFirst').removeClass(); 
-    $('firstFirst').addClass(); 
-    $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#movePrevious').removeClass(); 
-    $('#movePrevious').attr('onClick',''); 
-    $('moveNext').removeClass(); 
-    $('movePrevious').attr('onClick',''); 
-    $('lastRecord').removeClass(); 
-    $('lastRecord').addClass(); 
-    $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
     $('#themeNote').val('');
-    $('#newRecordButton1').removeClass(); 
-    $('#newRecordButton2').removeClass(); 
-    $('#newRecordButton1').addClass('btn btn-success'); 
-    $('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); 
-    $('#newRecordButton1').attr('onClick', ''); 
-    $('#newRecordButton2').attr('onClick', ''); 
-    $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#updateRecordButton1').removeClass(); 
-    $('#updateRecordButton2').removeClass(); 
-    $('#updateRecordButton3').removeClass(); 
-    $('#updateRecordButton4').removeClass(); 
-    $('#updateRecordButton5').removeClass(); 
-    $('#updateRecordButton1').addClass('btn btn-info disabled'); 
-    $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
-    $('#updateRecordButton1').attr('onClick', ''); 
-    $('#updateRecordButton2').attr('onClick', ''); 
-    $('#updateRecordButton3').attr('onClick', ''); 
-    $('#updateRecordButton4').attr('onClick', ''); 
-    $('#updateRecordButton5').attr('onClick', ''); 
-    $('#deleteRecordButton').removeClass(); 
-    $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
-    $('#deleteRecordButton').attr('onClick',''); 
-    $('#postRecordButton').removeClass(); 
-    $('#postRecordButton').addClass('btn btn-info'); 
-    $('#postRecordButton').attr('onClick',''); 
-    $('firstFirst').removeClass(); 
-    $('firstFirst').addClass(); 
-    $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#movePrevious').removeClass(); 
-    $('#movePrevious').attr('onClick',''); 
-    $('moveNext').removeClass(); 
-    $('movePrevious').attr('onClick',''); 
-    $('lastRecord').removeClass(); 
-    $('lastRecord').addClass(); 
-    $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
     $('#themePath').val('');
-    $('#newRecordButton1').removeClass(); 
-    $('#newRecordButton2').removeClass(); 
-    $('#newRecordButton1').addClass('btn btn-success'); 
-    $('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); 
-    $('#newRecordButton1').attr('onClick', ''); 
-    $('#newRecordButton2').attr('onClick', ''); 
-    $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#updateRecordButton1').removeClass(); 
-    $('#updateRecordButton2').removeClass(); 
-    $('#updateRecordButton3').removeClass(); 
-    $('#updateRecordButton4').removeClass(); 
-    $('#updateRecordButton5').removeClass(); 
-    $('#updateRecordButton1').addClass('btn btn-info disabled'); 
-    $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
-    $('#updateRecordButton1').attr('onClick', ''); 
-    $('#updateRecordButton2').attr('onClick', ''); 
-    $('#updateRecordButton3').attr('onClick', ''); 
-    $('#updateRecordButton4').attr('onClick', ''); 
-    $('#updateRecordButton5').attr('onClick', ''); 
-    $('#deleteRecordButton').removeClass(); 
-    $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
-    $('#deleteRecordButton').attr('onClick',''); 
-    $('#postRecordButton').removeClass(); 
-    $('#postRecordButton').addClass('btn btn-info'); 
-    $('#postRecordButton').attr('onClick',''); 
-    $('firstFirst').removeClass(); 
-    $('firstFirst').addClass(); 
-    $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#movePrevious').removeClass(); 
-    $('#movePrevious').attr('onClick',''); 
-    $('moveNext').removeClass(); 
-    $('movePrevious').attr('onClick',''); 
-    $('lastRecord').removeClass(); 
-    $('lastRecord').addClass(); 
-    $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#newRecordButton1').removeClass(); 
-    $('#newRecordButton2').removeClass(); 
-    $('#newRecordButton1').addClass('btn btn-success'); 
-    $('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); 
-    $('#newRecordButton1').attr('onClick', ''); 
-    $('#newRecordButton2').attr('onClick', ''); 
-    $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#updateRecordButton1').removeClass(); 
-    $('#updateRecordButton2').removeClass(); 
-    $('#updateRecordButton3').removeClass(); 
-    $('#updateRecordButton4').removeClass(); 
-    $('#updateRecordButton5').removeClass(); 
-    $('#updateRecordButton1').addClass('btn btn-info disabled'); 
-    $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
-    $('#updateRecordButton1').attr('onClick', ''); 
-    $('#updateRecordButton2').attr('onClick', ''); 
-    $('#updateRecordButton3').attr('onClick', ''); 
-    $('#updateRecordButton4').attr('onClick', ''); 
-    $('#updateRecordButton5').attr('onClick', ''); 
-    $('#deleteRecordButton').removeClass(); 
-    $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
-    $('#deleteRecordButton').attr('onClick',''); 
-    $('#postRecordButton').removeClass(); 
-    $('#postRecordButton').addClass('btn btn-info'); 
-    $('#postRecordButton').attr('onClick',''); 
-    $('firstFirst').removeClass(); 
-    $('firstFirst').addClass(); 
-    $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#movePrevious').removeClass(); 
-    $('#movePrevious').attr('onClick',''); 
-    $('moveNext').removeClass(); 
-    $('movePrevious').attr('onClick',''); 
-    $('lastRecord').removeClass(); 
-    $('lastRecord').addClass(); 
-    $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#newRecordButton1').removeClass(); 
-    $('#newRecordButton2').removeClass(); 
-    $('#newRecordButton1').addClass('btn btn-success'); 
-    $('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); 
-    $('#newRecordButton1').attr('onClick', ''); 
-    $('#newRecordButton2').attr('onClick', ''); 
-    $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#updateRecordButton1').removeClass(); 
-    $('#updateRecordButton2').removeClass(); 
-    $('#updateRecordButton3').removeClass(); 
-    $('#updateRecordButton4').removeClass(); 
-    $('#updateRecordButton5').removeClass(); 
-    $('#updateRecordButton1').addClass('btn btn-info disabled'); 
-    $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
-    $('#updateRecordButton1').attr('onClick', ''); 
-    $('#updateRecordButton2').attr('onClick', ''); 
-    $('#updateRecordButton3').attr('onClick', ''); 
-    $('#updateRecordButton4').attr('onClick', ''); 
-    $('#updateRecordButton5').attr('onClick', ''); 
-    $('#deleteRecordButton').removeClass(); 
-    $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
-    $('#deleteRecordButton').attr('onClick',''); 
-    $('#postRecordButton').removeClass(); 
-    $('#postRecordButton').addClass('btn btn-info'); 
-    $('#postRecordButton').attr('onClick',''); 
-    $('firstFirst').removeClass(); 
-    $('firstFirst').addClass(); 
-    $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#movePrevious').removeClass(); 
-    $('#movePrevious').attr('onClick',''); 
-    $('moveNext').removeClass(); 
-    $('movePrevious').attr('onClick',''); 
-    $('lastRecord').removeClass(); 
-    $('lastRecord').addClass(); 
-    $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#newRecordButton1').removeClass(); 
-    $('#newRecordButton2').removeClass(); 
-    $('#newRecordButton1').addClass('btn btn-success'); 
-    $('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); 
-    $('#newRecordButton1').attr('onClick', ''); 
-    $('#newRecordButton2').attr('onClick', ''); 
-    $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#updateRecordButton1').removeClass(); 
-    $('#updateRecordButton2').removeClass(); 
-    $('#updateRecordButton3').removeClass(); 
-    $('#updateRecordButton4').removeClass(); 
-    $('#updateRecordButton5').removeClass(); 
-    $('#updateRecordButton1').addClass('btn btn-info disabled'); 
-    $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
-    $('#updateRecordButton1').attr('onClick', ''); 
-    $('#updateRecordButton2').attr('onClick', ''); 
-    $('#updateRecordButton3').attr('onClick', ''); 
-    $('#updateRecordButton4').attr('onClick', ''); 
-    $('#updateRecordButton5').attr('onClick', ''); 
-    $('#deleteRecordButton').removeClass(); 
-    $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
-    $('#deleteRecordButton').attr('onClick',''); 
-    $('#postRecordButton').removeClass(); 
-    $('#postRecordButton').addClass('btn btn-info'); 
-    $('#postRecordButton').attr('onClick',''); 
-    $('firstFirst').removeClass(); 
-    $('firstFirst').addClass(); 
-    $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#movePrevious').removeClass(); 
-    $('#movePrevious').attr('onClick',''); 
-    $('moveNext').removeClass(); 
-    $('movePrevious').attr('onClick',''); 
-    $('lastRecord').removeClass(); 
-    $('lastRecord').addClass(); 
-    $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#newRecordButton1').removeClass(); 
-    $('#newRecordButton2').removeClass(); 
-    $('#newRecordButton1').addClass('btn btn-success'); 
-    $('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); 
-    $('#newRecordButton1').attr('onClick', ''); 
-    $('#newRecordButton2').attr('onClick', ''); 
-    $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#updateRecordButton1').removeClass(); 
-    $('#updateRecordButton2').removeClass(); 
-    $('#updateRecordButton3').removeClass(); 
-    $('#updateRecordButton4').removeClass(); 
-    $('#updateRecordButton5').removeClass(); 
-    $('#updateRecordButton1').addClass('btn btn-info disabled'); 
-    $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
-    $('#updateRecordButton1').attr('onClick', ''); 
-    $('#updateRecordButton2').attr('onClick', ''); 
-    $('#updateRecordButton3').attr('onClick', ''); 
-    $('#updateRecordButton4').attr('onClick', ''); 
-    $('#updateRecordButton5').attr('onClick', ''); 
-    $('#deleteRecordButton').removeClass(); 
-    $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
-    $('#deleteRecordButton').attr('onClick',''); 
-    $('#postRecordButton').removeClass(); 
-    $('#postRecordButton').addClass('btn btn-info'); 
-    $('#postRecordButton').attr('onClick',''); 
-    $('firstFirst').removeClass(); 
-    $('firstFirst').addClass(); 
-    $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#movePrevious').removeClass(); 
-    $('#movePrevious').attr('onClick',''); 
-    $('moveNext').removeClass(); 
-    $('movePrevious').attr('onClick',''); 
-    $('lastRecord').removeClass(); 
-    $('lastRecord').addClass(); 
-    $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#newRecordButton1').removeClass(); 
-    $('#newRecordButton2').removeClass(); 
-    $('#newRecordButton1').addClass('btn btn-success'); 
-    $('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); 
-    $('#newRecordButton1').attr('onClick', ''); 
-    $('#newRecordButton2').attr('onClick', ''); 
-    $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#updateRecordButton1').removeClass(); 
-    $('#updateRecordButton2').removeClass(); 
-    $('#updateRecordButton3').removeClass(); 
-    $('#updateRecordButton4').removeClass(); 
-    $('#updateRecordButton5').removeClass(); 
-    $('#updateRecordButton1').addClass('btn btn-info disabled'); 
-    $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
-    $('#updateRecordButton1').attr('onClick', ''); 
-    $('#updateRecordButton2').attr('onClick', ''); 
-    $('#updateRecordButton3').attr('onClick', ''); 
-    $('#updateRecordButton4').attr('onClick', ''); 
-    $('#updateRecordButton5').attr('onClick', ''); 
-    $('#deleteRecordButton').removeClass(); 
-    $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
-    $('#deleteRecordButton').attr('onClick',''); 
-    $('#postRecordButton').removeClass(); 
-    $('#postRecordButton').addClass('btn btn-info'); 
-    $('#postRecordButton').attr('onClick',''); 
-    $('firstFirst').removeClass(); 
-    $('firstFirst').addClass(); 
-    $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#movePrevious').removeClass(); 
-    $('#movePrevious').attr('onClick',''); 
-    $('moveNext').removeClass(); 
-    $('movePrevious').attr('onClick',''); 
-    $('lastRecord').removeClass(); 
-    $('lastRecord').addClass(); 
-    $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#newRecordButton1').removeClass(); 
-    $('#newRecordButton2').removeClass(); 
-    $('#newRecordButton1').addClass('btn btn-success'); 
-    $('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); 
-    $('#newRecordButton1').attr('onClick', ''); 
-    $('#newRecordButton2').attr('onClick', ''); 
-    $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#updateRecordButton1').removeClass(); 
-    $('#updateRecordButton2').removeClass(); 
-    $('#updateRecordButton3').removeClass(); 
-    $('#updateRecordButton4').removeClass(); 
-    $('#updateRecordButton5').removeClass(); 
-    $('#updateRecordButton1').addClass('btn btn-info disabled'); 
-    $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
-    $('#updateRecordButton1').attr('onClick', ''); 
-    $('#updateRecordButton2').attr('onClick', ''); 
-    $('#updateRecordButton3').attr('onClick', ''); 
-    $('#updateRecordButton4').attr('onClick', ''); 
-    $('#updateRecordButton5').attr('onClick', ''); 
-    $('#deleteRecordButton').removeClass(); 
-    $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
-    $('#deleteRecordButton').attr('onClick',''); 
-    $('#postRecordButton').removeClass(); 
-    $('#postRecordButton').addClass('btn btn-info'); 
-    $('#postRecordButton').attr('onClick',''); 
-    $('firstFirst').removeClass(); 
-    $('firstFirst').addClass(); 
-    $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#movePrevious').removeClass(); 
-    $('#movePrevious').attr('onClick',''); 
-    $('moveNext').removeClass(); 
-    $('movePrevious').attr('onClick',''); 
-    $('lastRecord').removeClass(); 
-    $('lastRecord').addClass(); 
-    $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#newRecordButton1').removeClass(); 
-    $('#newRecordButton2').removeClass(); 
-    $('#newRecordButton1').addClass('btn btn-success'); 
-    $('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); 
-    $('#newRecordButton1').attr('onClick', ''); 
-    $('#newRecordButton2').attr('onClick', ''); 
-    $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#updateRecordButton1').removeClass(); 
-    $('#updateRecordButton2').removeClass(); 
-    $('#updateRecordButton3').removeClass(); 
-    $('#updateRecordButton4').removeClass(); 
-    $('#updateRecordButton5').removeClass(); 
-    $('#updateRecordButton1').addClass('btn btn-info disabled'); 
-    $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
-    $('#updateRecordButton1').attr('onClick', ''); 
-    $('#updateRecordButton2').attr('onClick', ''); 
-    $('#updateRecordButton3').attr('onClick', ''); 
-    $('#updateRecordButton4').attr('onClick', ''); 
-    $('#updateRecordButton5').attr('onClick', ''); 
-    $('#deleteRecordButton').removeClass(); 
-    $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
-    $('#deleteRecordButton').attr('onClick',''); 
-    $('#postRecordButton').removeClass(); 
-    $('#postRecordButton').addClass('btn btn-info'); 
-    $('#postRecordButton').attr('onClick',''); 
-    $('firstFirst').removeClass(); 
-    $('firstFirst').addClass(); 
-    $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#movePrevious').removeClass(); 
-    $('#movePrevious').attr('onClick',''); 
-    $('moveNext').removeClass(); 
-    $('movePrevious').attr('onClick',''); 
-    $('lastRecord').removeClass(); 
-    $('lastRecord').addClass(); 
-    $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#newRecordButton1').removeClass(); 
-    $('#newRecordButton2').removeClass(); 
-    $('#newRecordButton1').addClass('btn btn-success'); 
-    $('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); 
-    $('#newRecordButton1').attr('onClick', ''); 
-    $('#newRecordButton2').attr('onClick', ''); 
-    $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#updateRecordButton1').removeClass(); 
-    $('#updateRecordButton2').removeClass(); 
-    $('#updateRecordButton3').removeClass(); 
-    $('#updateRecordButton4').removeClass(); 
-    $('#updateRecordButton5').removeClass(); 
-    $('#updateRecordButton1').addClass('btn btn-info disabled'); 
-    $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
-    $('#updateRecordButton1').attr('onClick', ''); 
-    $('#updateRecordButton2').attr('onClick', ''); 
-    $('#updateRecordButton3').attr('onClick', ''); 
-    $('#updateRecordButton4').attr('onClick', ''); 
-    $('#updateRecordButton5').attr('onClick', ''); 
-    $('#deleteRecordButton').removeClass(); 
-    $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
-    $('#deleteRecordButton').attr('onClick',''); 
-    $('#postRecordButton').removeClass(); 
-    $('#postRecordButton').addClass('btn btn-info'); 
-    $('#postRecordButton').attr('onClick',''); 
-    $('firstFirst').removeClass(); 
-    $('firstFirst').addClass(); 
-    $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#movePrevious').removeClass(); 
-    $('#movePrevious').attr('onClick',''); 
-    $('moveNext').removeClass(); 
-    $('movePrevious').attr('onClick',''); 
-    $('lastRecord').removeClass(); 
-    $('lastRecord').addClass(); 
-    $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#newRecordButton1').removeClass(); 
-    $('#newRecordButton2').removeClass(); 
-    $('#newRecordButton1').addClass('btn btn-success'); 
-    $('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); 
-    $('#newRecordButton1').attr('onClick', ''); 
-    $('#newRecordButton2').attr('onClick', ''); 
-    $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#updateRecordButton1').removeClass(); 
-    $('#updateRecordButton2').removeClass(); 
-    $('#updateRecordButton3').removeClass(); 
-    $('#updateRecordButton4').removeClass(); 
-    $('#updateRecordButton5').removeClass(); 
-    $('#updateRecordButton1').addClass('btn btn-info disabled'); 
-    $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
-    $('#updateRecordButton1').attr('onClick', ''); 
-    $('#updateRecordButton2').attr('onClick', ''); 
-    $('#updateRecordButton3').attr('onClick', ''); 
-    $('#updateRecordButton4').attr('onClick', ''); 
-    $('#updateRecordButton5').attr('onClick', ''); 
-    $('#deleteRecordButton').removeClass(); 
-    $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
-    $('#deleteRecordButton').attr('onClick',''); 
-    $('#postRecordButton').removeClass(); 
-    $('#postRecordButton').addClass('btn btn-info'); 
-    $('#postRecordButton').attr('onClick',''); 
-    $('firstFirst').removeClass(); 
-    $('firstFirst').addClass(); 
-    $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#movePrevious').removeClass(); 
-    $('#movePrevious').attr('onClick',''); 
-    $('moveNext').removeClass(); 
-    $('movePrevious').attr('onClick',''); 
-    $('lastRecord').removeClass(); 
-    $('lastRecord').addClass(); 
-    $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
     $('#executeBy').val('');
-    $('#newRecordButton1').removeClass(); 
-    $('#newRecordButton2').removeClass(); 
-    $('#newRecordButton1').addClass('btn btn-success'); 
-    $('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); 
-    $('#newRecordButton1').attr('onClick', ''); 
-    $('#newRecordButton2').attr('onClick', ''); 
-    $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#updateRecordButton1').removeClass(); 
-    $('#updateRecordButton2').removeClass(); 
-    $('#updateRecordButton3').removeClass(); 
-    $('#updateRecordButton4').removeClass(); 
-    $('#updateRecordButton5').removeClass(); 
-    $('#updateRecordButton1').addClass('btn btn-info disabled'); 
-    $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
-    $('#updateRecordButton1').attr('onClick', ''); 
-    $('#updateRecordButton2').attr('onClick', ''); 
-    $('#updateRecordButton3').attr('onClick', ''); 
-    $('#updateRecordButton4').attr('onClick', ''); 
-    $('#updateRecordButton5').attr('onClick', ''); 
-    $('#deleteRecordButton').removeClass(); 
-    $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
-    $('#deleteRecordButton').attr('onClick',''); 
-    $('#postRecordButton').removeClass(); 
-    $('#postRecordButton').addClass('btn btn-info'); 
-    $('#postRecordButton').attr('onClick',''); 
-    $('firstFirst').removeClass(); 
-    $('firstFirst').addClass(); 
-    $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#movePrevious').removeClass(); 
-    $('#movePrevious').attr('onClick',''); 
-    $('moveNext').removeClass(); 
-    $('movePrevious').attr('onClick',''); 
-    $('lastRecord').removeClass(); 
-    $('lastRecord').addClass(); 
-    $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
     $('#executeTime').val('');
-    $('#newRecordButton1').removeClass(); 
-    $('#newRecordButton2').removeClass(); 
-    $('#newRecordButton1').addClass('btn btn-success'); 
-    $('#newRecordButton2').addClass('btn btn-btn-success dropdown-toggle'); 
-    $('#newRecordButton1').attr('onClick', ''); 
-    $('#newRecordButton2').attr('onClick', ''); 
-    $('#newRecordButton3').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton4').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton5').attr('onClick', "newecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton6').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#newRecordButton7').attr('onClick', "newRecord(\""+url+"\",\""+securityToken+"\",\""+1+"\")"); 
-    $('#updateRecordButton1').removeClass(); 
-    $('#updateRecordButton2').removeClass(); 
-    $('#updateRecordButton3').removeClass(); 
-    $('#updateRecordButton4').removeClass(); 
-    $('#updateRecordButton5').removeClass(); 
-    $('#updateRecordButton1').addClass('btn btn-info disabled'); 
-    $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
-    $('#updateRecordButton1').attr('onClick', ''); 
-    $('#updateRecordButton2').attr('onClick', ''); 
-    $('#updateRecordButton3').attr('onClick', ''); 
-    $('#updateRecordButton4').attr('onClick', ''); 
-    $('#updateRecordButton5').attr('onClick', ''); 
-    $('#deleteRecordButton').removeClass(); 
-    $('#deleteRecordButton').addClass('btn btn-danger disabled'); 
-    $('#deleteRecordButton').attr('onClick',''); 
-    $('#postRecordButton').removeClass(); 
-    $('#postRecordButton').addClass('btn btn-info'); 
-    $('#postRecordButton').attr('onClick',''); 
-    $('firstFirst').removeClass(); 
-    $('firstFirst').addClass(); 
-    $('firstFirst').attr('onClick', "firstRecord(\""+url+"\",\""+securityToken+"\")"); 
-    $('#movePrevious').removeClass(); 
-    $('#movePrevious').attr('onClick',''); 
-    $('moveNext').removeClass(); 
-    $('movePrevious').attr('onClick',''); 
-    $('lastRecord').removeClass(); 
-    $('lastRecord').addClass(); 
-    $('lastRecord').attr('onClick',"lastRecord(\""+url+"\",\""+securityToken+"\")"); 
 }
 function postRecord() {
     var css = $('#postRecordButton').attr('class');

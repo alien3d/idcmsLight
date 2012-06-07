@@ -121,7 +121,7 @@ define("LIMIT",14);
                 <h4>Date</h4>
                  <table cellpadding=1 cellspacing=1>
                      <tr>
-                         <td colspan='3'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','1979-01-01','2012-06-06')>Any Time</a></td>
+                         <td colspan='3'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','1979-01-01','2012-06-07')>Any Time</a></td>
                      </tr>
                      <tr>
                      <tr>
@@ -247,7 +247,7 @@ define("LIMIT",14);
                                 </div>
                             </div>        </div> 
         <div class='modal-footer'> 
-            <a href=javascript:void(0) class='btn btn-danger' onClick=deleteGridRecord()>Delete</a> 
+            <a href=javascript:void(0) class='btn btn-danger' onClick=deleteGridRecord('<?php echo $theme->getControllerPath(); ?>','<?php echo $securityToken; ?>','<?php echo $theme->getViewPath(); ?>')>Delete</a> 
             <a href=javascript:void(0) onclick=showMeModal('deletePreview',0) class='btn'>Close</a> 
         </div> 
    </div> 
@@ -278,7 +278,10 @@ define("LIMIT",14);
         <a title='X' href=javascript:void(0) class='btn btn-small' onClick=ajaxQuerySearchAllCharacter('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','X')>X</a> 
         <a title='Y' href=javascript:void(0) class='btn btn-small' onClick=ajaxQuerySearchAllCharacter('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','Y')>Y</a> 
         <a title='Z' href=javascript:void(0) class='btn btn-small' onClick=ajaxQuerySearchAllCharacter('<?php echo $theme->getViewPath(); ?>','<?php echo $securityToken; ?>','Z')>Z</a> 
-</div><br><br><table class='table table-striped table-bordered table-condensed' name='tableData' id='tableData'> 
+</div><br><br>    <div id='infoPanel'>
+<?php if(isset($_POST['message'])) {             echo "<div class=\"alert alert-error\"><a class=\"close\" data-dismiss=\'alert\'>×</a>".$_POST['message']."</div>";
+ } ?></div> 
+<table class='table table-striped table-bordered table-condensed' name='tableData' id='tableData'> 
         <thead> 
             <tr> 
                  <th>#</th><?php  
@@ -395,8 +398,7 @@ Delete Checked Box
    function toggleChecked(status) {
  $('input:checkbox').each( function() {
  $(this).attr('checked',status);
- })
-   }
+ }); } 
       </script> 
 </div>    <?php }  
            if ((isset($_POST['method']) == 'new' || isset($_POST['method']) == 'read') && $_POST['type'] == 'form') { ?> 

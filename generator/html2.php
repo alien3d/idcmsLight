@@ -331,7 +331,7 @@ for ($i = 0; $i < $total; $i++) {
 }
 $str.="        </div> \n";
 $str.="        <div class='modal-footer'> \n";
-$str.="            <a href=javascript:void(0) class='btn btn-danger' onClick=deleteGridRecord()>Delete</a> \n";
+$str.="            <a href=javascript:void(0) class='btn btn-danger' onClick=deleteGridRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>')>Delete</a> \n";
 $str.="            <a href=javascript:void(0) onclick=showMeModal('deletePreview',0) class='btn'>Close</a> \n";
 $str.="        </div> \n";
 $str.="   </div> \n";
@@ -360,6 +360,9 @@ $str.="<br><br>";
   $str.="    <br> \n";
  * 
  */
+$str.="    <div id='infoPanel'><?php if(isset(\$_POST['message'])) {             
+    echo \"<div class=\"alert alert-error\"><a class=\"close\" data-dismiss=\'alert\'>×</a>\".\$_POST['message'].\"</div>\";
+} ?></div> \n";
 $str.="<table class='table table-striped table-bordered table-condensed' name='tableData' id='tableData'> \n";
 $str.="        <thead> \n";
 $str.="            <tr> \n";
