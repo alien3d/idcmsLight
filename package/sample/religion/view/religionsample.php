@@ -323,7 +323,11 @@ if(isset($religionsampleArray[$i]['executeBy'])) {
 } else { 
 	echo "<td>&nbsp;</td>"; 
 } 
-  	                         echo "<td><input type='checkbox' name='religionSampleId[]' id='religionSampleId' value='".$religionsampleArray[$i]['religionSampleId']."'></td>";
+  	                         echo "<td>
+    <input style='display:none;' type='checkbox' name='religionSampleId[]' id='religionSampleId' value='".$religionsampleArray[$i]['religionSampleId']."'>
+    <input type='checkbox' name='isDelete[]' id='isDelete' value='".$religionsampleArray[$i]['isDelete']."'>
+    
+</td>";
                     echo "</tr>"; 
                   }  } 
                 } else { ?> 
@@ -557,3 +561,4 @@ validateMeNumeric('executeBy')
     </script> 
 <?php } ?> 
 <script language='javascript' type='text/javascript' src='./package/sample/religion/javascript/religionsample.js'></script> 
+    

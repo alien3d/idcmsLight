@@ -120,6 +120,9 @@ for ($i = 0; $i < $total; $i++) {
 }	
 $str.="		if (isset(\$_GET ['" . $data[0]['primaryKeyName'] . "'])) {\n";
 $str.="			\$this->setTotal(count(\$_GET ['" . $data[0]['primaryKeyName'] . "']));\n";
+$str.="             if (is_array(\$_GET ['" . $data[0]['primaryKeyName'] . "'])) {\n";
+$str.="                 \$this->" . $data[0]['primaryKeyName'] . " = array();\n";
+$str.="             }\n";
 $str.="		}\n";
 
 $str.="		if (isset(\$_GET ['isDefault'])) {\n";

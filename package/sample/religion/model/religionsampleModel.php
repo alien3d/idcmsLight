@@ -41,7 +41,8 @@ class ReligionsampleModel extends \Core\Validation\ValidationClass {
 
 		*/
 
-		private $religionSampleNote; 
+		private $religionSampleNote;
+              
   /* (non-PHPdoc)
 	 * @see ValidationClass::execute()
 	 */
@@ -81,6 +82,9 @@ if (isset($_GET ['religionSampleId'])) {
  } 
  		if (isset($_GET ['religionSampleId'])) {
 			$this->setTotal(count($_GET ['religionSampleId']));
+                        if(is_array($_GET ['religionSampleId'])) {
+                            $this->religionSampleId=array();
+                        }
 		}
 		if (isset($_GET ['isDefault'])) {
              $this->setIsDefaultTotal(count($_GET['isDefault']));             if (is_array($_GET ['isDefault'])) {

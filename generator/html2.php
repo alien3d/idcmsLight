@@ -546,7 +546,11 @@ for ($i = 0; $i < $total; $i++) {
     }
 }
 // new experiment delete function back.. give more focus to user.. 
-$str.="                         echo \"<td><input type='checkbox' name='" . $data[0]['primaryKeyName'] . "[]' id='" . $data[0]['primaryKeyName'] . "' value='\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[0]['primaryKeyName']  . "'].\"'></td>\";\n";
+$str.="                         echo \"<td>
+    <input style='display:none;' type='checkbox' name='" . $data[0]['primaryKeyName'] . "[]' id='" . $data[0]['primaryKeyName'] . "' value='\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[0]['primaryKeyName']  . "'].\"'>
+    <input type='checkbox' name='isDelete[]' id='isDelete' value='\".\$" . $data[0]['tableName'] . "Array[\$i]['isDelete'].\"'>
+    
+</td>\";\n";
 $str.="                    echo \"</tr>\"; \n";
 $str.="                  }  } \n";
 $str.="                } else { ?> \n";

@@ -408,7 +408,6 @@ if (isset($data)) {
     $str.="         return false;\n";
     $str.="      } else {\n";
     $str.="         url = url + \"?\"+stringText;\n";
-    $str.="         alert('url :'+url);\n";
     $str.="      }\n";
 
     $str.="     \$.ajax({\n";

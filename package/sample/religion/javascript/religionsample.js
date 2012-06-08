@@ -354,7 +354,7 @@
          return false;
       } else {
          url = url + "?"+stringText;
-         alert('url :'+url);
+        
       }
      $.ajax({
          type	: 	'GET',
