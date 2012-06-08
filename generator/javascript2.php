@@ -5,10 +5,10 @@
 
 if (isset($data)) {
     $total = count($data);
-    // initilize dummy value
+// initilize dummy value
     $fieldName = '';
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -250,7 +250,7 @@ if (isset($data)) {
     $str.="	function showModalDelete(" . $fieldName . ") {\n";
     $str.="		// clear first old record if exist\n";
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -267,7 +267,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation') {
             $str.="		\$('#" . $data[$i]['columnName'] . "Preview').val('');\n";
-            // decode back
+// decode back
             $str.="		\$('#" . $data[$i]['columnName'] . "Preview').val(unescape(" . $data[$i]['columnName'] . "));\n\n";
         }
     }
@@ -305,23 +305,163 @@ if (isset($data)) {
     $str.="             }\n";
     $str.="         });\n";
     $str.="     }\n";
-    $str.="	function auditRecord(url, securityToken) {\n";
-    $str.="		var css = \$('#auditRecordButton').attr('class');\n";
-    $str.="		if (css.search('disabled') > 0) {\n";
-    $str.="                 return false;  \n";
-    $str.="		}else { return false; }\n";
-    $str.="	}\n";
-    $str.="	function newRecord(url, securityToken, type) {\n";
-    $str.="		var css = \$('#newRecordButton2').attr('class');\n";
-    $str.="		if (css.search('disabled') > 0) {\n";
-    $str.="			return false; \n";
-    $str.="		} else {\n";
-    $str.="			if (type == 1) {\n";
-    $str.="				// new record and continue\n";
+    $str.="     function deleteGridRecordCheckbox(url,securityToken,urlList) { \n";
+    $str.="         var stringText='';\n";
+    $str.="         var counter = 0; \n";
+    $str.="         \$('input:checkbox[name=\"themeId[]\"]').each( function() {\n";
+    $str.="             stringText=stringText+\"&themeId[]=\"+$(this).val();  \n";
+    $str.="         });\n";
+
+    $str.="//       \$('input:checkbox[name=\"isDraft[]\"]').each( function() { \n";
+    $str.="//           if(\$(this).is(':checked')) {\n";
+    $str.="//               stringText=stringText+\"&isDraft[]=true\";\n";
+    $str.="//           }else {\n";
+    $str.="//               stringText=stringText+\"&isDraft[]=false\";\n";
+    $str.="//           }\n";
+    $str.="//           if(\$(this).is(':checked')) {\n";
+    $str.="//               counter++;\n";
+    $str.="//           }\n";
+    $str.="//       });\n";
+
+    $str.="//      \$('input:checkbox[name=\"isDefault[]\"]').each( function() { \n";
+    $str.="//           if(\$(this).is(':checked')) {\n";
+    $str.="//               stringText=stringText+\"&isDefault[]=true\";\n";
+    $str.="//           }else {\n";
+    $str.="//               stringText=stringText+\"&isDefault[]=false\";\n";
+    $str.="//           }\n";
+    $str.="//           if(\$(this).is(':checked')) {\n";
+    $str.="//               counter++;\n";
+    $str.="//           }\n";
+    $str.="//       });\n";
+
+    $str.="//     \$('input:checkbox[name=\"isNew[]\"]').each( function() { \n";
+    $str.="//           if(\$(this).is(':checked')) {\n";
+    $str.="//               stringText=stringText+\"&isNew[]=true\";\n";
+    $str.="//           }else {\n";
+    $str.="//               stringText=stringText+\"&isNew[]=false\";\n";
+    $str.="//           }\n";
+    $str.="//           if(\$(this).is(':checked')) {\n";
+    $str.="//               counter++;\n";
+    $str.="//           }\n";
+    $str.="//     });\n";
+
+    $str.="//     \$('input:checkbox[name=\"isUpdate[]\"]').each( function() { \n";
+    $str.="//           if(\$(this).is(':checked')) {\n";
+    $str.="//               stringText=stringText+\"&isUpdate[]=true\";\n";
+    $str.="//           }else {\n";
+    $str.="//               stringText=stringText+\"&isUpdate[]=false\";\n";
+    $str.="//           }\n";
+    $str.="//           if(\$(this).is(':checked')) {\n";
+    $str.="//               counter++;\n";
+    $str.="//           }\n";
+    $str.="//     });\n";
+
+    $str.="    \$('input:checkbox[name=\"isDelete[]\"]').each( function() {\n";
+    $str.="         // to cater old code extjs\n";
+    $str.="         if(\$(this).is(':checked')) {\n";
+    $str.="             stringText=stringText+\"&isDelete[]=true\";\n";
+    $str.="         }else {\n";
+    $str.="             stringText=stringText+\"&isDelete[]=false\";\n";
+    $str.="         }\n";
+    $str.="         if(\$(this).is(':checked')) {\n";
+    $str.="             counter++;\n";
+    $str.="         }\n";
+    $str.="     });\n";
+
+    $str.="//   $('input:checkbox[name=\"isActive[]\"]').each( function() { \n";
+    $str.="//       if(\$(this).is(':checked')) {\n";
+    $str.="//           stringText=stringText+\"&isActive[]=true\";\n";
+    $str.="//       }else {\n";
+    $str.="//         stringText=stringText+\"&isActive[]=false\";\n";
+    $str.="//       }\n";
+    $str.="//       if($(this).is(':checked')) {\n";
+    $str.="//         counter++;\n";
+    $str.="//       }\n";
+    $str.="//    });\n";
+
+    $str.="//    $('input:checkbox[name=\"isReview[]\"]').each( function() { \n";
+    $str.="//       if(\$(this).is(':checked')) {\n";
+    $str.="//           stringText=stringText+\"&isReview[]=true\";\n";
+    $str.="//       }else {\n";
+    $str.="//         stringText=stringText+\"&isReview[]=false\";\n";
+    $str.="//       }\n";
+    $str.="//       if(\$(this).is(':checked')) {\n";
+    $str.="//         counter++;\n";
+    $str.="//       }\n";
+    $str.="//     });\n";
+
+
+    $str.="//    \$('input:checkbox[name=\"isPost[]\"]').each( function() { \n";
+    $str.="//       if(\$(this).is(':checked')) {\n";
+    $str.="//           stringText=stringText+\"&isPost[]=true\";\n";
+    $str.="//       }else {\n";
+    $str.="//           stringText=stringText+\"&isPost[]=false\";\n";
+    $str.="//       }\n";
+    $str.="//       if(\$(this).is(':checked')) {\n";
+    $str.="//           counter++;\n";
+    $str.="//       }\n";
+    $str.="//    });\n";
+
+
+    $str.="      if(counter == 0 ) {\n";
+    $str.="         alert(\"You must at least check one record for delete record\")\n";
+    $str.="         return false;\n";
+    $str.="      } else {\n";
+    $str.="         url = url + \"?\"+stringText;\n\";\n";
+    $str.="         alert('url :'+url);\n";
+    $str.="      }\n";
+
+    $str.="     \$.ajax({\n";
+    $str.="         type	: 	'GET',\n";
+    $str.="         url		: 	url,\n";
+    $str.="         data	:	{\n";
+    $str.="             method          :   'updateStatus',\n";
+    $str.="             output          :	'json',\n";
+    $str.="             securityToken   : 	securityToken\n";
+    $str.="         },\n";
+    $str.="         beforeSend: function () {\n";
+    $str.="             // this is where we append a loading image\n";
+    $str.="             \$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
+    $str.="         }, \n";
+    $str.="         success: function (data) {\n";
+    $str.="             // successful request; do something with the data\n";
+    $str.="             if (data.success == true) {\n";
+    $str.="                 showGrid(urlList,securityToken,0,14,'Record have been deleted'); \n";
+    $str.="             } else if (data.success == false) {\n";
+    $str.="                 \$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
+    $str.="             }else {\n";
+    $str.="                 \$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
+    $str.="             }\n";
+    $str.="         },\n";
+    $str.="         error: function (data) {\n";
+    $str.="             // failed request; give feedback to user\n";
+    $str.="             if (data.success == false) {\n";
+    $str.="                 \$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
+    $str.="             } else{\n";
+    $str.="                 \$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
+    $str.="             }\n";
+    $str.="         }\n";
+    $str.="     });\n";
+    $str.=" }\n";
+    $str.=" function auditRecord(url, securityToken) {\n";
+    $str.="     var css = \$('#auditRecordButton').attr('class');\n";
+    $str.="     if (css.search('disabled') > 0) {\n";
+    $str.="         return false;   \n";
+    $str.="     } else { return false;    }\n";
+    $str.=" }\n";
+    $str.=" function newRecord(url, securityToken, type) {\n";
+    $str.=" var css = \$('#newRecordButton2').attr('class');
+        \n";
+    $str.=" if (css.search('disabled') > 0) {\n";
+    $str.=" return false;
+        \n";
+    $str.=" } else {\n";
+    $str.=" if (type == 1) {\n";
+    $str.="    // new record and continue\n";
     $d = 0;
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session and id don't exist yet..
-        // extjs generate phantom id instead
+// this field is auto update by session and id don't exist yet..
+// extjs generate phantom id instead
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -342,7 +482,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isConsolidation' &&
                 $data[$i]['columnName'] != ($data[0]['tableName'] . 'Id')) {
             if ($i == 0) {
-                // first do nothing because it was primary key
+// first do nothing because it was primary key
             } else if ($d == 0) {
                 $str.="	if (\$('#" . $data[$i]['columnName'] . "').val().length == 0) {\n";
                 $d++;
@@ -366,7 +506,7 @@ if (isset($data)) {
     $str.="							method					:	'create',\n";
     $str.="							output					:	'json',\n";
     for ($i = 0; $i < $total; $i++) {
-        // filter unnessary field to create a new record
+// filter unnessary field to create a new record
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -398,7 +538,7 @@ if (isset($data)) {
     $str.="								\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
     $str.="								// reseting field value\n";
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -435,7 +575,7 @@ if (isset($data)) {
     $str.="				// new record and continue\n";
     $d = 0;
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -453,7 +593,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isConsolidation' &&
                 $data[$i]['columnName'] != ($data[0]['tableName'] . 'Id')) {
             if ($i == 0) {
-                // first do nothing because it was primary key
+// first do nothing because it was primary key
             } else if ($d == 0) {
                 $str.="	if (\$('#" . $data[$i]['columnName'] . "').val().length == 0) {\n";
                 $d++;
@@ -477,7 +617,7 @@ if (isset($data)) {
     $str.="							method					:	'create',\n";
     $str.="							output					:	'json',\n";
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -508,10 +648,10 @@ if (isset($data)) {
     $str.="							if (data.success == true) {\n";
     $str.="								\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
     $str.="$('#" . $data[0]['tableName'] . "Id" . "').val(data." . $data[0]['tableName'] . "Id); \n";
-    // disable the new button. new record only avaible upon pressing reset button
-    //$str.="								// reseting field value\n";
-    // new button segment
-    // remove classes
+// disable the new button. new record only avaible upon pressing reset button
+//$str.="								// reseting field value\n";
+// new button segment
+// remove classes
     $str.="	\$('#newRecordButton1').removeClass(); \n";
     $str.="	\$('#newRecordButton2').removeClass(); \n";
     $str.="	\$('#newRecordButton3').removeClass(); \n";
@@ -519,7 +659,7 @@ if (isset($data)) {
     $str.="	\$('#newRecordButton5').removeClass(); \n";
     $str.="	\$('#newRecordButton6').removeClass(); \n";
     $str.="	\$('#newRecordButton7').removeClass(); \n";
-    // add disabled class
+// add disabled class
     $str.="	\$('#newRecordButton1').addClass('btn btn-success disabled'); \n";
     $str.="	\$('#newRecordButton2').addClass('btn  dropdown-toggle btn-success disabled'); \n";
     $str.="	\$('#newRecordButton3').addClass('btn btn-success disabled'); \n";
@@ -527,7 +667,7 @@ if (isset($data)) {
     $str.="	\$('#newRecordButton5').addClass('btn btn-success disabled'); \n";
     $str.="	\$('#newRecordButton6').addClass('btn btn-success disabled'); \n";
     $str.="	\$('#newRecordButton7').addClass('btn btn-success disabled'); \n";
-    // empty the  onClick field.
+// empty the  onClick field.
     $str.="	\$('#newRecordButton1').attr('onClick', ''); \n";
     $str.="	\$('#newRecordButton2').attr('onClick', ''); \n";
     $str.="	\$('#newRecordButton3').attr('onClick', ''); \n";
@@ -535,29 +675,29 @@ if (isset($data)) {
     $str.="	\$('#newRecordButton5').attr('onClick', ''); \n";
     $str.="	\$('#newRecordButton6').attr('onClick', ''); \n";
     $str.="	\$('#newRecordButton7').attr('onClick', ''); \n";
-    // end new button segment
-    // update button segment
+// end new button segment
+// update button segment
     $str.="	\$('#updateRecordButton1').removeClass(); \n";
     $str.="	\$('#updateRecordButton2').removeClass(); \n";
     $str.="	\$('#updateRecordButton3').removeClass(); \n";
     $str.="	\$('#updateRecordButton4').removeClass(); \n";
     $str.="	\$('#updateRecordButton5').removeClass(); \n";
-    // add disabled class
+// add disabled class
     $str.="	\$('#updateRecordButton1').addClass('btn btn-info'); \n";
-    // toggle button
+// toggle button
     $str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info'); \n";
-    // drop down don't have  css class.blank empty
-    //$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
-    //$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
-    //$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
-    // put back the  onClick field
-    //@todo.. what if the client have no access to update..
+// drop down don't have  css class.blank empty
+//$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
+//$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
+//$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
+// put back the  onClick field
+//@todo.. what if the client have no access to update..
     $str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
     $str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
     $str.="	\$('#updateRecordButton3').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
     $str.="	\$('#updateRecordButton4').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+2+\"\\\")\"); \n";
     $str.="	\$('#updateRecordButton5').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+3+\"\\\")\"); \n";
-    // end button segment
+// end button segment
     $str.="							}\n";
     $str.="						},\n";
     $str.="                		error: function (data) {\n";
@@ -573,7 +713,7 @@ if (isset($data)) {
     $str.="        		// new record and continue\n";
     $d = 0;
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -591,7 +731,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isConsolidation' &&
                 $data[$i]['columnName'] != ($data[0]['tableName'] . 'Id')) {
             if ($i == 0) {
-                // first do nothing because it was primary key
+// first do nothing because it was primary key
             } else if ($d == 0) {
                 $str.="	if (\$('#" . $data[$i]['columnName'] . "').val().length == 0) {\n";
                 $d++;
@@ -615,7 +755,7 @@ if (isset($data)) {
     $str.="                    		method					:	'create',\n";
     $str.="							output					:	'json',\n";
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -647,7 +787,7 @@ if (isset($data)) {
     $str.="                        		\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
     $str.="                        		// reseting field value\n";
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -682,7 +822,7 @@ if (isset($data)) {
     $str.="        		// new record and continue\n";
     $d = 0;
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -700,7 +840,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isConsolidation' &&
                 $data[$i]['columnName'] != ($data[0]['tableName'] . 'Id')) {
             if ($i == 0) {
-                // first do nothing because it was primary key
+// first do nothing because it was primary key
             } else if ($d == 0) {
                 $str.="	if (\$('#" . $data[$i]['columnName'] . "').val().length == 0) {\n";
                 $d++;
@@ -754,10 +894,10 @@ if (isset($data)) {
     $str.="                    if (data.success == true) {\n";
     $str.="                        \$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
     $str.="$('#" . $data[0]['tableName'] . "Id" . "').val(data." . $data[0]['tableName'] . "Id); \n";
-    // disable the new button. new record only avaible upon pressing reset button
-    //$str.="								// reseting field value\n";
-    // new button segment
-    // remove classes
+// disable the new button. new record only avaible upon pressing reset button
+//$str.="								// reseting field value\n";
+// new button segment
+// remove classes
     $str.="	\$('#newRecordButton1').removeClass(); \n";
     $str.="	\$('#newRecordButton2').removeClass(); \n";
     $str.="	\$('#newRecordButton3').removeClass(); \n";
@@ -765,7 +905,7 @@ if (isset($data)) {
     $str.="	\$('#newRecordButton5').removeClass(); \n";
     $str.="	\$('#newRecordButton6').removeClass(); \n";
     $str.="	\$('#newRecordButton7').removeClass(); \n";
-    // add disabled class
+// add disabled class
     $str.="	\$('#newRecordButton1').addClass('btn btn-success disabled'); \n";
     $str.="	\$('#newRecordButton2').addClass('btn  dropdown-toggle btn-success disabled'); \n";
     $str.="	\$('#newRecordButton3').addClass('btn btn-success disabled'); \n";
@@ -773,7 +913,7 @@ if (isset($data)) {
     $str.="	\$('#newRecordButton5').addClass('btn btn-success disabled'); \n";
     $str.="	\$('#newRecordButton6').addClass('btn btn-success disabled'); \n";
     $str.="	\$('#newRecordButton7').addClass('btn btn-success disabled'); \n";
-    // empty the  onClick field.
+// empty the  onClick field.
     $str.="	\$('#newRecordButton1').attr('onClick', ''); \n";
     $str.="	\$('#newRecordButton2').attr('onClick', ''); \n";
     $str.="	\$('#newRecordButton3').attr('onClick', ''); \n";
@@ -781,29 +921,29 @@ if (isset($data)) {
     $str.="	\$('#newRecordButton5').attr('onClick', ''); \n";
     $str.="	\$('#newRecordButton6').attr('onClick', ''); \n";
     $str.="	\$('#newRecordButton7').attr('onClick', ''); \n";
-    // end new button segment
-    // update button segment
+// end new button segment
+// update button segment
     $str.="	\$('#updateRecordButton1').removeClass(); \n";
     $str.="	\$('#updateRecordButton2').removeClass(); \n";
     $str.="	\$('#updateRecordButton3').removeClass(); \n";
     $str.="	\$('#updateRecordButton4').removeClass(); \n";
     $str.="	\$('#updateRecordButton5').removeClass(); \n";
-    // add disabled class
+// add disabled class
     $str.="	\$('#updateRecordButton1').addClass('btn btn-info'); \n";
-    // toggle button
+// toggle button
     $str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info'); \n";
-    // drop down don't have  css class.blank empty
-    //$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
-    //$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
-    //$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
-    // put back the  onClick field
-    //@todo.. what if the client have no access to update..
+// drop down don't have  css class.blank empty
+//$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
+//$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
+//$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
+// put back the  onClick field
+//@todo.. what if the client have no access to update..
     $str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
     $str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
     $str.="	\$('#updateRecordButton3').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
     $str.="	\$('#updateRecordButton4').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+2+\"\\\")\"); \n";
     $str.="	\$('#updateRecordButton5').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+3+\"\\\")\"); \n";
-    // end button segment	
+// end button segment	
 
     $str.="                    }\n";
     $str.="                	},\n";
@@ -819,7 +959,7 @@ if (isset($data)) {
     $str.="        		// new record and listing\n";
     $d = 0;
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -837,7 +977,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isConsolidation' &&
                 $data[$i]['columnName'] != ($data[0]['tableName'] . 'Id')) {
             if ($i == 0) {
-                // first do nothing because it was primary key
+// first do nothing because it was primary key
             } else if ($d == 0) {
                 $str.="	if (\$('#" . $data[$i]['columnName'] . "').val().length == 0) {\n";
                 $d++;
@@ -861,7 +1001,7 @@ if (isset($data)) {
     $str.="                    		method					:	'create',\n";
     $str.="							output					:	'json',\n";
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -891,7 +1031,7 @@ if (isset($data)) {
     $str.="                    		// successful request; do something with the data\n";
     $str.="                    		if (data.success == true) {\n";
     $str.="                        		\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-    // no need to reset record instead redirect to list page again
+// no need to reset record instead redirect to list page again
     $str.="                    		}	\n";
     $str.="                		},\n";
     $str.="                		error: function (data) {\n";
@@ -916,7 +1056,7 @@ if (isset($data)) {
     $str.="        		// update record and continue\n";
     $d = 0;
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -933,7 +1073,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation') {
             if ($i == 0) {
-                // first do nothing because it was primary key
+// first do nothing because it was primary key
             } else if ($d == 0) {
                 $str.="	if (\$('#" . $data[$i]['columnName'] . "').val().length == 0) {\n";
                 $d++;
@@ -970,8 +1110,8 @@ if (isset($data)) {
     $str.="               				if (data.success == true) {\n";
     $str.="                   				\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
 
-    //  enable the delete button
-    // enable the delete button
+//  enable the delete button
+// enable the delete button
     $str.="\$('#deleteRecordButton').removeClass(); \n";
     $str.="\$('#deleteRecordButton').addClass('btn btn-danger'); \n";
     $str.="\$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
@@ -992,7 +1132,7 @@ if (isset($data)) {
     $str.="    				// update record  preview(modal box)\n";
     $d = 0;
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDelete' &&
@@ -1009,7 +1149,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation') {
             if ($i == 0) {
-                // first do nothing because it was primary key
+// first do nothing because it was primary key
             } else if ($d == 0) {
                 $str.="	if (\$('#" . $data[$i]['columnName'] . "').val().length == 0) {\n";
                 $d++;
@@ -1061,8 +1201,8 @@ if (isset($data)) {
     $str.="                					// successful request; do something with the data\n";
     $str.="                					if (data.success == true) {\n";
     $str.="                    					\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-    // enable the delete button
-    // enable the delete button
+// enable the delete button
+// enable the delete button
     $str.="\$('#deleteRecordButton').removeClass(); \n";
     $str.="\$('#deleteRecordButton').addClass('btn btn-danger'); \n";
     $str.="\$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
@@ -1083,7 +1223,7 @@ if (isset($data)) {
     $str.="    					// update record and listing\n";
     $d = 0;
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -1100,7 +1240,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation') {
             if ($i == 0) {
-                // first do nothing because it was primary key
+// first do nothing because it was primary key
             } else if ($d == 0) {
                 $str.="	if (\$('#" . $data[$i]['columnName'] . "').val().length == 0) {\n";
                 $d++;
@@ -1124,7 +1264,7 @@ if (isset($data)) {
     $str.="                					method: 'save',\n";
     $str.="							output					:	'json',\n";
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDelete' &&
@@ -1155,7 +1295,7 @@ if (isset($data)) {
     $str.="                					// successful request; do something with the data\n";
     $str.="                					if (data.success == true) {\n";
     $str.="                    					\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-    // enable the delete button
+// enable the delete button
     $str.="\$('#deleteRecordButton').removeClass(); \n";
     $str.="\$('#deleteRecordButton').addClass('btn btn-danger'); \n";
     $str.="\$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
@@ -1184,7 +1324,7 @@ if (isset($data)) {
     $str.="			\n";
     $str.="                     var value=\$('#" . $data[0]['tableName'] . "Id').val(); \n";
     $str.="                     if(!value) {\n";
-    // alert something wrong with the record and cannot be deleted.	
+// alert something wrong with the record and cannot be deleted.	
     $str.="                         \$('#infoPanel').html('<div class=alert alert-info>Please Contact Administrator</div>');\n";
     $str.="                     } else { \n";
     $str.="                         \$.ajax({\n";
@@ -1206,7 +1346,7 @@ if (isset($data)) {
     $str.="            				\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
     $str.="            				// reseting field value\n";
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'isDefault' &&
                 $data[$i]['columnName'] != 'isApproved' &&
                 $data[$i]['columnName'] != 'isPost' &&
@@ -1223,15 +1363,15 @@ if (isset($data)) {
             $str.="								\$('#" . $data[$i]['columnName'] . "').val('');\n";
         }
     }
-    // new button segment
-    // remove classes
+// new button segment
+// remove classes
     $str.="	\$('#newRecordButton1').removeClass(); \n";
     $str.="	\$('#newRecordButton2').removeClass(); \n";
-    // add disabled class
+// add disabled class
     $str.="	\$('#newRecordButton1').addClass('btn btn-success'); \n";
     $str.="	\$('#newRecordButton2').addClass('btn btn-success dropdown-toggle'); \n";
 
-    // empty the  onClick field.
+// empty the  onClick field.
     $str.="	\$('#newRecordButton1').attr('onClick', ''); \n";
     $str.="	\$('#newRecordButton2').attr('onClick', ''); \n";
     $str.="	\$('#newRecordButton3').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
@@ -1239,23 +1379,23 @@ if (isset($data)) {
     $str.="	\$('#newRecordButton5').attr('onClick', \"newecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
     $str.="	\$('#newRecordButton6').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
     $str.="	\$('#newRecordButton7').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
-    // end new button segment
-    // update button segment
+// end new button segment
+// update button segment
     $str.="	\$('#updateRecordButton1').removeClass(); \n";
     $str.="	\$('#updateRecordButton2').removeClass(); \n";
     $str.="	\$('#updateRecordButton3').removeClass(); \n";
     $str.="	\$('#updateRecordButton4').removeClass(); \n";
     $str.="	\$('#updateRecordButton5').removeClass(); \n";
-    // add disabled class
+// add disabled class
     $str.="	\$('#updateRecordButton1').addClass('btn btn-info disabled'); \n";
-    // toggle button
+// toggle button
     $str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); \n";
-    // drop down don't have  css class.blank empty
-    //$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
-    //$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
-    //$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
-    // put back the  onClick field
-    //@todo.. what if the client have no access to update..
+// drop down don't have  css class.blank empty
+//$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
+//$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
+//$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
+// put back the  onClick field
+//@todo.. what if the client have no access to update..
     $str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
     $str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
     $str.="	\$('#updateRecordButton3').attr('onClick', ''); \n";
@@ -1263,33 +1403,33 @@ if (isset($data)) {
     $str.="	\$('#updateRecordButton5').attr('onClick', ''); \n";
 
 
-    // delete button segment
+// delete button segment
     $str.="	\$('#deleteRecordButton').removeClass(); \n";
     $str.="	\$('#deleteRecordButton').addClass('btn btn-danger disabled'); \n";
     $str.="	\$('#deleteRecordButton').attr('onClick',''); \n";
-    // end delete button segment
-    // post button segment
+// end delete button segment
+// post button segment
     $str.="	\$('#postRecordButton').removeClass(); \n";
     $str.="	\$('#postRecordButton').addClass('btn btn-info'); \n";
     $str.="	\$('#postRecordButton').attr('onClick',''); \n";
-    // end post button segment
-    // end button segment
-    // navigation segment
-    // disable move next
+// end post button segment
+// end button segment
+// navigation segment
+// disable move next
     $str.="	\$('firstFirst').removeClass(); \n";
     $str.="	\$('firstFirst').addClass(); \n";
     $str.="	\$('firstFirst').attr('onClick', \"firstRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
-    // disable move previous
+// disable move previous
     $str.="	\$('#movePrevious').removeClass(); \n";
     $str.="	\$('#movePrevious').attr('onClick',''); \n";
-    // enable the next record
+// enable the next record
     $str.="	\$('moveNext').removeClass(); \n";
     $str.="	\$('movePrevious').attr('onClick',''); \n";
-    // enable the last record
+// enable the last record
     $str.="	\$('lastRecord').removeClass(); \n";
     $str.="	\$('lastRecord').addClass(); \n";
     $str.="	\$('lastRecord').attr('onClick',\"lastRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
-    // end navigation segment
+// end navigation segment
     $str.="        				} else if (data.success == false) {\n";
     $str.="            				\$('#infoPanel').html('<div class=alert alert-error>' + data.message + '</div>');\n";
     $str.="        				}\n";
@@ -1308,15 +1448,15 @@ if (isset($data)) {
     $str.="		}\n";
     $str.="	}\n";
     $str.="	function resetRecord(url,securityToken) {\n";
-    // new button segment
-    // remove classes
+// new button segment
+// remove classes
     $str.="	\$('#newRecordButton1').removeClass(); \n";
     $str.="	\$('#newRecordButton2').removeClass(); \n";
-    // add disabled class
+// add disabled class
     $str.="	\$('#newRecordButton1').addClass('btn btn-success'); \n";
     $str.="	\$('#newRecordButton2').addClass('btn dropdown-toggle btn-success'); \n";
 
-    // empty the  onClick field.
+// empty the  onClick field.
     $str.="	\$('#newRecordButton1').attr('onClick', ''); \n";
     $str.="	\$('#newRecordButton2').attr('onClick', ''); \n";
     $str.="	\$('#newRecordButton3').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
@@ -1324,23 +1464,23 @@ if (isset($data)) {
     $str.="	\$('#newRecordButton5').attr('onClick', \"newecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
     $str.="	\$('#newRecordButton6').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
     $str.="	\$('#newRecordButton7').attr('onClick', \"newRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
-    // end new button segment
-    // update button segment
+// end new button segment
+// update button segment
     $str.="	\$('#updateRecordButton1').removeClass(); \n";
     $str.="	\$('#updateRecordButton2').removeClass(); \n";
     $str.="	\$('#updateRecordButton3').removeClass(); \n";
     $str.="	\$('#updateRecordButton4').removeClass(); \n";
     $str.="	\$('#updateRecordButton5').removeClass(); \n";
-    // add disabled class
+// add disabled class
     $str.="	\$('#updateRecordButton1').addClass('btn btn-info disabled'); \n";
-    // toggle button
+// toggle button
     $str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); \n";
-    // drop down don't have  css class.blank empty
-    //$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
-    //$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
-    //$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
-    // put back the  onClick field
-    //@todo.. what if the client have no access to update..
+// drop down don't have  css class.blank empty
+//$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
+//$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
+//$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
+// put back the  onClick field
+//@todo.. what if the client have no access to update..
     $str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
     $str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
     $str.="	\$('#updateRecordButton3').attr('onClick', ''); \n";
@@ -1348,35 +1488,35 @@ if (isset($data)) {
     $str.="	\$('#updateRecordButton5').attr('onClick', ''); \n";
 
 
-    // delete button segment
+// delete button segment
     $str.="	\$('#deleteRecordButton').removeClass(); \n";
     $str.="	\$('#deleteRecordButton').addClass('btn btn-danger disabled'); \n";
     $str.="	\$('#deleteRecordButton').attr('onClick',''); \n";
-    // end delete button segment
-    // post button segment
+// end delete button segment
+// post button segment
     $str.="	\$('#postRecordButton').removeClass(); \n";
     $str.="	\$('#postRecordButton').addClass('btn btn-info'); \n";
     $str.="	\$('#postRecordButton').attr('onClick',''); \n";
-    // end post button segment
-    // end button segment
-    // navigation segment
-    // disable move next
+// end post button segment
+// end button segment
+// navigation segment
+// disable move next
     $str.="	\$('firstFirst').removeClass(); \n";
     $str.="	\$('firstFirst').addClass(); \n";
     $str.="	\$('firstFirst').attr('onClick', \"firstRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
-    // disable move previous
+// disable move previous
     $str.="	\$('#movePrevious').removeClass(); \n";
     $str.="	\$('#movePrevious').attr('onClick',''); \n";
-    // enable the next record
+// enable the next record
     $str.="	\$('moveNext').removeClass(); \n";
     $str.="	\$('movePrevious').attr('onClick',''); \n";
-    // enable the last record
+// enable the last record
     $str.="	\$('lastRecord').removeClass(); \n";
     $str.="	\$('lastRecord').addClass(); \n";
     $str.="	\$('lastRecord').attr('onClick',\"lastRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
-    // end navigation segment
+// end navigation segment
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'isDefault' &&
                 $data[$i]['columnName'] != 'isApproved' &&
                 $data[$i]['columnName'] != 'isPost' &&
@@ -1442,7 +1582,7 @@ if (isset($data)) {
     $str.="                        			\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
     $str.="                        			// reseting field value\n";
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -1533,7 +1673,7 @@ if (isset($data)) {
     $str.="                          		 \$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
     $str.="                           		// reseting field value\n";
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -1612,7 +1752,7 @@ if (isset($data)) {
     $str.="              			if (data.success == true) {\n";
     $str.="                  			\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&
@@ -1688,7 +1828,7 @@ if (isset($data)) {
     $str.="               		if (data.success == true) {\n";
     $str.="                    		\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
     for ($i = 0; $i < $total; $i++) {
-        // this field is auto update by session
+// this field is auto update by session
         if ($data[$i]['columnName'] != 'executeBy' &&
                 $data[$i]['columnName'] != 'executeTime' &&
                 $data[$i]['columnName'] != 'isDefault' &&

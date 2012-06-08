@@ -126,7 +126,7 @@ class generator {
                 var targetModule= $("#targetModule").val();
                 var targetOutput= $("#targetOutput").val()
                 var targetGridType= $("#targetGridType").val();
-                var targetFilterType= $("#targetFilterType").val();
+                var targetFormStyle= $("#targetFormStyle").val();
          
                 url ='<?php echo basename($_SERVER['PHP_SELF']); ?>';
                
@@ -151,8 +151,8 @@ class generator {
                 if(targetGridType){
                     url = url+"&targetGridType="+targetGridType;
                 }
-                if(targetFilterType){
-                    url = url+"&targetFilterType="+targetFilterType;
+                if(targetFormStyle){
+                    url = url+"&targetFormStyle="+targetFormStyle;
                 }
      
                 location.href =url;
@@ -365,26 +365,34 @@ class generator {
                     </td>
                 </tr>
                 <tr>
-                    <td>Target Filter Type</td>
-                    <td><select name="targetFilterType" id="targetFilterType" <?php if (!(isset($_GET['targetDatabase']))) {
+                    <td>Target Form Style</td>
+                    <td><select name="targetFormStyle" id="targetFormStyle" <?php if (!(isset($_GET['targetDatabase']))) {
                         echo "disabled";
                     } ?>>
-                            <option value="first"
+                            <option value="form-vertical"
                             <?php
-                            if (isset($_GET['targetFilterType'])) {
-                                if ($_GET['targetFilterType'] == 'first') {
+                            if (isset($_GET['targetFormStyle'])) {
+                                if ($_GET['targetFormStyle'] == 'form-vertical') {
                                     echo "selected";
                                 }
                             }
-                            ?>>Character</option>
-                            <option value="second"
+                            ?>>form-vertical</option>
+                            <option value="form-inline"
+                            <?php
+                            if (isset($_GET['targetFormStyle'])) {
+                                if ($_GET['targetFormStyle'] == 'form-inline') {
+                                    echo "selected";
+                                }
+                            }
+                            ?>>form-inline</option>
+                            <option value="form-horizontal"
         <?php
-        if (isset($_GET['targetFilterType'])) {
-            if ($_GET['targetFilterType'] == 'second') {
+        if (isset($_GET['targetFormStyle'])) {
+            if ($_GET['targetFormStyle'] == 'form-horizontal') {
                 echo "selected";
             }
         }
-        ?>>Date</option>
+        ?>>form-horizontal</option>
                         </select>
                     </td>
                 </tr>

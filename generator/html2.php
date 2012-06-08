@@ -569,7 +569,7 @@ $str.="   <?php \n";
 $str.="} \n";
 $str.="if (\$_POST['method'] == 'read' && \$_POST['type'] == 'list' && \$_POST['detail'] == 'body') { ?> \n";
 $str.="<div class='pull-right'> \n";
-$str.="<button class='delete btn btn-warning' type='button'> \n";
+$str.="<button class='delete btn btn-warning' type='button' onClick=deleteGridRecordCheckbox('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>')> \n";
 $str.="<i class='icon-white icon-trash'></i> \n";
 $str.="Delete Checked Box \n";
 $str.="</button> \n";
@@ -598,7 +598,9 @@ $str.="      </script> \n";
 $str.="</div>";
 $str.="    <?php }  \n";
 $str.="           if ((isset(\$_POST['method']) == 'new' || isset(\$_POST['method']) == 'read') && \$_POST['type'] == 'form') { ?> \n";
+
 $str.="    <div id='infoPanel'></div> \n";
+$str.="         <form class='well '".$data[0]['formStyle']."'>\n";
 $str.="    <input type='hidden' name='" . $data[0]['tableName'] . "Id' id='" . $data[0]['tableName'] . "Id' 
 value='<?php if (isset(\$_POST['" . $data[0]['tableName'] . "Id'])) { 
                 echo \$_POST['" . $data[0]['tableName'] . "Id'];    
@@ -729,6 +731,8 @@ for ($i = 0; $i < $total; $i++) {
     }
 }
 // end loop field
+$str.="</form><br>\n";
+$str.="<div class='form-actions'>\n";
 $str.="    <div class='btn-toolbar'> \n";
 $str.="        <div class='btn-group'> \n";
 $str.="            <a  name='auditRecordButton' id='auditRecordButton'  href=javascript:void(0) 
@@ -779,7 +783,7 @@ $str.="        </div> \n";
 $str.="        <div class='btn-group'> \n";
 $str.="            <a name='lastRecordButton' id='lastRecordButton' href=javascript:void(0) class='btn btn-info' onClick=lastRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>')><i class=icon-fast-forward icon-white></i><?php echo \$defaultTranslation['endButtonLabel']; ?></a> \n";
 $str.="       </div> \n";
-$str.="    </div> \n";
+$str.="    </div></div> \n";
 $str.="    <input type='hidden' name='x' id='x'> \n";
 $str.="    <input type='hidden' name='firstRecord' id='firstRecord' value='<?php if(isset(\$firstRecord)) { echo \$firstRecord; } ?>'> \n";
 $str.="    <input type='hidden' name='nextRecord' id='nextRecord' value='<?php if(isset(\$nextRecord)) { echo \$nextRecord; } ?>'> \n";
