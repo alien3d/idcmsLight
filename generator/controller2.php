@@ -574,7 +574,7 @@ $str.="			echo json_encode(array(\"success\" => false, \"message\" => \$this->q-
 $str.="			exit(); \n";
 $str.="		} \n";
 $str.="		\$total = \$this->q->numberRows(); \n";
-$str.="		if (\$this->getOrder() && \$this->getSortField()) { \n";
+$str.="		if ( \$this->getSortField()) { \n";
 $str.="			if (\$this->getVendor() == self::MYSQL) { \n";
 $str.="				\$sql .= \"	ORDER BY `\" . \$this->getSortField() . \"` \" . \$this->getOrder() . \" \"; \n";
 $str.="			} else if (\$this->getVendor() == self::MSSQL) { \n";

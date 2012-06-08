@@ -537,7 +537,7 @@ STAFF.STAFFNAME
         $_SESSION ['sql'] = $sql; // push to session so can make report via excel and pdf 
         $_SESSION ['start'] = $this->getStart();
         $_SESSION ['limit'] = $this->getLimit();
-        if ($this->getStart() && $this->getLimit()) {
+        if ($this->getLimit()) {
             // only mysql have limit 
             if ($this->getVendor() == self::MYSQL) {
                 $sql .= " LIMIT  " . $this->getStart() . "," . $this->getLimit() . " ";
@@ -638,6 +638,7 @@ STAFF.STAFFNAME
             $i++;
         }
         if ($this->getPageOutput() == 'html') {
+            $this->exceptionMessage($sql);
             return $items;
         } else if ($this->getPageOutput() == 'json') {
             if ($this->model->getReligionSampleId(0, 'single')) {
