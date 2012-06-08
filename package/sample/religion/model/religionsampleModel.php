@@ -53,7 +53,7 @@ class ReligionsampleModel extends \Core\Validation\ValidationClass {
 		$this->setPrimaryKeyName('religionSampleId');
 		$this->setMasterForeignKeyName('religionSampleId');
 		//$this->setFilterCharacter('religionsampleDesc');
-		//$this->setFilterCharacter('religionsampleNote');
+		$this->setFilterCharacter('religionsampleTitle');
 		$this->setFilterDate('religionsampleDate');
 		/**
 		 * All the Array enviroment.

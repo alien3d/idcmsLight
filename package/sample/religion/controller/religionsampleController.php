@@ -76,8 +76,8 @@ class ReligionsampleClass extends \Core\ConfigClass {
 	 */ 
 	public $duplicateTest; 
 function __construct() { 
-	$this->setViewPath("./package/Sample/Religion/view/religionsample.php"); 
- $this->setControllerPath("./package/Sample/Religion/controller/religionsampleController.php");
+	$this->setViewPath("./package/sample/religion/view/religionsample.php"); 
+ $this->setControllerPath("./package/sample/religion/controller/religionsampleController.php");
  //$this->setServicePath("./package/Sample/Religion/service/religionsampleService.php"); 
 	} 
 	/** 
