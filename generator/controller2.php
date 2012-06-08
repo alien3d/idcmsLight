@@ -366,7 +366,7 @@ $str.=$oracleInsertStatement;
 $str.=" } \n";
 
 $str.="		 \$this->q->create(\$sql); \n";
-$str.="		\$" . $data[0]['tableName'] . "Id = \$this->q->lastInsertId(); \n";
+$str.="		\$" . $data[0]['primaryKeyName'] . " = \$this->q->lastInsertId(); \n";
 $str.="		if (\$this->q->execute == 'fail') { \n";
 $str.="			echo json_encode(array(\"success\" => false, \"message\" => \$this->q->responce)); \n";
 $str.="			exit(); \n";
@@ -377,7 +377,7 @@ $str.="		\$time = \$end - \$start; \n";
 $str.="		echo json_encode( \n";
 $str.="		array(	\"success\" => true, \n";
 $str.="					\"message\" => \$this->systemString->getCreateMessage(),  \n";
-$str.="					\"".$data[0]['tableName']."Id"."\" => \$".$data[0]['tableName']."Id".", \n";
+$str.="					\"" . $data[0]['primaryKeyName'] . "\" => \$".$data[0]['primaryKeyName'].",\n";
 $str.="					\"time\"=>\$time)); \n";
 $str.="		exit(); \n";
 $str.="	} \n";
@@ -433,8 +433,8 @@ $mysqlReadInsideStatement=null;
 			ON		`" . $data[0]['tableName'] . "`.`executeBy` = `staff`.`staffId`
 			WHERE 		\" . \$this->auditFilter; \n";
 $str.=		$mysqlReadStatement;	
-$str.="		 if (\$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single')) { \n";
-$str.="				\$sql .= \" AND `\" . \$this->model->getTableName() . \"`.`\" . \$this->model->getPrimaryKeyName() . \"`='\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single') . \"'\";  \n";
+$str.="		 if (\$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')) { \n";
+$str.="				\$sql .= \" AND `\" . \$this->model->getTableName() . \"`.`\" . \$this->model->getPrimaryKeyName() . \"`='\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\";  \n";
 $str.="	}\n	} else if (\$this->getVendor() == self::MSSQL) {  \n";
 $mssqlReadStatement=null;
 $mssqlReadInsideStatement=null;
@@ -450,8 +450,8 @@ $mssqlReadStatement.="\n\$sql = \"SELECT ";
 			ON		[" . $data[0]['tableName'] . "].[executeBy] = [staff].[staffId]
 			WHERE 		\" . \$this->auditFilter; \n";
 $str.=	$mssqlReadStatement;
-$str.="		 if (\$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single')) { \n";
-$str.="				\$sql .= \" AND [\" . \$this->model->getTableName() . \"].[\" . \$this->model->getPrimaryKeyName() . \"]		=	'\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single') . \"'\"; \n";
+$str.="		 if (\$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')) { \n";
+$str.="				\$sql .= \" AND [\" . \$this->model->getTableName() . \"].[\" . \$this->model->getPrimaryKeyName() . \"]		=	'\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\"; \n";
 $str.="			} \n";
 			
 $str.="		} else if (\$this->getVendor() == self::ORACLE) {  \n";
@@ -471,20 +471,20 @@ $oracleReadStatement.="\n\$sql = \"SELECT";
 			WHERE 		\" . \$this->auditFilter; \n";
 
 $str.= $oracleReadStatement;
-$str.="		 if (\$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single'))  {\n";
-$str.="				\$sql .= \" AND \" . strtoupper(\$this->model->getTableName())  . strtoupper(\$this->model->getPrimaryKeyName()) . \"='\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single') . \"'\"; \n";
+$str.="		 if (\$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single'))  {\n";
+$str.="				\$sql .= \" AND \" . strtoupper(\$this->model->getTableName())  . strtoupper(\$this->model->getPrimaryKeyName()) . \"='\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\"; \n";
 $str.="			} \n";
 			
 $str.="		} else if (\$this->getVendor() == self::DB2) {  \n";
 
-$str.="		 if (\$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single')) { \n";
-$str.="				\$sql .= \" AND \" . strtoupper(\$this->model->getTableName())  . strtoupper(\$this->model->getPrimaryKeyName()) . \"='\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single') . \"'\"; \n";
+$str.="		 if (\$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')) { \n";
+$str.="				\$sql .= \" AND \" . strtoupper(\$this->model->getTableName())  . strtoupper(\$this->model->getPrimaryKeyName()) . \"='\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\"; \n";
 $str.="			} \n";
 			
 $str.="		} else if (\$this->getVendor() == self::POSTGRESS) {  \n";
 
-$str.="		 if (\$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single')) { \n";
-$str.="				\$sql .= \" AND \" . strtoupper(\$this->model->getTableName())  . strtoupper(\$this->model->getPrimaryKeyName()) . \"='\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single') . \"'\"; \n";
+$str.="		 if (\$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')) { \n";
+$str.="				\$sql .= \" AND \" . strtoupper(\$this->model->getTableName())  . strtoupper(\$this->model->getPrimaryKeyName()) . \"='\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\"; \n";
 $str.="			} \n";
 			
 $str.="		}else { \n";
@@ -521,7 +521,7 @@ $str.="		 * E.g  \$filterArray=array('`leaf`.`leafId`'); \n";
 $str.="		 * @variables \$filterArray; \n";
 $str.="		 */  \n";
 $str.="		\$filterArray = null; \n";
-$str.="		\$filterArray = array('".$data[0]['tableName']."Id"."'); \n";
+$str.="		\$filterArray = array('".$data[0]['primaryKeyName']."'); \n";
 $str.="		/** \n";
 $str.="		 * filter table \n";
 $str.="		 * @variables \$tableArray \n";
@@ -609,7 +609,7 @@ $mssqlReadStatement.="\n\$sql = \"SELECT ";
 		$mssqlReadInsidePagingStatement.="[" . $data[0]['tableName'] . "].[".$data[$i]['columnName'] . "],\n";
 	}
 	$mssqlReadInsidePagingStatement.="[staff].[staffName],\n";
-	$mssqlReadInsidePagingStatement.="ROW_NUMBER() OVER (ORDER BY [" . $data[0]['tableName'] . "].[".$data[0]['tableName']."Id]) AS 'RowNumber'\n";
+	$mssqlReadInsidePagingStatement.="ROW_NUMBER() OVER (ORDER BY [" . $data[0]['tableName'] . "].[".$data[0]['primaryKeyName']."]) AS 'RowNumber'\n";
 	$mssqlReadStatement.=$mssqlReadInsideStatement;
 
 	$mssqlReadPagingStatement.=$mssqlReadInsidePagingStatement;
@@ -673,7 +673,7 @@ $str.="		} \n";
 $str.="		/* \n";
 $str.="		 *  Only Execute One Query \n";
 $str.="		 */ \n";
-$str.="		if (!(\$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single'))) { \n";
+$str.="		if (!(\$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single'))) { \n";
 $str.="			\$this->q->read(\$sql); \n";
 $str.="			if (\$this->q->execute == 'fail') { \n";
 $str.="				echo json_encode(array(\"success\" => false, \"message\" => \$this->q->responce)); \n";
@@ -685,10 +685,10 @@ $str.="        \$i = 1; \n";
 $str.="		while ((\$row = \$this->q->fetchAssoc()) == TRUE) { \n";
 $str.="			\$row['total'] = \$total; // small overide \n";
 $str.="            \$row['counter'] = \$this->getStart() + $i; \n";
-$str.="            if (\$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single')) { \n";
+$str.="            if (\$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')) { \n";
 $str.="                \$row['firstRecord'] = \$this->firstRecord('value'); \n";
-$str.="                \$row['previousRecord'] = \$this->previousRecord('value', \$this->model->get".ucfirst($data[0]['tableName'])."Id(0, 'single')); \n";
-$str.="                \$row['nextRecord'] = \$this->nextRecord('value', \$this->model->get".ucfirst($data[0]['tableName'])."Id(0, 'single')); \n";
+$str.="                \$row['previousRecord'] = \$this->previousRecord('value', \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')); \n";
+$str.="                \$row['nextRecord'] = \$this->nextRecord('value', \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')); \n";
 $str.="                \$row['lastRecord'] = \$this->lastRecord('value'); \n";
 $str.="            }  \n";
 $str.="            \$items [] = \$row; \n";
@@ -697,7 +697,7 @@ $str.="		}  \n";
 $str.="		if (\$this->getPageOutput() == 'html') { \n";
 $str.="            return \$items; \n";
 $str.="        } else if (\$this->getPageOutput() == 'json') { \n";
-$str.="			if (\$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single')) { \n";
+$str.="			if (\$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')) { \n";
 $str.="				\$end = microtime(true); \n";
 $str.="				\$time = \$end - \$start; \n";
 $str.="				\$json_encode = json_encode(array( \n";
@@ -706,8 +706,8 @@ $str.="						'total' => \$total,  \n";
 $str.="						'message' => \$this->systemString->getReadMessage(),  \n";
 $str.="						'time' => \$time,  \n";
 $str.="						'firstRecord' => \$this->firstRecord('value'),  \n";
-$str.="						'previousRecord' => \$this->previousRecord('value', \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single')),  \n";
-$str.="						'nextRecord' => \$this->nextRecord('value', \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single')),  \n";
+$str.="						'previousRecord' => \$this->previousRecord('value', \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')),  \n";
+$str.="						'nextRecord' => \$this->nextRecord('value', \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')),  \n";
 $str.="						'lastRecord' => \$this->lastRecord('value'), \n";
 $str.="						'data' => \$items)); \n";
 $str.="				\$json_encode = str_replace(\"[\", \"\", \$json_encode); \n";
@@ -725,8 +725,8 @@ $str.="					'total' => \$total,  \n";
 $str.="					'message' => \$this->systemString->getReadMessage(), \n";
 $str.="					'time' => \$time,  \n";
 $str.="					'firstRecord' => \$this->recordSet->firstRecord('value'),  \n";
-$str.="					'previousRecord' => \$this->recordSet->previousRecord('value', \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single')),  \n";
-$str.="					'nextRecord' => \$this->recordSet->nextRecord('value', \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single')),  \n";
+$str.="					'previousRecord' => \$this->recordSet->previousRecord('value', \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')),  \n";
+$str.="					'nextRecord' => \$this->recordSet->nextRecord('value', \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')),  \n";
 $str.="					'lastRecord' => \$this->recordSet->lastRecord('value'), \n";
 $str.="				'data' => \$items)); \n";
 $str.="				exit();  \n";
@@ -756,27 +756,27 @@ $str.="		if (\$this->getVendor() == self::MYSQL) {  \n";
 $str.="			\$sql = \" \n";
 $str.="		SELECT	`\" . \$this->model->getPrimaryKeyName() . \"` \n";
 $str.="		FROM 	`" . $data[0]['database'] . "`.`\" . \$this->model->getTableName() . \"` \n";
-$str.="		WHERE  	`\" . \$this->model->getPrimaryKeyName() . \"` = '\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single') . \"' \"; \n";
+$str.="		WHERE  	`\" . \$this->model->getPrimaryKeyName() . \"` = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
 $str.="		} else if (\$this->getVendor() == self::MSSQL) { \n";
 $str.="			\$sql = \" \n";
 $str.="			SELECT	[\" . \$this->model->getPrimaryKeyName() . \"] \n";
 $str.="			FROM 	[" . $data[0]['database'] . "].[\" . \$this->model->getTableName() . \"] \n";
-$str.="			WHERE  	[\" . \$this->model->getPrimaryKeyName() . \"] = '\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single') . \"' \"; \n";
+$str.="			WHERE  	[\" . \$this->model->getPrimaryKeyName() . \"] = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
 $str.="		} else if (\$this->getVendor() == self::ORACLE) { \n";
 $str.="			\$sql = \" \n";
 $str.="		SELECT	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" \n";
 $str.="		FROM 	\" . strtoupper(\$this->model->getTableName()) . \" \n";
-$str.="		WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single') . \"' \"; \n";
+$str.="		WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
 $str.="		} else if (\$this->getVendor() == self::DB2) { \n";
 $str.="			\$sql = \" \n";
 $str.="			SELECT	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" \n";
 $str.="			FROM 	\" . strtoupper(\$this->model->getTableName()) . \" \n";
-$str.="			WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single') . \"' \"; \n";
+$str.="			WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
 $str.="		} else if (\$this->getVendor() == self::POSTGRESS) { \n";
 $str.="			\$sql = \" \n";
 $str.="			SELECT	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" \n";
 $str.="			FROM 	\" . strtoupper(\$this->model->getTableName()) . \" \n";
-$str.="			WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single') . \"' \"; \n";
+$str.="			WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
 $str.="		} \n";
 $str.="		\$result = \$this->q->fast(\$sql); \n";
 $str.="		\$total = \$this->q->numberRows(\$result, \$sql); \n";
@@ -818,7 +818,7 @@ $mysqlUpdateStatement="\n\$sql=\"UPDATE `".$data[0]['database']."`.`" . $data[0]
 	}
 	$mysqlUpdateStatementValue.=(substr($mysqlUpdateStatementInsideValue,0,-2));
 	$mysqlUpdateStatement.=$mysqlUpdateStatementValue;
-	$mysqlUpdateStatement.=" \nWHERE `".$data[0]['tableName']."Id`='\".\$this->model->get".ucfirst($data[0]['tableName'])."Id('0','single').\"'\";\n\n";
+	$mysqlUpdateStatement.=" \nWHERE `".$data[0]['primaryKeyName']."`='\".\$this->model->get".ucfirst($data[0]['primaryKeyName'])."('0','single').\"'\";\n\n";
 $str.=$mysqlUpdateStatement;
 
 $str.="			 } else if (\$this->getVendor() == self::MSSQL) {  \n";
@@ -855,7 +855,7 @@ $mssqlUpdateStatement="\n\$sql=\"UPDATE [".$data[0]['database']."].[".$data[0]['
 	}
 	$mssqlUpdateStatementValue.=(substr($mssqlUpdateStatementInsideValue,0,-2));
 	$mssqlUpdateStatement.=$mssqlUpdateStatementValue;
-	$mssqlUpdateStatement.=" \nWHERE [".$data[0]['tableName']."Id]='\".\$this->model->get".ucfirst($data[0]['tableName'])."Id('0','single').\"'\";\n\n";
+	$mssqlUpdateStatement.=" \nWHERE [".$data[0]['primaryKeyName']."]='\".\$this->model->get".ucfirst($data[0]['primaryKeyName'])."('0','single').\"'\";\n\n";
 $str.=$mssqlUpdateStatement;
 $str.="			 } else if (\$this->getVendor() == self::ORACLE) {  \n";
 $oracleUpdateStatement=null;
@@ -890,7 +890,7 @@ $oracleUpdateStatement="\n\$sql=\"UPDATE `".strtoupper($data[0]['tableName'])."`
 	}
 	$oracleUpdateStatementValue.=(substr($oracleUpdateStatementInsideValue,0,-2));
 	$oracleUpdateStatement.=$oracleUpdateStatementValue;
-	$oracleUpdateStatement.=" \nWHERE `".strtoupper($data[0]['tableName']."Id")."`='\".\$this->model->get".ucfirst($data[0]['tableName'])."Id('0','single').\"'\";\n\n";
+	$oracleUpdateStatement.=" \nWHERE `".strtoupper($data[0]['primaryKeyName'])."`='\".\$this->model->get".ucfirst($data[0]['primaryKeyName'])."('0','single').\"'\";\n\n";
 
 $str.=$oracleUpdateStatement;
 $str.="			 } else if (\$this->getVendor() == self::DB2) {  \n";
@@ -926,7 +926,7 @@ $oracleUpdateStatement="\n\$sql=\"UPDATE `".strtoupper($data[0]['tableName'])."`
 	}
 	$oracleUpdateStatementValue.=(substr($oracleUpdateStatementInsideValue,0,-2));
 	$oracleUpdateStatement.=$oracleUpdateStatementValue;
-	$oracleUpdateStatement.=" \nWHERE `".strtoupper($data[0]['tableName']."Id")."`='\".\$this->model->get".ucfirst($data[0]['tableName'])."Id('0','single').\"'\";\n\n";
+	$oracleUpdateStatement.=" \nWHERE `".strtoupper($data[0]['primaryKeyName'])."`='\".\$this->model->get".ucfirst($data[0]['primaryKeyName'])."('0','single').\"'\";\n\n";
 
 $str.=$oracleUpdateStatement;
 $str.="			} else if (\$this->getVendor() == self::POSTGRESS) {  \n";
@@ -962,7 +962,7 @@ $oracleUpdateStatement="\n\$sql=\"UPDATE `".strtoupper($data[0]['tableName'])."`
 	}
 	$oracleUpdateStatementValue.=(substr($oracleUpdateStatementInsideValue,0,-2));
 	$oracleUpdateStatement.=$oracleUpdateStatementValue;
-	$oracleUpdateStatement.=" \nWHERE `".strtoupper($data[0]['tableName']."Id")."`='\".\$this->model->get".ucfirst($data[0]['tableName'])."Id('0','single').\"'\";\n\n";
+	$oracleUpdateStatement.=" \nWHERE `".strtoupper($data[0]['primaryKeyName'])."`='\".\$this->model->get".ucfirst($data[0]['primaryKeyName'])."('0','single').\"'\";\n\n";
 
 $str.=$oracleUpdateStatement;
 $str.="			} \n";
@@ -1001,27 +1001,27 @@ $str.="		if (\$this->getVendor() == self::MYSQL) { \n";
 $str.="			\$sql = \" \n";
 $str.="		SELECT	`\" . \$this->model->getPrimaryKeyName() . \"` \n";
 $str.="		FROM 	`" . $data[0]['database'] . "`.`\" . \$this->model->getTableName() . \"` \n";
-$str.="		WHERE  	`\" . \$this->model->getPrimaryKeyName() . \"` = '\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single') . \"' \";  \n";
+$str.="		WHERE  	`\" . \$this->model->getPrimaryKeyName() . \"` = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \";  \n";
 $str.="		} else if (\$this->getVendor() == self::MSSQL) { \n";
 $str.="			\$sql = \" \n";
 $str.="			SELECT	[\" . \$this->model->getPrimaryKeyName() . \"]  \n";
 $str.="			FROM 	[" . $data[0]['database'] . "].[\" . \$this->model->getTableName() . \"] \n";
-$str.="			WHERE  	[\" . \$this->model->getPrimaryKeyName() . \"] = '\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single') . \"' \"; \n";
+$str.="			WHERE  	[\" . \$this->model->getPrimaryKeyName() . \"] = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
 $str.="		} else if (\$this->getVendor() == self::ORACLE) { \n";
 $str.="			\$sql = \" \n";
 $str.="		SELECT	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" \n";
 $str.="		FROM 	\" . strtoupper(\$this->model->getTableName()) . \" \n";
-$str.="		WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single') . \"' \"; \n";
+$str.="		WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
 $str.="		} else if (\$this->getVendor() == self::DB2) { \n";
 $str.="			\$sql = \" \n";
 $str.="			SELECT	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" \n";
 $str.="			FROM 	\" . strtoupper(\$this->model->getTableName()) . \" \n";
-$str.="			WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single') . \"' \"; \n";
+$str.="			WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
 $str.="		} else if (\$this->getVendor() == self::POSTGRESS) { \n";
 $str.="			\$sql = \" \n";
 $str.="			SELECT	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" \n";
 $str.="			FROM 	\" . strtoupper(\$this->model->getTableName()) . \" \n";
-$str.="			WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(0, 'single') . \"' \"; \n";
+$str.="			WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
 $str.="		} \n";
 $str.="		\$result = \$this->q->fast(\$sql); \n";
 $str.="		\$total = \$this->q->numberRows(\$result, \$sql); \n";
@@ -1042,7 +1042,7 @@ $str.= " \$sql=\"  	UPDATE 	`".$data[0]['database']."`.`" . $data[0]['tableName'
 							`isPost`					=	'\" . \$this->model->getIsPost(0, 'single') . \"',
 							`executeBy`				=	'\" . \$this->model->getExecuteBy() . \"',
 							`executeTime`			=	\" . \$this->model->getExecuteTime() . \"
-				WHERE 	`".$data[0]['tableName']."Id`	=  '\" . \$this->model->get".ucfirst($data[0]['tableName'])."Id(0, 'single') . \"'\";\n";
+				WHERE 	`".$data[0]['primaryKeyName']."`	=  '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\";\n";
 
 $str.="			 } else if (\$this->getVendor() == self::MSSQL) {  \n";
 $str.= "
@@ -1059,7 +1059,7 @@ $str.= "
 								[isPost]						=	'\" . \$this->model->getIsPost(0, 'single') . \"',
 								[executeBy]				=	'\" . \$this->model->getExecuteBy() . \"',
 								[executeTime]			=	\" . \$this->model->getExecuteTime() . \"
-				WHERE 		[".$data[0]['tableName']."Id]	=  '\" . \$this->model->get".ucfirst($data[0]['tableName'])."Id(0, 'single') . \"'\";\n";
+				WHERE 		[".$data[0]['primaryKeyName']."]	=  '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\";\n";
 $str.="			 } else if (\$this->getVendor() == self::ORACLE) {  \n";
 	$str.= "
 	\$sql=\" 
@@ -1075,7 +1075,7 @@ $str.="			 } else if (\$this->getVendor() == self::ORACLE) {  \n";
 						ISPOST			=	'\" . \$this->model->getIsPost(0, 'single') .\"',
 						EXECUTEBY		=	'\" . \$this->model->getExecuteBy() .\"',
 						EXECUTETIME		=	\" . \$this->model->getExecuteTime() . \"
-				WHERE 	".strtoupper($data[0]['tableName'])."Id	=  '\" . \$this->model->get".ucfirst($data[0]['tableName'])."Id(0, 'single') . \"'\";\n";
+				WHERE 	".strtoupper($data[0]['primaryKeyName'])."	=  '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\";\n";
 $str.="			 } else if (\$this->getVendor() == self::DB2) {  \n";
 	$str .= "
 	\$sql=\" 
@@ -1091,7 +1091,7 @@ $str.="			 } else if (\$this->getVendor() == self::DB2) {  \n";
 						ISPOST			=	'\" . \$this->model->getIsPost(0, 'single') .\"',
 						EXECUTEBY		=	'\" . \$this->model->getExecuteBy() .\"',
 						EXECUTETIME		=	\" . \$this->model->getExecuteTime() . \"
-				WHERE 	".strtoupper($data[0]['tableName'])."Id	=  '\" . \$this->model->get".ucfirst($data[0]['tableName'])."Id(0, 'single') . \"'\";\n";
+				WHERE 	".strtoupper($data[0]['primaryKeyName'])."	=  '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\";\n";
 $str.="			 } else if (\$this->getVendor() == self::POSTGRESS) {  \n";
 $str .= " \$sql=\" 
 				UPDATE 	".strtoupper($data[0]['tableName'])."
@@ -1106,7 +1106,7 @@ $str .= " \$sql=\"
 						ISPOST			=	'\" . \$this->model->getIsPost(0, 'single') .\"',
 						EXECUTEBY		=	'\" . \$this->model->getExecuteBy() .\"',
 						EXECUTETIME		=	\" . \$this->model->getExecuteTime() . \"
-				WHERE 	".strtoupper($data[0]['tableName'])."Id	=  '\" . \$this->model->get".ucfirst($data[0]['tableName'])."Id(0, 'single') . \"'\";\n";
+				WHERE 	".strtoupper($data[0]['primaryKeyName'])."	=  '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\";\n";
 $str.="			}  \n";
 $str.="			\$this->q->update(\$sql); \n";
 $str.="			if (\$this->q->execute == 'fail') { \n";
@@ -1130,7 +1130,7 @@ $str.="     */ \n";
 $str.="     function updateStatus() { \n";
 $str.="		header('Content-Type:application/json; charset=utf-8'); \n";
 $str.="		\$start = microtime(true); \n";
-$str.="         \$sqlLooping=null\n";
+$str.="         \$sqlLooping=null;\n";
 $str.="		if (\$this->getVendor() == self::MYSQL) { \n";
 $str.="			\$sql = \"SET NAMES utf8\"; \n";
 $str.="			\$this->q->fast(\$sql); \n";
@@ -1183,7 +1183,7 @@ $str.="                         exit();\n";
 $str.="                     }\n";
 $str.="                     for (\$i = 0; \$i < \$loop; \$i++) {\n";
 $str.="                         \$sqlLooping .= \"\n";
-$str.="                         WHEN '\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(\$i, 'array') . \"'\n";
+$str.="                         WHEN '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(\$i, 'array') . \"'\n";
 $str.="                         THEN '\" . \$this->model->getIsDefault(\$i, 'array') . \"'\";\n";
 $str.="                     }\n";
 $str.="                     \$sqlLooping .= \" END,\";\n";
@@ -1192,7 +1192,7 @@ $str.="			} \n";
 $str.="             } else { \n";
 $str.="                 if (\$this->model->getIsDeleteTotal() > 0) {\n";
 $str.="                     if (\$this->getVendor() == self::MYSQL) {\n";
-$str.="                         \$sqlLooping .= `isDelete` = CASE `" . $data[0]['database'] . "`.`\".\$this->model->getTableName().\"`.`\" . \$this->model->getPrimaryKeyName() . \"`\"; \n";
+$str.="                         \$sqlLooping .=\" `isDelete` = CASE `" . $data[0]['database'] . "`.`\".\$this->model->getTableName().\"`.`\" . \$this->model->getPrimaryKeyName() . \"`\"; \n";
 $str.="                     } else if (\$this->getVendor() == self::MSSQL) {\n";
 $str.="                         \$sqlLooping .= \"  [isDelete] = CASE [" . $data[0]['database'] . "].[\".\$this->model->getTableName().\"].[\" . \$this->model->getPrimaryKeyName() . \"]\"; \n";
 $str.="                     } else if (\$this->getVendor() == self::ORACLE) {\n";
@@ -1207,7 +1207,7 @@ $str.="                         exit();\n";
 $str.="                     }\n";
 $str.="                     for (\$i = 0; \$i < \$loop; \$i++) {\n";
 $str.="                         \$sqlLooping .= \"\n";
-$str.="                         WHEN '\" . \$this->model->get".ucfirst($data[0]['tableName']."Id")."(\$i, 'array') . \"'\n";
+$str.="                         WHEN '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(\$i, 'array') . \"'\n";
 $str.="                         THEN '\" . \$this->model->getIsDefault(\$i, 'array') . \"'\";\n";
 $str.="                     }\n";
 $str.="                     \$sqlLooping .= \" END,\";\n";

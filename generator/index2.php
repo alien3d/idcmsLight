@@ -37,6 +37,12 @@ class generator {
      * @var string 
      */
     private $targetModule;
+    /**
+     * Twitter Bootstrap  form type  horizontal,vertical,inline,search
+     * @var string 
+     */
+    private $targetFormStyle;
+    
 
     /**
      * To return information about column
@@ -422,9 +428,14 @@ class generator {
 				$infoColumn[$i]['tableName'] = $this->getTargetTable();
                 $infoColumn[$i]['package'] = $this->getTargetPackage();
                 $infoColumn[$i]['module'] = $this->getTargetModule();
+                $infoColumn[$i]['targetFormStyle']=$this->getTargetFormStyle();
                 $infoColumn[$i]['columnName'] = $rowFieldTable['Field'];
                 $infoColumn[$i]['Type'] = $rowFieldTable['Type'];
                 $infoColumn[$i]['Key'] = $rowFieldTable['Key'];
+                // cannot follow blindly table name+id for generation
+                if($rowFieldTable['Key']=='PRI'){
+                    $infoColumn[$i]['primaryKeyName']=$rowFieldTable['Field'];
+                }
                 $infoColumn[$i]['foreignKey'] = $this->getInfoTableColumn($rowFieldTable['Field']);
 				$infoColumn[$i]['length'] = preg_replace("/[^0-9]/","",$rowFieldTable['Type']); 
                 $findme = 'varchar';
@@ -679,6 +690,21 @@ class generator {
     public function setInfoColumnArray($value) {
         $this->infoColumnArray = $value;
     }
+    /**
+     * Return Target Output
+     * return string $output
+     */
+    public function getTargetFormStyle() {
+        return $this->targetFormStyle;
+    }
+
+    /**
+     * Set Target Output
+     * param string $value
+     */
+    public function setTargetFormStyle($value) {
+        $this->targetFormStyle = $value;
+    }
 
 }
 
@@ -701,6 +727,9 @@ if (isset($_GET['targetPackage']) && strlen($_GET['targetPackage']) > 0) {
 }
 if (isset($_GET['targetModule']) && strlen($_GET['targetModule']) > 0) {
     $generator->setTargetModule($_GET['targetModule']);
+}
+if (isset($_GET['targetFormStyle']) && strlen($_GET['targetFormStyle']) > 0) {
+    $generator->setTargetFormStyle($_GET['targetFormStyle']);
 }
 ?> 
 <html>

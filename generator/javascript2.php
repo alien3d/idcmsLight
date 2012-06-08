@@ -217,7 +217,7 @@ if (isset($data)) {
     $str.="			}\n";
     $str.="		});\n";
     $str.="	}\n";
-    $str.="	function showFormUpdate(url, securityToken, " . $data[0]['tableName'] . "Id) {\n";
+    $str.="	function showFormUpdate(url, securityToken, " . $data[0]['primaryKeyName'] . ") {\n";
     $str.="		// unlimited for searching because  lazy paging.\n";
     $str.="		\$.ajax({\n";
     $str.="    				type	: 	'POST',\n";
@@ -225,7 +225,7 @@ if (isset($data)) {
     $str.="					data	: 	{\n";
     $str.="									method: 'read',\n";
     $str.="									type: 'form',\n";
-    $str.="									" . $data[0]['tableName'] . "Id: " . $data[0]['tableName'] . "Id,\n";
+    $str.="									" . $data[0]['primaryKeyName'] . ": " . $data[0]['primaryKeyName'] . ",\n";
     $str.="									securityToken: securityToken\n";
     $str.="					},\n";
     $str.="					beforeSend: function () {\n";
@@ -281,7 +281,7 @@ if (isset($data)) {
     $str.="             data    :   {\n";
     $str.="                 method				:   'delete',\n";
     $str.="                 output				:   'json',\n";
-    $str.="                 " . $data[0]['tableName'] . "Id	:   \$('#" . $data[0]['tableName'] . "IdPreview').val(),\n";
+    $str.="                 " . $data[0]['primaryKeyName'] . "	:   \$('#" . $data[0]['primaryKeyName'] . "Preview').val(),\n";
     $str.="                 securityToken                   :   securityToken\n";
     $str.="             },\n";
     $str.="             beforeSend: function () {\n";
@@ -308,8 +308,8 @@ if (isset($data)) {
     $str.="     function deleteGridRecordCheckbox(url,securityToken,urlList) { \n";
     $str.="         var stringText='';\n";
     $str.="         var counter = 0; \n";
-    $str.="         \$('input:checkbox[name=\"themeId[]\"]').each( function() {\n";
-    $str.="             stringText=stringText+\"&themeId[]=\"+$(this).val();  \n";
+    $str.="         \$('input:checkbox[name=\"".$data[0]['primaryKeyName']."[]\"]').each( function() {\n";
+    $str.="             stringText=stringText+\"&".$data[0]['primaryKeyName']."[]=\"+$(this).val();  \n";
     $str.="         });\n";
 
     $str.="//       \$('input:checkbox[name=\"isDraft[]\"]').each( function() { \n";
@@ -407,7 +407,7 @@ if (isset($data)) {
     $str.="         alert(\"You must at least check one record for delete record\")\n";
     $str.="         return false;\n";
     $str.="      } else {\n";
-    $str.="         url = url + \"?\"+stringText;\n\";\n";
+    $str.="         url = url + \"?\"+stringText;\n";
     $str.="         alert('url :'+url);\n";
     $str.="      }\n";
 
@@ -480,7 +480,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isSingle' &&
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation' &&
-                $data[$i]['columnName'] != ($data[0]['tableName'] . 'Id')) {
+                $data[$i]['columnName'] != $data[0]['primaryKeyName']) {
             if ($i == 0) {
 // first do nothing because it was primary key
             } else if ($d == 0) {
@@ -522,7 +522,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isSingle' &&
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation' &&
-                $data[$i]['columnName'] != ($data[0]['tableName'] . 'Id')) {
+                $data[$i]['columnName'] != $data[0]['primaryKeyName']) {
             $str.="							" . $data[$i]['columnName'] . "					: 	\$('#" . $data[$i]['columnName'] . "').val(),\n";
         }
     }
@@ -554,7 +554,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isSingle' &&
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation' &&
-                $data[$i]['columnName'] != ($data[0]['tableName'] . 'Id')) {
+                $data[$i]['columnName'] != $data[0]['primaryKeyName']) {
             $str.="								\$('#" . $data[$i]['columnName'] . "').val('');\n";
         }
     }
@@ -591,7 +591,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isSingle' &&
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation' &&
-                $data[$i]['columnName'] != ($data[0]['tableName'] . 'Id')) {
+                $data[$i]['columnName'] != $data[0]['primaryKeyName']) {
             if ($i == 0) {
 // first do nothing because it was primary key
             } else if ($d == 0) {
@@ -633,7 +633,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isSingle' &&
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation' &&
-                $data[$i]['columnName'] != ($data[0]['tableName'] . 'Id')) {
+                $data[$i]['columnName'] != $data[0]['primaryKeyName']) {
             $str.="							" . $data[$i]['columnName'] . "					: 	\$('#" . $data[$i]['columnName'] . "').val(),\n";
         }
     }
@@ -647,7 +647,7 @@ if (isset($data)) {
     $str.="							// successful request; do something with the data\n";
     $str.="							if (data.success == true) {\n";
     $str.="								\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-    $str.="$('#" . $data[0]['tableName'] . "Id" . "').val(data." . $data[0]['tableName'] . "Id); \n";
+    $str.="$('#" . $data[0]['primaryKeyName'] . "').val(data." . $data[0]['primaryKeyName'] . "); \n";
 // disable the new button. new record only avaible upon pressing reset button
 //$str.="								// reseting field value\n";
 // new button segment
@@ -729,7 +729,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isSingle' &&
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation' &&
-                $data[$i]['columnName'] != ($data[0]['tableName'] . 'Id')) {
+                $data[$i]['columnName'] != $data[0]['primaryKeyName']) {
             if ($i == 0) {
 // first do nothing because it was primary key
             } else if ($d == 0) {
@@ -771,7 +771,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isSingle' &&
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation' &&
-                $data[$i]['columnName'] != ($data[0]['tableName'] . 'Id')) {
+                $data[$i]['columnName'] != $data[0]['primaryKeyName']) {
             $str.="                					" . $data[$i]['columnName'] . ": \$('#" . $data[$i]['columnName'] . "').val(),\n";
         }
     }
@@ -803,7 +803,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isSingle' &&
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation' &&
-                $data[$i]['columnName'] != ($data[0]['tableName'] . 'Id')) {
+                $data[$i]['columnName'] != $data[0]['primaryKeyName']) {
             $str.="								\$('#" . $data[$i]['columnName'] . "').val('');\n";
         }
     }
@@ -838,7 +838,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isSingle' &&
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation' &&
-                $data[$i]['columnName'] != ($data[0]['tableName'] . 'Id')) {
+                $data[$i]['columnName'] != $data[0]['primaryKeyName']) {
             if ($i == 0) {
 // first do nothing because it was primary key
             } else if ($d == 0) {
@@ -879,7 +879,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isSingle' &&
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation' &&
-                $data[$i]['columnName'] != ($data[0]['tableName'] . 'Id')) {
+                $data[$i]['columnName'] != $data[0]['primaryKeyName']) {
             $str.="                					" . $data[$i]['columnName'] . ": \$('#" . $data[$i]['columnName'] . "').val(),\n";
         }
     }
@@ -893,7 +893,7 @@ if (isset($data)) {
     $str.="                    // successful request; do something with the data\n";
     $str.="                    if (data.success == true) {\n";
     $str.="                        \$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
-    $str.="$('#" . $data[0]['tableName'] . "Id" . "').val(data." . $data[0]['tableName'] . "Id); \n";
+    $str.="$('#" . $data[0]['primaryKeyName'] . "').val(data." . $data[0]['primaryKeyName'] . "); \n";
 // disable the new button. new record only avaible upon pressing reset button
 //$str.="								// reseting field value\n";
 // new button segment
@@ -975,7 +975,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isSingle' &&
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation' &&
-                $data[$i]['columnName'] != ($data[0]['tableName'] . 'Id')) {
+                $data[$i]['columnName'] != $data[0]['primaryKeyName']) {
             if ($i == 0) {
 // first do nothing because it was primary key
             } else if ($d == 0) {
@@ -1017,7 +1017,7 @@ if (isset($data)) {
                 $data[$i]['columnName'] != 'isSingle' &&
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation' &&
-                $data[$i]['columnName'] != ($data[0]['tableName'] . 'Id')) {
+                $data[$i]['columnName'] != $data[0]['primaryKeyName']) {
             $str.="                					" . $data[$i]['columnName'] . ": \$('#" . $data[$i]['columnName'] . "').val(),\n";
         }
     }
@@ -1284,7 +1284,6 @@ if (isset($data)) {
             $str.="                					" . $data[$i]['columnName'] . ": \$('#" . $data[$i]['columnName'] . "').val(),\n";
         }
     }
-    $str.="                					dayId: \$('#dayId').val(),\n";
     $str.="                					securityToken: securityToken\n";
     $str.="            					},\n";
     $str.="            					beforeSend: function () {\n";
@@ -1322,7 +1321,7 @@ if (isset($data)) {
     $str.="             } else {\n";
     $str.="                 if(confirm('Are you sure delete the selected item ?')) { \n";
     $str.="			\n";
-    $str.="                     var value=\$('#" . $data[0]['tableName'] . "Id').val(); \n";
+    $str.="                     var value=\$('#" . $data[0]['primaryKeyName'] . "').val(); \n";
     $str.="                     if(!value) {\n";
 // alert something wrong with the record and cannot be deleted.	
     $str.="                         \$('#infoPanel').html('<div class=alert alert-info>Please Contact Administrator</div>');\n";
@@ -1333,7 +1332,7 @@ if (isset($data)) {
     $str.="    				data	: 	{\n";
     $str.="        				method				:	'delete',\n";
     $str.="							output					:	'json',\n";
-    $str.="        				" . $data[0]['tableName'] . "Id	: 	\$('#" . $data[0]['tableName'] . "Id').val(),\n";
+    $str.="        				" .$data[0]['primaryKeyName'] . "	: 	\$('#" . $data[0]['primaryKeyName'] . "').val(),\n";
     $str.="        				securityToken		: 	securityToken\n";
     $str.="    				},\n";
     $str.="    				beforeSend: function () {\n";
@@ -1568,7 +1567,7 @@ if (isset($data)) {
     $str.="               			url		: 	url,\n";
     $str.="                			data	:	{\n";
     $str.="                    			method				:	'read',\n";
-    $str.="                    			" . $data[0]['tableName'] . "Id	: 	data.firstRecord,\n";
+    $str.="                    			" . $data[0]['primaryKeyName'] . "	: 	data.firstRecord,\n";
     $str.="                    			output				: 	'json',\n";
     $str.="                    			securityToken		: 	securityToken\n";
     $str.="                			},\n";
@@ -1659,7 +1658,7 @@ if (isset($data)) {
     $str.="                   		url		: 	url,\n";
     $str.="                   		data	:	{\n";
     $str.="                        		method				: 	'read',\n";
-    $str.="                        		" . $data[0]['tableName'] . "Id	: 	data.lastRecord,\n";
+    $str.="                        		" . $data[0]['primaryKeyName'] . "	: 	data.lastRecord,\n";
     $str.="                       		output				: 	'json',\n";
     $str.="                       		securityToken		:	securityToken\n";
     $str.="                    		},\n";
@@ -1739,7 +1738,7 @@ if (isset($data)) {
     $str.="             		url		: 	url,\n";
     $str.="            			data	: 	{\n";
     $str.="               			method				: 	'read',\n";
-    $str.="               			" . $data[0]['tableName'] . "Id	: 	\$('#previousRecord').val(),\n";
+    $str.="               			" .$data[0]['primaryKeyName'] . "	: 	\$('#previousRecord').val(),\n";
     $str.="               			output				: 	'json',\n";
     $str.="               			securityToken		:	securityToken\n";
     $str.="          			},\n";
@@ -1815,7 +1814,7 @@ if (isset($data)) {
     $str.="             	url		: url,\n";
     $str.="          		data	: {\n";
     $str.="               		method				: 	'read',\n";
-    $str.="              		" . $data[0]['tableName'] . "Id	: 	\$('#nextRecord').val(),\n";
+    $str.="              		" . $data[0]['primaryKeyName'] . "	: 	\$('#nextRecord').val(),\n";
     $str.="               		output				: 	'json',\n";
     $str.="               		securityToken		:	securityToken\n";
     $str.="           		},\n";

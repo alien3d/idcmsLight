@@ -51,9 +51,10 @@ $str.="		/*\n";
 $str.="		 *  Basic Information Table\n";
 $str.="		 */\n";
 $str.="		\$this->setTableName('" . $data[0]['tableName'] . "');\n";
-$str.="		\$this->setPrimaryKeyName('" . $data[0]['tableName'] . "Id');\n";
-$str.="		\$this->setMasterForeignKeyName('" . $data[0]['tableName'] . "Id');\n";
+$str.="		\$this->setPrimaryKeyName('" . $data[0]['primaryKeyName'] . "');\n";
+$str.="		\$this->setMasterForeignKeyName('" . $data[0]['primaryKeyName'] . "');\n";
 $str.="		//\$this->setFilterCharacter('" . $data[0]['tableName'] . "Desc');\n";
+$str.="		//\$this->setFilterCharacter('" . $data[0]['tableName'] . "Note');\n";
 $str.="		\$this->setFilterDate('" . $data[0]['tableName'] . "Date');\n";
 $str.="		/**\n";
 $str.="		 * All the $_POST enviroment.\n";
@@ -74,7 +75,7 @@ for ($i = 0; $i < $total; $i++) {
 		$data[$i]['columnName'] !='isReconciled'&&
 		$data[$i]['columnName'] !='executeBy' &&
 		$data[$i]['columnName'] !='executeTime') {
-			if($data[$i]['columnName'] ==  $data[0]['tableName'] . "Id") { 
+			if($data[$i]['columnName'] ==  $data[0]['primaryKeyName']) { 
 				$str.="if (isset(\$_POST ['".$data[$i]['columnName']."'])) { \n ";
 				$str.="    \$this->set".ucfirst($data[$i]['columnName'])."(\$this->strict(\$_POST ['".$data[$i]['columnName']."'], '".$data[$i]['formType']."'), 0, 'single'); \n ";
 				$str.="} \n ";
@@ -106,7 +107,7 @@ for ($i = 0; $i < $total; $i++) {
 		$data[$i]['columnName'] !='isReconciled'&&
 		$data[$i]['columnName'] !='executeBy' &&
 		$data[$i]['columnName'] !='executeTime') {
-			if($data[$i]['columnName'] ==  $data[0]['tableName'] . "Id") { 
+			if($data[$i]['columnName'] ==  $data[0]['primaryKeyName']) { 
 				$str.="if (isset(\$_GET ['".$data[$i]['columnName']."'])) { \n ";
 				$str.="    \$this->set".ucfirst($data[$i]['columnName'])."(\$this->strict(\$_GET ['".$data[$i]['columnName']."'], '".$data[$i]['formType']."'), 0, 'single'); \n ";
 				$str.="} \n ";
@@ -117,8 +118,8 @@ for ($i = 0; $i < $total; $i++) {
 			}
 		}
 }	
-$str.="		if (isset(\$_GET ['" . $data[0]['tableName'] . "Id'])) {\n";
-$str.="			\$this->setTotal(count(\$_GET ['" . $data[0]['tableName'] . "Id']));\n";
+$str.="		if (isset(\$_GET ['" . $data[0]['primaryKeyName'] . "'])) {\n";
+$str.="			\$this->setTotal(count(\$_GET ['" . $data[0]['primaryKeyName'] . "']));\n";
 $str.="		}\n";
 
 $str.="		if (isset(\$_GET ['isDefault'])) {\n";
@@ -177,8 +178,8 @@ $str.="			}\n";
 $str.="		}\n";
 $str.="		\$primaryKeyAll = '';\n";
 $str.="		for (\$i = 0; \$i < \$this->getTotal(); \$i++) {\n";
-$str.="			if (isset(\$_GET ['" . $data[0]['tableName'] . "Id'])) {\n";
-$str.="				\$this->set".ucfirst($data[0]['tableName']."Id")."(\$this->strict(\$_GET ['".$data[0]['tableName']."Id'] [\$i], 'numeric'), \$i, 'array');\n";
+$str.="			if (isset(\$_GET ['" . $data[0]['primaryKeyName'] . "'])) {\n";
+$str.="				\$this->set".ucfirst($data[0]['primaryKeyName'])."(\$this->strict(\$_GET ['".$data[0]['primaryKeyName']."'] [\$i], 'numeric'), \$i, 'array');\n";
 $str.="			}\n";
 
 $str.="			if (isset(\$_GET ['isDefault'])) {\n";
@@ -244,7 +245,7 @@ $str.="				} else if (\$_GET ['isPost'] [\$i] == 'false') {\n";
 $str.="					\$this->setIsPost(0, \$i, 'array');\n";
 $str.="				}\n";
 $str.="			}\n";
-$str.="			\$primaryKeyAll .= \$this->get" . ucfirst($data[0]['tableName'] . "Id") . "(\$i, 'array') . \",\";\n";
+$str.="			\$primaryKeyAll .= \$this->get" . ucfirst($data[0]['primaryKeyName']) . "(\$i, 'array') . \",\";\n";
 $str.="		}\n";
 $str.="		\$this->setPrimaryKeyAll((substr(\$primaryKeyAll, 0, - 1)));\n";
 $str.="		/**\n";
@@ -379,7 +380,7 @@ $str.="		\$this->setIsPost(1, 0, 'single');\n";
 $str.="	}\n";
 $total = count($data);
 for ($i = 0; $i < $total; $i++) {
-    if ($data[$i]['columnName'] == $data[0]['tableName'] . "Id") {
+    if ($data[$i]['columnName'] == $data[0]['primaryKeyName']) {
         $str.="     /** \n";
         $str.="     * Set ".$data[0]['tableName']." Identification  Value \n";
         $str.="     * @param int|array \$value \n";
@@ -427,7 +428,7 @@ for ($i = 0; $i < $total; $i++) {
             $data[$i]['columnName'] != 'isReconciled' &&
             $data[$i]['columnName'] != 'executeBy' &&
             $data[$i]['columnName'] != 'executeTime' &&
-            $data[$i]['columnName'] != $data[0]['tableName'] . "Id") {
+            $data[$i]['columnName'] != $data[0]['primaryKeyName']) {
 
         $str.="	/**\n";
         $str.="	 * To Return " . $data[$i]['columnName'] . " \n";

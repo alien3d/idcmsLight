@@ -1,7 +1,7 @@
 <?php
 
 $strId = null;
-$strId = $data[0]['tableName'] . "Id";
+$strId = $data[0]['primaryKeyName'];
 
 $str.="<?php require_once('/../controller/" . $data[0]['tableName'] . "Controller.php'); \n";
 // initilize dummy value for date
@@ -300,7 +300,7 @@ $str.="            <a class='close' data-dismiss='modal1'>x</a> \n";
 $str.="            <h3>Are you sure want to delete this record ?</h3> \n";
 $str.="        </div> \n";
 $str.="        <div class='modal-body'> \n";
-$str.="            <input type='hidden' name='" . $data[0]['tableName'] . "IdPreview' id='" . $data[0]['tableName'] . "IdPreview'> \n";
+$str.="            <input type='hidden' name='" . $data[0]['primaryKeyName'] . "Preview' id='" . $data[0]['primaryKeyName'] . "Preview'> \n";
 //$str.=print_r($data);
 
 
@@ -360,9 +360,9 @@ $str.="<br><br>";
   $str.="    <br> \n";
  * 
  */
-$str.="    <div id='infoPanel'><?php if(isset(\$_POST['message'])) {             
-    echo \"<div class=\"alert alert-error\"><a class=\"close\" data-dismiss=\'alert\'>×</a>\".\$_POST['message'].\"</div>\";
-} ?></div> \n";
+$str.="    <div id='infoPanel'><?php if(isset(\$_POST['message'])) {  ?>           
+            <div class='alert alert-error'><a class='close' data-dismiss='alert'>x</a><?php echo \$_POST['message']; ?></div>
+<?php } ?></div> \n";
 $str.="<table class='table table-striped table-bordered table-condensed' name='tableData' id='tableData'> \n";
 $str.="        <thead> \n";
 $str.="            <tr> \n";
@@ -425,7 +425,7 @@ $align = null;
 for ($i = 0; $i < $total; $i++) {
     if ($data[$i]['Key'] == 'PRI') {
         $str.=" echo  \"<td><div class='btn-group'>
-		<a rel='tooltip' class='tooltip-top btn btn-warning' data-original-title='Edit' onClick=showFormUpdate('\".\$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$securityToken; ?>','<?php echo intval(\$" . $data[0]['tableName'] . "Array [\$i]['" . $data[0]['tableName'] . "Id']).\"')><i class='icon-edit icon-white'></i></a>  
+		<a rel='tooltip' class='tooltip-top btn btn-warning' data-original-title='Edit' onClick=showFormUpdate('\".\$" . $data[0]['tableName'] . "->getViewPath().\"','\".\$securityToken.\"','\".intval(\$" . $data[0]['tableName'] . "Array [\$i]['" . $data[0]['primaryKeyName'] . "']).\"')><i class='icon-edit icon-white'></i></a>  
                     <a rel='tooltip' class='tooltip-top btn btn-danger' data-original-title='Delete' onClick=showModalDelete(";
         for ($d = 0; $d < $total; $d++) {
             // encode first to prevent bugs on javascript parsing
@@ -546,7 +546,7 @@ for ($i = 0; $i < $total; $i++) {
     }
 }
 // new experiment delete function back.. give more focus to user.. 
-$str.="                         echo \"<td><input type='checkbox' name=a[] id='a' value='\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[0]['tableName']  . "Id'].\"'></td>\";\n";
+$str.="                         echo \"<td><input type='checkbox' name='" . $data[0]['primaryKeyName'] . "[]' id='" . $data[0]['primaryKeyName'] . "' value='\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[0]['primaryKeyName']  . "'].\"'></td>\";\n";
 $str.="                    echo \"</tr>\"; \n";
 $str.="                  }  } \n";
 $str.="                } else { ?> \n";
@@ -600,10 +600,10 @@ $str.="    <?php }  \n";
 $str.="           if ((isset(\$_POST['method']) == 'new' || isset(\$_POST['method']) == 'read') && \$_POST['type'] == 'form') { ?> \n";
 
 $str.="    <div id='infoPanel'></div> \n";
-$str.="         <form class='well '".$data[0]['formStyle']."'>\n";
-$str.="    <input type='hidden' name='" . $data[0]['tableName'] . "Id' id='" . $data[0]['tableName'] . "Id' 
-value='<?php if (isset(\$_POST['" . $data[0]['tableName'] . "Id'])) { 
-                echo \$_POST['" . $data[0]['tableName'] . "Id'];    
+$str.="         <form class='well '".$data[0]['targetFormStyle']."'>\n";
+$str.="    <input type='hidden' name='" . $data[0]['primaryKeyName'] . "' id='" . $data[0]['primaryKeyName'] . "' 
+value='<?php if (isset(\$_POST['" . $data[0]['primaryKeyName']. "'])) { 
+                echo \$_POST['" . $data[0]['primaryKeyName'] . "'];    
             }  ?>'> \n";
 // start loop field
 //$str.=print_r($data);
@@ -829,7 +829,7 @@ $str.="            \$('#firstRecordButton').removeClass(); \n";
 $str.="            \$('#firstRecordButton').addClass('btn btn-info');  \n";
 $str.="            \$('#lastRecordButton').removeClass(); \n";
 $str.="            \$('#lastRecordButton').addClass('btn btn-info'); \n";
-$str.="            <?php } else  if (\$_POST['" . $data[0]['tableName'] . "Id']) { ?> \n";
+$str.="            <?php } else  if (\$_POST['" . $data[0]['primaryKeyName'] . "']) { ?> \n";
 // new button segment
 // remove classes
 $str.=" \$('#newRecordButton1').removeClass(); \n";
