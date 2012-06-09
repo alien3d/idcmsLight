@@ -471,10 +471,10 @@ if (isset($data)) {
     $str.=" }\n";
     
     // new record
-    $str.=" function newRecord(url, securityToken, type,update,delete) {\n";
+    $str.=" function newRecord(url, securityToken, type,updateAccess,deleteAccess) {\n";
     $str.="     var css = \$('#newRecordButton2').attr('class');\n";
     $str.="     if (css.search('disabled') > 0) {\n";
-    $str.="         return false;`\n";
+    $str.="         return false;\n";
     $str.="     } else {\n";
     $str.="         if (type == 1) {\n";
     $str.="             // new record and continue.Reset Current Record\n";
@@ -681,11 +681,11 @@ if (isset($data)) {
 // add disabled class
     $str.="                                     \$('#newRecordButton1').addClass('btn btn-success disabled'); \n";
     $str.="                                     \$('#newRecordButton2').addClass('btn  dropdown-toggle btn-success disabled'); \n";
-    $str.="                                     \$('#newRecordButton3').addClass('btn btn-success disabled'); \n";
-    $str.="                                     \$('#newRecordButton4').addClass('btn btn-success disabled'); \n";
-    $str.="                                     \$('#newRecordButton5').addClass('btn btn-success disabled'); \n";
-    $str.="                                     \$('#newRecordButton6').addClass('btn btn-success disabled'); \n";
-    $str.="                                     \$('#newRecordButton7').addClass('btn btn-success disabled'); \n";
+    $str.="                                     \$('#newRecordButton3').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton4').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton5').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton6').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton7').addClass('disabled'); \n";
 // empty the  onClick field.
     $str.="                                     \$('#newRecordButton1').attr('onClick', ''); \n";
     $str.="                                     \$('#newRecordButton2').attr('onClick', ''); \n";
@@ -715,9 +715,9 @@ if (isset($data)) {
     //@todo.. what if the client have no access to update..
     $str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
     $str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
-    $str.="	\$('#updateRecordButton3').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
-    $str.="	\$('#updateRecordButton4').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+2+\"\\\")\"); \n";
-    $str.="	\$('#updateRecordButton5').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+3+\"\\\")\"); \n";
+    $str.="	\$('#updateRecordButton3').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+    $str.="	\$('#updateRecordButton4').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+2+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+    $str.="	\$('#updateRecordButton5').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+3+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
     $str.="} else {\n";
     $str.="	\$('#updateRecordButton1').addClass('btn btn-info disabled'); \n";
     // toggle button
@@ -737,7 +737,7 @@ if (isset($data)) {
     $str.=" if(deleteAccess==1) {\n";
     $str.="     \$('#deleteRecordButton').removeClass(); \n";
     $str.="     \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
-    $str.="     \$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";    
+    $str.="     \$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";    
     $str.=" } else {\n";
     $str.="     \$('#deleteRecordButton').removeClass(); \n";
     $str.="     \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
@@ -980,9 +980,9 @@ $str.="if(updateAccess == 1) {\n";
     //@todo.. what if the client have no access to update..
     $str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
     $str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
-    $str.="	\$('#updateRecordButton3').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
-    $str.="	\$('#updateRecordButton4').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+2+\"\\\")\"); \n";
-    $str.="	\$('#updateRecordButton5').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+3+\"\\\")\"); \n";
+    $str.="	\$('#updateRecordButton3').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+    $str.="	\$('#updateRecordButton4').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+2+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+    $str.="	\$('#updateRecordButton5').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+3+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
     $str.="} else {\n";
     $str.="	\$('#updateRecordButton1').addClass('btn btn-info disabled'); \n";
     // toggle button
@@ -1002,7 +1002,7 @@ $str.="if(updateAccess == 1) {\n";
     $str.=" if(deleteAccess==1) {\n";
     $str.="     \$('#deleteRecordButton').removeClass(); \n";
     $str.="     \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
-    $str.="     \$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";    
+    $str.="     \$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";    
     $str.=" } else {\n";
     $str.="     \$('#deleteRecordButton').removeClass(); \n";
     $str.="     \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
@@ -1113,7 +1113,7 @@ $str.="if(updateAccess == 1) {\n";
     $str.="	}\n";
     
     //update record
-    $str.="	function updateRecord(url, securityToken, type,delete) {\n";
+    $str.="	function updateRecord(url, securityToken, type,deleteAccess) {\n";
     $str.="         var css = \$('#updateRecordButton2').attr('class');\n";
     $str.="         if (css.search('disabled') > 0) {\n";
     $str.="             // access denied\n";
@@ -1179,7 +1179,7 @@ $str.="if(updateAccess == 1) {\n";
     $str.=" if(deleteAccess==1) {\n";
     $str.="     \$('#deleteRecordButton').removeClass(); \n";
     $str.="     \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
-    $str.="     \$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";    
+    $str.="     \$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";    
     $str.=" } else {\n";
     $str.="     \$('#deleteRecordButton').removeClass(); \n";
     $str.="     \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
@@ -1367,7 +1367,7 @@ $str.="if(updateAccess == 1) {\n";
     $str.=" if(deleteAccess==1) {\n";
     $str.="     \$('#deleteRecordButton').removeClass(); \n";
     $str.="     \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
-    $str.="     \$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";    
+    $str.="     \$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";    
     $str.=" } else {\n";
     $str.="     \$('#deleteRecordButton').removeClass(); \n";
     $str.="     \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
@@ -1527,20 +1527,27 @@ $str.="if(updateAccess == 1) {\n";
     
     //post record
     $str.="	function postRecord() {\n";
+    
     $str.="		var css = \$('#postRecordButton').attr('class');\n";
     $str.="		if (css.search('disabled') > 0) {\n";
     $str.="                 return false;  \n";
     $str.="		} else {\n";
     $str.="                 return false;  \n";
     $str.="		}\n";
+    
     $str.="	}\n";
     
     // first record
-    $str.="	function firstRecord(url, securityToken,update,delete) {\n";
+    $str.="	function firstRecord(url, securityToken,updateAccess,deleteAccess) {\n";
+    
     $str.="         var css = \$('#firstRecordButton').attr('class');\n";
+    
     $str.="         if (css.search('disabled') > 0) {\n";
+    
     $str.="             return false;  \n";
+    
     $str.="         } else {\n";
+    
     $str.="             \$.ajax({\n";
     $str.="                 type    :   'GET',\n";
     $str.="                 url     :   url,\n";
@@ -1551,10 +1558,13 @@ $str.="if(updateAccess == 1) {\n";
     $str.="                     securityToken	:   securityToken\n";
     $str.="                 },\n";
     $str.="    			beforeSend: function () {\n";
+    
     $str.="        			// this is where we append a loading image\n";
     $str.="        			\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
+    
     $str.="    			},\n";
     $str.="    			success: function (data) {\n";
+    
     $str.="                         // successful request; do something with the data\n";
     $str.="                         if (data.success == true) {\n";
     $str.="                             \$.ajax({\n";
@@ -1567,12 +1577,16 @@ $str.="if(updateAccess == 1) {\n";
     $str.="                                 securityToken   : 	securityToken\n";
     $str.="                         },\n";
     $str.="                         beforeSend: function () {\n";
+    
     $str.="                             // this is where we append a loading image\n";
     $str.="                             \$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
+    
     $str.="                         },\n";
     $str.="                         success: function (data) {\n";
+    
     $str.="                             // successful request; do something with the data\n";
     $str.="                    		if (data.success == true) {\n";
+    
     $str.="                                 \$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
     $str.="                                 // reseting field value\n";
     for ($i = 0; $i < $total; $i++) {
@@ -1603,21 +1617,49 @@ $str.="if(updateAccess == 1) {\n";
     $str.="                                         \$('#nextRecordButton').removeClass();\n";
     $str.="                                         \$('#nextRecordButton').addClass('btn btn-info');\n";
     $str.="                                         \$('#nextRecordButton').attr('onClick','');\n";
-    $str.="                                         \$('#nextRecordButton').attr('onClick','');\n";
+    $str.="                                         \$('#nextRecordButton').attr('onClick', \"nextRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+
     
     $str.="                                         \$('#firstRecord').val(data.firstRecord);\n";
     $str.="                                         \$('#previousRecord').val(data.previousRecord);\n";
     $str.="                                         \$('#nextRecord').val(data.nextRecord);\n";
     $str.="                                         \$('#lastRecord').val(data.lastRecord);\n";
  
-    // enable the update button
-    // update button segment
-    $str.="	\$('#updateRecordButton1').removeClass(); \n";
-    $str.="	\$('#updateRecordButton2').removeClass(); \n";
-    $str.="	\$('#updateRecordButton3').removeClass(); \n";
-    $str.="	\$('#updateRecordButton4').removeClass(); \n";
-    $str.="	\$('#updateRecordButton5').removeClass(); \n";
-    // add disabled class
+   // check if authorized or not.hackable here . but back end will check again.
+    // new button segment
+// remove classes
+    $str.="                                     \$('#newRecordButton1').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton2').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton3').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton4').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton5').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton6').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton7').removeClass(); \n";
+// add disabled class
+    $str.="                                     \$('#newRecordButton1').addClass('btn btn-success disabled'); \n";
+    $str.="                                     \$('#newRecordButton2').addClass('btn  dropdown-toggle btn-success disabled'); \n";
+    $str.="                                     \$('#newRecordButton3').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton4').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton5').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton6').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton7').addClass('disabled'); \n";
+// empty the  onClick field.
+    $str.="                                     \$('#newRecordButton1').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton2').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton3').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton4').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton5').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton6').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton7').attr('onClick', ''); \n";
+// end new button segment
+// update button segment
+    $str.="                                    \$('#updateRecordButton1').removeClass(); \n";
+    $str.="                                    \$('#updateRecordButton2').removeClass(); \n";
+    $str.="                                    \$('#updateRecordButton3').removeClass(); \n";
+    $str.="                                    \$('#updateRecordButton4').removeClass(); \n";
+    $str.="                                    \$('#updateRecordButton5').removeClass(); \n";
+    $str.="if(updateAccess == 1) {\n";
+    
     $str.="	\$('#updateRecordButton1').addClass('btn btn-info'); \n";
     // toggle button
     $str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info'); \n";
@@ -1629,16 +1671,42 @@ $str.="if(updateAccess == 1) {\n";
     //@todo.. what if the client have no access to update..
     $str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
     $str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
-    $str.="	\$('#updateRecordButton3').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
-    $str.="	\$('#updateRecordButton4').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+2+\"\\\")\"); \n";
-    $str.="	\$('#updateRecordButton5').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+3+\"\\\")\"); \n";
-
-    // enable the delete button 
-    // @todo whaf if the client have no access to delete
-    $str.="\$('#deleteRecordButton').removeClass(); \n";
-    $str.="\$('#deleteRecordButton').addClass('btn btn-danger'); \n";
-    $str.="\$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
-
+    $str.="	\$('#updateRecordButton3').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+    $str.="	\$('#updateRecordButton4').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+2+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+    $str.="	\$('#updateRecordButton5').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+3+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+    
+    $str.="} else {\n";
+    
+    $str.="	\$('#updateRecordButton1').addClass('btn btn-info disabled'); \n";
+    // toggle button
+    $str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); \n";
+    // drop down don't have  css class.blank empty
+    //$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
+    //$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
+    //$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
+    // put back the  onClick field
+    //@todo.. what if the client have no access to update..
+    $str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton3').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton4').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton5').attr('onClick', ''); \n";        
+    
+    $str.="}\n";
+    $str.=" if(deleteAccess==1) {\n";
+    
+    $str.="     \$('#deleteRecordButton').removeClass(); \n";
+    $str.="     \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
+    $str.="     \$('#deleteRecordButton').attr('onClick',''); \n";   
+    $str.="     \$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";    
+    
+    $str.=" } else {\n";
+    
+    $str.="     \$('#deleteRecordButton').removeClass(); \n";
+    $str.="     \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
+    $str.="     \$('#deleteRecordButton').attr('onClick',''); \n";   
+    
+    $str.="}\n";  
     
     $str.="                                     }\n";
     $str.="                                 }\n";
@@ -1651,13 +1719,13 @@ $str.="if(updateAccess == 1) {\n";
     $str.="              		}\n";
     $str.="                         });\n";
     $str.="    			} else {\n";
-    $str.="                         \$('#infoPanel').html('<div class='alert alert-error'>' + data.message + 'l</div>');\n";
+    $str.="                         \$('#infoPanel').html('<div class=\'alert alert-error\'>' + data.message + '</div>');\n";
     $str.="                     }\n";
     $str.="                 },\n";
     $str.="                 error: function (data) {\n";
     $str.="   			// failed request; give feedback to user\n";
     $str.="    			if (data.success == false) {\n";
-    $str.="        			\$('#infoPanel').html('<div class='alert alert-error'>Error Could Load The Request Page</div>');\n";
+    $str.="        			\$('#infoPanel').html('<div class=\'alert alert-error\'>Error Could Load The Request Page</div>');\n";
     $str.="   			}\n";
     $str.="                 }\n";
     $str.="		});\n";
@@ -1665,11 +1733,16 @@ $str.="if(updateAccess == 1) {\n";
     $str.="	}\n";
     
     //update last record
-    $str.="	function lastRecord(url, securityToken,update,delete) {\n";
+    $str.="	function lastRecord(url, securityToken,updateAccess,deleteAccess) {\n";
+    
     $str.="         var css = \$('#lastRecordButton').attr('class');\n";
+    
     $str.="         if (css.search('disabled') > 0) {\n";
+    
     $str.="             return false;\n";
+    
     $str.="         } else {\n";
+    
     $str.="             \$.ajax({\n";
     $str.="                 type    :   'GET',\n";
     $str.="                 url     :   url,\n";
@@ -1680,8 +1753,10 @@ $str.="if(updateAccess == 1) {\n";
     $str.="                         securityToken   :   securityToken\n";
     $str.="                 },\n";
     $str.="                 beforeSend: function () {\n";
+    
     $str.="                     // this is where we append a loading image\n";
     $str.="                     \$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
+    
     $str.="                 },\n";
     $str.="                 success: function (data) {\n";
     $str.="                     // successful request; do something with the data\n";
@@ -1700,8 +1775,10 @@ $str.="if(updateAccess == 1) {\n";
     $str.="                             \$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
     $str.="                         },\n";
     $str.="                         success: function (data) {\n";
+    
     $str.="                             // successful request; do something with the data\n";
     $str.="                             if (data.success == true) {\n";
+    
     $str.="                                 \$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
     $str.="                                 // reseting field value\n";
     for ($i = 0; $i < $total; $i++) {
@@ -1728,6 +1805,8 @@ $str.="if(updateAccess == 1) {\n";
     // enable the previous button
     $str.="                               		\$('#previousRecordButton').removeClass();\n";
     $str.="                                		\$('#previousRecordButton').addClass('btn btn-info');\n";
+    $str.="                                             \$('#previousRecordButton').attr('onClick', \"previousRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+
     // disable the next button.End of the paging record
     $str.="                               		\$('#nextRecordButton').removeClass();\n";
     $str.="                                		\$('#nextRecordButton').addClass('btn btn-info disabled');\n";
@@ -1737,14 +1816,42 @@ $str.="if(updateAccess == 1) {\n";
     $str.="                               		\$('#previousRecord').val(data.previousRecord);\n";
     $str.="                               		\$('#nextRecord').val(data.nextRecord);\n";
     $str.="                                		\$('#lastRecord').val(data.lastRecord);\n";
-    // enable the update button
-    // update button segment
-    $str.="	\$('#updateRecordButton1').removeClass(); \n";
-    $str.="	\$('#updateRecordButton2').removeClass(); \n";
-    $str.="	\$('#updateRecordButton3').removeClass(); \n";
-    $str.="	\$('#updateRecordButton4').removeClass(); \n";
-    $str.="	\$('#updateRecordButton5').removeClass(); \n";
-    // add disabled class
+    
+    // check if authorized or not.hackable here . but back end will check again.
+    // new button segment
+// remove classes
+    $str.="                                     \$('#newRecordButton1').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton2').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton3').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton4').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton5').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton6').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton7').removeClass(); \n";
+// add disabled class
+    $str.="                                     \$('#newRecordButton1').addClass('btn btn-success disabled'); \n";
+    $str.="                                     \$('#newRecordButton2').addClass('btn  dropdown-toggle btn-success disabled'); \n";
+    $str.="                                     \$('#newRecordButton3').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton4').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton5').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton6').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton7').addClass('disabled'); \n";
+// empty the  onClick field.
+    $str.="                                     \$('#newRecordButton1').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton2').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton3').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton4').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton5').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton6').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton7').attr('onClick', ''); \n";
+// end new button segment
+// update button segment
+    $str.="                                    \$('#updateRecordButton1').removeClass(); \n";
+    $str.="                                    \$('#updateRecordButton2').removeClass(); \n";
+    $str.="                                    \$('#updateRecordButton3').removeClass(); \n";
+    $str.="                                    \$('#updateRecordButton4').removeClass(); \n";
+    $str.="                                    \$('#updateRecordButton5').removeClass(); \n";
+    $str.="if(updateAccess == 1) {\n";
+    
     $str.="	\$('#updateRecordButton1').addClass('btn btn-info'); \n";
     // toggle button
     $str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info'); \n";
@@ -1756,15 +1863,42 @@ $str.="if(updateAccess == 1) {\n";
     //@todo.. what if the client have no access to update..
     $str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
     $str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
-    $str.="	\$('#updateRecordButton3').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\")\"); \n";
-    $str.="	\$('#updateRecordButton4').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+2+\"\\\")\"); \n";
-    $str.="	\$('#updateRecordButton5').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+3+\"\\\")\"); \n";
-
-    // enable the delete button 
-    $str.="\$('#deleteRecordButton').removeClass(); \n";
-    $str.="\$('#deleteRecordButton').addClass('btn btn-danger'); \n";
-    $str.="\$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\")\"); \n";
-
+    $str.="	\$('#updateRecordButton3').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+    $str.="	\$('#updateRecordButton4').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+2+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+    $str.="	\$('#updateRecordButton5').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+3+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+    
+    $str.="} else {\n";
+    
+    $str.="	\$('#updateRecordButton1').addClass('btn btn-info disabled'); \n";
+    // toggle button
+    $str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); \n";
+    // drop down don't have  css class.blank empty
+    //$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
+    //$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
+    //$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
+    // put back the  onClick field
+    //@todo.. what if the client have no access to update..
+    $str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton3').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton4').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton5').attr('onClick', ''); \n";        
+    
+    $str.="}\n";
+    $str.=" if(deleteAccess==1) {\n";
+    
+    $str.="     \$('#deleteRecordButton').removeClass(); \n";
+    $str.="     \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
+    $str.="     \$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";    
+    
+    $str.=" } else {\n";
+    
+    $str.="     \$('#deleteRecordButton').removeClass(); \n";
+    $str.="     \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
+    $str.="     \$('#deleteRecordButton').attr('onClick',''); \n";   
+    
+    $str.="}\n";    
+    
     $str.="                           		}\n";
     $str.="                                 }\n";
     $str.="                   		},\n";
@@ -1790,7 +1924,7 @@ $str.="if(updateAccess == 1) {\n";
     $str.="	}\n";
     
     // update previousRecord
-    $str.="	function previousRecord(url, securityToken,update,delete) {\n";
+    $str.="	function previousRecord(url, securityToken,updateAccess,deleteAccess) {\n";
     $str.="         var css = \$('#previousRecordButton').attr('class');\n";
     $str.="         if (css.search('disabled') > 0) {\n";
     $str.="     	return false;\n";
@@ -1834,66 +1968,178 @@ $str.="if(updateAccess == 1) {\n";
                 $data[$i]['columnName'] != 'isSingle' &&
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation') {
-            $str.="		\$('#" . $data[$i]['columnName'] . "').val(data.data." . $data[$i]['columnName'] . ");\n";
+            $str.="                     \$('#" . $data[$i]['columnName'] . "').val(data.data." . $data[$i]['columnName'] . ");\n";
         }
     }
-    $str.="                				\$('#firstRecord').val(data.firstRecord);\n";
-    $str.="                  			\$('#previousRecord').val(data.previousRecord);\n";
-    $str.="                				\$('#nextRecord').val(data.nextRecord);\n";
-    $str.="                 			\$('#lastRecord').val(data.lastRecord);\n";
-    $str.="                 			if (parseFloat(data.nextRecord) != parseFloat(data.lastRecord)) {\n";
-    $str.="                     			\$('#nextRecordButton').removeClass();\n";
-    $str.="                        			\$('#nextRecordButton').addClass('btn btn-info');\n";
-    $str.="                     		} else {\n";
-    $str.="                        			\$('#nextRecordButton').removeClass();\n";
-    $str.="                      			 \$('#nextRecordButton').addClass('btn btn-info disabled');\n";
-    $str.="                    			}\n";
-    $str.="                   			if (parseFloat(data.previousRecord) == 0) {\n";
-    $str.="                      			\$('#previousRecordButton').removeClass();\n";
-    $str.="                       			\$('#previousRecordButton').addClass('btn btn-info disabled');\n";
-    $str.="                   			}\n";
-    $str.="              		}\n";
+    
+     // check if authorized or not.hackable here . but back end will check again.
+    // new button segment
+// remove classes
+    $str.="                                     \$('#newRecordButton1').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton2').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton3').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton4').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton5').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton6').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton7').removeClass(); \n";
+// add disabled class
+    $str.="                                     \$('#newRecordButton1').addClass('btn btn-success disabled'); \n";
+    $str.="                                     \$('#newRecordButton2').addClass('btn  dropdown-toggle btn-success disabled'); \n";
+    $str.="                                     \$('#newRecordButton3').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton4').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton5').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton6').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton7').addClass('disabled'); \n";
+// empty the  onClick field.
+    $str.="                                     \$('#newRecordButton1').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton2').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton3').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton4').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton5').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton6').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton7').attr('onClick', ''); \n";
+// end new button segment
+// update button segment
+    $str.="                                    \$('#updateRecordButton1').removeClass(); \n";
+    $str.="                                    \$('#updateRecordButton2').removeClass(); \n";
+    $str.="                                    \$('#updateRecordButton3').removeClass(); \n";
+    $str.="                                    \$('#updateRecordButton4').removeClass(); \n";
+    $str.="                                    \$('#updateRecordButton5').removeClass(); \n";
+    $str.="if(updateAccess == 1) {\n";
+    
+    $str.="	\$('#updateRecordButton1').addClass('btn btn-info'); \n";
+    // toggle button
+    $str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info'); \n";
+    // drop down don't have  css class.blank empty
+    //$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
+    //$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
+    //$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
+    // put back the  onClick field
+    //@todo.. what if the client have no access to update..
+    $str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton3').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+    $str.="	\$('#updateRecordButton4').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+2+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+    $str.="	\$('#updateRecordButton5').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+3+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+    
+    $str.="} else {\n";
+    
+    $str.="	\$('#updateRecordButton1').addClass('btn btn-info disabled'); \n";
+    // toggle button
+    $str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); \n";
+    // drop down don't have  css class.blank empty
+    //$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
+    //$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
+    //$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
+    // put back the  onClick field
+    //@todo.. what if the client have no access to update..
+    $str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton3').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton4').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton5').attr('onClick', ''); \n";        
+    
+    $str.="}\n";
+    $str.=" if(deleteAccess==1) {\n";
+    
+    $str.="     \$('#deleteRecordButton').removeClass(); \n";
+    $str.="     \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
+    $str.="     \$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";    
+    
+    $str.=" } else {\n";
+    
+    $str.="     \$('#deleteRecordButton').removeClass(); \n";
+    $str.="     \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
+    $str.="     \$('#deleteRecordButton').attr('onClick',''); \n";   
+    
+    $str.="}\n";  
+    
+    $str.="                		\$('#firstRecord').val(data.firstRecord);\n";
+    $str.="                  		\$('#previousRecord').val(data.previousRecord);\n";
+    $str.="                		\$('#nextRecord').val(data.nextRecord);\n";
+    $str.="                 		\$('#lastRecord').val(data.lastRecord);\n";
+    
+    $str.="                 		if (parseFloat(data.nextRecord) != parseFloat(data.lastRecord)) {\n";
+    
+    $str.="                                 \$('#nextRecordButton').removeClass();\n";
+    $str.="                                 \$('#nextRecordButton').addClass('btn btn-info');\n";
+    $str.="                                 \$('#nextRecordButton').attr('onClick','');\n";
+    $str.="                                 \$('#nextRecordButton').attr('onClick', \"nextRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+
+
+    $str.="                             } else {\n";
+    
+    $str.="                                 \$('#nextRecordButton').removeClass();\n";
+    $str.="                                 \$('#nextRecordButton').addClass('btn btn-info disabled');\n";
+    $str.="                                 \$('#nextRecordButton').attr('onClick','');\n";
+    
+    $str.="                    		}\n";
+    $str.="                   		if (parseFloat(data.previousRecord) == 0) {\n";
+    
+    $str.="                                 \$('#previousRecordButton').removeClass();\n";
+    $str.="                                 \$('#previousRecordButton').addClass('btn btn-info disabled');\n";
+    $str.="                                 \$('#previousRecordButton').attr('onClick','');\n";
+    
+    $str.="                   		}\n";
+    $str.="                         }\n";
     $str.="          		},\n";
     $str.="           		error: function (data) {\n";
-    $str.="             		 // failed request; give feedback to user\n";
-    $str.="               		if (data.success == false) {\n";
-    $str.="                   		\$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
-    $str.="               		}\n";
+    
+    $str.="                          // failed request; give feedback to user\n";
+    $str.="                         if (data.success == false) {\n";
+    
+    $str.="                             \$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
+    
+    $str.="                         }\n";
     $str.="           		}\n";
-    $str.="        		});\n";
+    $str.="                 });\n";
     $str.="     	} else {\n";
     $str.="         	// debugging purpose only\n";
     $str.="       	}\n";
-    $str.="   	}\n";
+    $str.="         }\n";
     $str.="	}\n";
     
     // update nextRecord
-    $str.="	function nextRecord(url, securityToken,update,delete) {\n";
-    $str.="		var css = \$('#nextRecordButton').attr('class');\n";
-    $str.="		if (css.search('disabled') > 0) {\n";
-    $str.="                 return false;  \n";
-    $str.="		} else {\n";
+    $str.="	function nextRecord(url, securityToken,updateAccess,deleteAccess) {\n";
+    $str.="         var css = \$('#nextRecordButton').attr('class');\n";
+    
+    $str.="         if (css.search('disabled') > 0) {\n";
+    
+    $str.="             return false;  \n";
+    
+    $str.="         } else {\n";
+    
     $str.="    		\$('#newButton').removeClass();\n";
     $str.="    		if (\$('#nextRecord').val() == '' || \$('#nextRecord').val() == undefined) {\n";
-    $str.="        		\$('#infoPanel').html('<div class=alert alert-error>sdfd</div>');\n";
+    
+    $str.="                 \$('#infoPanel').html('<div class=alert alert-error>sdfd</div>');\n";
+    
     $str.="    		}\n";
+    
     $str.="    		if (parseFloat(\$('#nextRecord').val()) < parseFloat(\$('#lastRecord').val())) {\n";
-    $str.="        		\$.ajax({\n";
+    
+    $str.="                 \$.ajax({\n";
     $str.="             	type	:	'POST',\n";
-    $str.="             	url		: url,\n";
+    $str.="             	url	: url,\n";
     $str.="          		data	: {\n";
-    $str.="               		method				: 	'read',\n";
-    $str.="              		" . $data[0]['primaryKeyName'] . "	: 	\$('#nextRecord').val(),\n";
-    $str.="               		output				: 	'json',\n";
-    $str.="               		securityToken		:	securityToken\n";
+    
+    $str.="                         method          : 	'read',\n";
+    $str.="                         " . $data[0]['primaryKeyName'] . "  :   \$('#nextRecord').val(),\n";
+    $str.="                         output          : 	'json',\n";
+    $str.="                         securityToken   :   securityToken\n";
+    
     $str.="           		},\n";
     $str.="            		beforeSend: function () {\n";
-    $str.="               		// this is where we append a loading image\n";
-    $str.="               		\$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
+    
+    $str.="                         // this is where we append a loading image\n";
+    $str.="                         \$('#infoPanel').html('<div class=progress><img src=./images/loading.gif alt=Loading.../></div>');\n";
+    
     $str.="            		},\n";
     $str.="            		success: function (data) {\n";
-    $str.="                		// successful request; do something with the data\n";
-    $str.="               		if (data.success == true) {\n";
+    
+    $str.="                         // successful request; do something with the data\n";
+    $str.="                         if (data.success == true) {\n";
+    
     $str.="                    		\$('#infoPanel').html('<div class=alert alert-info>Loading Complete</div>');\n";
     for ($i = 0; $i < $total; $i++) {
 // this field is auto update by session
@@ -1912,36 +2158,139 @@ $str.="if(updateAccess == 1) {\n";
                 $data[$i]['columnName'] != 'isSingle' &&
                 $data[$i]['columnName'] != 'isReview' &&
                 $data[$i]['columnName'] != 'isConsolidation') {
-            $str.="		\$('#" . $data[$i]['columnName'] . "').val(data.data." . $data[$i]['columnName'] . ");\n";
+            $str.="                     \$('#" . $data[$i]['columnName'] . "').val(data.data." . $data[$i]['columnName'] . ");\n";
         }
     }
+    
+    // check if authorized or not.hackable here . but back end will check again.
+    // new button segment
+// remove classes
+    $str.="                                     \$('#newRecordButton1').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton2').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton3').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton4').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton5').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton6').removeClass(); \n";
+    $str.="                                     \$('#newRecordButton7').removeClass(); \n";
+// add disabled class
+    $str.="                                     \$('#newRecordButton1').addClass('btn btn-success disabled'); \n";
+    $str.="                                     \$('#newRecordButton2').addClass('btn  dropdown-toggle btn-success disabled'); \n";
+    $str.="                                     \$('#newRecordButton3').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton4').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton5').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton6').addClass('disabled'); \n";
+    $str.="                                     \$('#newRecordButton7').addClass('disabled'); \n";
+// empty the  onClick field.
+    $str.="                                     \$('#newRecordButton1').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton2').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton3').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton4').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton5').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton6').attr('onClick', ''); \n";
+    $str.="                                     \$('#newRecordButton7').attr('onClick', ''); \n";
+// end new button segment
+// update button segment
+    $str.="                                    \$('#updateRecordButton1').removeClass(); \n";
+    $str.="                                    \$('#updateRecordButton2').removeClass(); \n";
+    $str.="                                    \$('#updateRecordButton3').removeClass(); \n";
+    $str.="                                    \$('#updateRecordButton4').removeClass(); \n";
+    $str.="                                    \$('#updateRecordButton5').removeClass(); \n";
+    $str.="if(updateAccess == 1) {\n";
+    
+    $str.="	\$('#updateRecordButton1').addClass('btn btn-info'); \n";
+    // toggle button
+    $str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info'); \n";
+    // drop down don't have  css class.blank empty
+    //$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
+    //$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
+    //$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
+    // put back the  onClick field
+    //@todo.. what if the client have no access to update..
+    $str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton3').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+1+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+    $str.="	\$('#updateRecordButton4').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+2+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+    $str.="	\$('#updateRecordButton5').attr('onClick', \"updateRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+3+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+    
+    $str.="} else {\n";
+    
+    $str.="	\$('#updateRecordButton1').addClass('btn btn-info disabled'); \n";
+    // toggle button
+    $str.="	\$('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); \n";
+    // drop down don't have  css class.blank empty
+    //$str.="	\$('#updateRecordButton3').addClass('btn btn-info'); \n";
+    //$str.="	\$('#updateRecordButton4').addClass('btn btn-info'); \n";
+    //$str.="	\$('#updateRecordButton5').addClass('btn btn-info'); \n";
+    // put back the  onClick field
+    //@todo.. what if the client have no access to update..
+    $str.="	\$('#updateRecordButton1').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton2').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton3').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton4').attr('onClick', ''); \n";
+    $str.="	\$('#updateRecordButton5').attr('onClick', ''); \n";        
+    
+    $str.="}\n";
+    $str.=" if(deleteAccess==1) {\n";
+    
+    $str.="     \$('#deleteRecordButton').removeClass(); \n";
+    $str.="     \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
+    $str.="     \$('#deleteRecordButton').attr('onClick', \"deleteRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";    
+    
+    $str.=" } else {\n";
+    
+    $str.="     \$('#deleteRecordButton').removeClass(); \n";
+    $str.="     \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
+    $str.="     \$('#deleteRecordButton').attr('onClick',''); \n";   
+    
+    $str.="}\n";   
+    
     $str.="                    		\$('#firstRecord').val(data.firstRecord);\n";
     $str.="                    		\$('#previousRecord').val(data.previousRecord);\n";
     $str.="                    		\$('#nextRecord').val(data.nextRecord);\n";
     $str.="                   		\$('#lastRecord').val(data.lastRecord);\n";
+    
     $str.="                    		if (parseFloat(data.previousRecord) > 0) {\n";
+    
     $str.="                                 \$('#previousRecordButton').removeClass();\n";
     $str.="                                 \$('#previousRecordButton').addClass('btn btn-info');\n";
+    $str.="                                 \$('#previousRecordButton').attr('onClick', \"previousRecord(\\\"\"+url+\"\\\",\\\"\"+securityToken+\"\\\",\\\"\"+updateAccess+\"\\\",\\\"\"+deleteAccess+\"\\\")\"); \n";
+
+    
     $str.="                   		} else {\n";
+    
     $str.="                                 \$('#previousRecordButton').removeClass();\n";
     $str.="                                 \$('#previousRecordButton').addClass('btn btn-info disabled');\n";
+    $str.="                                 \$('#previousRecordButton').attr('onClick','');\n";
+    
     $str.="                   		}\n";
     $str.="                   		if (parseFloat(data.nextRecord) == parseFloat('lastRecord')) {\n";
+    
     $str.="                                 \$('#nextRecordButton').removeClass();\n";
     $str.="                                 \$('#nextRecordButton').addClass('btn btn-info disabled');\n";
+    $str.="                                 \$('#nextRecordButton').attr('onClick','');\n";
+    
     $str.="                    		}\n";
     $str.="                         }\n";
     $str.="             	},\n";
     $str.="              	error: function (data) {\n";
+    
     $str.="                         // failed request; give feedback to user\n";
     $str.="                         if (data.success == false) {\n";
+    
     $str.="                     	 \$('#infoPanel').html('<div class=alert alert-error>Error Could Load The Request Page</div>');\n";
+    
     $str.="                         }\n";
+    
     $str.="              	}\n";
+    
     $str.="                 });\n";
+    
     $str.="         } else {\n";
+    
     $str.="         }\n";
+    
     $str.="    }\n";
+    
     $str.=" }\n";
 }
 ?>
