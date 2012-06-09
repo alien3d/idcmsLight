@@ -449,7 +449,7 @@ if (isset($data)) {
     $str.="         return false;   \n";
     $str.="     } else { return false;    }\n";
     $str.=" }\n";
-    $str.=" function newRecord(url, securityToken, type) {\n";
+    $str.=" function newRecord(url, securityToken, type,update,delete) {\n";
     $str.=" var css = \$('#newRecordButton2').attr('class');
         \n";
     $str.=" if (css.search('disabled') > 0) {\n";
@@ -1362,7 +1362,7 @@ if (isset($data)) {
     $str.="	function resetRecord(url,securityToken) {\n";
 // new button segment
 // remove classes
-    $str.="	\$('#newRecordButton1').removeClass(); \n";
+    $str.="         \$('#newRecordButton1').removeClass(); \n";
     $str.="	\$('#newRecordButton2').removeClass(); \n";
 // add disabled class
     $str.="	\$('#newRecordButton1').addClass('btn btn-success'); \n";
