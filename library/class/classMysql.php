@@ -337,6 +337,10 @@ class Vendor {
             $this->execute = 'fail';
             $this->responce = "Sql Stament Error" . $this->sql . " \n\r" . mysqli_error($this->link) . " <br> Error Code :x " . mysqli_errno($this->link);
             $error = 1;
+            // check if duplicate code issue...
+            if(mysqli_errno($this->link)==1062){
+                $this->responce = "There is Duplication Code with Old Record.Please Choose Other Code for this form.";
+            }
         }
         if ($error == 1) {
 

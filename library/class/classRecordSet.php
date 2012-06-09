@@ -103,7 +103,7 @@ class RecordSet extends \Core\ConfigClass {
                     $sql.=" AND `isActive` = 1 ";
                 }
             }
-            
+          
         } else if ($this->getVendor() == self::MSSQL) {
             $sql = "
             SELECT  MIN([" . $this->getPrimaryKeyName() . "]) AS [firstRecord]

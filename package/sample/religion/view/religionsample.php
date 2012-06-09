@@ -223,7 +223,8 @@ define("LIMIT",14);
             <a href=javascript:void(0) onclick=showMeModal('deletePreview',0) class='btn'>Close</a> 
         </div> 
    </div> 
-<div align='left'> 
+   
+<div align='left' class='btn-group'> 
         <a title='A' href=javascript:void(0) class='btn btn-small' onClick=ajaxQuerySearchAllCharacter('<?php echo $religionsample->getViewPath(); ?>','<?php echo $securityToken; ?>','A')>A</a> 
         <a title='B' href=javascript:void(0) class='btn btn-small' onClick=ajaxQuerySearchAllCharacter('<?php echo $religionsample->getViewPath(); ?>','<?php echo $securityToken; ?>','B')>B</a> 
         <a title='C' href=javascript:void(0) class='btn btn-small' onClick=ajaxQuerySearchAllCharacter('<?php echo $religionsample->getViewPath(); ?>','<?php echo $securityToken; ?>','C')>C</a> 

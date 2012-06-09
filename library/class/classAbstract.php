@@ -681,8 +681,9 @@ abstract class ConfigClass
          */
         function exceptionMessage($message){
             $this->message = $message;
-            echo "<div class=\"alert alert-error\"><a class=\"close\" data-dismiss=\'alert\'>×</a>".$message."</div>";
-            
+            if(strlen($this->message)>0) {
+                echo "<div class=\"alert alert-error\"><a class=\"close\" data-dismiss=\'alert\'>×</a>".$message."</div>";
+            }
         }
         /**
          * Block of html error message

@@ -1,185 +1,138 @@
 <?php
-
-namespace Core\System\Common\Theme\Model;
-
-require_once ("../../../../library/class/classValidation.php");
+namespace Core\System\Security\Application\Model;
+require_once '/../../../../library/class/classValidation.php';
 
 /**
- * this is theme model file.This is to ensure strict setting enable for all variable enter to database 
- * 
+ * this is application model file.
+ *
  * @name IDCMS.
  * @version 2
  * @author hafizan
- * @package System 
- * @subpackage Common 
+ * @package Security
+ * @subpackage application
  * @link http://www.idcms.org
  * @license http://www.gnu.org/copyleft/lesser.html LGPL
  */
-class ThemeModel extends \Core\Validation\ValidationClass {
+class ApplicationModel extends \Core\Validation\ValidationClass {
 
     /**
-
-     * @var int 
-
+     * Application Identification
+     * @var int
      */
-    private $themeId;
+    private $applicationId;
 
     /**
-
-     * @var int 
-
+     * Icon Identification
+     * @var int
      */
-    private $themeSequence;
+    private $iconId;
 
     /**
-
-     * @var text 
-
+     * Application Sequence
+     * @var int
      */
-    private $themeCode;
+    private $applicationSequence;
 
     /**
-
-     * @var text 
-
+     * Application Code
+     * @var string
      */
-    private $themeNote;
+    private $applicationCode;
 
     /**
-
-     * @var text 
-
+     * Application Note .English Only
+     * @var string
      */
-    private $themePath;
+    private $applicationEnglish;
 
-    /* (non-PHPdoc)
-     * @see ValidationClass::execute()
+    /**
+     * Class Loader to load outside variable and test it suppose variable type
      */
-
-    public function __construct() {
-        
-    }
-
-    public function execute() {
+    function execute() {
         /*
          *  Basic Information Table
          */
-        $this->setTableName('theme');
-        $this->setPrimaryKeyName('themeId');
-        $this->setMasterForeignKeyName('themeId');
-        $this->setFilterCharacter('themeNote');
-        $this->setFilterDate('executeTime');
-        /**
-         * All the Array enviroment.
+        $this->setTableName('application');
+        $this->setPrimaryKeyName('applicationId');
+        /*
+         *  All the $_POST enviroment.
          */
-        if (isset($_POST ['themeId'])) {
-            $this->setThemeId($this->strict($_POST ['themeId'], 'int'), 0, 'single');
+        if (isset($_POST ['applicationId'])) {
+            $this->setApplicationId($this->strict($_POST ['applicationId'], 'numeric'), 0, 'single');
         }
-        if (isset($_POST ['themeSequence'])) {
-            $this->setThemeSequence($this->strict($_POST ['themeSequence'], 'int'));
+        if (isset($_POST ['iconId'])) {
+            $this->setIconId($this->strict($_POST ['iconId'], 'numeric'));
         }
-        if (isset($_POST ['themeCode'])) {
-            $this->setThemeCode($this->strict($_POST ['themeCode'], 'text'));
+        if (isset($_POST ['applicationSequence'])) {
+            $this->setApplicationSequence($this->strict($_POST ['applicationSequence'], 'numeric'));
         }
-        if (isset($_POST ['themeNote'])) {
-            $this->setThemeNote($this->strict($_POST ['themeNote'], 'text'));
+        if (isset($_POST ['applicationCode'])) {
+            $this->setApplicationCode($this->strict($_POST ['applicationCode'], 'string'));
         }
-        if (isset($_POST ['themePath'])) {
-            $this->setThemePath($this->strict($_POST ['themePath'], 'text'));
-        }
-        /**
-         * All the $_GET enviroment.
-         */
-        if (isset($_GET ['themeId'])) {
-            $this->setThemeId($this->strict($_GET ['themeId'], 'int'), 0, 'single');
-        }
-        if (isset($_GET ['themeSequence'])) {
-            $this->setThemeSequence($this->strict($_GET ['themeSequence'], 'int'));
-        }
-        if (isset($_GET ['themeCode'])) {
-            $this->setThemeCode($this->strict($_GET ['themeCode'], 'text'));
-        }
-        if (isset($_GET ['themeNote'])) {
-            $this->setThemeNote($this->strict($_GET ['themeNote'], 'text'));
-        }
-        if (isset($_GET ['themePath'])) {
-            $this->setThemePath($this->strict($_GET ['themePath'], 'text'));
-        }
-        if (isset($_GET ['themeId'])) {
-            $this->setTotal(count($_GET ['themeId']));
-            // testing initlize dummy value
-            if (is_array($_GET['themeId'])) {
-                $this->themeId = array();
-            }
+        if (isset($_POST ['applicationEnglish'])) {
+            $this->setApplicationEnglish($this->strict($_POST ['applicationEnglish'], 'memo'));
         }
 
+        /*
+         *  All the $_GET enviroment.
+         */
+        if (isset($_GET ['applicationId'])) {
+            $this->setTotal(count($_GET ['applicationId']));
+        }
+        if (isset($_GET ['applicationId'])) {
+            if (is_array($_GET ['applicationId'])) {
+                $this->applicationId = array();
+            }
+        }
         if (isset($_GET ['isDefault'])) {
-            $this->setIsDefaultTotal(count($_GET['isDefault']));
             if (is_array($_GET ['isDefault'])) {
                 $this->isDefault = array();
             }
         }
         if (isset($_GET ['isNew'])) {
-            $this->setIsDefaultTotal(count($_GET['isNew']));
-
             if (is_array($_GET ['isNew'])) {
                 $this->isNew = array();
             }
         }
         if (isset($_GET ['isDraft'])) {
-            $this->setIsDefaultTotal(count($_GET['isDraft']));
-
             if (is_array($_GET ['isDraft'])) {
                 $this->isDraft = array();
             }
         }
         if (isset($_GET ['isUpdate'])) {
-            $this->setIsUpdateTotal(count($_GET['isUpdate']));
-
             if (is_array($_GET ['isUpdate'])) {
                 $this->isUpdate = array();
             }
         }
         if (isset($_GET ['isDelete'])) {
-            
-            $this->setIsDeleteTotal(count($_GET['isDelete']));
             if (is_array($_GET ['isDelete'])) {
                 $this->isDelete = array();
             }
         }
         if (isset($_GET ['isActive'])) {
-            $this->setIsActiveTotal(count($_GET['isActive']));
-
             if (is_array($_GET ['isActive'])) {
                 $this->isActive = array();
             }
         }
         if (isset($_GET ['isApproved'])) {
-            $this->setIsApprovedTotal(count($_GET['isApproved']));
-
             if (is_array($_GET ['isApproved'])) {
                 $this->isApproved = array();
             }
         }
         if (isset($_GET ['isReview'])) {
-            $this->setIsReviewTotal(count($_GET['isReview']));
-
             if (is_array($_GET ['isReview'])) {
                 $this->isReview = array();
             }
         }
         if (isset($_GET ['isPost'])) {
-            $this->setIsPostTotal(count($_GET['isPost']));
-
             if (is_array($_GET ['isPost'])) {
                 $this->isPost = array();
             }
         }
         $primaryKeyAll = '';
         for ($i = 0; $i < $this->getTotal(); $i++) {
-            if (isset($_GET ['themeId'])) {
-
-                $this->setThemeId($this->strict($_GET ['themeId'] [$i], 'numeric'), $i, 'array');
+            if (isset($_GET['applicationId'])) {
+                $this->setApplicationId($this->strict($_GET ['applicationId'] [$i], 'numeric'), $i, 'array');
             }
             if (isset($_GET ['isDefault'])) {
                 if ($_GET ['isDefault'] [$i] == 'true') {
@@ -244,7 +197,7 @@ class ThemeModel extends \Core\Validation\ValidationClass {
                     $this->setIsPost(0, $i, 'array');
                 }
             }
-            $primaryKeyAll .= $this->getThemeId($i, 'array') . ",";
+            $primaryKeyAll .= $this->getTabId($i, 'array') . ",";
         }
         $this->setPrimaryKeyAll((substr($primaryKeyAll, 0, - 1)));
         /**
@@ -259,7 +212,7 @@ class ThemeModel extends \Core\Validation\ValidationClass {
         if ($this->getVendor() == self::MYSQL) {
             $this->setExecuteTime("'" . date("Y-m-d H:i:s") . "'");
         } else if ($this->getVendor() == self::MSSQL) {
-            $this->setExecuteTime("'" . date("Y-m-d H:i:s.u") . "'");
+            $this->setExecuteTime("'" . date("Y-m-d H:i:s") . "'");
         } else if ($this->getVendor() == self::ORACLE) {
             $this->setExecuteTime("to_date('" . date("Y-m-d H:i:s") . "','YYYY-MM-DD HH24:MI:SS')");
         }
@@ -289,7 +242,7 @@ class ThemeModel extends \Core\Validation\ValidationClass {
         $this->setIsDefault(0, 0, 'single');
         $this->setIsNew(0, 0, 'single');
         $this->setIsDraft(0, 0, 'single');
-        $this->setIsUpdate(1, '', 'single');
+        $this->setIsUpdate(1, 0, 'single');
         $this->setIsActive(1, 0, 'single');
         $this->setIsDelete(0, 0, 'single');
         $this->setIsApproved(0, 0, 'single');
@@ -297,7 +250,7 @@ class ThemeModel extends \Core\Validation\ValidationClass {
         $this->setIsPost(0, 0, 'single');
     }
 
-    /* (non-PHPdoc) 
+    /* (non-PHPdoc)
      * @see ValidationClass::delete()
      */
 
@@ -306,8 +259,8 @@ class ThemeModel extends \Core\Validation\ValidationClass {
         $this->setIsNew(0, 0, 'single');
         $this->setIsDraft(0, 0, 'single');
         $this->setIsUpdate(0, 0, 'single');
-        $this->setIsActive(0, '', 'single');
-        $this->setIsDelete(1, '', 'single');
+        $this->setIsActive(0, 0, 'single');
+        $this->setIsDelete(1, 0, 'single');
         $this->setIsApproved(0, 0, 'single');
         $this->setIsReview(0, 0, 'single');
         $this->setIsPost(0, 0, 'single');
@@ -330,7 +283,7 @@ class ThemeModel extends \Core\Validation\ValidationClass {
     }
 
     /* (non-PHPdoc)
-     * @see ValidationClass::approved()
+     * @see ValidationClass::draft()
      */
 
     public function approved() {
@@ -378,101 +331,128 @@ class ThemeModel extends \Core\Validation\ValidationClass {
     }
 
     /**
-     * Set theme Identification  Value 
-     * @param int|array $value 
-     * @param array[int]int $key List Of Primary Key. 
-     * @param array[int]string $type  List Of Type.0 As 'single' 1 As 'array' 
-     * */
-    public function setThemeId($value, $key, $type) {
-        if ($type == 'single') {
-            $this->themeId = $value;
-        } else if ($type == 'array') {
-            $this->themeId[$key] = $value;
-        } else {
-            echo json_encode(array("success" => false, "message" => "Cannot Identifiy Type String Or Array:setthemeId?"));
-            exit();
+     * Update tab Table Status
+     */
+    public function updateStatus() {
+        if (!(is_array($_GET ['isDefault']))) {
+            $this->setIsDefault(0, 0, 'single');
+        }
+        if (!(is_array($_GET ['isNew']))) {
+            $this->setIsNew(0, 0, 'single');
+        }
+        if (!(is_array($_GET ['isDraft']))) {
+            $this->setIsDraft(0, 0, 'single');
+        }
+        if (!(is_array($_GET ['isUpdate']))) {
+            $this->setIsUpdate(0, 0, 'single');
+        }
+        if (!(is_array($_GET ['isDelete']))) {
+            $this->setIsDelete(1, 0, 'single');
+        }
+        if (!(is_array($_GET ['isActive']))) {
+            $this->setIsActive(0, 0, 'single');
+        }
+        if (!(is_array($_GET ['isApproved']))) {
+            $this->setIsApproved(0, 0, 'single');
         }
     }
 
     /**
-     * Return theme Identification  Value
+     * Set Application   Value
+     * @param int|array $value
      * @param array[int]int $key List Of Primary Key.
      * @param array[int]string $type  List Of Type.0 As 'single' 1 As 'array'
-     * @return bool|array
-     * */
-    public function getThemeId($key, $type) {
+     */
+    public function setApplicationId($value, $key, $type) {
         if ($type == 'single') {
-            return $this->themeId;
+            $this->applicationId = $value;
         } else if ($type == 'array') {
-            return $this->themeId [$key];
+            $this->applicationId [$key] = $value;
         } else {
-            echo json_encode(array("success" => false, "message" => "Cannot Identifiy Type String Or Array:getthemeId ?"));
+            echo json_encode(array("success" => false, "message" => "Cannot Identifiy Type String Or Array:setApplicationId ?"));
             exit();
         }
     }
 
     /**
-     * To Return themeSequence 
-     * @return $themeSequence
+     * Return Application  Identification
+     * @param array[int][int] $key List Of Primary Key.
+     * @param array[int]string $type  List Of Type.0 As 'single' 1 As 'array'
+     * @return int|array
      */
-    public function getThemeSequence() {
-        return $this->themeSequence;
+    public function getApplicationId($key, $type) {
+        if ($type == 'single') {
+            return $this->applicationId;
+        } else if ($type == 'array') {
+            return $this->applicationId [$key];
+        } else {
+            echo json_encode(array("success" => false, "message" => "Cannot Identifiy Type String Or Array:getApplicationId ?"));
+            exit();
+        }
     }
 
     /**
-     * To Set themeSequence 
-     * @param int $themeSequence
-     * */
-    public function setThemeSequence($themeSequence) {
-        $this->themeSequence = $themeSequence;
-    }
-
-    /**
-     * To Return themeCode 
-     * @return $themeCode
+     * Set Icon Identification
+     * @param  int $value
      */
-    public function getThemeCode() {
-        return $this->themeCode;
+    public function setIconId($value) {
+        $this->iconId = $value;
     }
 
     /**
-     * To Set themeCode 
-     * @param text $themeCode
-     * */
-    public function setThemeCode($themeCode) {
-        $this->themeCode = $themeCode;
-    }
-
-    /**
-     * To Return themeNote 
-     * @return $themeNote
+     * Return Icon Identification
+     * @return int
      */
-    public function getThemeNote() {
-        return $this->themeNote;
+    public function getIconId() {
+        return $this->iconId;
     }
 
     /**
-     * To Set themeNote 
-     * @param text $themeNote
-     * */
-    public function setThemeNote($themeNote) {
-        $this->themeNote = $themeNote;
-    }
-
-    /**
-     * To Return themePath 
-     * @return $themePath
+     * Set Application Sequence Value
+     * @param  int $value
      */
-    public function getThemePath() {
-        return $this->themePath;
+    public function setApplicationSequence($value) {
+        $this->applicationSequence = $value;
     }
 
     /**
-     * To Set themePath 
-     * @param text $themePath
-     * */
-    public function setThemePath($themePath) {
-        $this->themePath = $themePath;
+     * Return application Sequence Value
+     * @return int
+     */
+    public function getApplicationSequence() {
+        return $this->applicationSequence;
+    }
+
+    /**
+     * Set Application Code Value
+     * @param string $value
+     */
+    public function setApplicationCode($value) {
+        $this->applicationCode = $value;
+    }
+
+    /**
+     * Return Application Code
+     * @return string
+     */
+    public function getApplicationCode() {
+        return $this->applicationCode;
+    }
+
+    /**
+     * Set Application Note Value
+     * @param string $value
+     */
+    public function setApplicationEnglish($value) {
+        $this->applicationEnglish = $value;
+    }
+
+    /**
+     * Return application Note
+     * @return string
+     */
+    public function getApplicationEnglish() {
+        return $this->applicationEnglish;
     }
 
 }

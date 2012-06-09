@@ -1,4 +1,5 @@
 <?php
+
 $total = 0;
 $total = count($data);
 $str.="<?php namespace Core\\" . ucwords($data[0]['package']) . "\\" . ucwords($data[0]['module']) . "\\" . ucwords($data[0]['tableName']) . "\Controller; \n";
@@ -23,10 +24,10 @@ $str.=" * @subpackage " . ucwords($data[0]['module']) . " \n";
 $str.=" * @link http://www.idcms.org \n";
 $str.=" * @license http://www.gnu.org/copyleft/lesser.html LGPL \n";
 $str.=" */ \n";
-$str.="class ".ucfirst($data[0]['tableName'])."Class extends \Core\ConfigClass { \n";
+$str.="class " . ucfirst($data[0]['tableName']) . "Class extends \Core\ConfigClass { \n";
 
 $str.="	/** \n";
-$str.="	 * Connection to the database \n"; 
+$str.="	 * Connection to the database \n";
 $str.="	 * @var string \n";
 $str.="	 */ \n";
 $str.="	public \$q; \n";
@@ -89,9 +90,9 @@ $str.="	 * @var bool\n";
 $str.="	 */ \n";
 $str.="	public \$duplicateTest; \n";
 $str.="function __construct() { \n";
-$str.="	\$this->setViewPath(\"./package/" . $data[0]['package'] . "/" . $data[0]['module'] . "/view/".$data[0]['tableName'].".php\"); \n";
-$str.=" \$this->setControllerPath(\"./package/" . $data[0]['package'] . "/" . $data[0]['module'] . "/controller/".$data[0]['tableName']."Controller.php\");\n";
-$str.=" //\$this->setServicePath(\"./package/" . $data[0]['package'] . "/" . $data[0]['module'] . "/service/".$data[0]['tableName']."Service.php\"); \n";
+$str.="	\$this->setViewPath(\"./package/" . $data[0]['package'] . "/" . $data[0]['module'] . "/view/" . $data[0]['tableName'] . ".php\"); \n";
+$str.=" \$this->setControllerPath(\"./package/" . $data[0]['package'] . "/" . $data[0]['module'] . "/controller/" . $data[0]['tableName'] . "Controller.php\");\n";
+$str.=" //\$this->setServicePath(\"./package/" . $data[0]['package'] . "/" . $data[0]['module'] . "/service/" . $data[0]['tableName'] . "Service.php\"); \n";
 $str.="	} \n";
 $str.="	/** \n";
 $str.="	 * Class Loader \n";
@@ -102,7 +103,7 @@ $str.="        \$this->audit = 0; \n";
 $str.="       \$this->log = 1; \n";
 
 $str.="        \$this->model  = new \Core\\" . ucwords($data[0]['package']) . "\\" . ucwords($data[0]['module']) . "\\" . ucwords($data[0]['tableName']) . "\Model\\";
-$str.=ucfirst($data[0]['tableName'])."Model(); \n";
+$str.=ucfirst($data[0]['tableName']) . "Model(); \n";
 $str.="        \$this->model->setVendor(\$this->getVendor()); \n";
 $str.="        \$this->model->execute(); \n";
 
@@ -125,7 +126,36 @@ $str.="        \$this->systemString->setVendor(\$this->getVendor()); \n";
 $str.="        \$this->systemString->setLeafId(\$this->getLeafId()); \n";
 $str.="        \$this->systemString->execute(); \n";
 $str.="        \$this->recordSet = new \Core\Recordset\RecordSet(); \n";
-$str.="        \$this->recordSet->setCurrentDatabase(\$this->q->getCoreDatabase()); \n";
+// initilize dummy value
+$setCurrentDatabase = null;
+// switch case for other customer database application request
+switch ($data[0]['database']) {
+    case 'icore':
+        $setCurrentDatabase = "\$this->q->getCoreDatabase()";
+        break;
+    case 'ifinancial':
+        $setCurrentDatabase = "\$this->q->getFinancialDatabase('iFinancial')";
+        break;
+    case 'ifixasset':
+        $setCurrentDatabase = "\$this->q->getFixAssetDatabase('ifixAsset')";
+        break;
+    case 'ipayrll':
+        $setCurrentDatabase = "\$this->q->getPayrollDatabase('ipayroll')";
+        break;
+    case 'ihumanresources':
+        $setCurrentDatabase = "\$this->q->getHumanResourcesDatabase('ihumanResources')";
+        break;
+    case 'imanagement':
+        $setCurrentDatabase = "\$this->q->getManagementDatabase('imanagement')";
+        break;
+    case 'icommon':
+        $setCurrentDatabase = "\$this->q->getCommonDatabase('icommon')";
+        break;
+    case 'ilog':
+        $setCurrentDatabase = "\$this->q->getLogDatabase('ilog')";
+        break;
+}
+$str.="        \$this->recordSet->setCurrentDatabase(" . $setCurrentDatabase . "); \n";
 $str.="        \$this->recordSet->setCurrentTable(\$this->model->getTableName()); \n";
 $str.="        \$this->recordSet->setPrimaryKeyName(\$this->model->getPrimaryKeyName()); \n";
 $str.="        \$this->recordSet->execute(); \n";
@@ -150,218 +180,217 @@ $str.="		} \n";
 $str.="		\$this->q->start();  \n";
 $str.="		\$this->model->create();  \n";
 $str.="		if (\$this->getVendor() == self::MYSQL) {  \n";
-$mysqlInsertStatement=null;
-$mysqlInsertStatementAField =null;
-$mysqlInsertStatementField=null;
-$mysqlInsertStatementInsideValue=null;
-$mysqlInsertStatementValue=null;
-$mysqlInsertStatement.=" \$sql=\"INSERT INTO `".$data[0]['database']."`.`" . $data[0]['tableName'] . "` ( \n";
-	for ($i = 0; $i < $total; $i++) {
-		if($i >= 1){
-			$mysqlInsertStatementAField.="	`".$data[$i]['columnName'] . "`,\n";
-		}
-	}
+$mysqlInsertStatement = null;
+$mysqlInsertStatementAField = null;
+$mysqlInsertStatementField = null;
+$mysqlInsertStatementInsideValue = null;
+$mysqlInsertStatementValue = null;
+$mysqlInsertStatement.=" \$sql=\"INSERT INTO `" . $data[0]['database'] . "`.`" . $data[0]['tableName'] . "` ( \n";
+for ($i = 0; $i < $total; $i++) {
+    if ($i >= 1) {
+        $mysqlInsertStatementAField.="	`" . $data[$i]['columnName'] . "`,\n";
+    }
+}
 
-	$mysqlInsertStatement.=(substr($mysqlInsertStatementAField,0,-2));
-	$mysqlInsertStatement.="\n) VALUES ( \n";
-	$i=0;
-	for ($i = 0; $i < $total; $i++) {
-		if($i >=1) { 
-			 if ($data[$i]['columnName']=='executeTime'){
-			$mysqlInsertStatementInsideValue.=" \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
-			}	else if($data[$i]['columnName'] !='isDefault' &&
-			$data[$i]['columnName'] !='isNew' &&
-			$data[$i]['columnName'] !='isDraft'&&
-			$data[$i]['columnName'] !='isUpdate'&&
-			$data[$i]['columnName'] !='isDelete'&&
-			$data[$i]['columnName'] !='isActive'&&
-			$data[$i]['columnName']!='isApproved'&&
-			$data[$i]['columnName'] !='isReview'&&
-			$data[$i]['columnName'] !='isPost'&&
-			$data[$i]['columnName'] !='isSeperated'&&
-			$data[$i]['columnName'] !='isConsolidation') {
-				$mysqlInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
-			}  else {
-				$mysqlInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
-			}
-		}
-	}
+$mysqlInsertStatement.=(substr($mysqlInsertStatementAField, 0, -2));
+$mysqlInsertStatement.="\n) VALUES ( \n";
+$i = 0;
+for ($i = 0; $i < $total; $i++) {
+    if ($i >= 1) {
+        if ($data[$i]['columnName'] == 'executeTime') {
+            $mysqlInsertStatementInsideValue.=" \".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\",\n";
+        } else if ($data[$i]['columnName'] != 'isDefault' &&
+                $data[$i]['columnName'] != 'isNew' &&
+                $data[$i]['columnName'] != 'isDraft' &&
+                $data[$i]['columnName'] != 'isUpdate' &&
+                $data[$i]['columnName'] != 'isDelete' &&
+                $data[$i]['columnName'] != 'isActive' &&
+                $data[$i]['columnName'] != 'isApproved' &&
+                $data[$i]['columnName'] != 'isReview' &&
+                $data[$i]['columnName'] != 'isPost' &&
+                $data[$i]['columnName'] != 'isSeperated' &&
+                $data[$i]['columnName'] != 'isConsolidation') {
+            $mysqlInsertStatementInsideValue.=" '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\"',\n";
+        } else {
+            $mysqlInsertStatementInsideValue.=" '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "(0, 'single').\"',\n";
+        }
+    }
+}
 
-	$mysqlInsertStatement.=(substr($mysqlInsertStatementInsideValue,0,-2));
+$mysqlInsertStatement.=(substr($mysqlInsertStatementInsideValue, 0, -2));
 
-	$mysqlInsertStatement.="\n );\";\n";
-	$str.=$mysqlInsertStatement;
+$mysqlInsertStatement.="\n );\";\n";
+$str.=$mysqlInsertStatement;
 $str.="		 } else if (\$this->getVendor() == self::MSSQL) {  \n";
-$mssqlInsertStatement=null;
-$mssqlInsertStatementAField=null;
-$mssqlInsertStatementField=null;
-$mssqlInsertStatementInsideValue=null;
-$mssqlInsertStatementValue=null;
+$mssqlInsertStatement = null;
+$mssqlInsertStatementAField = null;
+$mssqlInsertStatementField = null;
+$mssqlInsertStatementInsideValue = null;
+$mssqlInsertStatementValue = null;
 $mssqlInsertStatement.="
-		\$sql=\"INSERT INTO [".$data[0]['database']."].[" . $data[0]['tableName'] . "] (\n";
-	$i=0;
-	for ($i = 0; $i < $total; $i++) {
-		if($i >=0 ) { 
-			$mssqlInsertStatementAField.="	[".$data[$i]['columnName'] . "],\n";
-		}
-	}
-	$mssqlInsertStatementField.= (substr($mssqlInsertStatementAField,0,-2));
-	$mssqlInsertStatement.=$mssqlInsertStatementField;
-	$mssqlInsertStatement.="\n) VALUES ( \n";
-	$i=0;
-	for ($i = 0; $i < $total; $i++) {
-		
-		if($i >= 1){
-			if ($data[$i]['columnName']=='executeTime'){
-			$mssqlInsertStatementInsideValue.=" \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
-			}	elseif($data[$i]['columnName'] !='isDefault' &&
-			$data[$i]['columnName'] !='isNew' &&
-			$data[$i]['columnName'] !='isDraft'&&
-			$data[$i]['columnName'] !='isUpdate'&&
-			$data[$i]['columnName'] !='isDelete'&&
-			$data[$i]['columnName'] !='isActive'&&
-			$data[$i]['columnName']!='isApproved'&&
-			$data[$i]['columnName'] !='isReview'&&
-			$data[$i]['columnName'] !='isPost'&&
-			$data[$i]['columnName'] !='isSeperated'&&
-			$data[$i]['columnName'] !='isConsolidation') {
-				$mssqlInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
-			}  else {
-				$mssqlInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
-			}
-			
-		}
-	}
-	$mssqlInsertStatementValue.=(substr($mssqlInsertStatementInsideValue,0,-2));
-	$mssqlInsertStatement.=$mssqlInsertStatementValue;
-	$mssqlInsertStatement.="\n );\";\n";
+		\$sql=\"INSERT INTO [" . $data[0]['database'] . "].[" . $data[0]['tableName'] . "] (\n";
+$i = 0;
+for ($i = 0; $i < $total; $i++) {
+    if ($i >= 0) {
+        $mssqlInsertStatementAField.="	[" . $data[$i]['columnName'] . "],\n";
+    }
+}
+$mssqlInsertStatementField.= (substr($mssqlInsertStatementAField, 0, -2));
+$mssqlInsertStatement.=$mssqlInsertStatementField;
+$mssqlInsertStatement.="\n) VALUES ( \n";
+$i = 0;
+for ($i = 0; $i < $total; $i++) {
+
+    if ($i >= 1) {
+        if ($data[$i]['columnName'] == 'executeTime') {
+            $mssqlInsertStatementInsideValue.=" \".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\",\n";
+        } elseif ($data[$i]['columnName'] != 'isDefault' &&
+                $data[$i]['columnName'] != 'isNew' &&
+                $data[$i]['columnName'] != 'isDraft' &&
+                $data[$i]['columnName'] != 'isUpdate' &&
+                $data[$i]['columnName'] != 'isDelete' &&
+                $data[$i]['columnName'] != 'isActive' &&
+                $data[$i]['columnName'] != 'isApproved' &&
+                $data[$i]['columnName'] != 'isReview' &&
+                $data[$i]['columnName'] != 'isPost' &&
+                $data[$i]['columnName'] != 'isSeperated' &&
+                $data[$i]['columnName'] != 'isConsolidation') {
+            $mssqlInsertStatementInsideValue.=" '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\"',\n";
+        } else {
+            $mssqlInsertStatementInsideValue.=" '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "(0, 'single').\"',\n";
+        }
+    }
+}
+$mssqlInsertStatementValue.=(substr($mssqlInsertStatementInsideValue, 0, -2));
+$mssqlInsertStatement.=$mssqlInsertStatementValue;
+$mssqlInsertStatement.="\n );\";\n";
 $str.=$mssqlInsertStatement;
 $str.="		 } else if (\$this->getVendor() == self::ORACLE) {  \n";
-$oracleInsertStatement=null;
-$oracleInsertStatementAField=null;
-$oracleInsertStatementField=null;
-$oracleInsertStatementInsideValue=null;
-$oracleInsertStatementValue=null;
+$oracleInsertStatement = null;
+$oracleInsertStatementAField = null;
+$oracleInsertStatementField = null;
+$oracleInsertStatementInsideValue = null;
+$oracleInsertStatementValue = null;
 $oracleInsertStatement.="
-		\$sql=\"INSERT INTO 	".strtoupper($data[0]['tableName'])." ( \n";
-	for ($i = 0; $i < $total; $i++) {
-		if($i >= 1){
-			$oracleInsertStatementAField.="	".strtoupper($data[$i]['columnName']).",\n";
-		}
-	}
-	$oracleInsertStatementField.= (substr($oracleInsertStatementAField,0,-2));
-	$oracleInsertStatement.=$oracleInsertStatementField;
-	$oracleInsertStatement.="\n) VALUES ( \n";
-	$i=0;
-	for ($i = 0; $i < $total; $i++) {
-		if($i >= 1){
-			if ($data[$i]['columnName']=='executeTime'){
-			$oracleInsertStatementInsideValue.=" \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
-			}	else if($data[$i]['columnName'] !='isDefault' &&
-			$data[$i]['columnName'] !='isNew' &&
-			$data[$i]['columnName'] !='isDraft'&&
-			$data[$i]['columnName'] !='isUpdate'&&
-			$data[$i]['columnName'] !='isDelete'&&
-			$data[$i]['columnName'] !='isActive'&&
-			$data[$i]['columnName']!='isApproved'&&
-			$data[$i]['columnName'] !='isReview'&&
-			$data[$i]['columnName'] !='isPost'&&
-			$data[$i]['columnName'] !='isSeperated'&&
-			$data[$i]['columnName'] !='isConsolidation') {
-				$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
-			}  else {
-				$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
-			}
-		} 
-	}
-	$oracleInsertStatementValue.=(substr($oracleInsertStatementInsideValue,0,-2));
-	$oracleInsertStatement.=$oracleInsertStatementValue;
-	$oracleInsertStatement.="\n );\";\n";	
+		\$sql=\"INSERT INTO 	" . strtoupper($data[0]['tableName']) . " ( \n";
+for ($i = 0; $i < $total; $i++) {
+    if ($i >= 1) {
+        $oracleInsertStatementAField.="	" . strtoupper($data[$i]['columnName']) . ",\n";
+    }
+}
+$oracleInsertStatementField.= (substr($oracleInsertStatementAField, 0, -2));
+$oracleInsertStatement.=$oracleInsertStatementField;
+$oracleInsertStatement.="\n) VALUES ( \n";
+$i = 0;
+for ($i = 0; $i < $total; $i++) {
+    if ($i >= 1) {
+        if ($data[$i]['columnName'] == 'executeTime') {
+            $oracleInsertStatementInsideValue.=" \".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\",\n";
+        } else if ($data[$i]['columnName'] != 'isDefault' &&
+                $data[$i]['columnName'] != 'isNew' &&
+                $data[$i]['columnName'] != 'isDraft' &&
+                $data[$i]['columnName'] != 'isUpdate' &&
+                $data[$i]['columnName'] != 'isDelete' &&
+                $data[$i]['columnName'] != 'isActive' &&
+                $data[$i]['columnName'] != 'isApproved' &&
+                $data[$i]['columnName'] != 'isReview' &&
+                $data[$i]['columnName'] != 'isPost' &&
+                $data[$i]['columnName'] != 'isSeperated' &&
+                $data[$i]['columnName'] != 'isConsolidation') {
+            $oracleInsertStatementInsideValue.=" '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\"',\n";
+        } else {
+            $oracleInsertStatementInsideValue.=" '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "(0, 'single').\"',\n";
+        }
+    }
+}
+$oracleInsertStatementValue.=(substr($oracleInsertStatementInsideValue, 0, -2));
+$oracleInsertStatement.=$oracleInsertStatementValue;
+$oracleInsertStatement.="\n );\";\n";
 $str.=$oracleInsertStatement;
 $str.="		 } else if (\$this->getVendor() == self::DB2) {  \n";
-$oracleInsertStatement=null;
-$oracleInsertStatementAField=null;
-$oracleInsertStatementField=null;
-$oracleInsertStatementInsideValue=null;
-$oracleInsertStatementValue=null;
+$oracleInsertStatement = null;
+$oracleInsertStatementAField = null;
+$oracleInsertStatementField = null;
+$oracleInsertStatementInsideValue = null;
+$oracleInsertStatementValue = null;
 $oracleInsertStatement.="
-		\$sql=\"INSERT INTO 	".strtoupper($data[0]['tableName'])." ( \n";
-	for ($i = 0; $i < $total; $i++) {
-		if($i >= 1){
-			$oracleInsertStatementAField.="	".strtoupper($data[$i]['columnName']).",\n";
-		}
-	}
-	$oracleInsertStatementField.= (substr($oracleInsertStatementAField,0,-2));
-	$oracleInsertStatement.=$oracleInsertStatementField;
-	$oracleInsertStatement.="\n) VALUES ( \n";
-	$i=0;
-	for ($i = 0; $i < $total; $i++) {
-		if($i >= 1){
-			if ($data[$i]['columnName']=='executeTime'){
-			$oracleInsertStatementInsideValue.=" \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
-			} else if($data[$i]['columnName'] !='isDefault' &&
-			$data[$i]['columnName'] !='isNew' &&
-			$data[$i]['columnName'] !='isDraft'&&
-			$data[$i]['columnName'] !='isUpdate'&&
-			$data[$i]['columnName'] !='isDelete'&&
-			$data[$i]['columnName'] !='isActive'&&
-			$data[$i]['columnName']!='isApproved'&&
-			$data[$i]['columnName'] !='isReview'&&
-			$data[$i]['columnName'] !='isPost'&&
-			$data[$i]['columnName'] !='isSeperated'&&
-			$data[$i]['columnName'] !='isConsolidation') {
-				$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
-			}  else {
-				$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
-			}
-		} 
-	}
-	$oracleInsertStatementValue.=(substr($oracleInsertStatementInsideValue,0,-2));
-	$oracleInsertStatement.=$oracleInsertStatementValue;
-	$oracleInsertStatement.="\n );\";\n";	
+		\$sql=\"INSERT INTO 	" . strtoupper($data[0]['tableName']) . " ( \n";
+for ($i = 0; $i < $total; $i++) {
+    if ($i >= 1) {
+        $oracleInsertStatementAField.="	" . strtoupper($data[$i]['columnName']) . ",\n";
+    }
+}
+$oracleInsertStatementField.= (substr($oracleInsertStatementAField, 0, -2));
+$oracleInsertStatement.=$oracleInsertStatementField;
+$oracleInsertStatement.="\n) VALUES ( \n";
+$i = 0;
+for ($i = 0; $i < $total; $i++) {
+    if ($i >= 1) {
+        if ($data[$i]['columnName'] == 'executeTime') {
+            $oracleInsertStatementInsideValue.=" \".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\",\n";
+        } else if ($data[$i]['columnName'] != 'isDefault' &&
+                $data[$i]['columnName'] != 'isNew' &&
+                $data[$i]['columnName'] != 'isDraft' &&
+                $data[$i]['columnName'] != 'isUpdate' &&
+                $data[$i]['columnName'] != 'isDelete' &&
+                $data[$i]['columnName'] != 'isActive' &&
+                $data[$i]['columnName'] != 'isApproved' &&
+                $data[$i]['columnName'] != 'isReview' &&
+                $data[$i]['columnName'] != 'isPost' &&
+                $data[$i]['columnName'] != 'isSeperated' &&
+                $data[$i]['columnName'] != 'isConsolidation') {
+            $oracleInsertStatementInsideValue.=" '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\"',\n";
+        } else {
+            $oracleInsertStatementInsideValue.=" '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "(0, 'single').\"',\n";
+        }
+    }
+}
+$oracleInsertStatementValue.=(substr($oracleInsertStatementInsideValue, 0, -2));
+$oracleInsertStatement.=$oracleInsertStatementValue;
+$oracleInsertStatement.="\n );\";\n";
 $str.=$oracleInsertStatement;
-	
+
 $str.="		 } else if (\$this->getVendor() == self::POSTGRESS) { \n";
-$oracleInsertStatement=null;
-$oracleInsertStatementAField=null;
-$oracleInsertStatementField=null;
-$oracleInsertStatementInsideValue=null;
-$oracleInsertStatementValue=null;
+$oracleInsertStatement = null;
+$oracleInsertStatementAField = null;
+$oracleInsertStatementField = null;
+$oracleInsertStatementInsideValue = null;
+$oracleInsertStatementValue = null;
 $oracleInsertStatement.="
-		\$sql=\"INSERT INTO 	".strtoupper($data[0]['tableName'])." ( \n";
-	for ($i = 0; $i < $total; $i++) {
-		if($i >= 1){
-			$oracleInsertStatementAField.="	".strtoupper($data[$i]['columnName']).",\n";
-		}
-	}
-	$oracleInsertStatementField.= (substr($oracleInsertStatementAField,0,-2));
-	$oracleInsertStatement.=$oracleInsertStatementField;
-	$oracleInsertStatement.="\n) VALUES ( \n";
-	$i=0;
-	for ($i = 0; $i < $total; $i++) {
-		if($i >= 1){
-		if ($data[$i]['columnName']=='executeTime'){
-			$oracleInsertStatementInsideValue.=" \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
-			} else if($data[$i]['columnName'] !='isDefault' &&
-			$data[$i]['columnName'] !='isNew' &&
-			$data[$i]['columnName'] !='isDraft'&&
-			$data[$i]['columnName'] !='isUpdate'&&
-			$data[$i]['columnName'] !='isDelete'&&
-			$data[$i]['columnName'] !='isActive'&&
-			$data[$i]['columnName']!='isApproved'&&
-			$data[$i]['columnName'] !='isReview'&&
-			$data[$i]['columnName'] !='isPost'&&
-			$data[$i]['columnName'] !='isSeperated'&&
-			$data[$i]['columnName'] !='isConsolidation') {
-				$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
-			}  else {
-				$oracleInsertStatementInsideValue.=" '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
-			}
-		} 
-	}
-	$oracleInsertStatementValue.=(substr($oracleInsertStatementInsideValue,0,-2));
-	$oracleInsertStatement.=$oracleInsertStatementValue;
-	$oracleInsertStatement.="\n );\";\n";	
+		\$sql=\"INSERT INTO 	" . strtoupper($data[0]['tableName']) . " ( \n";
+for ($i = 0; $i < $total; $i++) {
+    if ($i >= 1) {
+        $oracleInsertStatementAField.="	" . strtoupper($data[$i]['columnName']) . ",\n";
+    }
+}
+$oracleInsertStatementField.= (substr($oracleInsertStatementAField, 0, -2));
+$oracleInsertStatement.=$oracleInsertStatementField;
+$oracleInsertStatement.="\n) VALUES ( \n";
+$i = 0;
+for ($i = 0; $i < $total; $i++) {
+    if ($i >= 1) {
+        if ($data[$i]['columnName'] == 'executeTime') {
+            $oracleInsertStatementInsideValue.=" \".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\",\n";
+        } else if ($data[$i]['columnName'] != 'isDefault' &&
+                $data[$i]['columnName'] != 'isNew' &&
+                $data[$i]['columnName'] != 'isDraft' &&
+                $data[$i]['columnName'] != 'isUpdate' &&
+                $data[$i]['columnName'] != 'isDelete' &&
+                $data[$i]['columnName'] != 'isActive' &&
+                $data[$i]['columnName'] != 'isApproved' &&
+                $data[$i]['columnName'] != 'isReview' &&
+                $data[$i]['columnName'] != 'isPost' &&
+                $data[$i]['columnName'] != 'isSeperated' &&
+                $data[$i]['columnName'] != 'isConsolidation') {
+            $oracleInsertStatementInsideValue.=" '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\"',\n";
+        } else {
+            $oracleInsertStatementInsideValue.=" '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "(0, 'single').\"',\n";
+        }
+    }
+}
+$oracleInsertStatementValue.=(substr($oracleInsertStatementInsideValue, 0, -2));
+$oracleInsertStatement.=$oracleInsertStatementValue;
+$oracleInsertStatement.="\n );\";\n";
 $str.=$oracleInsertStatement;
 $str.=" } \n";
 
@@ -377,7 +406,7 @@ $str.="		\$time = \$end - \$start; \n";
 $str.="		echo json_encode( \n";
 $str.="		array(	\"success\" => true, \n";
 $str.="					\"message\" => \$this->systemString->getCreateMessage(),  \n";
-$str.="					\"" . $data[0]['primaryKeyName'] . "\" => \$".$data[0]['primaryKeyName'].",\n";
+$str.="					\"" . $data[0]['primaryKeyName'] . "\" => \$" . $data[0]['primaryKeyName'] . ",\n";
 $str.="					\"time\"=>\$time)); \n";
 $str.="		exit(); \n";
 $str.="	} \n";
@@ -398,7 +427,7 @@ $str.="				\$this->auditFilter = \"	`" . $data[0]['tableName'] . "`.`isActive`		
 $str.="			} else if (\$this->q->vendor == self::MSSQL) { \n";
 $str.="				\$this->auditFilter = \"	[" . $data[0]['tableName'] . "].[isActive]		=	1	\"; \n";
 $str.="			} else if (\$this->q->vendor == self::ORACLE) { \n";
-$str.="				\$this->auditFilter = \"	".strtoupper($data[0]['tableName']).".ISACTIVE	=	1	\"; \n";
+$str.="				\$this->auditFilter = \"	" . strtoupper($data[0]['tableName']) . ".ISACTIVE	=	1	\"; \n";
 $str.="			} \n";
 $str.="             } else if (\$_SESSION['isAdmin'] == 1) { \n";
 $str.="			if (\$this->getVendor() == self::MYSQL) { \n";
@@ -418,75 +447,75 @@ $str.="		}  \n";
 $str.="		\$items = array(); \n";
 
 $str.="		 if (\$this->getVendor() == self::MYSQL) { \n";
-$mysqlReadStatement=null;
-$mysqlReadInsideStatement=null;
+$mysqlReadStatement = null;
+$mysqlReadInsideStatement = null;
 
-	$mysqlReadStatement.="\n\$sql = \"SELECT";
-	for ($i = 0; $i < $total; $i++) {
-		$mysqlReadInsideStatement.="`" . $data[0]['tableName'] . "`.`".$data[$i]['columnName'] . "`,\n";
-	}
-	$mysqlReadStatement.=$mysqlReadInsideStatement;
+$mysqlReadStatement.="\n\$sql = \"SELECT";
+for ($i = 0; $i < $total; $i++) {
+    $mysqlReadInsideStatement.="`" . $data[0]['tableName'] . "`.`" . $data[$i]['columnName'] . "`,\n";
+}
+$mysqlReadStatement.=$mysqlReadInsideStatement;
 
-	$mysqlReadStatement.="`staff`.`staffName`
-			FROM 	`".$data[0]['database']."`.`" . $data[0]['tableName'] . "`
+$mysqlReadStatement.="`staff`.`staffName`
+			FROM 	`" . $data[0]['database'] . "`.`" . $data[0]['tableName'] . "`
 			JOIN	`iCore`.`staff`
 			ON		`" . $data[0]['tableName'] . "`.`executeBy` = `staff`.`staffId`
 			WHERE 		\" . \$this->auditFilter; \n";
-$str.=		$mysqlReadStatement;	
-$str.="		 if (\$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')) { \n";
-$str.="				\$sql .= \" AND `\" . \$this->model->getTableName() . \"`.`\" . \$this->model->getPrimaryKeyName() . \"`='\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\";  \n";
+$str.= $mysqlReadStatement;
+$str.="		 if (\$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single')) { \n";
+$str.="				\$sql .= \" AND `\" . \$this->model->getTableName() . \"`.`\" . \$this->model->getPrimaryKeyName() . \"`='\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"'\";  \n";
 $str.="	}\n	} else if (\$this->getVendor() == self::MSSQL) {  \n";
-$mssqlReadStatement=null;
-$mssqlReadInsideStatement=null;
+$mssqlReadStatement = null;
+$mssqlReadInsideStatement = null;
 $mssqlReadStatement.="\n\$sql = \"SELECT ";
 
-	for ($i = 0; $i < $total; $i++) {
-		$mssqlReadInsideStatement.="[" . $data[0]['tableName'] . "].[".$data[$i]['columnName'] . "],\n";
-	}
-	$mssqlReadStatement.=$mssqlReadInsideStatement;
-	$mssqlReadStatement.="[staff].[staffName]
-			FROM 	[".$data[0]['database']."].[" . $data[0]['tableName'] . "]
+for ($i = 0; $i < $total; $i++) {
+    $mssqlReadInsideStatement.="[" . $data[0]['tableName'] . "].[" . $data[$i]['columnName'] . "],\n";
+}
+$mssqlReadStatement.=$mssqlReadInsideStatement;
+$mssqlReadStatement.="[staff].[staffName]
+			FROM 	[" . $data[0]['database'] . "].[" . $data[0]['tableName'] . "]
 			JOIN		[iCore].[staff]
 			ON		[" . $data[0]['tableName'] . "].[executeBy] = [staff].[staffId]
 			WHERE 		\" . \$this->auditFilter; \n";
-$str.=	$mssqlReadStatement;
-$str.="		 if (\$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')) { \n";
-$str.="				\$sql .= \" AND [\" . \$this->model->getTableName() . \"].[\" . \$this->model->getPrimaryKeyName() . \"]		=	'\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\"; \n";
+$str.= $mssqlReadStatement;
+$str.="		 if (\$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single')) { \n";
+$str.="				\$sql .= \" AND [\" . \$this->model->getTableName() . \"].[\" . \$this->model->getPrimaryKeyName() . \"]		=	'\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"'\"; \n";
 $str.="			} \n";
-			
-$str.="		} else if (\$this->getVendor() == self::ORACLE) {  \n";
-$oracleReadStatement=null;
-$oracleReadInsideStatement=null;
-$oracleReadStatement.="\n\$sql = \"SELECT";
-	
-	for ($i = 0; $i < $total; $i++) {
-		$oracleReadInsideStatement.=" ".strtoupper($data[0]['tableName']).".".strtoupper($data[$i]['columnName']).",\n";
-	}
-	$oracleReadStatement.=$oracleReadInsideStatement;
 
-	$oracleReadStatement.="STAFF.STAFFNAME
-			FROM 	".strtoupper($data[0]['tableName'])." \n
+$str.="		} else if (\$this->getVendor() == self::ORACLE) {  \n";
+$oracleReadStatement = null;
+$oracleReadInsideStatement = null;
+$oracleReadStatement.="\n\$sql = \"SELECT";
+
+for ($i = 0; $i < $total; $i++) {
+    $oracleReadInsideStatement.=" " . strtoupper($data[0]['tableName']) . "." . strtoupper($data[$i]['columnName']) . ",\n";
+}
+$oracleReadStatement.=$oracleReadInsideStatement;
+
+$oracleReadStatement.="STAFF.STAFFNAME
+			FROM 	" . strtoupper($data[0]['tableName']) . " \n
 			JOIN		STAFF \n
-			ON		".strtoupper($data[0]['tableName']).".EXECUTEBY = STAFF.STAFFID \n
+			ON		" . strtoupper($data[0]['tableName']) . ".EXECUTEBY = STAFF.STAFFID \n
 			WHERE 		\" . \$this->auditFilter; \n";
 
 $str.= $oracleReadStatement;
-$str.="		 if (\$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single'))  {\n";
-$str.="				\$sql .= \" AND \" . strtoupper(\$this->model->getTableName())  . strtoupper(\$this->model->getPrimaryKeyName()) . \"='\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\"; \n";
+$str.="		 if (\$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single'))  {\n";
+$str.="				\$sql .= \" AND \" . strtoupper(\$this->model->getTableName())  . strtoupper(\$this->model->getPrimaryKeyName()) . \"='\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"'\"; \n";
 $str.="			} \n";
-			
+
 $str.="		} else if (\$this->getVendor() == self::DB2) {  \n";
 
-$str.="		 if (\$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')) { \n";
-$str.="				\$sql .= \" AND \" . strtoupper(\$this->model->getTableName())  . strtoupper(\$this->model->getPrimaryKeyName()) . \"='\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\"; \n";
+$str.="		 if (\$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single')) { \n";
+$str.="				\$sql .= \" AND \" . strtoupper(\$this->model->getTableName())  . strtoupper(\$this->model->getPrimaryKeyName()) . \"='\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"'\"; \n";
 $str.="			} \n";
-			
+
 $str.="		} else if (\$this->getVendor() == self::POSTGRESS) {  \n";
 
-$str.="		 if (\$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')) { \n";
-$str.="				\$sql .= \" AND \" . strtoupper(\$this->model->getTableName())  . strtoupper(\$this->model->getPrimaryKeyName()) . \"='\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\"; \n";
+$str.="		 if (\$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single')) { \n";
+$str.="				\$sql .= \" AND \" . strtoupper(\$this->model->getTableName())  . strtoupper(\$this->model->getPrimaryKeyName()) . \"='\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"'\"; \n";
 $str.="			} \n";
-			
+
 $str.="		}else { \n";
 $str.="			echo json_encode(array(\"success\" => false, \"message\" => \$this->systemString->getNonSupportedDatabase())); \n";
 $str.="			exit(); \n";
@@ -521,7 +550,7 @@ $str.="		 * E.g  \$filterArray=array('`leaf`.`leafId`'); \n";
 $str.="		 * @variables \$filterArray; \n";
 $str.="		 */  \n";
 $str.="		\$filterArray = null; \n";
-$str.="		\$filterArray = array('".$data[0]['primaryKeyName']."'); \n";
+$str.="		\$filterArray = array('" . $data[0]['primaryKeyName'] . "'); \n";
 $str.="		/** \n";
 $str.="		 * filter table \n";
 $str.="		 * @variables \$tableArray \n";
@@ -586,7 +615,7 @@ $str.="		} \n";
 $str.="		\$_SESSION ['sql'] = \$sql; // push to session so can make report via excel and pdf \n";
 $str.="		\$_SESSION ['start'] = \$this->getStart(); \n";
 $str.="		\$_SESSION ['limit'] = \$this->getLimit(); \n";
-$str.="		if (\$this->getStart() && \$this->getLimit()) { \n";
+$str.="		if ( \$this->getLimit()) { \n";
 $str.="			// only mysql have limit \n";
 $str.="			if (\$this->getVendor() == self::MYSQL) { \n";
 $str.="				\$sql .= \" LIMIT  \" . \$this->getStart() . \",\" . \$this->getLimit() . \" \"; \n";
@@ -595,32 +624,32 @@ $str.="				/** \n";
 $str.="				 * Sql Server and Oracle used row_number \n";
 $str.="				 * Parameterize Query We don't support \n";
 $str.="				 **/; \n";
-$mssqlReadStatement=null;
-$mssqlReadInsideStatement=null;
-$mssqlReadInsidePagingStatement=null;
-$mssqlReadPagingStatement=null;
+$mssqlReadStatement = null;
+$mssqlReadInsideStatement = null;
+$mssqlReadInsidePagingStatement = null;
+$mssqlReadPagingStatement = null;
 $mssqlReadStatement.="\n\$sql = \"SELECT ";
-	$mssqlReadPagingStatement="
+$mssqlReadPagingStatement = "
 				\$sql =\"WITH [" . $data[0]['tableName'] . "Derived] AS
 							(
 								SELECT ";
-	for ($i = 0; $i < $total; $i++) {
-		$mssqlReadInsideStatement.="[" . $data[0]['tableName'] . "].[".$data[$i]['columnName'] . "],\n";
-		$mssqlReadInsidePagingStatement.="[" . $data[0]['tableName'] . "].[".$data[$i]['columnName'] . "],\n";
-	}
-	$mssqlReadInsidePagingStatement.="[staff].[staffName],\n";
-	$mssqlReadInsidePagingStatement.="ROW_NUMBER() OVER (ORDER BY [" . $data[0]['tableName'] . "].[".$data[0]['primaryKeyName']."]) AS 'RowNumber'\n";
-	$mssqlReadStatement.=$mssqlReadInsideStatement;
+for ($i = 0; $i < $total; $i++) {
+    $mssqlReadInsideStatement.="[" . $data[0]['tableName'] . "].[" . $data[$i]['columnName'] . "],\n";
+    $mssqlReadInsidePagingStatement.="[" . $data[0]['tableName'] . "].[" . $data[$i]['columnName'] . "],\n";
+}
+$mssqlReadInsidePagingStatement.="[staff].[staffName],\n";
+$mssqlReadInsidePagingStatement.="ROW_NUMBER() OVER (ORDER BY [" . $data[0]['tableName'] . "].[" . $data[0]['primaryKeyName'] . "]) AS 'RowNumber'\n";
+$mssqlReadStatement.=$mssqlReadInsideStatement;
 
-	$mssqlReadPagingStatement.=$mssqlReadInsidePagingStatement;
-	$mssqlReadStatement.="[staff].[staffName]
-			FROM 	[".$data[0]['database']."].[" . $data[0]['tableName'] . "]
+$mssqlReadPagingStatement.=$mssqlReadInsidePagingStatement;
+$mssqlReadStatement.="[staff].[staffName]
+			FROM 	[" . $data[0]['database'] . "].[" . $data[0]['tableName'] . "]
 			JOIN		[iCore].[staff]
 			ON		[" . $data[0]['tableName'] . "].[executeBy] = [staff].[staffId]
 			WHERE 		\" . \$this->auditFilter; \n";
-	$mssqlReadPagingStatement.="
+$mssqlReadPagingStatement.="
 						
-			FROM 	[".$data[0]['database']."].[" . $data[0]['tableName'] . "]
+			FROM 	[" . $data[0]['database'] . "].[" . $data[0]['tableName'] . "]
 			JOIN		[iCore].[staff]
 			ON		[" . $data[0]['tableName'] . "].[executeBy] = [staff].[staffId]
 			WHERE \" . \$this->auditFilter . \$tempSql . \$tempSql2 . \"
@@ -630,40 +659,40 @@ $mssqlReadStatement.="\n\$sql = \"SELECT ";
 							WHERE 		[RowNumber]
 							BETWEEN	\" . (\$this->getStart() + 1) . \"
 							AND 			\" . (\$this->getStart() + \$this->getLimit()) . \" ;\";\n";
-$str.= $mssqlReadPagingStatement;							
+$str.= $mssqlReadPagingStatement;
 $str.="			 } else if (\$this->getVendor() == self::ORACLE) { \n";
 $str.="				/** \n";
 $str.="				 * Oracle using derived table also \n";
 $str.="				 **/ \n";
-$oracleReadStatement=null;
-$oracleReadPagingStatement=null;
-$oracleReadInsideStatement=null;
-$oracleReadPagingCopyStatement=null;
+$oracleReadStatement = null;
+$oracleReadPagingStatement = null;
+$oracleReadInsideStatement = null;
+$oracleReadPagingCopyStatement = null;
 $oracleReadStatement.="\n\$sql = \"SELECT";
-	$oracleReadPagingStatement.="
+$oracleReadPagingStatement.="
 						\$sql = \"
 						SELECT *
 						FROM ( SELECT	a.*,
 												rownum r
 						FROM (";
-	for ($i = 0; $i < $total; $i++) {
-		$oracleReadInsideStatement.=" ".strtoupper($data[0]['tableName']).".".strtoupper($data[$i]['columnName']).",\n";
-	}
-	$oracleReadStatement.=$oracleReadInsideStatement;
+for ($i = 0; $i < $total; $i++) {
+    $oracleReadInsideStatement.=" " . strtoupper($data[0]['tableName']) . "." . strtoupper($data[$i]['columnName']) . ",\n";
+}
+$oracleReadStatement.=$oracleReadInsideStatement;
 
-	$oracleReadStatement.="STAFF.STAFFNAME
-			FROM 	".strtoupper($data[0]['tableName'])."
+$oracleReadStatement.="STAFF.STAFFNAME
+			FROM 	" . strtoupper($data[0]['tableName']) . "
 			JOIN		STAFF
-			ON		".strtoupper($data[0]['tableName']).".EXECUTEBY = STAFF.STAFFID
+			ON		" . strtoupper($data[0]['tableName']) . ".EXECUTEBY = STAFF.STAFFID
 			WHERE 		\" . \$this->auditFilter; \n";
-	$oracleReadPagingCopyStatement = str_replace('$sql = "','',$oracleReadStatement);
-	$oracleReadPagingCopyStatement = str_replace(';','.',$oracleReadPagingCopyStatement);
-	$oracleReadPagingStatement.=substr($oracleReadPagingCopyStatement,0,-2);
-	$oracleReadPagingStatement.="  \$tempSql . \$tempSql2 . \"
+$oracleReadPagingCopyStatement = str_replace('$sql = "', '', $oracleReadStatement);
+$oracleReadPagingCopyStatement = str_replace(';', '.', $oracleReadPagingCopyStatement);
+$oracleReadPagingStatement.=substr($oracleReadPagingCopyStatement, 0, -2);
+$oracleReadPagingStatement.="  \$tempSql . \$tempSql2 . \"
 								 ) a
 						where rownum <= '\" . (\$this->getStart() + \$this->getLimit()) . \"' )
-						where r >=  '\" . (\$this->getStart() + 1) . \"'\";";	
-$str.=	$oracleReadPagingStatement;					
+						where r >=  '\" . (\$this->getStart() + 1) . \"'\";";
+$str.= $oracleReadPagingStatement;
 $str.="			 } else { \n";
 $str.="				echo json_encode(array(\"success\" => false, \"message\" => \$this->systemString->getNonSupportedDatabase())); \n";
 $str.="				exit(); \n";
@@ -673,7 +702,7 @@ $str.="		} \n";
 $str.="		/* \n";
 $str.="		 *  Only Execute One Query \n";
 $str.="		 */ \n";
-$str.="		if (!(\$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single'))) { \n";
+$str.="		if (!(\$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single'))) { \n";
 $str.="			\$this->q->read(\$sql); \n";
 $str.="			if (\$this->q->execute == 'fail') { \n";
 $str.="				echo json_encode(array(\"success\" => false, \"message\" => \$this->q->responce)); \n";
@@ -685,10 +714,10 @@ $str.="        \$i = 1; \n";
 $str.="		while ((\$row = \$this->q->fetchAssoc()) == TRUE) { \n";
 $str.="			\$row['total'] = \$total; // small overide \n";
 $str.="            \$row['counter'] = \$this->getStart() + $i; \n";
-$str.="            if (\$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')) { \n";
+$str.="            if (\$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single')) { \n";
 $str.="                \$row['firstRecord'] = \$this->firstRecord('value'); \n";
-$str.="                \$row['previousRecord'] = \$this->previousRecord('value', \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')); \n";
-$str.="                \$row['nextRecord'] = \$this->nextRecord('value', \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')); \n";
+$str.="                \$row['previousRecord'] = \$this->previousRecord('value', \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single')); \n";
+$str.="                \$row['nextRecord'] = \$this->nextRecord('value', \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single')); \n";
 $str.="                \$row['lastRecord'] = \$this->lastRecord('value'); \n";
 $str.="            }  \n";
 $str.="            \$items [] = \$row; \n";
@@ -697,7 +726,7 @@ $str.="		}  \n";
 $str.="		if (\$this->getPageOutput() == 'html') { \n";
 $str.="            return \$items; \n";
 $str.="        } else if (\$this->getPageOutput() == 'json') { \n";
-$str.="			if (\$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')) { \n";
+$str.="			if (\$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single')) { \n";
 $str.="				\$end = microtime(true); \n";
 $str.="				\$time = \$end - \$start; \n";
 $str.="				\$json_encode = json_encode(array( \n";
@@ -706,8 +735,8 @@ $str.="						'total' => \$total,  \n";
 $str.="						'message' => \$this->systemString->getReadMessage(),  \n";
 $str.="						'time' => \$time,  \n";
 $str.="						'firstRecord' => \$this->firstRecord('value'),  \n";
-$str.="						'previousRecord' => \$this->previousRecord('value', \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')),  \n";
-$str.="						'nextRecord' => \$this->nextRecord('value', \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')),  \n";
+$str.="						'previousRecord' => \$this->previousRecord('value', \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single')),  \n";
+$str.="						'nextRecord' => \$this->nextRecord('value', \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single')),  \n";
 $str.="						'lastRecord' => \$this->lastRecord('value'), \n";
 $str.="						'data' => \$items)); \n";
 $str.="				\$json_encode = str_replace(\"[\", \"\", \$json_encode); \n";
@@ -725,8 +754,8 @@ $str.="					'total' => \$total,  \n";
 $str.="					'message' => \$this->systemString->getReadMessage(), \n";
 $str.="					'time' => \$time,  \n";
 $str.="					'firstRecord' => \$this->recordSet->firstRecord('value'),  \n";
-$str.="					'previousRecord' => \$this->recordSet->previousRecord('value', \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')),  \n";
-$str.="					'nextRecord' => \$this->recordSet->nextRecord('value', \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single')),  \n";
+$str.="					'previousRecord' => \$this->recordSet->previousRecord('value', \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single')),  \n";
+$str.="					'nextRecord' => \$this->recordSet->nextRecord('value', \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single')),  \n";
 $str.="					'lastRecord' => \$this->recordSet->lastRecord('value'), \n";
 $str.="				'data' => \$items)); \n";
 $str.="				exit();  \n";
@@ -756,27 +785,27 @@ $str.="		if (\$this->getVendor() == self::MYSQL) {  \n";
 $str.="			\$sql = \" \n";
 $str.="		SELECT	`\" . \$this->model->getPrimaryKeyName() . \"` \n";
 $str.="		FROM 	`" . $data[0]['database'] . "`.`\" . \$this->model->getTableName() . \"` \n";
-$str.="		WHERE  	`\" . \$this->model->getPrimaryKeyName() . \"` = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
+$str.="		WHERE  	`\" . \$this->model->getPrimaryKeyName() . \"` = '\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"' \"; \n";
 $str.="		} else if (\$this->getVendor() == self::MSSQL) { \n";
 $str.="			\$sql = \" \n";
 $str.="			SELECT	[\" . \$this->model->getPrimaryKeyName() . \"] \n";
 $str.="			FROM 	[" . $data[0]['database'] . "].[\" . \$this->model->getTableName() . \"] \n";
-$str.="			WHERE  	[\" . \$this->model->getPrimaryKeyName() . \"] = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
+$str.="			WHERE  	[\" . \$this->model->getPrimaryKeyName() . \"] = '\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"' \"; \n";
 $str.="		} else if (\$this->getVendor() == self::ORACLE) { \n";
 $str.="			\$sql = \" \n";
 $str.="		SELECT	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" \n";
 $str.="		FROM 	\" . strtoupper(\$this->model->getTableName()) . \" \n";
-$str.="		WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
+$str.="		WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"' \"; \n";
 $str.="		} else if (\$this->getVendor() == self::DB2) { \n";
 $str.="			\$sql = \" \n";
 $str.="			SELECT	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" \n";
 $str.="			FROM 	\" . strtoupper(\$this->model->getTableName()) . \" \n";
-$str.="			WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
+$str.="			WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"' \"; \n";
 $str.="		} else if (\$this->getVendor() == self::POSTGRESS) { \n";
 $str.="			\$sql = \" \n";
 $str.="			SELECT	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" \n";
 $str.="			FROM 	\" . strtoupper(\$this->model->getTableName()) . \" \n";
-$str.="			WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
+$str.="			WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"' \"; \n";
 $str.="		} \n";
 $str.="		\$result = \$this->q->fast(\$sql); \n";
 $str.="		\$total = \$this->q->numberRows(\$result, \$sql); \n";
@@ -785,184 +814,184 @@ $str.="			echo json_encode(array(\"success\" => false, \"message\" => \$this->sy
 $str.="			exit(); \n";
 $str.="		} else { \n";
 $str.="			if (\$this->getVendor() == self::MYSQL) { \n";
-$mysqlUpdateStatement=null;
-$mysqlUpdateStatementInsideValue=null;
-$mysqlUpdateStatementValue=null;
-$mysqlUpdateStatement="\n\$sql=\"UPDATE `".$data[0]['database']."`.`" . $data[0]['tableName'] . "` SET \n";
-	$i=0;
-	for ($i = 0; $i < $total; $i++) {
-		
-		if($i >= 1  ) { 
-		if($data[$i]['columnName'] !='isDefault' &&
-		$data[$i]['columnName'] !='isNew' &&
-		$data[$i]['columnName'] !='isDraft'&&
-		$data[$i]['columnName'] !='isUpdate'&&
-		$data[$i]['columnName'] !='isDelete'&&
-		$data[$i]['columnName'] !='isActive'&&
-		$data[$i]['columnName'] !='isApproved'&&
-		$data[$i]['columnName'] !='isReview'&&
-		$data[$i]['columnName'] !='isPost'&&
-		$data[$i]['columnName'] !='isSeperated'&&
-		$data[$i]['columnName'] !='isConsolidation'&&
-		$data[$i]['columnName'] !='isReconciled'&&
-		$data[$i]['columnName'] !='executeBy' &&
-		$data[$i]['columnName'] !='executeTime') {
-			$mysqlUpdateStatementInsideValue.=" `".$data[$i]['columnName'] . "` = '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
-		} else if ($data[$i]['columnName'] =='executeTime') {
-			$mysqlUpdateStatementInsideValue.=" `".$data[$i]['columnName'] . "` = \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
-		} else {
-						$mysqlUpdateStatementInsideValue.=" `".$data[$i]['columnName'] . "` = '\".\$this->model->get".ucFirst($data[$i]['columnName'])."('0','single').\"',\n";
+$mysqlUpdateStatement = null;
+$mysqlUpdateStatementInsideValue = null;
+$mysqlUpdateStatementValue = null;
+$mysqlUpdateStatement = "\n\$sql=\"UPDATE `" . $data[0]['database'] . "`.`" . $data[0]['tableName'] . "` SET \n";
+$i = 0;
+for ($i = 0; $i < $total; $i++) {
 
-		}
-		}
-	}
-	$mysqlUpdateStatementValue.=(substr($mysqlUpdateStatementInsideValue,0,-2));
-	$mysqlUpdateStatement.=$mysqlUpdateStatementValue;
-	$mysqlUpdateStatement.=" \nWHERE `".$data[0]['primaryKeyName']."`='\".\$this->model->get".ucfirst($data[0]['primaryKeyName'])."('0','single').\"'\";\n\n";
+    if ($i >= 1) {
+        if ($data[$i]['columnName'] != 'isDefault' &&
+                $data[$i]['columnName'] != 'isNew' &&
+                $data[$i]['columnName'] != 'isDraft' &&
+                $data[$i]['columnName'] != 'isUpdate' &&
+                $data[$i]['columnName'] != 'isDelete' &&
+                $data[$i]['columnName'] != 'isActive' &&
+                $data[$i]['columnName'] != 'isApproved' &&
+                $data[$i]['columnName'] != 'isReview' &&
+                $data[$i]['columnName'] != 'isPost' &&
+                $data[$i]['columnName'] != 'isSeperated' &&
+                $data[$i]['columnName'] != 'isConsolidation' &&
+                $data[$i]['columnName'] != 'isReconciled' &&
+                $data[$i]['columnName'] != 'executeBy' &&
+                $data[$i]['columnName'] != 'executeTime') {
+            $mysqlUpdateStatementInsideValue.=" `" . $data[$i]['columnName'] . "` = '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\"',\n";
+        } else if ($data[$i]['columnName'] == 'executeTime') {
+            $mysqlUpdateStatementInsideValue.=" `" . $data[$i]['columnName'] . "` = \".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\",\n";
+        } else {
+            $mysqlUpdateStatementInsideValue.=" `" . $data[$i]['columnName'] . "` = '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "('0','single').\"',\n";
+        }
+    }
+}
+$mysqlUpdateStatementValue.=(substr($mysqlUpdateStatementInsideValue, 0, -2));
+$mysqlUpdateStatement.=$mysqlUpdateStatementValue;
+$mysqlUpdateStatement.=" \nWHERE `" . $data[0]['primaryKeyName'] . "`='\".\$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "('0','single').\"'\";\n\n";
 $str.=$mysqlUpdateStatement;
 
 $str.="			 } else if (\$this->getVendor() == self::MSSQL) {  \n";
 
-$mssqlUpdateStatement=null;
-$mssqlUpdateStatementInsideValue=null;
-$mssqlUpdateStatementValue=null;
-$mssqlUpdateStatement="\n\$sql=\"UPDATE [".$data[0]['database']."].[".$data[0]['tableName']."] SET \n";
-	$i=0;;
-	for ($i = 0; $i < $total; $i++) {
-		
-		if($i >= 1 ) { 
-		if($data[$i]['columnName'] !='isDefault' &&
-		$data[$i]['columnName'] !='isNew' &&
-		$data[$i]['columnName'] !='isDraft'&&
-		$data[$i]['columnName'] !='isUpdate'&&
-		$data[$i]['columnName'] !='isDelete'&&
-		$data[$i]['columnName'] !='isActive'&&
-		$data[$i]['columnName'] !='isApproved'&&
-		$data[$i]['columnName'] !='isReview'&&
-		$data[$i]['columnName'] !='isPost'&&
-		$data[$i]['columnName'] !='isSeperated'&&
-		$data[$i]['columnName'] !='isConsolidation'&&
-		$data[$i]['columnName'] !='isReconciled'&&
-		$data[$i]['columnName'] !='executeBy' &&
-		$data[$i]['columnName'] !='executeTime') {
-			$mssqlUpdateStatementInsideValue.=" [".$data[$i]['columnName'] . "] = '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
-		} else if ($data[$i]['columnName'] =='executeTime') {
-			$mssqlUpdateStatementInsideValue.=" [".$data[$i]['columnName'] . "] = \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
-		}else {
-			$mssqlUpdateStatementInsideValue.=" [".$data[$i]['columnName'] . "] = '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
-		}
-		}
-	}
-	$mssqlUpdateStatementValue.=(substr($mssqlUpdateStatementInsideValue,0,-2));
-	$mssqlUpdateStatement.=$mssqlUpdateStatementValue;
-	$mssqlUpdateStatement.=" \nWHERE [".$data[0]['primaryKeyName']."]='\".\$this->model->get".ucfirst($data[0]['primaryKeyName'])."('0','single').\"'\";\n\n";
+$mssqlUpdateStatement = null;
+$mssqlUpdateStatementInsideValue = null;
+$mssqlUpdateStatementValue = null;
+$mssqlUpdateStatement = "\n\$sql=\"UPDATE [" . $data[0]['database'] . "].[" . $data[0]['tableName'] . "] SET \n";
+$i = 0;
+;
+for ($i = 0; $i < $total; $i++) {
+
+    if ($i >= 1) {
+        if ($data[$i]['columnName'] != 'isDefault' &&
+                $data[$i]['columnName'] != 'isNew' &&
+                $data[$i]['columnName'] != 'isDraft' &&
+                $data[$i]['columnName'] != 'isUpdate' &&
+                $data[$i]['columnName'] != 'isDelete' &&
+                $data[$i]['columnName'] != 'isActive' &&
+                $data[$i]['columnName'] != 'isApproved' &&
+                $data[$i]['columnName'] != 'isReview' &&
+                $data[$i]['columnName'] != 'isPost' &&
+                $data[$i]['columnName'] != 'isSeperated' &&
+                $data[$i]['columnName'] != 'isConsolidation' &&
+                $data[$i]['columnName'] != 'isReconciled' &&
+                $data[$i]['columnName'] != 'executeBy' &&
+                $data[$i]['columnName'] != 'executeTime') {
+            $mssqlUpdateStatementInsideValue.=" [" . $data[$i]['columnName'] . "] = '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\"',\n";
+        } else if ($data[$i]['columnName'] == 'executeTime') {
+            $mssqlUpdateStatementInsideValue.=" [" . $data[$i]['columnName'] . "] = \".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\",\n";
+        } else {
+            $mssqlUpdateStatementInsideValue.=" [" . $data[$i]['columnName'] . "] = '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "(0, 'single').\"',\n";
+        }
+    }
+}
+$mssqlUpdateStatementValue.=(substr($mssqlUpdateStatementInsideValue, 0, -2));
+$mssqlUpdateStatement.=$mssqlUpdateStatementValue;
+$mssqlUpdateStatement.=" \nWHERE [" . $data[0]['primaryKeyName'] . "]='\".\$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "('0','single').\"'\";\n\n";
 $str.=$mssqlUpdateStatement;
 $str.="			 } else if (\$this->getVendor() == self::ORACLE) {  \n";
-$oracleUpdateStatement=null;
-$oracleUpdateStatementInsideValue=null;
-$oracleUpdateStatementValue=null;
-$oracleUpdateStatement="\n\$sql=\"UPDATE `".strtoupper($data[0]['tableName'])."` SET\n ";
-	$i=0;
-	for ($i = 0; $i < $total; $i++) {
-		
-		if($i !=1 ) { 
-		if($data[$i]['columnName'] !='isDefault' &&
-		$data[$i]['columnName'] !='isNew' &&
-		$data[$i]['columnName'] !='isDraft'&&
-		$data[$i]['columnName'] !='isUpdate'&&
-		$data[$i]['columnName'] !='isDelete'&&
-		$data[$i]['columnName'] !='isActive'&&
-		$data[$i]['columnName'] !='isApproved'&&
-		$data[$i]['columnName'] !='isReview'&&
-		$data[$i]['columnName'] !='isPost'&&
-		$data[$i]['columnName'] !='isSeperated'&&
-		$data[$i]['columnName'] !='isConsolidation'&&
-		$data[$i]['columnName'] !='isReconciled'&&
-		$data[$i]['columnName'] !='executeBy' &&
-		$data[$i]['columnName'] !='executeTime') {
-			$oracleUpdateStatementInsideValue.=" ".strtoupper($data[$i]['columnName'])." = '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
-		} else if ($data[$i]['columnName'] =='executeTime'){
-			$oracleUpdateStatementInsideValue.=" ".strtoupper($data[$i]['columnName'])." = \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
-		}else {
-			$oracleUpdateStatementInsideValue.=" ".strtoupper($data[$i]['columnName'])." = '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
-		}
-		}
-	}
-	$oracleUpdateStatementValue.=(substr($oracleUpdateStatementInsideValue,0,-2));
-	$oracleUpdateStatement.=$oracleUpdateStatementValue;
-	$oracleUpdateStatement.=" \nWHERE `".strtoupper($data[0]['primaryKeyName'])."`='\".\$this->model->get".ucfirst($data[0]['primaryKeyName'])."('0','single').\"'\";\n\n";
+$oracleUpdateStatement = null;
+$oracleUpdateStatementInsideValue = null;
+$oracleUpdateStatementValue = null;
+$oracleUpdateStatement = "\n\$sql=\"UPDATE `" . strtoupper($data[0]['tableName']) . "` SET\n ";
+$i = 0;
+for ($i = 0; $i < $total; $i++) {
+
+    if ($i != 1) {
+        if ($data[$i]['columnName'] != 'isDefault' &&
+                $data[$i]['columnName'] != 'isNew' &&
+                $data[$i]['columnName'] != 'isDraft' &&
+                $data[$i]['columnName'] != 'isUpdate' &&
+                $data[$i]['columnName'] != 'isDelete' &&
+                $data[$i]['columnName'] != 'isActive' &&
+                $data[$i]['columnName'] != 'isApproved' &&
+                $data[$i]['columnName'] != 'isReview' &&
+                $data[$i]['columnName'] != 'isPost' &&
+                $data[$i]['columnName'] != 'isSeperated' &&
+                $data[$i]['columnName'] != 'isConsolidation' &&
+                $data[$i]['columnName'] != 'isReconciled' &&
+                $data[$i]['columnName'] != 'executeBy' &&
+                $data[$i]['columnName'] != 'executeTime') {
+            $oracleUpdateStatementInsideValue.=" " . strtoupper($data[$i]['columnName']) . " = '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\"',\n";
+        } else if ($data[$i]['columnName'] == 'executeTime') {
+            $oracleUpdateStatementInsideValue.=" " . strtoupper($data[$i]['columnName']) . " = \".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\",\n";
+        } else {
+            $oracleUpdateStatementInsideValue.=" " . strtoupper($data[$i]['columnName']) . " = '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "(0, 'single').\"',\n";
+        }
+    }
+}
+$oracleUpdateStatementValue.=(substr($oracleUpdateStatementInsideValue, 0, -2));
+$oracleUpdateStatement.=$oracleUpdateStatementValue;
+$oracleUpdateStatement.=" \nWHERE `" . strtoupper($data[0]['primaryKeyName']) . "`='\".\$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "('0','single').\"'\";\n\n";
 
 $str.=$oracleUpdateStatement;
 $str.="			 } else if (\$this->getVendor() == self::DB2) {  \n";
-$oracleUpdateStatement=null;
-$oracleUpdateStatementInsideValue=null;
-$oracleUpdateStatementValue=null;
-$oracleUpdateStatement="\n\$sql=\"UPDATE `".strtoupper($data[0]['tableName'])."` SET\n ";
-	$i=0;
-	for ($i = 0; $i < $total; $i++) {
-		
-		if($i >= 1) { 
-		if($data[$i]['columnName'] !='isDefault' &&
-		$data[$i]['columnName'] !='isNew' &&
-		$data[$i]['columnName'] !='isDraft'&&
-		$data[$i]['columnName'] !='isUpdate'&&
-		$data[$i]['columnName'] !='isDelete'&&
-		$data[$i]['columnName'] !='isActive'&&
-		$data[$i]['columnName'] !='isApproved'&&
-		$data[$i]['columnName'] !='isReview'&&
-		$data[$i]['columnName'] !='isPost'&&
-		$data[$i]['columnName'] !='isSeperated'&&
-		$data[$i]['columnName'] !='isConsolidation'&&
-		$data[$i]['columnName'] !='isReconciled'&&
-		$data[$i]['columnName'] !='executeBy' &&
-		$data[$i]['columnName'] !='executeTime') {
-			$oracleUpdateStatementInsideValue.=" ".strtoupper($data[$i]['columnName'])." = '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
-		} else if ($data[$i]['columnName'] =='executeTime'){
-			$oracleUpdateStatementInsideValue.=" ".strtoupper($data[$i]['columnName'])." = \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
-		}else {
-			$oracleUpdateStatementInsideValue.=" ".strtoupper($data[$i]['columnName'])." = '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
-		}
-		}
-	}
-	$oracleUpdateStatementValue.=(substr($oracleUpdateStatementInsideValue,0,-2));
-	$oracleUpdateStatement.=$oracleUpdateStatementValue;
-	$oracleUpdateStatement.=" \nWHERE `".strtoupper($data[0]['primaryKeyName'])."`='\".\$this->model->get".ucfirst($data[0]['primaryKeyName'])."('0','single').\"'\";\n\n";
+$oracleUpdateStatement = null;
+$oracleUpdateStatementInsideValue = null;
+$oracleUpdateStatementValue = null;
+$oracleUpdateStatement = "\n\$sql=\"UPDATE `" . strtoupper($data[0]['tableName']) . "` SET\n ";
+$i = 0;
+for ($i = 0; $i < $total; $i++) {
+
+    if ($i >= 1) {
+        if ($data[$i]['columnName'] != 'isDefault' &&
+                $data[$i]['columnName'] != 'isNew' &&
+                $data[$i]['columnName'] != 'isDraft' &&
+                $data[$i]['columnName'] != 'isUpdate' &&
+                $data[$i]['columnName'] != 'isDelete' &&
+                $data[$i]['columnName'] != 'isActive' &&
+                $data[$i]['columnName'] != 'isApproved' &&
+                $data[$i]['columnName'] != 'isReview' &&
+                $data[$i]['columnName'] != 'isPost' &&
+                $data[$i]['columnName'] != 'isSeperated' &&
+                $data[$i]['columnName'] != 'isConsolidation' &&
+                $data[$i]['columnName'] != 'isReconciled' &&
+                $data[$i]['columnName'] != 'executeBy' &&
+                $data[$i]['columnName'] != 'executeTime') {
+            $oracleUpdateStatementInsideValue.=" " . strtoupper($data[$i]['columnName']) . " = '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\"',\n";
+        } else if ($data[$i]['columnName'] == 'executeTime') {
+            $oracleUpdateStatementInsideValue.=" " . strtoupper($data[$i]['columnName']) . " = \".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\",\n";
+        } else {
+            $oracleUpdateStatementInsideValue.=" " . strtoupper($data[$i]['columnName']) . " = '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "(0, 'single').\"',\n";
+        }
+    }
+}
+$oracleUpdateStatementValue.=(substr($oracleUpdateStatementInsideValue, 0, -2));
+$oracleUpdateStatement.=$oracleUpdateStatementValue;
+$oracleUpdateStatement.=" \nWHERE `" . strtoupper($data[0]['primaryKeyName']) . "`='\".\$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "('0','single').\"'\";\n\n";
 
 $str.=$oracleUpdateStatement;
 $str.="			} else if (\$this->getVendor() == self::POSTGRESS) {  \n";
-$oracleUpdateStatement=null;
-$oracleUpdateStatementInsideValue=null;
-$oracleUpdateStatementValue=null;
-$oracleUpdateStatement="\n\$sql=\"UPDATE `".strtoupper($data[0]['tableName'])."` SET\n ";
-	$i=0;
-	for ($i = 0; $i < $total; $i++) {
-		
-		if($i >= 1) { 
-		if($data[$i]['columnName'] !='isDefault' &&
-		$data[$i]['columnName'] !='isNew' &&
-		$data[$i]['columnName'] !='isDraft'&&
-		$data[$i]['columnName'] !='isUpdate'&&
-		$data[$i]['columnName'] !='isDelete'&&
-		$data[$i]['columnName'] !='isActive'&&
-		$data[$i]['columnName'] !='isApproved'&&
-		$data[$i]['columnName'] !='isReview'&&
-		$data[$i]['columnName'] !='isPost'&&
-		$data[$i]['columnName'] !='isSeperated'&&
-		$data[$i]['columnName'] !='isConsolidation'&&
-		$data[$i]['columnName'] !='isReconciled'&&
-		$data[$i]['columnName'] !='executeBy' &&
-		$data[$i]['columnName'] !='executeTime') {
-			$oracleUpdateStatementInsideValue.=" ".strtoupper($data[$i]['columnName'])." = '\".\$this->model->get".ucFirst($data[$i]['columnName'])."().\"',\n";
-		} else if ($data[$i]['columnName'] =='executeTime'){
-			$oracleUpdateStatementInsideValue.=" ".strtoupper($data[$i]['columnName'])." = \".\$this->model->get".ucFirst($data[$i]['columnName'])."().\",\n";
-		}else {
-			$oracleUpdateStatementInsideValue.=" ".strtoupper($data[$i]['columnName'])." = '\".\$this->model->get".ucFirst($data[$i]['columnName'])."(0, 'single').\"',\n";
-		}
-		}
-	}
-	$oracleUpdateStatementValue.=(substr($oracleUpdateStatementInsideValue,0,-2));
-	$oracleUpdateStatement.=$oracleUpdateStatementValue;
-	$oracleUpdateStatement.=" \nWHERE `".strtoupper($data[0]['primaryKeyName'])."`='\".\$this->model->get".ucfirst($data[0]['primaryKeyName'])."('0','single').\"'\";\n\n";
+$oracleUpdateStatement = null;
+$oracleUpdateStatementInsideValue = null;
+$oracleUpdateStatementValue = null;
+$oracleUpdateStatement = "\n\$sql=\"UPDATE `" . strtoupper($data[0]['tableName']) . "` SET\n ";
+$i = 0;
+for ($i = 0; $i < $total; $i++) {
+
+    if ($i >= 1) {
+        if ($data[$i]['columnName'] != 'isDefault' &&
+                $data[$i]['columnName'] != 'isNew' &&
+                $data[$i]['columnName'] != 'isDraft' &&
+                $data[$i]['columnName'] != 'isUpdate' &&
+                $data[$i]['columnName'] != 'isDelete' &&
+                $data[$i]['columnName'] != 'isActive' &&
+                $data[$i]['columnName'] != 'isApproved' &&
+                $data[$i]['columnName'] != 'isReview' &&
+                $data[$i]['columnName'] != 'isPost' &&
+                $data[$i]['columnName'] != 'isSeperated' &&
+                $data[$i]['columnName'] != 'isConsolidation' &&
+                $data[$i]['columnName'] != 'isReconciled' &&
+                $data[$i]['columnName'] != 'executeBy' &&
+                $data[$i]['columnName'] != 'executeTime') {
+            $oracleUpdateStatementInsideValue.=" " . strtoupper($data[$i]['columnName']) . " = '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\"',\n";
+        } else if ($data[$i]['columnName'] == 'executeTime') {
+            $oracleUpdateStatementInsideValue.=" " . strtoupper($data[$i]['columnName']) . " = \".\$this->model->get" . ucFirst($data[$i]['columnName']) . "().\",\n";
+        } else {
+            $oracleUpdateStatementInsideValue.=" " . strtoupper($data[$i]['columnName']) . " = '\".\$this->model->get" . ucFirst($data[$i]['columnName']) . "(0, 'single').\"',\n";
+        }
+    }
+}
+$oracleUpdateStatementValue.=(substr($oracleUpdateStatementInsideValue, 0, -2));
+$oracleUpdateStatement.=$oracleUpdateStatementValue;
+$oracleUpdateStatement.=" \nWHERE `" . strtoupper($data[0]['primaryKeyName']) . "`='\".\$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "('0','single').\"'\";\n\n";
 
 $str.=$oracleUpdateStatement;
 $str.="			} \n";
@@ -1001,27 +1030,27 @@ $str.="		if (\$this->getVendor() == self::MYSQL) { \n";
 $str.="			\$sql = \" \n";
 $str.="		SELECT	`\" . \$this->model->getPrimaryKeyName() . \"` \n";
 $str.="		FROM 	`" . $data[0]['database'] . "`.`\" . \$this->model->getTableName() . \"` \n";
-$str.="		WHERE  	`\" . \$this->model->getPrimaryKeyName() . \"` = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \";  \n";
+$str.="		WHERE  	`\" . \$this->model->getPrimaryKeyName() . \"` = '\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"' \";  \n";
 $str.="		} else if (\$this->getVendor() == self::MSSQL) { \n";
 $str.="			\$sql = \" \n";
 $str.="			SELECT	[\" . \$this->model->getPrimaryKeyName() . \"]  \n";
 $str.="			FROM 	[" . $data[0]['database'] . "].[\" . \$this->model->getTableName() . \"] \n";
-$str.="			WHERE  	[\" . \$this->model->getPrimaryKeyName() . \"] = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
+$str.="			WHERE  	[\" . \$this->model->getPrimaryKeyName() . \"] = '\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"' \"; \n";
 $str.="		} else if (\$this->getVendor() == self::ORACLE) { \n";
 $str.="			\$sql = \" \n";
 $str.="		SELECT	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" \n";
 $str.="		FROM 	\" . strtoupper(\$this->model->getTableName()) . \" \n";
-$str.="		WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
+$str.="		WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"' \"; \n";
 $str.="		} else if (\$this->getVendor() == self::DB2) { \n";
 $str.="			\$sql = \" \n";
 $str.="			SELECT	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" \n";
 $str.="			FROM 	\" . strtoupper(\$this->model->getTableName()) . \" \n";
-$str.="			WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
+$str.="			WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"' \"; \n";
 $str.="		} else if (\$this->getVendor() == self::POSTGRESS) { \n";
 $str.="			\$sql = \" \n";
 $str.="			SELECT	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" \n";
 $str.="			FROM 	\" . strtoupper(\$this->model->getTableName()) . \" \n";
-$str.="			WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"' \"; \n";
+$str.="			WHERE  	\" . strtoupper(\$this->model->getPrimaryKeyName()) . \" = '\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"' \"; \n";
 $str.="		} \n";
 $str.="		\$result = \$this->q->fast(\$sql); \n";
 $str.="		\$total = \$this->q->numberRows(\$result, \$sql); \n";
@@ -1030,7 +1059,7 @@ $str.="			echo json_encode(array(\"success\" => false, \"message\" => \$this->sy
 $str.="			exit(); \n";
 $str.="		} else { \n";
 $str.="			if (\$this->getVendor() == self::MYSQL) { \n";
-$str.= " \$sql=\"  	UPDATE 	`".$data[0]['database']."`.`" . $data[0]['tableName'] . "`\n
+$str.= " \$sql=\"  	UPDATE 	`" . $data[0]['database'] . "`.`" . $data[0]['tableName'] . "`\n
 					SET 	`isDefault`				=	'\" . \$this->model->getIsDefault(0, 'single') . \"',
 							`isNew`					=	'\" . \$this->model->getIsNew(0, 'single') . \"',
 							`isDraft`					=	'\" . \$this->model->getIsDraft(0, 'single') . \"',
@@ -1042,12 +1071,12 @@ $str.= " \$sql=\"  	UPDATE 	`".$data[0]['database']."`.`" . $data[0]['tableName'
 							`isPost`					=	'\" . \$this->model->getIsPost(0, 'single') . \"',
 							`executeBy`				=	'\" . \$this->model->getExecuteBy() . \"',
 							`executeTime`			=	\" . \$this->model->getExecuteTime() . \"
-				WHERE 	`".$data[0]['primaryKeyName']."`	=  '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\";\n";
+				WHERE 	`" . $data[0]['primaryKeyName'] . "`	=  '\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"'\";\n";
 
 $str.="			 } else if (\$this->getVendor() == self::MSSQL) {  \n";
 $str.= "
 			\$sql=\"   	
-				UPDATE 	[".$data[0]['database']."].[" . $data[0]['tableName'] . "]
+				UPDATE 	[" . $data[0]['database'] . "].[" . $data[0]['tableName'] . "]
 				SET 			[isDefault]					=	'\" . \$this->model->getIsDefault(0, 'single') . \"',
 								[isNew]						=	'\" . \$this->model->getIsNew(0, 'single') . \"',
 								[isDraft]					=	'\" . \$this->model->getIsDraft(0, 'single') . \"',
@@ -1059,11 +1088,11 @@ $str.= "
 								[isPost]						=	'\" . \$this->model->getIsPost(0, 'single') . \"',
 								[executeBy]				=	'\" . \$this->model->getExecuteBy() . \"',
 								[executeTime]			=	\" . \$this->model->getExecuteTime() . \"
-				WHERE 		[".$data[0]['primaryKeyName']."]	=  '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\";\n";
+				WHERE 		[" . $data[0]['primaryKeyName'] . "]	=  '\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"'\";\n";
 $str.="			 } else if (\$this->getVendor() == self::ORACLE) {  \n";
-	$str.= "
+$str.= "
 	\$sql=\" 
-				UPDATE 	".strtoupper($data[0]['tableName'])."
+				UPDATE 	" . strtoupper($data[0]['tableName']) . "
 				SET 	ISDEFAULT		=	'\" . \$this->model->getIsDefault(0, 'single') . \"',
 						ISNEW			=	'\" . \$this->model->getIsNew(0, 'single') . \"',
 						ISDRAFT			=	'\" . \$this->model->getIsDraft(0, 'single') .\"',
@@ -1075,11 +1104,11 @@ $str.="			 } else if (\$this->getVendor() == self::ORACLE) {  \n";
 						ISPOST			=	'\" . \$this->model->getIsPost(0, 'single') .\"',
 						EXECUTEBY		=	'\" . \$this->model->getExecuteBy() .\"',
 						EXECUTETIME		=	\" . \$this->model->getExecuteTime() . \"
-				WHERE 	".strtoupper($data[0]['primaryKeyName'])."	=  '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\";\n";
+				WHERE 	" . strtoupper($data[0]['primaryKeyName']) . "	=  '\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"'\";\n";
 $str.="			 } else if (\$this->getVendor() == self::DB2) {  \n";
-	$str .= "
+$str .= "
 	\$sql=\" 
-				UPDATE 	".strtoupper($data[0]['tableName'])."
+				UPDATE 	" . strtoupper($data[0]['tableName']) . "
 				SET 	ISDEFAULT		=	'\" . \$this->model->getIsDefault(0, 'single') . \"',
 						ISNEW			=	'\" . \$this->model->getIsNew(0, 'single') . \"',
 						ISDRAFT			=	'\" . \$this->model->getIsDraft(0, 'single') .\"',
@@ -1091,10 +1120,10 @@ $str.="			 } else if (\$this->getVendor() == self::DB2) {  \n";
 						ISPOST			=	'\" . \$this->model->getIsPost(0, 'single') .\"',
 						EXECUTEBY		=	'\" . \$this->model->getExecuteBy() .\"',
 						EXECUTETIME		=	\" . \$this->model->getExecuteTime() . \"
-				WHERE 	".strtoupper($data[0]['primaryKeyName'])."	=  '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\";\n";
+				WHERE 	" . strtoupper($data[0]['primaryKeyName']) . "	=  '\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"'\";\n";
 $str.="			 } else if (\$this->getVendor() == self::POSTGRESS) {  \n";
 $str .= " \$sql=\" 
-				UPDATE 	".strtoupper($data[0]['tableName'])."
+				UPDATE 	" . strtoupper($data[0]['tableName']) . "
 				SET 	ISDEFAULT		=	'\" . \$this->model->getIsDefault(0, 'single') . \"',
 						ISNEW			=	'\" . \$this->model->getIsNew(0, 'single') . \"',
 						ISDRAFT			=	'\" . \$this->model->getIsDraft(0, 'single') .\"',
@@ -1106,7 +1135,7 @@ $str .= " \$sql=\"
 						ISPOST			=	'\" . \$this->model->getIsPost(0, 'single') .\"',
 						EXECUTEBY		=	'\" . \$this->model->getExecuteBy() .\"',
 						EXECUTETIME		=	\" . \$this->model->getExecuteTime() . \"
-				WHERE 	".strtoupper($data[0]['primaryKeyName'])."	=  '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(0, 'single') . \"'\";\n";
+				WHERE 	" . strtoupper($data[0]['primaryKeyName']) . "	=  '\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(0, 'single') . \"'\";\n";
 $str.="			}  \n";
 $str.="			\$this->q->update(\$sql); \n";
 $str.="			if (\$this->q->execute == 'fail') { \n";
@@ -1164,30 +1193,30 @@ $str.="		} \n";
 // starting updating the flag
 $str.="         if(\$_SESSION) { \n";
 $str.="             if(\$_SESSION['isAdmin']==1) { \n";
-$systemFlag =array('isDefault','isDraft','isNew','isActive','isUpdate','isDelete','isReview','isPost','isApproved');
+$systemFlag = array('isDefault', 'isDraft', 'isNew', 'isActive', 'isUpdate', 'isDelete', 'isReview', 'isPost', 'isApproved');
 foreach ($systemFlag as $systemCheck) {
-$str.="                 if (\$this->model->get" . ucfirst($systemCheck) ."Total() > 0) {\n";
-$str.="                     if (\$this->getVendor() == self::MYSQL) {\n";
-$str.="                         \$sqlLooping .= \" `" .$systemCheck."` = CASE `" . $data[0]['database'] . "`.`\".\$this->model->getTableName().\"`.`\" . \$this->model->getPrimaryKeyName() . \"`\"; \n";
-$str.="                     } else if (\$this->getVendor() == self::MSSQL) {\n";
-$str.="                         \$sqlLooping .= \"  [" .$systemCheck."] = CASE [" . $data[0]['database'] . "].[\".\$this->model->getTableName().\"].[\" . \$this->model->getPrimaryKeyName() . \"]\"; \n";
-$str.="                     } else if (\$this->getVendor() == self::ORACLE) {\n";
-$str.="                         \$sqlLooping .= \" " . strtoupper($systemCheck) ." = CASE " . $data[0]['database'] . ".\" . strtoupper(\$this->model->getTableName()).strtoupper(\$this->model->getPrimaryKeyName()) . \" \"; \n";
-$str.="                     } else if (\$this->getVendor() == self::DB2) {\n";
-$str.="                         \$sqlLooping .= \"  " . strtoupper($systemCheck) ." = CASE " . $data[0]['database'] . ".\" . strtoupper(\$this->model->getTableName()).strtoupper(\$this->model->getPrimaryKeyName()) . \" \"; \n";
-$str.="                     } else if (\$this->getVendor() == self::POSTGRESS) {\n";
-$str.="                         \$sqlLooping .= \" " . strtoupper($systemCheck) ." = CASE " . $data[0]['database'] . ".\" . strtoupper(\$this->model->getTableName()).strtoupper(\$this->model->getPrimaryKeyName()) . \" \"; \n";
-$str.="                     } else { \n";
-$str.="                         echo json_encode(array(\"success\" => false, \"message\" => \$this->systemString->getNonSupportedDatabase())); \n";
-$str.="                         exit();\n";
-$str.="                     }\n";
-$str.="                     for (\$i = 0; \$i < \$loop; \$i++) {\n";
-$str.="                         \$sqlLooping .= \"\n";
-$str.="                         WHEN '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(\$i, 'array') . \"'\n";
-$str.="                         THEN '\" . \$this->model->get" . ucfirst($systemCheck) ."(\$i, 'array') . \"'\";\n";
-$str.="                     }\n";
-$str.="                     \$sqlLooping .= \" END,\";\n";
-$str.="			} \n";
+    $str.="                 if (\$this->model->get" . ucfirst($systemCheck) . "Total() > 0) {\n";
+    $str.="                     if (\$this->getVendor() == self::MYSQL) {\n";
+    $str.="                         \$sqlLooping .= \" `" . $systemCheck . "` = CASE `" . $data[0]['database'] . "`.`\".\$this->model->getTableName().\"`.`\" . \$this->model->getPrimaryKeyName() . \"`\"; \n";
+    $str.="                     } else if (\$this->getVendor() == self::MSSQL) {\n";
+    $str.="                         \$sqlLooping .= \"  [" . $systemCheck . "] = CASE [" . $data[0]['database'] . "].[\".\$this->model->getTableName().\"].[\" . \$this->model->getPrimaryKeyName() . \"]\"; \n";
+    $str.="                     } else if (\$this->getVendor() == self::ORACLE) {\n";
+    $str.="                         \$sqlLooping .= \" " . strtoupper($systemCheck) . " = CASE " . $data[0]['database'] . ".\" . strtoupper(\$this->model->getTableName()).strtoupper(\$this->model->getPrimaryKeyName()) . \" \"; \n";
+    $str.="                     } else if (\$this->getVendor() == self::DB2) {\n";
+    $str.="                         \$sqlLooping .= \"  " . strtoupper($systemCheck) . " = CASE " . $data[0]['database'] . ".\" . strtoupper(\$this->model->getTableName()).strtoupper(\$this->model->getPrimaryKeyName()) . \" \"; \n";
+    $str.="                     } else if (\$this->getVendor() == self::POSTGRESS) {\n";
+    $str.="                         \$sqlLooping .= \" " . strtoupper($systemCheck) . " = CASE " . $data[0]['database'] . ".\" . strtoupper(\$this->model->getTableName()).strtoupper(\$this->model->getPrimaryKeyName()) . \" \"; \n";
+    $str.="                     } else { \n";
+    $str.="                         echo json_encode(array(\"success\" => false, \"message\" => \$this->systemString->getNonSupportedDatabase())); \n";
+    $str.="                         exit();\n";
+    $str.="                     }\n";
+    $str.="                     for (\$i = 0; \$i < \$loop; \$i++) {\n";
+    $str.="                         \$sqlLooping .= \"\n";
+    $str.="                         WHEN '\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(\$i, 'array') . \"'\n";
+    $str.="                         THEN '\" . \$this->model->get" . ucfirst($systemCheck) . "(\$i, 'array') . \"'\";\n";
+    $str.="                     }\n";
+    $str.="                     \$sqlLooping .= \" END,\";\n";
+    $str.="			} \n";
 }
 $str.="             } else { \n";
 $str.="                 if (\$this->model->getIsDeleteTotal() > 0) {\n";
@@ -1207,7 +1236,7 @@ $str.="                         exit();\n";
 $str.="                     }\n";
 $str.="                     for (\$i = 0; \$i < \$loop; \$i++) {\n";
 $str.="                         \$sqlLooping .= \"\n";
-$str.="                         WHEN '\" . \$this->model->get".ucfirst($data[0]['primaryKeyName'])."(\$i, 'array') . \"'\n";
+$str.="                         WHEN '\" . \$this->model->get" . ucfirst($data[0]['primaryKeyName']) . "(\$i, 'array') . \"'\n";
 $str.="                         THEN '\" . \$this->model->getIsDelete(\$i, 'array') . \"'\";\n";
 $str.="                     }\n";
 $str.="                     \$sqlLooping .= \" END,\";\n";
@@ -1269,19 +1298,19 @@ $str.="		if (\$this->getVendor() == self::MYSQL) { \n";
 $str.="			\$sql = \" \n";
 $str.="			SELECT	`" . $data[0]['tableName'] . "Code` \n";
 $str.="			FROM 	`" . $data[0]['database'] . "`.`" . $data[0]['tableName'] . "` \n";
-$str.="			WHERE 	`".$data[0]['tableName']."` 	= 	'\" . \$this->model->get" . ucfirst($data[0]['tableName']) . "Code() . \"' \n";
+$str.="			WHERE 	`" . $data[0]['tableName'] . "` 	= 	'\" . \$this->model->get" . ucfirst($data[0]['tableName']) . "Code() . \"' \n";
 $str.="			AND		`isActive`				=	1\"; \n";
 $str.="		} else if (\$this->getVendor() == self::MSSQL) { \n";
 $str.="			\$sql = \" \n";
 $str.="			SELECT	[referenceNo] \n";
 $str.="			FROM 	[" . $data[0]['database'] . "].[" . $data[0]['tableName'] . "] \n";
-$str.="			WHERE 	[".$data[0]['tableName']."] = 	'\" . \$this->model->get" . ucfirst($data[0]['tableName']) . "Code() . \"' \n";
+$str.="			WHERE 	[" . $data[0]['tableName'] . "] = 	'\" . \$this->model->get" . ucfirst($data[0]['tableName']) . "Code() . \"' \n";
 $str.="			AND	[isActive]                  =	1\"; \n";
 $str.="		} else if (\$this->getVendor() == self::ORACLE) { \n";
 $str.="			\$sql = \" \n";
-$str.="			SELECT	".strtoupper('referenceNo')." \n";
-$str.="			FROM 	".strtoupper($data[0]['tableName'])." \n";
-$str.="			WHERE 	".strtoupper($data[0]['tableName'])."	= 	'\" . \$this->model->get" . ucfirst($data[0]['tableName']) . "Code() . \"' \n";
+$str.="			SELECT	" . strtoupper('referenceNo') . " \n";
+$str.="			FROM 	" . strtoupper($data[0]['tableName']) . " \n";
+$str.="			WHERE 	" . strtoupper($data[0]['tableName']) . "	= 	'\" . \$this->model->get" . ucfirst($data[0]['tableName']) . "Code() . \"' \n";
 $str.="			AND		ISACTIVE			=	1\"; \n";
 $str.="		} \n";
 $str.="		\$this->q->read(\$sql); \n";
@@ -1407,7 +1436,7 @@ $str.="			exit(); \n";
 $str.="		} \n";
 $str.="     } \n";
 $str.="} \n";
-$str.="\$" . $data[0]['tableName'] . "Object = new ".ucfirst($data[0]['tableName'])."Class (); \n";
+$str.="\$" . $data[0]['tableName'] . "Object = new " . ucfirst($data[0]['tableName']) . "Class (); \n";
 $str.="/** \n";
 $str.=" * crud -create,read,update,delete \n";
 $str.="* */ \n";

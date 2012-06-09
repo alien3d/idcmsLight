@@ -37,12 +37,12 @@ class generator {
      * @var string 
      */
     private $targetModule;
+
     /**
      * Twitter Bootstrap  form type  horizontal,vertical,inline,search
      * @var string 
      */
     private $targetFormStyle;
-    
 
     /**
      * To return information about column
@@ -108,8 +108,10 @@ class generator {
     public function execute() {
 
         if ($this->getTargetDatabase()) {
+            //  echo "sini";
             mysql_select_db($this->getTargetDatabase());
         } else {
+            // echo "sana";
             $this->setTargetDatabase(self::DEFAULTDATABASE);
             mysql_select_db(self::DEFAULTDATABASE);
         }
@@ -124,7 +126,7 @@ class generator {
                 location.href ='<?php echo basename($_SERVER['PHP_SELF']); ?>?targetDatabase='+value;
             }
             function changePackage(){
-         
+                 
                 var targetDatabase= $("#targetDatabase").val();
                 var targetTable= $("#targetTable").val();
                 var targetMasterTableId= $("#targetMasterTableId").val();
@@ -133,9 +135,9 @@ class generator {
                 var targetOutput= $("#targetOutput").val()
                 var targetGridType= $("#targetGridType").val();
                 var targetFormStyle= $("#targetFormStyle").val();
-         
+                 
                 url ='<?php echo basename($_SERVER['PHP_SELF']); ?>';
-               
+                       
                 if(targetDatabase){
                     url = url+"?targetDatabase="+targetDatabase;
                 }
@@ -160,7 +162,7 @@ class generator {
                 if(targetFormStyle){
                     url = url+"&targetFormStyle="+targetFormStyle;
                 }
-     
+             
                 location.href =url;
             }
             function check(value) {
@@ -179,11 +181,11 @@ class generator {
                     <td>Target Db</td>
                     <td><select name="targetDatabase" id="targetDatabase" onChange=db(this.value)>
                             <option value="">Please Select Database First</option>
-        <?php
-        $sql = "show databases;";
-        $result = mysql_query($sql) or die(mysql_error());
-        while ($row = mysql_fetch_array($result)) {
-            ?>
+                            <?php
+                            $sql = "show databases;";
+                            $result = mysql_query($sql) or die(mysql_error());
+                            while ($row = mysql_fetch_array($result)) {
+                                ?>
 
                                 <option value="<?php echo $row['Database']; ?>"
                                 <?php
@@ -193,7 +195,7 @@ class generator {
                                     }
                                 }
                                 ?>>
-                                <?php echo $row['Database']; ?>
+                                            <?php echo $row['Database']; ?>
                                 </option>
                             <?php } ?>
                         </select>
@@ -201,12 +203,16 @@ class generator {
                 </tr>
                 <tr>
                     <td>Target Table</td>
-                    <td><select name="targetTable" id="targetTable" <?php if (!(isset($_GET['targetDatabase']))) {
+                    <td><select name="targetTable" id="targetTable" <?php
+                    if (!(isset($_GET['targetDatabase']))) {
                         echo "disabled";
-                    } ?> class="<?php if (!(isset($_GET['targetDatabase']))) {
-                        echo "disabled";
-                    } ?>">
-        <?php if (isset($_GET['targetDatabase'])) { ?>
+                    }
+                            ?> class="<?php
+                        if (!(isset($_GET['targetDatabase']))) {
+                            echo "disabled";
+                        }
+                            ?>">
+                            <?php if (isset($_GET['targetDatabase'])) { ?>
                                 <option value="">Please Select Table</option>
                             <?php } else { ?>
                                 <option value="">Please Select Database First</option>
@@ -225,23 +231,25 @@ class generator {
                                         }
                                     }
                                     ?>><?php echo $row['Tables_in_' . strtolower($_GET['targetDatabase'])]; ?></option>
-                                    <?php
-                                }
-                            }
-                            ?></select>
+                <?php
+            }
+        }
+        ?></select>
                     </td>
                 </tr>
                 <tr>
                     <td>Target Master Table</td>
-                    <td><select name="targetMasterTableId" id="targetMasterTableId" <?php if (!(isset($_GET['targetDatabase']))) {
-                                echo "disabled";
-                            } ?>>
-                            <?php
-                            if (isset($_GET['targetDatabase'])) {
-                                $sql = "show tables in " . strtolower($_GET['targetDatabase']) . ";";
-                                $result = mysql_query($sql) or die(mysql_error());
-                                while ($row = mysql_fetch_array($result)) {
-                                    ?> ?>
+                    <td><select name="targetMasterTableId" id="targetMasterTableId" <?php
+        if (!(isset($_GET['targetDatabase']))) {
+            echo "disabled";
+        }
+        ?>>
+        <?php
+        if (isset($_GET['targetDatabase'])) {
+            $sql = "show tables in " . strtolower($_GET['targetDatabase']) . ";";
+            $result = mysql_query($sql) or die(mysql_error());
+            while ($row = mysql_fetch_array($result)) {
+                ?> ?>
                                     <option
                                         value="<?php echo $row['Tables_in_' . strtolower($_GET['targetDatabase'])]; ?>"
                                         <?php
@@ -251,22 +259,24 @@ class generator {
                                             }
                                         }
                                         ?>><?php echo $row['Tables_in_' . strtolower($_GET['targetDatabase'])]; ?></option>
-                                        <?php
-                                    }
-                                }
-                                ?></select>
+                        <?php
+                    }
+                }
+                ?></select>
                     </td>
                 </tr>
-                <?php $total = count($this->packageAndModule); ?>
+                            <?php $total = count($this->packageAndModule); ?>
                 <tr>
                     <td>Target Package</td>
-                    <td><select name="targetPackage" id="targetPackage" onChange=changePackage() <?php if (!(isset($_GET['targetDatabase']))) {
-                    echo "disabled";
-                } ?>>
+                    <td><select name="targetPackage" id="targetPackage" onChange=changePackage() <?php
+                            if (!(isset($_GET['targetDatabase']))) {
+                                echo "disabled";
+                            }
+                            ?>>
                             <option value="">Please Choose Package </option>
-                            <?php foreach ( $this->packageAndModule as $key =>$value ) { ?>
+                                    <?php foreach ($this->packageAndModule as $key => $value) { ?>
                                 <option value="<?php echo $key; ?>"
-                   
+
                                 <?php
                                 if (isset($_GET['targetPackage'])) {
                                     if ($_GET['targetPackage'] == $key) {
@@ -274,45 +284,51 @@ class generator {
                                     }
                                 }
                                 ?>>
-                                <?php echo $key; ?></option>
-        <?php } ?>
+                                    <?php echo $key; ?></option>
+                                    <?php } ?>
                         </select></td>
                 </tr>
                 <tr>
                     <td>Target Module</td>
-                    <td><select name="targetModule" id="targetModule" <?php if (!(isset($_GET['targetDatabase']))) {
-            echo "disabled";
-        } ?>>
+                    <td><select name="targetModule" id="targetModule" <?php
+                            if (!(isset($_GET['targetDatabase']))) {
+                                echo "disabled";
+                            }
+                                    ?>>
                             <?php if (isset($_GET['targetPackage'])) { ?>
                                 <option value="">Please Choose Module</option>
 
-                            <?php } else { ?>
+        <?php } else { ?>
                                 <option value="">Please Choose Package</option>	
         <?php } ?>	
         <?php for ($i = 0; $i < count($this->packageAndModule[$_GET['targetPackage']]); $i++) { ?>
-                                <option value="<?php echo $this->packageAndModule[$_GET['targetPackage']][$i]; ?>" <?php 
-								if(isset($_GET['targetModule'])) { 
-								if ($_GET['targetModule'] == $this->packageAndModule[$_GET['targetPackage']][$i]) {
-                echo "selected";
-            } } ?>><?php echo $this->packageAndModule[$_GET['targetPackage']][$i]; ?></option>
-        <?php } ?>
+                                <option value="<?php echo $this->packageAndModule[$_GET['targetPackage']][$i]; ?>" <?php
+            if (isset($_GET['targetModule'])) {
+                if ($_GET['targetModule'] == $this->packageAndModule[$_GET['targetPackage']][$i]) {
+                    echo "selected";
+                }
+            }
+            ?>><?php echo $this->packageAndModule[$_GET['targetPackage']][$i]; ?></option>
+                            <?php } ?>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td>Source Type</td>
-                    <td><select name="targetOutput" id="targetOutput" onChange=check(this.value) <?php if (!(isset($_GET['targetDatabase']))) {
-            echo "disabled";
-        } ?>>
+                    <td><select name="targetOutput" id="targetOutput" onChange=check(this.value) <?php
+                    if (!(isset($_GET['targetDatabase']))) {
+                        echo "disabled";
+                    }
+                            ?>>
                             <option value="">Please Choose</option>
                             <option value="html"
-                            <?php
-                            if (isset($_GET['targetOutput'])) {
-                                if ($_GET['targetOutput'] == 'html') {
-                                    echo "selected";
-                                }
-                            }
-                            ?>>Html Code</option>
+                                    <?php
+                                    if (isset($_GET['targetOutput'])) {
+                                        if ($_GET['targetOutput'] == 'html') {
+                                            echo "selected";
+                                        }
+                                    }
+                                    ?>>Html Code</option>
                             <option value="javascript"
                             <?php
                             if (isset($_GET['targetOutput'])) {
@@ -322,27 +338,29 @@ class generator {
                             }
                             ?>>Javascript Code</option>
                             <option value="model" <?php
-                    if (isset($_GET['targetOutput'])) {
-                        if ($_GET['targetOutput'] == 'model') {
-                            echo "selected";
-                        }
-                    }
-                    ?>>Model Entity</option>
+                            if (isset($_GET['targetOutput'])) {
+                                if ($_GET['targetOutput'] == 'model') {
+                                    echo "selected";
+                                }
+                            }
+                            ?>>Model Entity</option>
                             <option value="controller"
-        <?php
-        if (isset($_GET['targetOutput'])) {
-            if ($_GET['targetOutput'] == 'controller') {
-                ?> selected <?php
+                            <?php
+                            if (isset($_GET['targetOutput'])) {
+                                if ($_GET['targetOutput'] == 'controller') {
+                                    ?> selected <?php
+                }
             }
-        }
-        ?>>Controller</option>
+                            ?>>Controller</option>
                         </select></td>
                 </tr>
                 <tr>
                     <td>Target Form Type</td>
-                    <td><select name="targetGridType" id="targetGridType" <?php if (!(isset($_GET['targetDatabase']))) {
+                    <td><select name="targetGridType" id="targetGridType" <?php
+                    if (!(isset($_GET['targetDatabase']))) {
                         echo "disabled";
-                    } ?>>
+                    }
+                            ?>>
                             <option value="first"
                             <?php
                             if (isset($_GET['targetGridType'])) {
@@ -352,29 +370,31 @@ class generator {
                             }
                             ?>>Form Only</option>
                             <option value="second"
-                            <?php
-                            if (isset($_GET['targetGridType'])) {
-                                if ($_GET['targetGridType'] == 'second') {
-                                    echo "selected";
-                                }
-                            }
-                            ?>>Grid Only(Detail)</option>
-                            <option value="third"
         <?php
         if (isset($_GET['targetGridType'])) {
-            if ($_GET['targetGridType'] == 'third') {
+            if ($_GET['targetGridType'] == 'second') {
                 echo "selected";
             }
         }
-        ?>>Viewport + Grid Only</option>
+        ?>>Grid Only(Detail)</option>
+                            <option value="third"
+                            <?php
+                            if (isset($_GET['targetGridType'])) {
+                                if ($_GET['targetGridType'] == 'third') {
+                                    echo "selected";
+                                }
+                            }
+                            ?>>Viewport + Grid Only</option>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td>Target Form Style</td>
-                    <td><select name="targetFormStyle" id="targetFormStyle" <?php if (!(isset($_GET['targetDatabase']))) {
-                        echo "disabled";
-                    } ?>>
+                    <td><select name="targetFormStyle" id="targetFormStyle" <?php
+                            if (!(isset($_GET['targetDatabase']))) {
+                                echo "disabled";
+                            }
+                            ?>>
                             <option value="form-vertical"
                             <?php
                             if (isset($_GET['targetFormStyle'])) {
@@ -384,13 +404,13 @@ class generator {
                             }
                             ?>>form-vertical</option>
                             <option value="form-inline"
-                            <?php
-                            if (isset($_GET['targetFormStyle'])) {
-                                if ($_GET['targetFormStyle'] == 'form-inline') {
-                                    echo "selected";
-                                }
-                            }
-                            ?>>form-inline</option>
+        <?php
+        if (isset($_GET['targetFormStyle'])) {
+            if ($_GET['targetFormStyle'] == 'form-inline') {
+                echo "selected";
+            }
+        }
+        ?>>form-inline</option>
                             <option value="form-horizontal"
         <?php
         if (isset($_GET['targetFormStyle'])) {
@@ -419,26 +439,37 @@ class generator {
         // initilize value
         $infoColumn = array();
         if ($this->getTargetTable()) {
-            $sqlDescribe = "
-            DESCRIBE `" . $this->getTargetDatabase() . "`.`" . $this->getTargetTable() . "`";
+            $sqlDescribe = "            DESCRIBE `" . $this->getTargetDatabase() . "`.`" . $this->getTargetTable() . "`";
             $resultFieldTable = mysql_query($sqlDescribe);
+            if (!$resultFieldTable) {
+                echo "Error dol" . mysql_error();
+            }
             $i = 0;
             while ($rowFieldTable = mysql_fetch_array($resultFieldTable)) {
+                // echo "ada loop ";
+                //echo print_r($rowFieldTable);
                 $infoColumn[$i]['database'] = $this->getTargetDatabase();
-				$infoColumn[$i]['tableName'] = $this->getTargetTable();
+                $infoColumn[$i]['tableName'] = $this->getTargetTable();
                 $infoColumn[$i]['package'] = $this->getTargetPackage();
                 $infoColumn[$i]['module'] = $this->getTargetModule();
-                $infoColumn[$i]['targetFormStyle']=$this->getTargetFormStyle();
+                $infoColumn[$i]['targetFormStyle'] = $this->getTargetFormStyle();
                 $infoColumn[$i]['columnName'] = $rowFieldTable['Field'];
                 $infoColumn[$i]['Type'] = $rowFieldTable['Type'];
                 $infoColumn[$i]['Key'] = $rowFieldTable['Key'];
                 // cannot follow blindly table name+id for generation
-                if($rowFieldTable['Key']=='PRI'){
-                    $infoColumn[$i]['primaryKeyName']=$rowFieldTable['Field'];
+                if ($rowFieldTable['Key'] == 'PRI') {
+                    $infoColumn[$i]['primaryKeyName'] = $rowFieldTable['Field'];
                 }
                 $infoColumn[$i]['foreignKey'] = $this->getInfoTableColumn($rowFieldTable['Field']);
-				$infoColumn[$i]['length'] = preg_replace("/[^0-9]/","",$rowFieldTable['Type']); 
+                $infoColumn[$i]['length'] = preg_replace("/[^0-9]/", "", $rowFieldTable['Type']);
+
                 $findme = 'varchar';
+                $pos = strpos($rowFieldTable['Type'], $findme);
+                if ($pos !== false) {
+
+                    $infoColumn[$i]['formType'] = "text";
+                }
+                $findme = 'char';
                 $pos = strpos($rowFieldTable['Type'], $findme);
                 if ($pos !== false) {
 
@@ -474,6 +505,9 @@ class generator {
                 $pos = strpos($rowFieldTable['Type'], $findme);
                 if ($pos !== false) {
                     $infoColumn[$i]['formType'] = "double";
+                }
+                if ($infoColumn[$i]['formType'] == '' || $infoColumn[$i]['formType'] == null) {
+                    echo " miau Tell me this type : [" . $rowFieldTable['Type'] . "] [" . $rowFieldTable['Field'] . "]<br>";
                 }
                 $i++;
             }
@@ -690,6 +724,7 @@ class generator {
     public function setInfoColumnArray($value) {
         $this->infoColumnArray = $value;
     }
+
     /**
      * Return Target Output
      * return string $output
@@ -920,7 +955,7 @@ if (isset($_GET['targetFormStyle']) && strlen($_GET['targetFormStyle']) > 0) {
 <?php $generator->execute(); ?>
 </code>
                 </pre></div>
-<textarea><?php $generator->execute(); ?></textarea>
+            <textarea><?php $generator->execute(); ?></textarea>
             <footer>
                 <p>© IDCMS 2012</p>
             </footer>

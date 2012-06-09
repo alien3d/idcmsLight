@@ -223,7 +223,7 @@ for ($i = 0; $i < $total; $i++) {
         case 'text':
         case 'double':
             $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Div'>
-                                <label class='control-label'><?php if(isset(\$" . $data[$i]['columnName'] . ")) {  echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; } ?></label>
+                                <label class='control-label'><?php if(isset( \$leafTranslation['" . $data[$i]['columnName'] . "Label'])) {  echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; } ?></label>
                                 <div class='controls  input-prepend'>
                                     <input type='text' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='Field Of " . $data[$i]['columnName'] . "' class='span3'>
                                 </div>
@@ -236,7 +236,7 @@ for ($i = 0; $i < $total; $i++) {
                 } else {
                     if ($data[$i]['foreignKey'] == 1 && $data[$i]['Key'] == 'MUL') {
                         $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Div'>
-                                <label class='control-label'><?php if(isset(\$" . $data[$i]['columnName'] . ")) {  echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; } ?></label>
+                                <label class='control-label'><?php if(isset( \$leafTranslation['" . $data[$i]['columnName'] . "Label'])) {  echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; } ?></label>
                                 <div class='controls  input-prepend'><select name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "'>\n
                                 <?php
                                 if (is_array(\$" . $data[$i]['columnName'] . "Array)) {
@@ -251,7 +251,7 @@ for ($i = 0; $i < $total; $i++) {
                           </div>\n";
                     } else if ($data[$i]['Key'] == '') {
                         $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Div' >\n
-                                <label class='control-label'><?php if(isset(\$" . $data[$i]['columnName'] . ")) {  echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; } ?></label>\n
+                                <label class='control-label'><?php if(isset( \$leafTranslation['" . $data[$i]['columnName'] . "Label'])) {  echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; } ?></label>\n
                                 <div class='controls  input-prepend'>\n
                                     <input type='text' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='Numeric Only' class='span3'>\n
                                     <span name='numericHelpMe' id='" . $data[$i]['columnName'] . "HelpMe' class='help-inline'></span>\n
@@ -269,7 +269,7 @@ for ($i = 0; $i < $total; $i++) {
         case 'datetime':
             if ($data[$i]['columnName'] != 'executeTime') {
                 $str.="<div class='control-group' id='dateDiv'>
-                                <label class='control-label'><?php if(isset(\$" . $data[$i]['columnName'] . ")) {  echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; } ?></label>
+                                <label class='control-label'><?php if(isset( \$leafTranslation['" . $data[$i]['columnName'] . "Label'])) {  echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; } ?></label>
                                 <div class='controls input-prepend'>
                                     <span class='add-on'>
                                         <i class='icon-calendar'></i>
@@ -335,7 +335,7 @@ $str.="            <a href=javascript:void(0) class='btn btn-danger' onClick=del
 $str.="            <a href=javascript:void(0) onclick=showMeModal('deletePreview',0) class='btn'>Close</a> \n";
 $str.="        </div> \n";
 $str.="   </div> \n";
-$str.="<div align='left'> \n";
+$str.="<div align='left'  class='btn-group'> \n";
 // old type button.now moved to sidebar.Thinking optional first
 //initilize dummy value
 $characterArray = null;
@@ -384,9 +384,9 @@ for ($i = 0; $i < $total; $i++) {
             case 'isApproved':
             case 'isReview':
             case 'isPost':
-               // both consider optional
-            case $data[0]['tableName'].'Sequence':
-            case $data[0]['tableName'].'Code':
+            // both consider optional
+            case $data[0]['tableName'] . 'Sequence':
+            case $data[0]['tableName'] . 'Code':
                 /**
                   // hidden for temporaly purpose.customer request then open it
                  * */
@@ -413,7 +413,7 @@ $str.="              if (is_array(\$" . $data[0]['tableName'] . "Array)) { \n";
 $str.="                \$totalRecord = 0; \n";
 $str.="                \$totalRecord = count(\$" . $data[0]['tableName'] . "Array); \n";
 $str.="                if (\$totalRecord > 0) { \n";
-$str.="                      \$counter=0; \n"; 
+$str.="                      \$counter=0; \n";
 $str.="                    for (\$i = 0; \$i < \$totalRecord; \$i++) { \n";
 $str.="                     \$counter++;\n";
 $str.="                     echo \"<tr>\"; \n";
@@ -446,9 +446,9 @@ for ($i = 0; $i < $total; $i++) {
             case 'isReview':
             case 'isPost':
             // both consider optional
-            case $data[0]['tableName'].'Sequence':
-            case $data[0]['tableName'].'Code':
-             
+            case $data[0]['tableName'] . 'Sequence':
+            case $data[0]['tableName'] . 'Code':
+
                 /**
                   // hidden for temporaly purpose.customer request then open it
                   $str.=" if(\$_SESSION ['isAdmin'] ==1) {\n ";
@@ -505,7 +505,7 @@ for ($i = 0; $i < $total; $i++) {
                     $align = 'left';
                 }
                 //must check data type if date .. convert output to master setting date
-                                $str.="if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) { \n";
+                $str.="if(isset(\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'])) { \n";
 
                 if ($data[$i]['formType'] == 'date') {
                     $str.=" 	\$valueArray 		= 	\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "']; \n";
@@ -533,7 +533,7 @@ for ($i = 0; $i < $total; $i++) {
 
                     $str.=" \$value = date(\$systemFormat['systemSettingDateFormat'].\" \".\$systemFormat['systemSettingTimeFormat'],mktime(\$hour,\$minute,\$second,\$month,\$day,\$year)); \n";
                 } else {
-                    
+
                     $str.=" \$value = \$" . $data[0]['tableName'] . "Array[\$i]['" . $data[$i]['columnName'] . "'];\n";
                 }
                 $str.=" } \n";
@@ -546,9 +546,14 @@ for ($i = 0; $i < $total; $i++) {
     }
 }
 // new experiment delete function back.. give more focus to user.. 
+$str.="if(\$" . $data[0]['tableName'] . "Array[\$i]['isDelete']) {\n";
+$str.="    \$checked='checked';\n";
+$str.="} else {\n";
+$str.="    \$checked=null;\n";
+$str.="}\n";
 $str.="                         echo \"<td>
-    <input style='display:none;' type='checkbox' name='" . $data[0]['primaryKeyName'] . "[]' id='" . $data[0]['primaryKeyName'] . "' value='\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[0]['primaryKeyName']  . "'].\"'>
-    <input type='checkbox' name='isDelete[]' id='isDelete' value='\".\$" . $data[0]['tableName'] . "Array[\$i]['isDelete'].\"'>
+    <input style='display:none;' type='checkbox' name='" . $data[0]['primaryKeyName'] . "[]' id='" . $data[0]['primaryKeyName'] . "' value='\".\$" . $data[0]['tableName'] . "Array[\$i]['" . $data[0]['primaryKeyName'] . "'].\"'>
+    <input \".\$checked.\" type='checkbox' name='isDelete[]' id='isDelete' value='\".\$" . $data[0]['tableName'] . "Array[\$i]['isDelete'].\"'>
     
 </td>\";\n";
 $str.="                    echo \"</tr>\"; \n";
@@ -604,9 +609,10 @@ $str.="    <?php }  \n";
 $str.="           if ((isset(\$_POST['method']) == 'new' || isset(\$_POST['method']) == 'read') && \$_POST['type'] == 'form') { ?> \n";
 
 $str.="    <div id='infoPanel'></div> \n";
-$str.="         <form class='well '".$data[0]['targetFormStyle']."'>\n";
+$str.="         <form class='well " . $data[0]['targetFormStyle'] . "'>\n";
+
 $str.="    <input type='hidden' name='" . $data[0]['primaryKeyName'] . "' id='" . $data[0]['primaryKeyName'] . "' 
-value='<?php if (isset(\$_POST['" . $data[0]['primaryKeyName']. "'])) { 
+value='<?php if (isset(\$_POST['" . $data[0]['primaryKeyName'] . "'])) { 
                 echo \$_POST['" . $data[0]['primaryKeyName'] . "'];    
             }  ?>'> \n";
 // start loop field
@@ -618,13 +624,26 @@ for ($i = 0; $i < $total; $i++) {
         case 'varchar':
         case 'text':
         case 'double':
-            $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form'>
+            // check if field name have Code.. Max for character.
+            $pos = strpos($data[$i]['columnName'], 'Code');
+            if ($pos !== false) {
+
+                $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form'>
+                                <label class='control-label'><?php echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; ?></label>
+                                <div class='controls  input-prepend'>
+                                    <input type='text' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='Field Of " . $data[$i]['columnName'] . "' class='span3' 
+                                    value='<?php if(isset($" . $data[0]['tableName'] . "Array) && is_array($" . $data[0]['tableName'] . "Array)) {  echo \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "']; } ?>' maxlength='4'>
+                                </div>
+                            </div>";
+            } else {
+                $str.="<div class='control-group' id='" . $data[$i]['columnName'] . "Form'>
                                 <label class='control-label'><?php echo \$leafTranslation['" . $data[$i]['columnName'] . "Label']; ?></label>
                                 <div class='controls  input-prepend'>
                                     <input type='text' name='" . $data[$i]['columnName'] . "' id='" . $data[$i]['columnName'] . "' placeholder='Field Of " . $data[$i]['columnName'] . "' class='span3' 
                                     value='<?php if(isset($" . $data[0]['tableName'] . "Array) && is_array($" . $data[0]['tableName'] . "Array)) {  echo \$" . $data[0]['tableName'] . "Array[0]['" . $data[$i]['columnName'] . "']; } ?>'>
                                 </div>
                             </div>";
+            }
             break;
         case 'int':
             if ($data[$i]['Key'] == 'PRI') {
@@ -735,7 +754,7 @@ for ($i = 0; $i < $total; $i++) {
     }
 }
 // end loop field
-$str.="</form><br>\n";
+$str.="</form>\n";
 $str.="<div class='form-actions'>\n";
 $str.="    <div class='btn-toolbar'> \n";
 $str.="        <div class='btn-group'> \n";

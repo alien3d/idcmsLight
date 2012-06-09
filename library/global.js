@@ -178,11 +178,12 @@
             }
         });
     }
+    
     function validateMeAlphaNumeric(id) {
-       
+        // give coma dot space and email
         $("#"+id).keyup(function(){
-            $(this).val( $(this).val().replace(/[^0-9a-zA-Z]/g, "").replace(/^\./, "") ); 
-        }).blur(function(){ $(this).val( $(this).val().replace(/[^0-9a-zA-Z]/g, "").replace(/^/, "") ); });
+            $(this).val( $(this).val().replace(/[^0-9a-zA-Z\,\.\s\x20]/g, "").replace(/^\./, "") ); 
+        }).blur(function(){ $(this).val( $(this).val().replace(/[^0-9a-zA-Z\,\.\s\x20]/g, "").replace(/^/, "") ); });
     }
     function validateMeNumeric(id){
         $("#"+id).keyup(function(){
