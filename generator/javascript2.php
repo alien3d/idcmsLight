@@ -72,11 +72,17 @@ if (isset($data)) {
     $str.="         // unlimited for searching because  lazy paging.\n";
     $str.="         var queryGrid =\$('#query').val();\n";
     $str.="         var queryWidget =\$('#queryWidget').val();\n";
-    $str.="         if(queryGrid.length > 0 ) { \n";
-    $str.="             queryText = queryGrid; \n";
-    $str.="         }  else {  \n";
-    $str.="             queryText = queryWidget; \n";
-    $str.="         } \n";
+    
+    // this is possible of future if customer required more complex search. but for now as it and simple
+    $str.="         if(queryGrid != undefined) { \n";
+    $str.="             if(queryGrid.length > 0 ) { \n";
+    $str.="                 queryText = queryGrid; \n";
+    $str.="             }  else {  \n";
+    $str.="                 queryText = queryWidget; \n";
+    $str.="             } \n";
+    $str.="         } else { \n";
+    $str.="                 queryText = queryWidget; \n";
+    $str.="         }\n";
     $str.="         \$.ajax({\n";
     $str.="             type    :   'POST',\n";
     $str.="             url     :	url,\n";
@@ -1390,11 +1396,12 @@ $str.="if(updateAccess == 1) {\n";
     $str.="	}\n";
     
     //delete record
-    $str.="	function deleteRecord(url, securityToken,urlList) {\n";
+    $str.="	function deleteRecord(url, securityToken,urlList,deleteAccess) {\n";
     $str.="         var css = \$('#deleteRecordButton').attr('class');\n";
     $str.="         if (css.search('disabled') > 0) {\n";
-    $str.="             // access denied \n";
+    $str.="             return false; \n";
     $str.="         } else {\n";
+    $str.="             if(deleteAccess == 1 ) { ";
     $str.="             if(confirm('Are you sure delete the selected item ?')) { \n";
     $str.="                 var value=\$('#" . $data[0]['primaryKeyName'] . "').val(); \n";
     $str.="                 if(!value) {\n";
@@ -1433,7 +1440,7 @@ $str.="if(updateAccess == 1) {\n";
     $str.="             } else { \n";
     $str.="                 return false; \n";
     $str.="		} \n";
-    $str.="         }\n";
+    $str.="       }  }\n";
     $str.="	}\n";
     
     //reset record
@@ -2263,7 +2270,7 @@ $str.="if(updateAccess == 1) {\n";
     $str.="                                 \$('#previousRecordButton').attr('onClick','');\n";
     
     $str.="                   		}\n";
-    $str.="                   		if (parseFloat(data.nextRecord) == parseFloat('lastRecord')) {\n";
+    $str.="                   		if (parseFloat(data.nextRecord) == parseFloat(data.lastRecord)) {\n";
     
     $str.="                                 \$('#nextRecordButton').removeClass();\n";
     $str.="                                 \$('#nextRecordButton').addClass('btn btn-info disabled');\n";

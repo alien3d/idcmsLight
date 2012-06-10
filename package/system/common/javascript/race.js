@@ -38,11 +38,15 @@
          // unlimited for searching because  lazy paging.
          var queryGrid =$('#query').val();
          var queryWidget =$('#queryWidget').val();
-         if(queryGrid.length > 0 ) { 
-             queryText = queryGrid; 
-         }  else {  
-             queryText = queryWidget; 
-         } 
+         if(queryGrid != undefined) { 
+             if(queryGrid.length > 0 ) { 
+                 queryText = queryGrid; 
+             }  else {  
+                 queryText = queryWidget; 
+             } 
+         } else { 
+                 queryText = queryWidget; 
+         }
          $.ajax({
              type    :   'POST',
              url     :	url,
@@ -964,12 +968,12 @@ if(updateAccess == 1) {
 		}
          }
 	}
-	function deleteRecord(url, securityToken,urlList) {
+	function deleteRecord(url, securityToken,urlList,deleteAccess) {
          var css = $('#deleteRecordButton').attr('class');
          if (css.search('disabled') > 0) {
-             // access denied 
+             return false; 
          } else {
-             if(confirm('Are you sure delete the selected item ?')) { 
+             if(deleteAccess == 1 ) {              if(confirm('Are you sure delete the selected item ?')) { 
                  var value=$('#raceId').val(); 
                  if(!value) {
                      $('#infoPanel').html('<div class=alert alert-info>Please Contact Administrator</div>');
@@ -1006,7 +1010,7 @@ if(updateAccess == 1) {
              } else { 
                  return false; 
 		} 
-         }
+       }  }
 	}
 	function resetRecord(url,securityToken) {
          $('#newRecordButton1').removeClass(); 
@@ -1535,7 +1539,7 @@ if(updateAccess == 1) {
                                  $('#previousRecordButton').addClass('btn btn-info disabled');
                                  $('#previousRecordButton').attr('onClick','');
                    		}
-                   		if (parseFloat(data.nextRecord) == parseFloat('lastRecord')) {
+                   		if (parseFloat(data.nextRecord) == parseFloat(data.lastRecord)) {
                                  $('#nextRecordButton').removeClass();
                                  $('#nextRecordButton').addClass('btn btn-info disabled');
                                  $('#nextRecordButton').attr('onClick','');

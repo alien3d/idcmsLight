@@ -783,7 +783,7 @@ $str.="                <li><a name='updateRecordButton5' id='updateRecordButton5
 $str.="            </ul> \n";
 $str.="        </div> \n";
 $str.="        <div class='btn-group'> \n";
-$str.="            <a name='deleteRecordButton' id='deleteRecordButton' href='javascript:void(0)'   <?php if(\$leafAccess['isDelete']==1) { ?>onClick=deleteRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$leafAccess['leafAccessDeleteValue'];?>')<?php } ?> class='<?php if(\$leafAccess['isDelete']==0) { ?>btn btn-danger disabled<?php } else { ?>btn btn-danger<?php } ?>'><i class='icon-trash icon-white'></i><?php echo \$buttonTranslation['isDeleteLabel']; ?></a> \n";
+$str.="            <a name='deleteRecordButton' id='deleteRecordButton' href='javascript:void(0)'   <?php if(\$leafAccess['isDelete']==1) { ?>onClick=deleteRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$leafAccess['leafAccessDeleteValue'];?>')<?php } ?> class='<?php if(\$leafAccess['isDelete']==0) { ?>btn btn-danger disabled<?php } else { ?>btn btn-danger<?php } ?>'><i class='icon-trash icon-white'></i><?php echo \$buttonTranslation['isDeleteLabel']; ?></a> \n";
 $str.="        </div> \n";
 $str.="        <div class='btn-group'>";
 $str.="            <a name='resetRecordButton' id='resetRecordButton' href=javascript:void(0) class='btn btn-info' onClick=resetRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$leafAccess['leafAccessUpdateValue'];?>','<?php echo \$leafAccess['leafAccessDeleteValue'];?>')><i class=icon-refresh icon-white></i><?php echo \$buttonTranslation['isResetLabel']; ?></a> \n";
@@ -905,7 +905,7 @@ $str.="<?php } ?> \n";
 $str.="<?php if(\$leafAccess['leafAccessDeleteValue']==1) { ?> \n";
 $str.=" \$('#deleteRecordButton').removeClass();\n";
 $str.=" \$('#deleteRecordButton').addClass('btn btn-danger'); \n";
-$str.=" \$('#deleteRecordButton').attr('onClick', \"deleteRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$leafAccess['leafAccessDeleteValue'];?>')\"); \n";
+$str.=" \$('#deleteRecordButton').attr('onClick', \"deleteRecord('<?php echo \$" . $data[0]['tableName'] . "->getControllerPath(); ?>','<?php echo \$securityToken; ?>','<?php echo \$" . $data[0]['tableName'] . "->getViewPath(); ?>','<?php echo \$leafAccess['leafAccessDeleteValue'];?>')\"); \n";
 
 $str.="<?php }  else { ?> \n";
 $str.=" \$('#deleteRecordButton').removeClass();\n";

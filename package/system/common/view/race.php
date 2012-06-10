@@ -121,7 +121,7 @@ define("LIMIT",14);
                 <h4>Date</h4>
                  <table cellpadding=1 cellspacing=1>
                      <tr>
-                         <td colspan='3'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo $race->getViewPath(); ?>','<?php echo $securityToken; ?>','1979-01-01','2012-06-09')>Any Time</a></td>
+                         <td colspan='3'><a href=javascript:void(0) onClick=ajaxQuerySearchAllDate('<?php echo $race->getViewPath(); ?>','<?php echo $securityToken; ?>','1979-01-01','2012-06-10')>Any Time</a></td>
                      </tr>
                      <tr>
                      <tr>
@@ -488,7 +488,7 @@ if(isset($raceArray) && is_array($raceArray)) {
             </ul> 
         </div> 
         <div class='btn-group'> 
-            <a name='deleteRecordButton' id='deleteRecordButton' href='javascript:void(0)'   <?php if($leafAccess['isDelete']==1) { ?>onClick=deleteRecord('<?php echo $race->getControllerPath(); ?>','<?php echo $securityToken; ?>')<?php } ?> class='<?php if($leafAccess['isDelete']==0) { ?>btn btn-danger disabled<?php } else { ?>btn btn-danger<?php } ?>'><i class='icon-trash icon-white'></i><?php echo $buttonTranslation['isDeleteLabel']; ?></a> 
+            <a name='deleteRecordButton' id='deleteRecordButton' href='javascript:void(0)'   <?php if($leafAccess['isDelete']==1) { ?>onClick=deleteRecord('<?php echo $race->getControllerPath(); ?>','<?php echo $securityToken; ?>','<?php echo $race->getControllerPath(); ?>','<?php echo $leafAccess['leafAccessDeleteValue'];?>')<?php } ?> class='<?php if($leafAccess['isDelete']==0) { ?>btn btn-danger disabled<?php } else { ?>btn btn-danger<?php } ?>'><i class='icon-trash icon-white'></i><?php echo $buttonTranslation['isDeleteLabel']; ?></a> 
         </div> 
         <div class='btn-group'>            <a name='resetRecordButton' id='resetRecordButton' href=javascript:void(0) class='btn btn-info' onClick=resetRecord('<?php echo $race->getControllerPath(); ?>','<?php echo $securityToken; ?>','<?php echo $leafAccess['leafAccessUpdateValue'];?>','<?php echo $leafAccess['leafAccessDeleteValue'];?>')><i class=icon-refresh icon-white></i><?php echo $buttonTranslation['isResetLabel']; ?></a> 
         </div> 
@@ -563,9 +563,9 @@ validateMeNumeric('executeBy')
 <?php if($leafAccess['leafAccessUpdateValue']==1) { ?> 
  $('#updateRecordButton1').addClass('btn btn-info'); 
  $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info'); 
- $('#updateRecordButton3').attr('onClick', "updateRecord('<?php echo $race->getControllerPath(); ?>','<?php echo $securityToken; ?>',1)"); 
- $('#updateRecordButton4').attr('onClick', "updateRecord('<?php echo $race->getControllerPath(); ?>','<?php echo $securityToken; ?>',2)"); 
- $('#updateRecordButton5').attr('onClick', "updateRecord('<?php echo $race->getControllerPath(); ?>','<?php echo $securityToken; ?>',3)"); 
+ $('#updateRecordButton3').attr('onClick', "updateRecord('<?php echo $race->getControllerPath(); ?>','<?php echo $securityToken; ?>',1,<?php echo $leafAccess['leafAccessDeleteValue'];?>')"); 
+ $('#updateRecordButton4').attr('onClick', "updateRecord('<?php echo $race->getControllerPath(); ?>','<?php echo $securityToken; ?>',2,'<?php echo $leafAccess['leafAccessDeleteValue'];?>')"); 
+ $('#updateRecordButton5').attr('onClick', "updateRecord('<?php echo $race->getControllerPath(); ?>','<?php echo $securityToken; ?>',3,'<?php echo $leafAccess['leafAccessDeleteValue'];?>')"); 
 <?php }  else { ?> 
  $('#updateRecordButton1').addClass('btn btn-info disabled'); 
  $('#updateRecordButton2').addClass('btn dropdown-toggle btn-info disabled'); 
@@ -578,7 +578,7 @@ validateMeNumeric('executeBy')
 <?php if($leafAccess['leafAccessDeleteValue']==1) { ?> 
  $('#deleteRecordButton').removeClass();
  $('#deleteRecordButton').addClass('btn btn-danger'); 
- $('#deleteRecordButton').attr('onClick', "deleteRecord('<?php echo $race->getControllerPath(); ?>','<?php echo $securityToken; ?>')"); 
+ $('#deleteRecordButton').attr('onClick', "deleteRecord('<?php echo $race->getControllerPath(); ?>','<?php echo $securityToken; ?>','<?php echo $race->getViewPath(); ?>','<?php echo $leafAccess['leafAccessDeleteValue'];?>')"); 
 <?php }  else { ?> 
  $('#deleteRecordButton').removeClass();
  $('#deleteRecordButton').addClass('btn btn-danger disabled'); 

@@ -152,6 +152,10 @@ class Vendor {
      * @var number
      */
     public $countRecord;
+    /**
+     *
+     * @var string 
+     */
     public $sorting;
 
     /**
@@ -204,6 +208,16 @@ class Vendor {
      *  @var string
      */
     public $coreDatabase;
+    /**
+     * Request Database
+     * @var type 
+     */
+    public $requesetDatabase;
+    /**
+     * Current Database 
+     * @var type 
+     */
+    public  $currentDatabase;
 
     /**
      *  Audit Trail Log (Sql Version)
@@ -972,7 +986,7 @@ class Vendor {
         foreach ($tableArray as $tableSearch) {
             $key = 0;
             $i = 0;
-            $sql = "DESCRIBE	`" . $this->getRequestDatabase() . "`.`" . $tableSearch . "`";
+            $sql = "DESCRIBE	`" . $this->getCurrentDatabase() . "`.`" . $tableSearch . "`";
             $result = mysqli_query($this->link, $sql);
             if ($result) {
                 if (@mysqli_num_rows($result) > 0) {
@@ -1230,7 +1244,19 @@ class Vendor {
     public function setRequestDatabase($value) {
         $this->requestDatabase = $value;
     }
+    /**
+     * @return the $currentDatabase
+     */
+    public function getCurrentDatabase() {
+        return $this->currentDatabase;
+    }
 
+    /**
+     * @param number $defaultLanguageId
+     */
+    public function setCurrentDatabase($value) {
+        $this->currentDatabase = $value;
+    }
     /**
      *
      * @return

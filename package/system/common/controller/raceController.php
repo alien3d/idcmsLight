@@ -120,6 +120,8 @@ class RaceClass extends \Core\ConfigClass {
         }
         $this->q->vendor = $this->getVendor();
         $this->q->setRequestDatabase($this->q->getCoreDatabase());
+        $this->q->setCurrentDatabase($this->q->getCommonDatabase());
+
         $this->q->connect($this->getConnection(), $this->getUsername(), $this->getDatabase(), $this->getPassword());
         $this->systemString = new \Core\SystemString\SystemString();
         $this->systemString->setVendor($this->getVendor());
@@ -477,7 +479,7 @@ STAFF.STAFFNAME
          * Example Day,Week,Month,Year 
          */
         if ($this->getDateRangeStartQuery()) {
-            $sql.=$this->q->dateFilter($sql, $this->model->getTableName(), $this->model->getFilterDate(), $this->getDateRangeStartQuery(), $this->getDateRangeEndQuery(), $this->getDateRangeTypeQuery(), $this->getDateRangeExtraTypeQuery());
+            $sql.=$this->q->dateFilter($this->model->getTableName(), $this->model->getFilterDate(), $this->getDateRangeStartQuery(), $this->getDateRangeEndQuery(), $this->getDateRangeTypeQuery(), $this->getDateRangeExtraTypeQuery());
         }
         /**
          * filter column don't want to filter.Example may contain  sensetive information or unwanted to be search. 

@@ -120,12 +120,6 @@ $str.="          \$this->q = new \Core\Database\Db2\Vendor(); \n";
 $str.="        } \n";
 $str.="        \$this->q->vendor = \$this->getVendor(); \n";
 $str.="        \$this->q->setRequestDatabase(\$this->q->getCoreDatabase()); \n";
-$str.="        \$this->q->connect(\$this->getConnection(), \$this->getUsername(), \$this->getDatabase(), \$this->getPassword()); \n";
-$str.="        \$this->systemString = new \Core\SystemString\SystemString(); \n";
-$str.="        \$this->systemString->setVendor(\$this->getVendor()); \n";
-$str.="        \$this->systemString->setLeafId(\$this->getLeafId()); \n";
-$str.="        \$this->systemString->execute(); \n";
-$str.="        \$this->recordSet = new \Core\Recordset\RecordSet(); \n";
 // initilize dummy value
 $setCurrentDatabase = null;
 // switch case for other customer database application request
@@ -155,6 +149,14 @@ switch ($data[0]['database']) {
         $setCurrentDatabase = "\$this->q->getLogDatabase('ilog')";
         break;
 }
+$str.="        \$this->q->setCurrentDatabase(" . $setCurrentDatabase . "); \n";
+$str.="        \$this->q->connect(\$this->getConnection(), \$this->getUsername(), \$this->getDatabase(), \$this->getPassword()); \n";
+$str.="        \$this->systemString = new \Core\SystemString\SystemString(); \n";
+$str.="        \$this->systemString->setVendor(\$this->getVendor()); \n";
+$str.="        \$this->systemString->setLeafId(\$this->getLeafId()); \n";
+$str.="        \$this->systemString->execute(); \n";
+$str.="        \$this->recordSet = new \Core\Recordset\RecordSet(); \n";
+
 $str.="        \$this->recordSet->setCurrentDatabase(" . $setCurrentDatabase . "); \n";
 $str.="        \$this->recordSet->setCurrentTable(\$this->model->getTableName()); \n";
 $str.="        \$this->recordSet->setPrimaryKeyName(\$this->model->getPrimaryKeyName()); \n";
@@ -542,7 +544,7 @@ $str.="		 * filter column based on Range Of Date \n";
 $str.="		 * Example Day,Week,Month,Year \n";
 $str.="		 */ \n";
 $str.="		if(\$this->getDateRangeStartQuery()){ \n";
-$str.="			\$sql.=\$this->q->dateFilter(\$sql, \$this->model->getTableName(),\$this->model->getFilterDate(),\$this->getDateRangeStartQuery(),\$this->getDateRangeEndQuery(),\$this->getDateRangeTypeQuery(),\$this->getDateRangeExtraTypeQuery()); \n";
+$str.="			\$sql.=\$this->q->dateFilter(\$this->model->getTableName(),\$this->model->getFilterDate(),\$this->getDateRangeStartQuery(),\$this->getDateRangeEndQuery(),\$this->getDateRangeTypeQuery(),\$this->getDateRangeExtraTypeQuery()); \n";
 $str.="		} \n";
 $str.="		/** \n";
 $str.="		 * filter column don't want to filter.Example may contain  sensetive information or unwanted to be search. \n";
